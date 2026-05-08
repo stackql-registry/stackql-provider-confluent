@@ -151,14 +151,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#get_kafka_streams_group_subtopology"><CopyableCode code="get_kafka_streams_group_subtopology" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-group_id"><code>group_id</code></a>, <a href="#parameter-subtopology_id"><code>subtopology_id</code></a></td>
     <td></td>
     <td>Return the subtopology specified by the ``subtopology_id``.</td>
 </tr>
 <tr>
     <td><a href="#list_kafka_streams_group_subtopologies"><CopyableCode code="list_kafka_streams_group_subtopologies" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-group_id"><code>group_id</code></a></td>
     <td></td>
     <td>Return a list of subtopologies that belong to the specified streams group.</td>
 </tr>
@@ -178,6 +178,21 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cluster_id">
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td>The Kafka cluster ID. (example: cluster-1)</td>
+</tr>
+<tr id="parameter-group_id">
+    <td><CopyableCode code="group_id" /></td>
+    <td><code>string</code></td>
+    <td>The group ID. (example: group-1)</td>
+</tr>
+<tr id="parameter-subtopology_id">
+    <td><CopyableCode code="subtopology_id" /></td>
+    <td><code>string</code></td>
+    <td>The streams subtopology ID. (example: subtopology-1)</td>
+</tr>
 </tbody>
 </table>
 
@@ -203,6 +218,9 @@ kind,
 metadata,
 source_topics
 FROM confluent.streams_group.subtopologies
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND group_id = '{{ group_id }}' -- required
+AND subtopology_id = '{{ subtopology_id }}' -- required
 ;
 ```
 </TabItem>
@@ -219,6 +237,8 @@ kind,
 metadata,
 source_topics
 FROM confluent.streams_group.subtopologies
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND group_id = '{{ group_id }}' -- required
 ;
 ```
 </TabItem>

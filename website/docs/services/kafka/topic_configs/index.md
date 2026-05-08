@@ -273,42 +273,42 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#get_kafka_topic_config"><CopyableCode code="get_kafka_topic_config" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-topic_name"><code>topic_name</code></a>, <a href="#parameter-name"><code>name</code></a></td>
     <td></td>
     <td>Return the configuration parameter with the given `name`.</td>
 </tr>
 <tr>
     <td><a href="#list_kafka_topic_configs"><CopyableCode code="list_kafka_topic_configs" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-topic_name"><code>topic_name</code></a></td>
     <td></td>
     <td>Return the list of configuration parameters that belong to the specified topic.</td>
 </tr>
 <tr>
     <td><a href="#list_kafka_all_topic_configs"><CopyableCode code="list_kafka_all_topic_configs" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a></td>
     <td></td>
     <td>Return the list of configuration parameters for all topics hosted by the specified<br />cluster.</td>
 </tr>
 <tr>
     <td><a href="#update_kafka_topic_config"><CopyableCode code="update_kafka_topic_config" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-topic_name"><code>topic_name</code></a>, <a href="#parameter-name"><code>name</code></a></td>
     <td></td>
     <td>Update the configuration parameter with given `name`. To update the<br />number of partitions, see<br />https://docs.confluent.io/cloud/current/api.html#tag/Topic-(v3)/operation/updatePartitionCountKafkaTopic.</td>
 </tr>
 <tr>
     <td><a href="#update_kafka_topic_config_batch"><CopyableCode code="update_kafka_topic_config_batch" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-data"><code>data</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-topic_name"><code>topic_name</code></a>, <a href="#parameter-data"><code>data</code></a></td>
     <td></td>
     <td>Update or delete a set of topic configuration parameters.<br />Also supports a dry-run mode that only validates whether the operation would succeed if the<br />``validate_only`` request property is explicitly specified and set to true.</td>
 </tr>
 <tr>
     <td><a href="#delete_kafka_topic_config"><CopyableCode code="delete_kafka_topic_config" /></a></td>
     <td><CopyableCode code="delete" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-topic_name"><code>topic_name</code></a>, <a href="#parameter-name"><code>name</code></a></td>
     <td></td>
     <td>Reset the configuration parameter with given `name` to its default value.</td>
 </tr>
@@ -328,6 +328,21 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cluster_id">
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td>The Kafka cluster ID. (example: cluster-1)</td>
+</tr>
+<tr id="parameter-name">
+    <td><CopyableCode code="name" /></td>
+    <td><code>string</code></td>
+    <td>The configuration parameter name. (example: compression.type)</td>
+</tr>
+<tr id="parameter-topic_name">
+    <td><CopyableCode code="topic_name" /></td>
+    <td><code>string</code></td>
+    <td>The topic name. (example: topic-1)</td>
+</tr>
 </tbody>
 </table>
 
@@ -359,6 +374,9 @@ source,
 synonyms,
 value
 FROM confluent.kafka.topic_configs
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND topic_name = '{{ topic_name }}' -- required
+AND name = '{{ name }}' -- required
 ;
 ```
 </TabItem>
@@ -380,6 +398,8 @@ source,
 synonyms,
 value
 FROM confluent.kafka.topic_configs
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND topic_name = '{{ topic_name }}' -- required
 ;
 ```
 </TabItem>
@@ -401,6 +421,7 @@ source,
 synonyms,
 value
 FROM confluent.kafka.topic_configs
+WHERE cluster_id = '{{ cluster_id }}' -- required
 ;
 ```
 </TabItem>
@@ -423,7 +444,11 @@ Update the configuration parameter with given `name`. To update the<br />number 
 ```sql
 REPLACE confluent.kafka.topic_configs
 SET 
-value = '{{ value }}';
+value = '{{ value }}'
+WHERE 
+cluster_id = '{{ cluster_id }}' --required
+AND topic_name = '{{ topic_name }}' --required
+AND name = '{{ name }}' --required;
 ```
 </TabItem>
 <TabItem value="update_kafka_topic_config_batch">
@@ -436,7 +461,9 @@ SET
 data = '{{ data }}',
 validate_only = {{ validate_only }}
 WHERE 
-data = '{{ data }}' --required;
+cluster_id = '{{ cluster_id }}' --required
+AND topic_name = '{{ topic_name }}' --required
+AND data = '{{ data }}' --required;
 ```
 </TabItem>
 </Tabs>
@@ -456,6 +483,9 @@ Reset the configuration parameter with given `name` to its default value.
 
 ```sql
 DELETE FROM confluent.kafka.topic_configs
+WHERE cluster_id = '{{ cluster_id }}' --required
+AND topic_name = '{{ topic_name }}' --required
+AND name = '{{ name }}' --required
 ;
 ```
 </TabItem>

@@ -319,9 +319,6 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/DefaultSystemError'
-    servers:
-      - url: https://flink.region.provider.confluent.cloud
-        description: Flink Compute Pool Endpoint
     x-lifecycle-stage: Preview
     x-self-access: true
     x-request-access-name: SQL API v1
@@ -656,9 +653,6 @@ paths:
                 - spec
                 - name
                 - metadata
-    servers:
-      - url: https://flink.region.provider.confluent.cloud
-        description: Flink Compute Pool Endpoint
     x-lifecycle-stage: Preview
     x-self-access: true
     x-request-access-name: SQL API v1
@@ -809,9 +803,6 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/DefaultSystemError'
-    servers:
-      - url: https://flink.region.provider.confluent.cloud
-        description: Flink Compute Pool Endpoint
     x-lifecycle-stage: General Availability
     x-self-access: true
     x-request-access-name: SQL API v1
@@ -1138,9 +1129,6 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/DefaultSystemError'
-    servers:
-      - url: https://flink.region.provider.confluent.cloud
-        description: Flink Compute Pool Endpoint
     x-lifecycle-stage: General Availability
     x-self-access: true
     x-request-access-name: SQL API v1
@@ -1643,9 +1631,6 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/DefaultSystemError'
-    servers:
-      - url: https://flink.region.provider.confluent.cloud
-        description: Flink Compute Pool Endpoint
     x-lifecycle-stage: General Availability
     x-self-access: true
     x-request-access-name: SQL API v1
@@ -1709,9 +1694,6 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/DefaultSystemError'
-    servers:
-      - url: https://flink.region.provider.confluent.cloud
-        description: Flink Compute Pool Endpoint
     x-lifecycle-stage: General Availability
     x-self-access: true
     x-request-access-name: SQL API v1
@@ -1785,9 +1767,6 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/DefaultSystemError'
-    servers:
-      - url: https://flink.region.provider.confluent.cloud
-        description: Flink Compute Pool Endpoint
   /sql/v1/organizations/{organization_id}/environments/{environment_id}/databases/{kafka_cluster_id}/materialized-tables:
     post:
       x-lifecycle-stage: General Availability
@@ -2133,9 +2112,6 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/DefaultSystemError'
-    servers:
-      - url: https://flink.region.provider.confluent.cloud
-        description: Flink Compute Pool Endpoint
   /sql/v1/organizations/{organization_id}/environments/{environment_id}/databases/{kafka_cluster_id}/materialized-tables/{table_name}:
     get:
       x-lifecycle-stage: General Availability
@@ -2468,9 +2444,6 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/DefaultSystemError'
-    servers:
-      - url: https://flink.region.provider.confluent.cloud
-        description: Flink Compute Pool Endpoint
   /sql/v1/organizations/{organization_id}/environments/{environment_id}/databases/{kafka_cluster_id}/materialized-tables/{table_name}/versions:
     get:
       x-lifecycle-stage: General Availability
@@ -2553,9 +2526,6 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/DefaultSystemError'
-    servers:
-      - url: https://flink.region.provider.confluent.cloud
-        description: Flink Compute Pool Endpoint
   /sql/v1/organizations/{organization_id}/environments/{environment_id}/databases/{kafka_cluster_id}/materialized-tables/{table_name}/versions/{version}:
     get:
       x-lifecycle-stage: General Availability
@@ -2630,9 +2600,6 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/DefaultSystemError'
-    servers:
-      - url: https://flink.region.provider.confluent.cloud
-        description: Flink Compute Pool Endpoint
   /sql/v1/organizations/{organization_id}/environments/{environment_id}/agents:
     get:
       x-lifecycle-stage: Preview
@@ -2703,9 +2670,6 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/DefaultSystemError'
-    servers:
-      - url: https://flink.region.provider.confluent.cloud
-        description: Flink Compute Pool Endpoint
   /sql/v1/organizations/{organization_id}/environments/{environment_id}/databases/{kafka_cluster_id}/agents:
     post:
       x-lifecycle-stage: Preview
@@ -2987,9 +2951,6 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/DefaultSystemError'
-    servers:
-      - url: https://flink.region.provider.confluent.cloud
-        description: Flink Compute Pool Endpoint
   /sql/v1/organizations/{organization_id}/environments/{environment_id}/databases/{kafka_cluster_id}/agents/{agent_name}:
     get:
       x-lifecycle-stage: Preview
@@ -3291,9 +3252,6 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/DefaultSystemError'
-    servers:
-      - url: https://flink.region.provider.confluent.cloud
-        description: Flink Compute Pool Endpoint
   /sql/v1/organizations/{organization_id}/environments/{environment_id}/databases/{database_name}/tools:
     post:
       x-lifecycle-stage: Preview
@@ -3590,9 +3548,6 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/DefaultSystemError'
-    servers:
-      - url: https://flink.region.provider.confluent.cloud
-        description: Flink Compute Pool Endpoint
     x-lifecycle-stage: Preview
     x-self-access: true
     x-request-access-name: SQL API v1
@@ -3799,9 +3754,6 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/DefaultSystemError'
-    servers:
-      - url: https://flink.region.provider.confluent.cloud
-        description: Flink Compute Pool Endpoint
     x-lifecycle-stage: Preview
     x-self-access: true
     x-request-access-name: SQL API v1

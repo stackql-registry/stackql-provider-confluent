@@ -18,18 +18,26 @@ paths:
       security:
         - cloud-api-key: []
         - confluent-sts-access-token: []
-      parameters: []
+      parameters:
+        - name: environment_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier of the environment this resource belongs to.
+        - name: kafka_cluster_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier for the Kafka cluster.
       responses:
         '200':
           description: Connector.
           content:
             application/json:
               schema:
-                type: array
-                description: List of connector names
-                items:
-                  type: string
-                  description: Connector name
+                $ref: '#/components/schemas/ListConnectv1ConnectorsResponse'
               example:
                 - MyGcsLogsBucketConnector
                 - MyS3BucketConnector
@@ -42,6 +50,12 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/connect.v1.DefaultSystemError'
+      x-stackql-bare-array-wrap:
+        wrapperKey: connectv1_connectors
+        wrapperName: ListConnectv1ConnectorsResponse
+        mediaType: application/json
+        scalar: true
+        columnName: connectv1_connector
     post:
       x-lifecycle-stage: General Availability
       operationId: createConnectv1Connector
@@ -245,20 +259,20 @@ paths:
                         pos: 154
                         ts_sec: 1712907333
         description: ''
+      parameters:
+        - name: environment_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier of the environment this resource belongs to.
+        - name: kafka_cluster_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier for the Kafka cluster.
     x-lifecycle-stage: General Availability
-    parameters:
-      - name: environment_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier of the environment this resource belongs to.
-      - name: kafka_cluster_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier for the Kafka cluster.
   /connect/v1/environments/{environment_id}/clusters/{kafka_cluster_id}/connectors?expand=info,status,id:
     get:
       x-lifecycle-stage: General Availability
@@ -504,6 +518,25 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/connect.v1.DefaultSystemError'
+      parameters:
+        - name: connector_name
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique name of the connector.
+        - name: environment_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier of the environment this resource belongs to.
+        - name: kafka_cluster_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier for the Kafka cluster.
     put:
       x-lifecycle-stage: General Availability
       operationId: createOrUpdateConnectv1ConnectorConfig
@@ -645,26 +678,26 @@ paths:
               example:
                 error_code: 500
                 message: Failed to find any class that implements Connector and which name matches io.confluent.connect.<connector-class>...
+      parameters:
+        - name: connector_name
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique name of the connector.
+        - name: environment_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier of the environment this resource belongs to.
+        - name: kafka_cluster_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier for the Kafka cluster.
     x-lifecycle-stage: General Availability
-    parameters:
-      - name: connector_name
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique name of the connector.
-      - name: environment_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier of the environment this resource belongs to.
-      - name: kafka_cluster_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier for the Kafka cluster.
   /connect/v1/environments/{environment_id}/clusters/{kafka_cluster_id}/connectors/{connector_name}:
     get:
       x-lifecycle-stage: General Availability
@@ -716,6 +749,25 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/connect.v1.DefaultSystemError'
+      parameters:
+        - name: connector_name
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique name of the connector.
+        - name: environment_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier of the environment this resource belongs to.
+        - name: kafka_cluster_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier for the Kafka cluster.
     delete:
       x-lifecycle-stage: General Availability
       operationId: deleteConnectv1Connector
@@ -740,26 +792,26 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/connect.v1.DefaultSystemError'
+      parameters:
+        - name: connector_name
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique name of the connector.
+        - name: environment_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier of the environment this resource belongs to.
+        - name: kafka_cluster_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier for the Kafka cluster.
     x-lifecycle-stage: General Availability
-    parameters:
-      - name: connector_name
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique name of the connector.
-      - name: environment_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier of the environment this resource belongs to.
-      - name: kafka_cluster_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier for the Kafka cluster.
   /connect/v1/environments/{environment_id}/clusters/{kafka_cluster_id}/connectors/{connector_name}/pause:
     put:
       x-lifecycle-stage: General Availability
@@ -785,26 +837,26 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/connect.v1.DefaultSystemError'
+      parameters:
+        - name: connector_name
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique name of the connector.
+        - name: environment_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier of the environment this resource belongs to.
+        - name: kafka_cluster_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier for the Kafka cluster.
     x-lifecycle-stage: General Availability
-    parameters:
-      - name: connector_name
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique name of the connector.
-      - name: environment_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier of the environment this resource belongs to.
-      - name: kafka_cluster_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier for the Kafka cluster.
   /connect/v1/environments/{environment_id}/clusters/{kafka_cluster_id}/connectors/{connector_name}/resume:
     put:
       x-lifecycle-stage: General Availability
@@ -830,26 +882,26 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/connect.v1.DefaultSystemError'
+      parameters:
+        - name: connector_name
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique name of the connector.
+        - name: environment_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier of the environment this resource belongs to.
+        - name: kafka_cluster_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier for the Kafka cluster.
     x-lifecycle-stage: General Availability
-    parameters:
-      - name: connector_name
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique name of the connector.
-      - name: environment_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier of the environment this resource belongs to.
-      - name: kafka_cluster_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier for the Kafka cluster.
   /connect/v1/environments/{environment_id}/clusters/{kafka_cluster_id}/connectors/{connector_name}/restart:
     post:
       x-lifecycle-stage: Preview
@@ -876,26 +928,26 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/connect.v1.DefaultSystemError'
+      parameters:
+        - name: connector_name
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique name of the connector.
+        - name: environment_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier of the environment this resource belongs to.
+        - name: kafka_cluster_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier for the Kafka cluster.
     x-lifecycle-stage: Preview
-    parameters:
-      - name: connector_name
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique name of the connector.
-      - name: environment_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier of the environment this resource belongs to.
-      - name: kafka_cluster_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier for the Kafka cluster.
   /connect/v1/environments/{environment_id}/clusters/{kafka_cluster_id}/connectors/{connector_name}/status:
     get:
       x-lifecycle-stage: General Availability
@@ -989,26 +1041,26 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/connect.v1.DefaultSystemError'
+      parameters:
+        - name: connector_name
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique name of the connector.
+        - name: environment_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier of the environment this resource belongs to.
+        - name: kafka_cluster_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier for the Kafka cluster.
     x-lifecycle-stage: General Availability
-    parameters:
-      - name: connector_name
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique name of the connector.
-      - name: environment_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier of the environment this resource belongs to.
-      - name: kafka_cluster_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier for the Kafka cluster.
   /connect/v1/environments/{environment_id}/clusters/{kafka_cluster_id}/connectors/{connector_name}/tasks:
     get:
       x-lifecycle-stage: General Availability
@@ -1029,7 +1081,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/connect.v1.Connectors'
+                $ref: '#/components/schemas/ListConnectv1ConnectorTasksResponse'
               example:
                 - id:
                     connector: MyGcsLogsBucketConnector
@@ -1058,26 +1110,31 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/connect.v1.DefaultSystemError'
+      parameters:
+        - name: connector_name
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique name of the connector.
+        - name: environment_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier of the environment this resource belongs to.
+        - name: kafka_cluster_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier for the Kafka cluster.
+      x-stackql-bare-array-wrap:
+        wrapperKey: connectv1_connector_tasks
+        wrapperName: ListConnectv1ConnectorTasksResponse
+        mediaType: application/json
+        scalar: false
     x-lifecycle-stage: General Availability
-    parameters:
-      - name: connector_name
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique name of the connector.
-      - name: environment_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier of the environment this resource belongs to.
-      - name: kafka_cluster_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier for the Kafka cluster.
   /connect/v1/environments/{environment_id}/clusters/{kafka_cluster_id}/connector-plugins:
     get:
       x-lifecycle-stage: General Availability
@@ -1098,25 +1155,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    class:
-                      type: string
-                      description: The connector class name. E.g. BigQuerySink.
-                    type:
-                      type: string
-                      description: Type of connector, sink or source.
-                      enum:
-                        - sink
-                        - source
-                    version:
-                      type: string
-                      description: The version string for the connector available.
-                  required:
-                    - class
-                    - type
+                $ref: '#/components/schemas/ListConnectv1ConnectorPluginsResponse'
               example:
                 - class: BigQuerySink
                   type: sink
@@ -1139,21 +1178,25 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/connect.v1.DefaultSystemError'
-      parameters: []
+      parameters:
+        - name: environment_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier of the environment this resource belongs to.
+        - name: kafka_cluster_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier for the Kafka cluster.
+      x-stackql-bare-array-wrap:
+        wrapperKey: connectv1_connector_plugins
+        wrapperName: ListConnectv1ConnectorPluginsResponse
+        mediaType: application/json
+        scalar: false
     x-lifecycle-stage: General Availability
-    parameters:
-      - name: environment_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier of the environment this resource belongs to.
-      - name: kafka_cluster_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier for the Kafka cluster.
   /connect/v1/environments/{environment_id}/clusters/{kafka_cluster_id}/connector-plugins/{plugin_name}/config/validate:
     put:
       x-lifecycle-stage: General Availability
@@ -1557,26 +1600,26 @@ paths:
               time.interval: DAILY
               topics: APILogsTopic
         description: Configuration parameters for the connector. All values should be strings.
+      parameters:
+        - name: plugin_name
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique name of the connector plugin.
+        - name: environment_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier of the environment this resource belongs to.
+        - name: kafka_cluster_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier for the Kafka cluster.
     x-lifecycle-stage: General Availability
-    parameters:
-      - name: plugin_name
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique name of the connector plugin.
-      - name: environment_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier of the environment this resource belongs to.
-      - name: kafka_cluster_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier for the Kafka cluster.
   /connect/v1/environments/{environment_id}/clusters/{kafka_cluster_id}/connector-plugins/{plugin_name}/config/translate?mask_sensitive=true:
     put:
       x-lifecycle-stage: General Availability
@@ -1704,33 +1747,33 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/connect.v1.DefaultSystemError'
+      parameters:
+        - name: plugin_name
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique name of the connector plugin.
+        - name: environment_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier of the environment this resource belongs to.
+        - name: kafka_cluster_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier for the Kafka cluster.
+        - name: mask_sensitive
+          in: query
+          required: false
+          schema:
+            type: string
+            maxLength: 255
+          description: Indicates whether to redact sensitive config values in response.
     x-lifecycle-stage: General Availability
-    parameters:
-      - name: plugin_name
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique name of the connector plugin.
-      - name: environment_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier of the environment this resource belongs to.
-      - name: kafka_cluster_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier for the Kafka cluster.
-      - name: mask_sensitive
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 255
-        description: Indicates whether to redact sensitive config values in response.
   /connect/v1/environments/{environment_id}/clusters/{kafka_cluster_id}/connectors/{connector_name}/offsets:
     get:
       x-lifecycle-stage: General Availability
@@ -1797,26 +1840,26 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/connect.v1.DefaultSystemError'
+      parameters:
+        - name: connector_name
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique name of the connector.
+        - name: environment_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier of the environment this resource belongs to.
+        - name: kafka_cluster_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier for the Kafka cluster.
     x-lifecycle-stage: General Availability
-    parameters:
-      - name: connector_name
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique name of the connector.
-      - name: environment_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier of the environment this resource belongs to.
-      - name: kafka_cluster_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier for the Kafka cluster.
   /connect/v1/environments/{environment_id}/clusters/{kafka_cluster_id}/connectors/{connector_name}/offsets/request:
     post:
       x-lifecycle-stage: General Availability
@@ -1901,26 +1944,26 @@ paths:
               delete:
                 value:
                   type: DELETE
+      parameters:
+        - name: connector_name
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique name of the connector.
+        - name: environment_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier of the environment this resource belongs to.
+        - name: kafka_cluster_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier for the Kafka cluster.
     x-lifecycle-stage: General Availability
-    parameters:
-      - name: connector_name
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique name of the connector.
-      - name: environment_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier of the environment this resource belongs to.
-      - name: kafka_cluster_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier for the Kafka cluster.
   /connect/v1/environments/{environment_id}/clusters/{kafka_cluster_id}/connectors/{connector_name}/offsets/request/status:
     get:
       x-lifecycle-stage: General Availability
@@ -2018,26 +2061,26 @@ paths:
           $ref: '#/components/responses/RateLimitError'
         '500':
           $ref: '#/components/responses/connect.v1.DefaultSystemError'
+      parameters:
+        - name: connector_name
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique name of the connector.
+        - name: environment_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier of the environment this resource belongs to.
+        - name: kafka_cluster_id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The unique identifier for the Kafka cluster.
     x-lifecycle-stage: General Availability
-    parameters:
-      - name: connector_name
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique name of the connector.
-      - name: environment_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier of the environment this resource belongs to.
-      - name: kafka_cluster_id
-        in: path
-        schema:
-          type: string
-        required: true
-        description: The unique identifier for the Kafka cluster.
   /connect/v1/custom-connector-plugins:
     get:
       x-lifecycle-stage: General Availability
@@ -5129,6 +5172,119 @@ components:
           type: string
           nullable: true
       additionalProperties: false
+    ListConnectv1ConnectorsResponse:
+      type: object
+      properties:
+        connectv1_connectors:
+          type: array
+          items:
+            type: object
+            properties:
+              connectv1_connector:
+                type: string
+    ListConnectv1ConnectorTasksResponse:
+      type: object
+      properties:
+        connectv1_connector_tasks:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: object
+                description: The ID of task.
+                properties:
+                  connector:
+                    type: string
+                    description: The name of the connector the task belongs to.
+                  task:
+                    type: integer
+                    description: Task ID within the connector.
+              config:
+                type: object
+                description: |-
+                  Configuration parameters for the connector. These configurations
+                  are the minimum set of key-value pairs (KVP) which can be used to
+                  define how the connector connects Kafka to the external system.
+                  Some of these KVPs are common to all the connectors, such as
+                  connection parameters to Kafka, connector metadata, etc. The list
+                  of common connector configurations is as follows
+
+                    - cloud.environment
+                    - cloud.provider
+                    - connector.class
+                    - kafka.api.key
+                    - kafka.api.secret
+                    - kafka.endpoint
+                    - kafka.region
+                    - name
+
+                  A specific connector such as `GcsSink` would have additional
+                  parameters such as `gcs.bucket.name`, `flush.size`, etc.
+                required:
+                  - cloud.environment
+                  - cloud.provider
+                  - connector.class
+                  - name
+                  - kafka.endpoint
+                  - kafka.region
+                  - kafka.api.key
+                  - kafka.api.secret
+                properties:
+                  cloud.environment:
+                    type: string
+                    description: The cloud environment type.
+                  cloud.provider:
+                    type: string
+                    description: The cloud service provider, e.g. aws, azure, etc.
+                    x-extensible-enum:
+                      - aws
+                      - azure
+                      - gcp
+                  connector.class:
+                    type: string
+                    description: The connector class name. E.g. BigQuerySink, GcsSink, etc.
+                  name:
+                    type: string
+                    description: Name or alias of the class (plugin) for this connector.
+                  kafka.endpoint:
+                    type: string
+                    description: The kafka cluster endpoint.
+                  kafka.region:
+                    type: string
+                    description: The kafka cluster region.
+                  kafka.api.key:
+                    type: string
+                    description: The kafka cluster api key.
+                  kafka.api.secret:
+                    type: string
+                    description: The kafka cluster api secret key.
+                    x-redact: true
+                additionalProperties:
+                  type: string
+    ListConnectv1ConnectorPluginsResponse:
+      type: object
+      properties:
+        connectv1_connector_plugins:
+          type: array
+          items:
+            type: object
+            properties:
+              class:
+                type: string
+                description: The connector class name. E.g. BigQuerySink.
+              type:
+                type: string
+                description: Type of connector, sink or source.
+                enum:
+                  - sink
+                  - source
+              version:
+                type: string
+                description: The version string for the connector available.
+            required:
+              - class
+              - type
   responses:
     connect.v1.UnauthenticatedError:
       description: Unauthorized

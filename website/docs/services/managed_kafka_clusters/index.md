@@ -18,7 +18,7 @@ managed_kafka_clusters service documentation.
 
 :::info[Service Summary]
 
-total resources: __1__  
+total resources: __2__  
 
 :::
 
@@ -28,6 +28,6 @@ total resources: __1__
 <a href="/services/managed_kafka_clusters/clusters/">clusters</a>
 </div>
 <div class="providerDocColumn">
-
+<a href="/services/managed_kafka_clusters/vw_clusters/">vw_clusters</a>
 </div>
 </div>

@@ -221,14 +221,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#get_kafka_streams_group_member"><CopyableCode code="get_kafka_streams_group_member" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-group_id"><code>group_id</code></a>, <a href="#parameter-member_id"><code>member_id</code></a></td>
     <td></td>
     <td>Return the members specified by the ``member_id``.</td>
 </tr>
 <tr>
     <td><a href="#list_kafka_streams_group_members"><CopyableCode code="list_kafka_streams_group_members" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-group_id"><code>group_id</code></a></td>
     <td></td>
     <td>Return a list of members that belong to the specified streams group.</td>
 </tr>
@@ -248,6 +248,21 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cluster_id">
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td>The Kafka cluster ID. (example: cluster-1)</td>
+</tr>
+<tr id="parameter-group_id">
+    <td><CopyableCode code="group_id" /></td>
+    <td><code>string</code></td>
+    <td>The group ID. (example: group-1)</td>
+</tr>
+<tr id="parameter-member_id">
+    <td><CopyableCode code="member_id" /></td>
+    <td><code>string</code></td>
+    <td>The streams member ID. (example: member-1)</td>
+</tr>
 </tbody>
 </table>
 
@@ -280,6 +295,9 @@ metadata,
 target_assignment,
 topology_epoch
 FROM confluent.streams_group.members
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND group_id = '{{ group_id }}' -- required
+AND member_id = '{{ member_id }}' -- required
 ;
 ```
 </TabItem>
@@ -303,6 +321,8 @@ metadata,
 target_assignment,
 topology_epoch
 FROM confluent.streams_group.members
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND group_id = '{{ group_id }}' -- required
 ;
 ```
 </TabItem>

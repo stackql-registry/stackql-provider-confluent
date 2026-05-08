@@ -30,12 +30,8 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
   /kafka/v3/clusters/{cluster_id}/acls:batch:
     post:
       summary: Batch Create ACLs
@@ -64,12 +60,8 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
   /kafka/v3/clusters/{cluster_id}/acls:
     get:
       summary: List ACLs
@@ -96,6 +88,7 @@ paths:
         - $ref: '#/components/parameters/AclHost'
         - $ref: '#/components/parameters/AclOperation'
         - $ref: '#/components/parameters/AclPermission'
+        - $ref: '#/components/parameters/ClusterId'
       responses:
         '200':
           $ref: '#/components/responses/SearchAclsResponse'
@@ -136,6 +129,8 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
     delete:
       summary: Delete ACLs
       operationId: deleteKafkaAcls
@@ -156,6 +151,7 @@ paths:
         - $ref: '#/components/parameters/AclHost'
         - $ref: '#/components/parameters/AclOperationRequired'
         - $ref: '#/components/parameters/AclPermissionRequired'
+        - $ref: '#/components/parameters/ClusterId'
       responses:
         '200':
           $ref: '#/components/responses/DeleteAclsResponse'
@@ -169,12 +165,6 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
   /kafka/v3/clusters/{cluster_id}/broker-configs:
     get:
       summary: List Dynamic Broker Configs
@@ -202,12 +192,8 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
   /kafka/v3/clusters/{cluster_id}/broker-configs:alter:
     post:
       summary: Batch Alter Dynamic Broker Configs
@@ -236,12 +222,8 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
   /kafka/v3/clusters/{cluster_id}/broker-configs/{name}:
     get:
       summary: Get Dynamic Broker Config
@@ -268,6 +250,9 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/ConfigName'
     put:
       summary: Update Dynamic Broker Config
       operationId: updateKafkaClusterConfig
@@ -295,6 +280,9 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/ConfigName'
     delete:
       summary: Reset Dynamic Broker Config
       operationId: deleteKafkaClusterConfig
@@ -321,13 +309,9 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/ConfigName'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/ConfigName'
   /kafka/v3/clusters/{cluster_id}/consumer-groups:
     get:
       summary: List Consumer Groups
@@ -355,12 +339,8 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
   /kafka/v3/clusters/{cluster_id}/consumer-groups/{consumer_group_id}:
     get:
       summary: Get Consumer Group
@@ -387,13 +367,9 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/ConsumerGroupId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/ConsumerGroupId'
   /kafka/v3/clusters/{cluster_id}/consumer-groups/{consumer_group_id}/consumers:
     get:
       summary: List Consumers
@@ -421,13 +397,9 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/ConsumerGroupId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/ConsumerGroupId'
   /kafka/v3/clusters/{cluster_id}/consumer-groups/{consumer_group_id}/lag-summary:
     get:
       summary: Get Consumer Group Lag Summary
@@ -455,13 +427,9 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/ConsumerGroupId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/ConsumerGroupId'
   /kafka/v3/clusters/{cluster_id}/consumer-groups/{consumer_group_id}/lags:
     get:
       summary: List Consumer Lags
@@ -489,13 +457,9 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/ConsumerGroupId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/ConsumerGroupId'
   /kafka/v3/clusters/{cluster_id}/consumer-groups/{consumer_group_id}/lags/{topic_name}/partitions/{partition_id}:
     get:
       summary: Get Consumer Lag
@@ -522,15 +486,11 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/ConsumerGroupId'
-      - $ref: '#/components/parameters/TopicName'
-      - $ref: '#/components/parameters/PartitionId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/ConsumerGroupId'
+        - $ref: '#/components/parameters/TopicName'
+        - $ref: '#/components/parameters/PartitionId'
   /kafka/v3/clusters/{cluster_id}/consumer-groups/{consumer_group_id}/consumers/{consumer_id}:
     get:
       summary: Get Consumer
@@ -557,14 +517,10 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/ConsumerGroupId'
-      - $ref: '#/components/parameters/ConsumerId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/ConsumerGroupId'
+        - $ref: '#/components/parameters/ConsumerId'
   /kafka/v3/clusters/{cluster_id}/topics:
     get:
       summary: List Topics
@@ -591,6 +547,8 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
     post:
       summary: Create Topic
       operationId: createKafkaTopic
@@ -623,12 +581,8 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
   /kafka/v3/clusters/{cluster_id}/topics/{topic_name}:
     get:
       summary: Get Topic
@@ -644,6 +598,8 @@ paths:
         - external-access-token: []
       parameters:
         - $ref: '#/components/parameters/IncludeAuthorizedOperations'
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/TopicName'
       responses:
         '200':
           $ref: '#/components/responses/GetTopicResponse'
@@ -690,6 +646,9 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/TopicName'
     delete:
       summary: Delete Topic
       operationId: deleteKafkaTopic
@@ -717,13 +676,9 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/TopicName'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/TopicName'
   /kafka/v3/clusters/{cluster_id}/topics/{topic_name}/configs:
     get:
       summary: List Topic Configs
@@ -752,13 +707,9 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/TopicName'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/TopicName'
   /kafka/v3/clusters/{cluster_id}/topics/{topic_name}/configs:alter:
     post:
       summary: Batch Alter Topic Configs
@@ -791,13 +742,9 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/TopicName'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/TopicName'
   /kafka/v3/clusters/{cluster_id}/topics/{topic_name}/configs/{name}:
     get:
       summary: Get Topic Config
@@ -826,6 +773,10 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/TopicName'
+        - $ref: '#/components/parameters/ConfigName'
     put:
       summary: Update Topic Config
       operationId: updateKafkaTopicConfig
@@ -857,6 +808,10 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/TopicName'
+        - $ref: '#/components/parameters/ConfigName'
     delete:
       summary: Reset Topic Config
       operationId: deleteKafkaTopicConfig
@@ -884,14 +839,10 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/TopicName'
-      - $ref: '#/components/parameters/ConfigName'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/TopicName'
+        - $ref: '#/components/parameters/ConfigName'
   /kafka/v3/clusters/{cluster_id}/topics/{topic_name}/partitions:
     get:
       summary: List Partitions
@@ -920,13 +871,9 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/TopicName'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/TopicName'
   /kafka/v3/clusters/{cluster_id}/topics/{topic_name}/partitions/{partition_id}:
     get:
       summary: Get Partition
@@ -955,14 +902,10 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/TopicName'
-      - $ref: '#/components/parameters/PartitionId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/TopicName'
+        - $ref: '#/components/parameters/PartitionId'
   /kafka/v3/clusters/{cluster_id}/topics/-/configs:
     get:
       summary: List All Topic Configs
@@ -990,12 +933,8 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
   /kafka/v3/clusters/{cluster_id}/topics/{topic_name}/records:
     post:
       summary: Produce Records
@@ -1047,13 +986,9 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/TopicName'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/TopicName'
   /kafka/v3/clusters/{cluster_id}/links:
     get:
       summary: List all cluster links in the dest cluster
@@ -1078,6 +1013,8 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
     post:
       summary: Create a cluster link
       operationId: createKafkaLink
@@ -1095,6 +1032,7 @@ paths:
         - $ref: '#/components/parameters/QueryParamLinkName'
         - $ref: '#/components/parameters/ValidateOnly'
         - $ref: '#/components/parameters/ValidateLink'
+        - $ref: '#/components/parameters/ClusterId'
       requestBody:
         $ref: '#/components/requestBodies/CreateLinkRequest'
       responses:
@@ -1108,12 +1046,6 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
   /kafka/v3/clusters/{cluster_id}/links/{link_name}:
     get:
       summary: Describe the cluster link
@@ -1126,6 +1058,8 @@ paths:
         - Cluster Linking (v3)
       parameters:
         - $ref: '#/components/parameters/IncludeTasks'
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/LinkName'
       security:
         - resource-api-key: []
         - external-access-token: []
@@ -1152,6 +1086,8 @@ paths:
       parameters:
         - $ref: '#/components/parameters/Force'
         - $ref: '#/components/parameters/ValidateOnly'
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/LinkName'
       responses:
         '200':
           $ref: '#/components/responses/NoContentResponse'
@@ -1163,13 +1099,6 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/LinkName'
   /kafka/v3/clusters/{cluster_id}/topics/{topic_name}/default-configs:
     get:
       summary: List New Topic Default Configs
@@ -1196,13 +1125,9 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/TopicName'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/TopicName'
   /kafka/v3/clusters/{cluster_id}/links/{link_name}/configs:
     get:
       summary: List all configs of the cluster link
@@ -1224,13 +1149,9 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/LinkName'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/LinkName'
   /kafka/v3/clusters/{cluster_id}/links/{link_name}/configs/{config_name}:
     get:
       summary: Describe the config under the cluster link
@@ -1252,6 +1173,10 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/LinkName'
+        - $ref: '#/components/parameters/LinkConfigName'
     put:
       summary: Alter the config under the cluster link
       operationId: updateKafkaLinkConfig
@@ -1274,6 +1199,10 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/LinkName'
+        - $ref: '#/components/parameters/LinkConfigName'
     delete:
       summary: Reset the given config to default value
       operationId: deleteKafkaLinkConfig
@@ -1294,14 +1223,10 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/LinkName'
-      - $ref: '#/components/parameters/LinkConfigName'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/LinkName'
+        - $ref: '#/components/parameters/LinkConfigName'
   /kafka/v3/clusters/{cluster_id}/links/{link_name}/configs:alter:
     put:
       description: |-
@@ -1316,6 +1241,8 @@ paths:
         - external-access-token: []
       parameters:
         - $ref: '#/components/parameters/ValidateOnly'
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/LinkName'
       requestBody:
         $ref: '#/components/requestBodies/AlterLinkConfigBatchRequest'
       responses:
@@ -1330,13 +1257,6 @@ paths:
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
       summary: Batch Alter Cluster Link Configs
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/LinkName'
   /kafka/v3/clusters/{cluster_id}/links/{link_name}/mirrors:
     post:
       summary: Create a mirror topic
@@ -1364,6 +1284,9 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/LinkName'
     get:
       summary: List mirror topics
       operationId: listKafkaMirrorTopicsUnderLink
@@ -1378,6 +1301,8 @@ paths:
         - external-access-token: []
       parameters:
         - $ref: '#/components/parameters/MirrorTopicStatus'
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/LinkName'
       responses:
         '200':
           $ref: '#/components/responses/ListMirrorTopicsResponse'
@@ -1389,13 +1314,6 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/LinkName'
   /kafka/v3/clusters/{cluster_id}/links/-/mirrors:
     get:
       summary: List mirror topics
@@ -1411,6 +1329,7 @@ paths:
         - external-access-token: []
       parameters:
         - $ref: '#/components/parameters/MirrorTopicStatus'
+        - $ref: '#/components/parameters/ClusterId'
       responses:
         '200':
           $ref: '#/components/responses/ListMirrorTopicsResponse'
@@ -1422,12 +1341,6 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
   /kafka/v3/clusters/{cluster_id}/links/{link_name}/mirrors/{mirror_topic_name}:
     get:
       summary: Describe the mirror topic
@@ -1437,6 +1350,9 @@ paths:
         - Cluster Linking (v3)
       parameters:
         - $ref: '#/components/parameters/IncludeStateTransitionErrors'
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/LinkName'
+        - $ref: '#/components/parameters/MirrorTopicName'
       security:
         - resource-api-key: []
         - external-access-token: []
@@ -1451,14 +1367,6 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/LinkName'
-      - $ref: '#/components/parameters/MirrorTopicName'
   /kafka/v3/clusters/{cluster_id}/links/{link_name}/mirrors:promote:
     post:
       summary: Promote the mirror topics
@@ -1482,14 +1390,10 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/LinkName'
-      - $ref: '#/components/parameters/ValidateOnly'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/LinkName'
+        - $ref: '#/components/parameters/ValidateOnly'
   /kafka/v3/clusters/{cluster_id}/links/{link_name}/mirrors:failover:
     post:
       summary: Failover the mirror topics
@@ -1513,14 +1417,10 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/LinkName'
-      - $ref: '#/components/parameters/ValidateOnly'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/LinkName'
+        - $ref: '#/components/parameters/ValidateOnly'
   /kafka/v3/clusters/{cluster_id}/links/{link_name}/mirrors:pause:
     post:
       summary: Pause the mirror topics
@@ -1544,14 +1444,10 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/LinkName'
-      - $ref: '#/components/parameters/ValidateOnly'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/LinkName'
+        - $ref: '#/components/parameters/ValidateOnly'
   /kafka/v3/clusters/{cluster_id}/links/{link_name}/mirrors:resume:
     post:
       summary: Resume the mirror topics
@@ -1575,14 +1471,10 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/LinkName'
-      - $ref: '#/components/parameters/ValidateOnly'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/LinkName'
+        - $ref: '#/components/parameters/ValidateOnly'
   /kafka/v3/clusters/{cluster_id}/links/{link_name}/mirrors:reverse-and-start-mirror:
     post:
       summary: Reverse the local mirror topic and start the remote mirror topic
@@ -1606,14 +1498,10 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/LinkName'
-      - $ref: '#/components/parameters/ValidateOnly'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/LinkName'
+        - $ref: '#/components/parameters/ValidateOnly'
   /kafka/v3/clusters/{cluster_id}/links/{link_name}/mirrors:reverse-and-pause-mirror:
     post:
       summary: Reverse the local mirror topic and Pause the remote mirror topic
@@ -1637,14 +1525,10 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/LinkName'
-      - $ref: '#/components/parameters/ValidateOnly'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/LinkName'
+        - $ref: '#/components/parameters/ValidateOnly'
   /kafka/v3/clusters/{cluster_id}/links/{link_name}/mirrors:truncate-and-restore:
     post:
       summary: Truncates the local topic to the remote stopped mirror log end offsets and restores mirroring to the local topic to mirror from the remote topic
@@ -1668,15 +1552,11 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/LinkName'
-      - $ref: '#/components/parameters/IncludePartitionLevelTruncationData'
-      - $ref: '#/components/parameters/ValidateOnly'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/LinkName'
+        - $ref: '#/components/parameters/IncludePartitionLevelTruncationData'
+        - $ref: '#/components/parameters/ValidateOnly'
   /kafka/v3/clusters/{cluster_id}/groups/{group_id}/configs:
     get:
       summary: List all configs of the group
@@ -1703,13 +1583,9 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/GroupId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/GroupId'
   /kafka/v3/clusters/{cluster_id}/groups/{group_id}/configs/{name}:
     get:
       summary: Get group config
@@ -1736,6 +1612,10 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/GroupId'
+        - $ref: '#/components/parameters/ConfigName'
     put:
       summary: Update group config
       operationId: updateKafkaGroupConfig
@@ -1763,6 +1643,10 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/GroupId'
+        - $ref: '#/components/parameters/ConfigName'
     delete:
       summary: Delete group config
       operationId: deleteKafkaGroupConfig
@@ -1788,14 +1672,10 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/GroupId'
-      - $ref: '#/components/parameters/ConfigName'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/GroupId'
+        - $ref: '#/components/parameters/ConfigName'
   /kafka/v3/clusters/{cluster_id}/groups/{group_id}/configs:alter:
     post:
       summary: Batch Alter Group Configs
@@ -1811,6 +1691,8 @@ paths:
         - external-access-token: []
       parameters:
         - $ref: '#/components/parameters/ValidateOnly'
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/GroupId'
       requestBody:
         $ref: '#/components/requestBodies/AlterGroupConfigBatchRequest'
       responses:
@@ -1826,13 +1708,6 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/GroupId'
 components:
   schemas:
     UpdatePartitionCountRequestData:

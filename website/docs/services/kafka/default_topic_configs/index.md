@@ -129,7 +129,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#list_kafka_default_topic_configs"><CopyableCode code="list_kafka_default_topic_configs" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-topic_name"><code>topic_name</code></a></td>
     <td></td>
     <td>List the default configuration parameters used if the topic were to be newly created.</td>
 </tr>
@@ -149,6 +149,16 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cluster_id">
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td>The Kafka cluster ID. (example: cluster-1)</td>
+</tr>
+<tr id="parameter-topic_name">
+    <td><CopyableCode code="topic_name" /></td>
+    <td><code>string</code></td>
+    <td>The topic name. (example: topic-1)</td>
+</tr>
 </tbody>
 </table>
 
@@ -178,6 +188,8 @@ source,
 synonyms,
 value
 FROM confluent.kafka.default_topic_configs
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND topic_name = '{{ topic_name }}' -- required
 ;
 ```
 </TabItem>

@@ -231,28 +231,28 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#get_kafka_link"><CopyableCode code="get_kafka_link" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a></td>
     <td><a href="#parameter-include_tasks"><code>include_tasks</code></a></td>
     <td>``link_id`` in ``ListLinksResponseData`` is deprecated and may be removed in a future release. Use the new ``cluster_link_id`` instead.</td>
 </tr>
 <tr>
     <td><a href="#list_kafka_links"><CopyableCode code="list_kafka_links" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a></td>
     <td></td>
     <td>``link_id`` in ``ListLinksResponseData`` is deprecated and may be removed in a future release. Use the new ``cluster_link_id`` instead.</td>
 </tr>
 <tr>
     <td><a href="#create_kafka_link"><CopyableCode code="create_kafka_link" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-link_name"><code>link_name</code></a></td>
+    <td><a href="#parameter-link_name"><code>link_name</code></a>, <a href="#parameter-cluster_id"><code>cluster_id</code></a></td>
     <td><a href="#parameter-validate_only"><code>validate_only</code></a>, <a href="#parameter-validate_link"><code>validate_link</code></a></td>
     <td>Cluster link creation requires source cluster security configurations in<br />the configs JSON section of the data request payload.</td>
 </tr>
 <tr>
     <td><a href="#delete_kafka_link"><CopyableCode code="delete_kafka_link" /></a></td>
     <td><CopyableCode code="delete" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a></td>
     <td><a href="#parameter-force"><code>force</code></a>, <a href="#parameter-validate_only"><code>validate_only</code></a></td>
     <td></td>
 </tr>
@@ -272,6 +272,11 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cluster_id">
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td>The Kafka cluster ID. (example: cluster-1)</td>
+</tr>
 <tr id="parameter-link_name">
     <td><CopyableCode code="link_name" /></td>
     <td><code>string</code></td>
@@ -330,7 +335,9 @@ metadata,
 tasks,
 topic_names
 FROM confluent.kafka.cluster_links
-WHERE include_tasks = '{{ include_tasks }}'
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND link_name = '{{ link_name }}' -- required
+AND include_tasks = '{{ include_tasks }}'
 ;
 ```
 </TabItem>
@@ -355,6 +362,7 @@ metadata,
 tasks,
 topic_names
 FROM confluent.kafka.cluster_links
+WHERE cluster_id = '{{ cluster_id }}' -- required
 ;
 ```
 </TabItem>
@@ -382,6 +390,7 @@ remote_cluster_id,
 cluster_link_id,
 configs,
 link_name,
+cluster_id,
 validate_only,
 validate_link
 )
@@ -392,6 +401,7 @@ SELECT
 '{{ cluster_link_id }}',
 '{{ configs }}',
 '{{ link_name }}',
+'{{ cluster_id }}',
 '{{ validate_only }}',
 '{{ validate_link }}'
 ;
@@ -404,6 +414,9 @@ SELECT
   props:
     - name: link_name
       value: "{{ link_name }}"
+      description: Required parameter for the cluster_links resource.
+    - name: cluster_id
+      value: "{{ cluster_id }}"
       description: Required parameter for the cluster_links resource.
     - name: source_cluster_id
       value: "{{ source_cluster_id }}"
@@ -449,7 +462,9 @@ SELECT
 
 ```sql
 DELETE FROM confluent.kafka.cluster_links
-WHERE force = '{{ force }}'
+WHERE cluster_id = '{{ cluster_id }}' --required
+AND link_name = '{{ link_name }}' --required
+AND force = '{{ force }}'
 AND validate_only = '{{ validate_only }}'
 ;
 ```

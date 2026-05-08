@@ -1,6 +1,6 @@
 # `confluent` provider for [`stackql`](https://github.com/stackql/stackql)
 
-This repository is used to generate and document the `confluent` provider for StackQL, allowing you to query and manage Confluent Cloud resources using SQL-like syntax. The provider is built using the [`@stackql/provider-utils`](https://www.npmjs.com/package/@stackql/provider-utils) package (v0.6.4+), which provides tools for converting OpenAPI specifications into StackQL-compatible provider schemas.
+This repository is used to generate and document the `confluent` provider for StackQL, allowing you to query and manage Confluent Cloud resources using SQL-like syntax. The provider is built using the [`@stackql/provider-utils`](https://www.npmjs.com/package/@stackql/provider-utils) package (v0.7.0+), which provides tools for converting OpenAPI specifications into StackQL-compatible provider schemas.
 
 ## Prerequisites
 
@@ -99,7 +99,12 @@ npm run split -- \
 
 ## 4. Normalize the split specs
 
-This pass clobbers polymorphism (`oneOf` / `allOf` flattening) and patches missing `type: object` declarations so the StackQL schema is well-formed:
+This pass does several mechanical fixups to make the source well-formed for the analyze and generate passes that follow:
+
+- Clobbers polymorphism (`oneOf` / `allOf` flattening) and patches missing `type: object` declarations.
+- Lifts path-item-level `parameters` into each operation's `parameters` array (so path templates like `{environment_id}` actually substitute when StackQL builds the request URL).
+- Strips non-root `servers:` overrides at the path-item and operation level (they're often placeholder hosts that fail DNS).
+- Wraps bare top-level array responses (e.g. `["a","b"]`) into a synthesised object envelope so StackQL's row projection has an `objectKey` to latch onto. The wrapper key is derived from the operationId; pass `--bare-array-overrides FILE.json` to override the naming on a per-op basis if the heuristic picks a poor name.
 
 ```bash
 npm run normalize -- \
@@ -135,6 +140,47 @@ npm run generate-provider -- \
 ```
 
 The auth block matches the existing `provider.yaml` (`CONFLUENT_CLOUD_API_KEY` / `CONFLUENT_CLOUD_API_SECRET`).
+
+### Convenience views
+
+Convenience views live under `views/<service>/views.yaml` and define flattened, parameterised SELECT shapes over the API-derived resources (e.g. `confluent.managed_kafka_clusters.vw_clusters` flattens the cluster envelope so users don't have to write `JSON_EXTRACT`). Each `views.yaml` is a YAML fragment whose top-level keys are view names, indented as if it already lived under `components.x-stackQL-resources` (4-space indent at the resource-key level).
+
+`generate-provider` auto-discovers the `views/` directory in the project root and splices each top-level view entry into the matching service spec under `components.x-stackQL-resources`, as a sibling of the API resources. Pass `--views-dir DIR` to point at a different location. Existing API-derived resources always win on key collisions.
+
+### Kafka REST v3 per-cluster server template
+
+Confluent's Kafka REST v3 surface (`/kafka/v3/...`) is a per-cluster dataplane — each cluster lives at its own host (`https://<kafka-endpoint-id>.<region>.<cloud>.confluent.cloud`), not at `api.confluent.cloud`. The OpenAPI spec ships a placeholder host (`pkc-00000.region.provider.confluent.cloud`) that is not a real DNS name; queries against it fail DNS.
+
+After `generate-provider`, run:
+
+```bash
+npm run replace-kafka-servers
+```
+
+The script swaps `kafka.yaml`'s root `servers:` block for a three-variable templated URL:
+
+```yaml
+servers:
+  - url: https://{kafka_endpoint_id}.{region}.{cloud_provider}.confluent.cloud
+    variables:
+      kafka_endpoint_id: { default: pkc-00000, ... }
+      region:            { default: region,    ... }
+      cloud_provider:    { default: cloud,     ... }
+```
+
+StackQL binds these variables from the `WHERE` clause at query time, so users supply the cluster coordinates per query:
+
+```sql
+SELECT cluster_id, topic_name FROM confluent.kafka.topics
+WHERE cluster_id = 'lkc-50r5wn'
+  AND kafka_endpoint_id = 'pkc-ldvj1'
+  AND region = 'ap-southeast-2'
+  AND cloud_provider = 'aws';
+```
+
+Idempotent: re-runs after the first apply report `already in sync` and exit clean. Confluent-specific exception — do not generalise upstream.
+
+> Note: the per-cluster Kafka REST v3 endpoints require a **cluster-scoped Resource API key** (generated in the Confluent UI under `Cluster -> API Keys`), not the org-level Cloud API key used for control-plane resources. Auth wiring for this is a separate concern — the `replace-kafka-servers` step only fixes URL routing.
 
 ## 7. Test the provider
 
@@ -193,27 +239,45 @@ SELECT
 FROM confluent.managed_kafka_clusters.clusters
 WHERE environment = 'env-216dqo';
 
--- List topics in a Kafka cluster
-SELECT
-  topic_name,
-  partitions_count,
-  replication_factor
-FROM confluent.kafka.topic
-WHERE cluster_id = 'lkc-abcdef';
-
--- List Schema Registry clusters
-SELECT
-  id,
-  spec
-FROM confluent.schema_registry_clusters.clusters
-WHERE environment = 'env-abc123';
-
--- List service accounts
+-- Use view
 SELECT
   id,
   display_name,
-  description
-FROM confluent.iam.service_accounts;
+  cloud,
+  region,
+  availability,
+  config_kind,
+  phase,
+  kafka_bootstrap_endpoint
+FROM confluent.managed_kafka_clusters.vw_clusters
+WHERE environment = 'env-216dqo';
+
+SELECT
+*
+FROM confluent.connect.connectors
+WHERE environment_id = 'env-216dqo'
+AND
+kafka_cluster_id = 'lkc-50r5wn';
+
+-- List topics in a Kafka cluster (change creds)
+SELECT
+cluster_id,
+topic_name,
+authorized_operations,
+configs,
+is_internal,
+kind,
+metadata,
+partition_reassignments,
+partitions,
+partitions_count,
+replication_factor
+FROM confluent.kafka.topics
+WHERE cluster_id = 'lkc-50r5wn'
+AND cloud_provider = 'aws'
+AND region = 'ap-southeast-2'
+AND kafka_endpoint_id = 'pkc-ldvj1'
+;
 ```
 
 ## 8. Publish the provider

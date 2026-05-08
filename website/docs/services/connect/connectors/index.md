@@ -111,28 +111,28 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#read_connectv1_connector"><CopyableCode code="read_connectv1_connector" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-connector_name"><code>connector_name</code></a>, <a href="#parameter-environment_id"><code>environment_id</code></a>, <a href="#parameter-kafka_cluster_id"><code>kafka_cluster_id</code></a></td>
     <td></td>
     <td>Get information about the connector.</td>
 </tr>
 <tr>
     <td><a href="#list_connectv1_connectors"><CopyableCode code="list_connectv1_connectors" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-environment_id"><code>environment_id</code></a>, <a href="#parameter-kafka_cluster_id"><code>kafka_cluster_id</code></a></td>
     <td></td>
     <td>Retrieve a list of "names" of the active connectors. You can then make a read request for a specific connector by name.</td>
 </tr>
 <tr>
     <td><a href="#create_connectv1_connector"><CopyableCode code="create_connectv1_connector" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td></td>
+    <td><a href="#parameter-environment_id"><code>environment_id</code></a>, <a href="#parameter-kafka_cluster_id"><code>kafka_cluster_id</code></a></td>
     <td></td>
     <td>Create a new connector. Returns the new connector information if successful.</td>
 </tr>
 <tr>
     <td><a href="#delete_connectv1_connector"><CopyableCode code="delete_connectv1_connector" /></a></td>
     <td><CopyableCode code="delete" /></td>
-    <td></td>
+    <td><a href="#parameter-connector_name"><code>connector_name</code></a>, <a href="#parameter-environment_id"><code>environment_id</code></a>, <a href="#parameter-kafka_cluster_id"><code>kafka_cluster_id</code></a></td>
     <td></td>
     <td>Delete a connector. Halts all tasks and deletes the connector configuration.</td>
 </tr>
@@ -146,21 +146,21 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#pause_connectv1_connector"><CopyableCode code="pause_connectv1_connector" /></a></td>
     <td><CopyableCode code="exec" /></td>
-    <td></td>
+    <td><a href="#parameter-connector_name"><code>connector_name</code></a>, <a href="#parameter-environment_id"><code>environment_id</code></a>, <a href="#parameter-kafka_cluster_id"><code>kafka_cluster_id</code></a></td>
     <td></td>
     <td>Pause the connector and its tasks. Stops message processing until the connector is resumed. This call is asynchronous and the tasks will not transition to PAUSED state at the same time.</td>
 </tr>
 <tr>
     <td><a href="#resume_connectv1_connector"><CopyableCode code="resume_connectv1_connector" /></a></td>
     <td><CopyableCode code="exec" /></td>
-    <td></td>
+    <td><a href="#parameter-connector_name"><code>connector_name</code></a>, <a href="#parameter-environment_id"><code>environment_id</code></a>, <a href="#parameter-kafka_cluster_id"><code>kafka_cluster_id</code></a></td>
     <td></td>
     <td>Resume a paused connector or do nothing if the connector is not paused. This call is asynchronous and the tasks will not transition to RUNNING state at the same time.</td>
 </tr>
 <tr>
     <td><a href="#restart_connectv1_connector"><CopyableCode code="restart_connectv1_connector" /></a></td>
     <td><CopyableCode code="exec" /></td>
-    <td></td>
+    <td><a href="#parameter-connector_name"><code>connector_name</code></a>, <a href="#parameter-environment_id"><code>environment_id</code></a>, <a href="#parameter-kafka_cluster_id"><code>kafka_cluster_id</code></a></td>
     <td></td>
     <td>Restart the connector and its tasks. Stops message processing until the connector and tasks are restart. This call is asynchronous and the connector will not transition to another state at the same time.</td>
 </tr>
@@ -180,6 +180,11 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-connector_name">
+    <td><CopyableCode code="connector_name" /></td>
+    <td><code>string</code></td>
+    <td>The unique name of the connector.</td>
+</tr>
 <tr id="parameter-environment_id">
     <td><CopyableCode code="environment_id" /></td>
     <td><code>string</code></td>
@@ -218,6 +223,9 @@ config,
 tasks,
 type
 FROM confluent.connect.connectors
+WHERE connector_name = '{{ connector_name }}' -- required
+AND environment_id = '{{ environment_id }}' -- required
+AND kafka_cluster_id = '{{ kafka_cluster_id }}' -- required
 ;
 ```
 </TabItem>
@@ -229,6 +237,8 @@ Retrieve a list of "names" of the active connectors. You can then make a read re
 SELECT
 *
 FROM confluent.connect.connectors
+WHERE environment_id = '{{ environment_id }}' -- required
+AND kafka_cluster_id = '{{ kafka_cluster_id }}' -- required
 ;
 ```
 </TabItem>
@@ -252,12 +262,16 @@ Create a new connector. Returns the new connector information if successful.
 INSERT INTO confluent.connect.connectors (
 name,
 config,
-offsets
+offsets,
+environment_id,
+kafka_cluster_id
 )
 SELECT 
 '{{ name }}',
 '{{ config }}',
-'{{ offsets }}'
+'{{ offsets }}',
+'{{ environment_id }}',
+'{{ kafka_cluster_id }}'
 RETURNING
 name,
 config,
@@ -272,6 +286,12 @@ type
 <CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: connectors
   props:
+    - name: environment_id
+      value: "{{ environment_id }}"
+      description: Required parameter for the connectors resource.
+    - name: kafka_cluster_id
+      value: "{{ kafka_cluster_id }}"
+      description: Required parameter for the connectors resource.
     - name: name
       value: "{{ name }}"
       description: |
@@ -316,6 +336,9 @@ Delete a connector. Halts all tasks and deletes the connector configuration.
 
 ```sql
 DELETE FROM confluent.connect.connectors
+WHERE connector_name = '{{ connector_name }}' --required
+AND environment_id = '{{ environment_id }}' --required
+AND kafka_cluster_id = '{{ kafka_cluster_id }}' --required
 ;
 ```
 </TabItem>
@@ -351,7 +374,9 @@ Pause the connector and its tasks. Stops message processing until the connector 
 
 ```sql
 EXEC confluent.connect.connectors.pause_connectv1_connector 
-
+@connector_name='{{ connector_name }}' --required, 
+@environment_id='{{ environment_id }}' --required, 
+@kafka_cluster_id='{{ kafka_cluster_id }}' --required
 ;
 ```
 </TabItem>
@@ -361,7 +386,9 @@ Resume a paused connector or do nothing if the connector is not paused. This cal
 
 ```sql
 EXEC confluent.connect.connectors.resume_connectv1_connector 
-
+@connector_name='{{ connector_name }}' --required, 
+@environment_id='{{ environment_id }}' --required, 
+@kafka_cluster_id='{{ kafka_cluster_id }}' --required
 ;
 ```
 </TabItem>
@@ -371,7 +398,9 @@ Restart the connector and its tasks. Stops message processing until the connecto
 
 ```sql
 EXEC confluent.connect.connectors.restart_connectv1_connector 
-
+@connector_name='{{ connector_name }}' --required, 
+@environment_id='{{ environment_id }}' --required, 
+@kafka_cluster_id='{{ kafka_cluster_id }}' --required
 ;
 ```
 </TabItem>

@@ -94,14 +94,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#get_connectv1_connector_offsets_request_status"><CopyableCode code="get_connectv1_connector_offsets_request_status" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-connector_name"><code>connector_name</code></a>, <a href="#parameter-environment_id"><code>environment_id</code></a>, <a href="#parameter-kafka_cluster_id"><code>kafka_cluster_id</code></a></td>
     <td></td>
     <td>Get the status of the previous alter offset request.</td>
 </tr>
 <tr>
     <td><a href="#alter_connectv1_connector_offsets_request"><CopyableCode code="alter_connectv1_connector_offsets_request" /></a></td>
     <td><CopyableCode code="exec" /></td>
-    <td><a href="#parameter-type"><code>type</code></a></td>
+    <td><a href="#parameter-connector_name"><code>connector_name</code></a>, <a href="#parameter-environment_id"><code>environment_id</code></a>, <a href="#parameter-kafka_cluster_id"><code>kafka_cluster_id</code></a>, <a href="#parameter-type"><code>type</code></a></td>
     <td></td>
     <td>Request to alter the offsets of a connector. This supports the ability to PATCH/DELETE the offsets of a connector.<br />Note, you will see momentary downtime as this will internally stop the connector, while the offsets are being altered.<br />You can only make one alter offsets request at a time for a connector.</td>
 </tr>
@@ -121,6 +121,21 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-connector_name">
+    <td><CopyableCode code="connector_name" /></td>
+    <td><code>string</code></td>
+    <td>The unique name of the connector.</td>
+</tr>
+<tr id="parameter-environment_id">
+    <td><CopyableCode code="environment_id" /></td>
+    <td><code>string</code></td>
+    <td>The unique identifier of the environment this resource belongs to.</td>
+</tr>
+<tr id="parameter-kafka_cluster_id">
+    <td><CopyableCode code="kafka_cluster_id" /></td>
+    <td><code>string</code></td>
+    <td>The unique identifier for the Kafka cluster.</td>
+</tr>
 </tbody>
 </table>
 
@@ -143,6 +158,9 @@ previous_offsets,
 request,
 status
 FROM confluent.connect.connector_offsets_requests
+WHERE connector_name = '{{ connector_name }}' -- required
+AND environment_id = '{{ environment_id }}' -- required
+AND kafka_cluster_id = '{{ kafka_cluster_id }}' -- required
 ;
 ```
 </TabItem>
@@ -163,6 +181,9 @@ Request to alter the offsets of a connector. This supports the ability to PATCH/
 
 ```sql
 EXEC confluent.connect.connector_offsets_requests.alter_connectv1_connector_offsets_request 
+@connector_name='{{ connector_name }}' --required, 
+@environment_id='{{ environment_id }}' --required, 
+@kafka_cluster_id='{{ kafka_cluster_id }}' --required 
 @@json=
 '{
 "type": "{{ type }}", 

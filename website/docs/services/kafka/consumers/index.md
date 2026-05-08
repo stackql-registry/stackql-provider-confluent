@@ -171,14 +171,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#get_kafka_consumer"><CopyableCode code="get_kafka_consumer" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-consumer_group_id"><code>consumer_group_id</code></a>, <a href="#parameter-consumer_id"><code>consumer_id</code></a></td>
     <td></td>
     <td>Return the consumer specified by the ``consumer_id``.</td>
 </tr>
 <tr>
     <td><a href="#list_kafka_consumers"><CopyableCode code="list_kafka_consumers" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-consumer_group_id"><code>consumer_group_id</code></a></td>
     <td></td>
     <td>Return a list of consumers that belong to the specified consumer<br />group.</td>
 </tr>
@@ -198,6 +198,21 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cluster_id">
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td>The Kafka cluster ID. (example: cluster-1)</td>
+</tr>
+<tr id="parameter-consumer_group_id">
+    <td><CopyableCode code="consumer_group_id" /></td>
+    <td><code>string</code></td>
+    <td>The consumer group ID. (example: consumer-group-1)</td>
+</tr>
+<tr id="parameter-consumer_id">
+    <td><CopyableCode code="consumer_id" /></td>
+    <td><code>string</code></td>
+    <td>The consumer ID. (example: consumer-1)</td>
+</tr>
 </tbody>
 </table>
 
@@ -225,6 +240,9 @@ assignments,
 kind,
 metadata
 FROM confluent.kafka.consumers
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND consumer_group_id = '{{ consumer_group_id }}' -- required
+AND consumer_id = '{{ consumer_id }}' -- required
 ;
 ```
 </TabItem>
@@ -243,6 +261,8 @@ assignments,
 kind,
 metadata
 FROM confluent.kafka.consumers
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND consumer_group_id = '{{ consumer_group_id }}' -- required
 ;
 ```
 </TabItem>

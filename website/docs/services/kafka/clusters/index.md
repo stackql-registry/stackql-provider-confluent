@@ -124,7 +124,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#get_kafka_cluster"><CopyableCode code="get_kafka_cluster" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a></td>
     <td></td>
     <td>Return the Kafka cluster with the specified ``cluster_id``.</td>
 </tr>
@@ -144,6 +144,11 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cluster_id">
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td>The Kafka cluster ID. (example: cluster-1)</td>
+</tr>
 </tbody>
 </table>
 
@@ -172,6 +177,7 @@ metadata,
 partition_reassignments,
 topics
 FROM confluent.kafka.clusters
+WHERE cluster_id = '{{ cluster_id }}' -- required
 ;
 ```
 </TabItem>

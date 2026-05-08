@@ -9,6 +9,7 @@
     "normalize": "node node_modules/@stackql/provider-utils/bin/provider-dev-utils.mjs normalize",
     "generate-mappings": "node node_modules/@stackql/provider-utils/bin/provider-dev-utils.mjs analyze",
     "generate-provider": "node node_modules/@stackql/provider-utils/bin/provider-dev-utils.mjs generate",
+    "replace-kafka-servers": "node provider-dev/scripts/replace_kafka_servers.mjs",
     "start-server": "bash ./bin/start-server.sh",
     "stop-server": "bash ./bin/stop-server.sh",
     "server-status": "bash ./bin/server-status.sh",
@@ -16,7 +17,7 @@
   },
   "dependencies": {
     "@stackql/pgwire-lite": "^1.0.1",
-    "@stackql/provider-utils": "^0.6.5"
+    "@stackql/provider-utils": "^0.7.4"
   },
   "keywords": [
     "stackql",

@@ -201,35 +201,35 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#get_kafka_group_config"><CopyableCode code="get_kafka_group_config" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-group_id"><code>group_id</code></a>, <a href="#parameter-name"><code>name</code></a></td>
     <td></td>
     <td>Get the configuration with the specified name for the specified group. This API supports consumer groups, share groups, and streams groups.</td>
 </tr>
 <tr>
     <td><a href="#list_kafka_group_configs"><CopyableCode code="list_kafka_group_configs" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-group_id"><code>group_id</code></a></td>
     <td></td>
     <td>List all configurations for the specified group. This API supports consumer groups, share groups, and streams groups.</td>
 </tr>
 <tr>
     <td><a href="#update_kafka_group_config"><CopyableCode code="update_kafka_group_config" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-value"><code>value</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-group_id"><code>group_id</code></a>, <a href="#parameter-name"><code>name</code></a>, <a href="#parameter-value"><code>value</code></a></td>
     <td></td>
     <td>Update the configuration with the specified name for the specified group. This API supports consumer groups, share groups, and streams groups.</td>
 </tr>
 <tr>
     <td><a href="#delete_kafka_group_config"><CopyableCode code="delete_kafka_group_config" /></a></td>
     <td><CopyableCode code="delete" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-group_id"><code>group_id</code></a>, <a href="#parameter-name"><code>name</code></a></td>
     <td></td>
     <td>Delete the dynamic configuration override with the specified name for the specified group. After deletion, the default group configuration will be applied. This API supports consumer groups, share groups, and streams groups.</td>
 </tr>
 <tr>
     <td><a href="#update_kafka_group_config_batch"><CopyableCode code="update_kafka_group_config_batch" /></a></td>
     <td><CopyableCode code="exec" /></td>
-    <td><a href="#parameter-data"><code>data</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-group_id"><code>group_id</code></a>, <a href="#parameter-data"><code>data</code></a></td>
     <td><a href="#parameter-validate_only"><code>validate_only</code></a></td>
     <td>Batch alter configurations for the specified group. This API supports consumer groups, share groups, and streams groups.</td>
 </tr>
@@ -249,6 +249,21 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cluster_id">
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td>The Kafka cluster ID. (example: cluster-1)</td>
+</tr>
+<tr id="parameter-group_id">
+    <td><CopyableCode code="group_id" /></td>
+    <td><code>string</code></td>
+    <td>The group ID. (example: group-1)</td>
+</tr>
+<tr id="parameter-name">
+    <td><CopyableCode code="name" /></td>
+    <td><code>string</code></td>
+    <td>The configuration parameter name. (example: compression.type)</td>
+</tr>
 <tr id="parameter-validate_only">
     <td><CopyableCode code="validate_only" /></td>
     <td><code>boolean</code></td>
@@ -284,6 +299,9 @@ source,
 synonyms,
 value
 FROM confluent.kafka.group_configs
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND group_id = '{{ group_id }}' -- required
+AND name = '{{ name }}' -- required
 ;
 ```
 </TabItem>
@@ -305,6 +323,8 @@ source,
 synonyms,
 value
 FROM confluent.kafka.group_configs
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND group_id = '{{ group_id }}' -- required
 ;
 ```
 </TabItem>
@@ -328,7 +348,10 @@ REPLACE confluent.kafka.group_configs
 SET 
 value = '{{ value }}'
 WHERE 
-value = '{{ value }}' --required;
+cluster_id = '{{ cluster_id }}' --required
+AND group_id = '{{ group_id }}' --required
+AND name = '{{ name }}' --required
+AND value = '{{ value }}' --required;
 ```
 </TabItem>
 </Tabs>
@@ -348,6 +371,9 @@ Delete the dynamic configuration override with the specified name for the specif
 
 ```sql
 DELETE FROM confluent.kafka.group_configs
+WHERE cluster_id = '{{ cluster_id }}' --required
+AND group_id = '{{ group_id }}' --required
+AND name = '{{ name }}' --required
 ;
 ```
 </TabItem>
@@ -368,6 +394,8 @@ Batch alter configurations for the specified group. This API supports consumer g
 
 ```sql
 EXEC confluent.kafka.group_configs.update_kafka_group_config_batch 
+@cluster_id='{{ cluster_id }}' --required, 
+@group_id='{{ group_id }}' --required, 
 @validate_only={{ validate_only }} 
 @@json=
 '{

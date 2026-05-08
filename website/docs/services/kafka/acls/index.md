@@ -89,28 +89,28 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#get_kafka_acls"><CopyableCode code="get_kafka_acls" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a></td>
     <td><a href="#parameter-resource_type"><code>resource_type</code></a>, <a href="#parameter-resource_name"><code>resource_name</code></a>, <a href="#parameter-pattern_type"><code>pattern_type</code></a>, <a href="#parameter-principal"><code>principal</code></a>, <a href="#parameter-host"><code>host</code></a>, <a href="#parameter-operation"><code>operation</code></a>, <a href="#parameter-permission"><code>permission</code></a></td>
     <td>- When calling `/acls` without the `principal` parameter, service<br />  accounts are returned in numeric ID format (e.g., `User:12345`).<br />- To retrieve service accounts in the `sa-xxx` format, use<br />  `/acls?principal=UserV2:*`.<br />- The `principal` parameter supports both legacy `User:` format and<br />  new `UserV2:` format for service accounts.<br />Return a list of ACLs that match the search criteria.</td>
 </tr>
 <tr>
     <td><a href="#create_kafka_acls"><CopyableCode code="create_kafka_acls" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-resource_type"><code>resource_type</code></a>, <a href="#parameter-resource_name"><code>resource_name</code></a>, <a href="#parameter-pattern_type"><code>pattern_type</code></a>, <a href="#parameter-principal"><code>principal</code></a>, <a href="#parameter-host"><code>host</code></a>, <a href="#parameter-operation"><code>operation</code></a>, <a href="#parameter-permission"><code>permission</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-resource_type"><code>resource_type</code></a>, <a href="#parameter-resource_name"><code>resource_name</code></a>, <a href="#parameter-pattern_type"><code>pattern_type</code></a>, <a href="#parameter-principal"><code>principal</code></a>, <a href="#parameter-host"><code>host</code></a>, <a href="#parameter-operation"><code>operation</code></a>, <a href="#parameter-permission"><code>permission</code></a></td>
     <td></td>
     <td>Create an ACL.</td>
 </tr>
 <tr>
     <td><a href="#delete_kafka_acls"><CopyableCode code="delete_kafka_acls" /></a></td>
     <td><CopyableCode code="delete" /></td>
-    <td><a href="#parameter-resource_type"><code>resource_type</code></a>, <a href="#parameter-pattern_type"><code>pattern_type</code></a>, <a href="#parameter-operation"><code>operation</code></a>, <a href="#parameter-permission"><code>permission</code></a></td>
+    <td><a href="#parameter-resource_type"><code>resource_type</code></a>, <a href="#parameter-pattern_type"><code>pattern_type</code></a>, <a href="#parameter-operation"><code>operation</code></a>, <a href="#parameter-permission"><code>permission</code></a>, <a href="#parameter-cluster_id"><code>cluster_id</code></a></td>
     <td><a href="#parameter-resource_name"><code>resource_name</code></a>, <a href="#parameter-principal"><code>principal</code></a>, <a href="#parameter-host"><code>host</code></a></td>
     <td>Delete the ACLs that match the search criteria.</td>
 </tr>
 <tr>
     <td><a href="#batch_create_kafka_acls"><CopyableCode code="batch_create_kafka_acls" /></a></td>
     <td><CopyableCode code="exec" /></td>
-    <td><a href="#parameter-data"><code>data</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-data"><code>data</code></a></td>
     <td></td>
     <td>Create ACLs.</td>
 </tr>
@@ -130,6 +130,11 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cluster_id">
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td>The Kafka cluster ID. (example: cluster-1)</td>
+</tr>
 <tr id="parameter-operation">
     <td><CopyableCode code="operation" /></td>
     <td><code>string</code></td>
@@ -206,7 +211,8 @@ data,
 kind,
 metadata
 FROM confluent.kafka.acls
-WHERE resource_type = '{{ resource_type }}'
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND resource_type = '{{ resource_type }}'
 AND resource_name = '{{ resource_name }}'
 AND pattern_type = '{{ pattern_type }}'
 AND principal = '{{ principal }}'
@@ -240,7 +246,8 @@ pattern_type,
 principal,
 host,
 operation,
-permission
+permission,
+cluster_id
 )
 SELECT 
 '{{ resource_type }}' /* required */,
@@ -249,7 +256,8 @@ SELECT
 '{{ principal }}' /* required */,
 '{{ host }}' /* required */,
 '{{ operation }}' /* required */,
-'{{ permission }}' /* required */
+'{{ permission }}' /* required */,
+'{{ cluster_id }}'
 ;
 ```
 </TabItem>
@@ -258,6 +266,9 @@ SELECT
 <CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: acls
   props:
+    - name: cluster_id
+      value: "{{ cluster_id }}"
+      description: Required parameter for the acls resource.
     - name: resource_type
       value: "{{ resource_type }}"
       valid_values: ['UNKNOWN', 'ANY', 'TOPIC', 'GROUP', 'CLUSTER', 'TRANSACTIONAL_ID', 'DELEGATION_TOKEN']
@@ -297,6 +308,7 @@ WHERE resource_type = '{{ resource_type }}' --required
 AND pattern_type = '{{ pattern_type }}' --required
 AND operation = '{{ operation }}' --required
 AND permission = '{{ permission }}' --required
+AND cluster_id = '{{ cluster_id }}' --required
 AND resource_name = '{{ resource_name }}'
 AND principal = '{{ principal }}'
 AND host = '{{ host }}'
@@ -320,6 +332,7 @@ Create ACLs.
 
 ```sql
 EXEC confluent.kafka.acls.batch_create_kafka_acls 
+@cluster_id='{{ cluster_id }}' --required 
 @@json=
 '{
 "data": "{{ data }}"
