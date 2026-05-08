@@ -1,4 +1,4 @@
----
+--- 
 title: types
 hide_title: false
 hide_table_of_contents: false
@@ -15,6 +15,7 @@ image: /img/stackql-confluent-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,29 +23,97 @@ Creates, updates, deletes, gets or lists a <code>types</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>types</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="types" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="confluent.schema_registry.types" /></td></tr>
 </tbody></table>
 
 ## Fields
-| Name | Datatype | Description |
-|:-----|:---------|:------------|
-| <CopyableCode code="column_anon" /> | `string` |  |
+
+The following fields are returned by `SELECT` queries:
+
+<Tabs
+    defaultValue="get_schema_types"
+    values={[
+        { label: 'get_schema_types', value: 'get_schema_types' }
+    ]}
+>
+<TabItem value="get_schema_types">
+
+List of supported schema types.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</TabItem>
+</Tabs>
 
 ## Methods
-| Name | Accessible by | Required Params | Description |
-|:-----|:--------------|:----------------|:------------|
-| <CopyableCode code="get_schema_types" /> | `SELECT` | <CopyableCode code="" /> | Retrieve the schema types supported by this registry. |
+
+The following methods are available for this resource:
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Accessible by</th>
+    <th>Required Params</th>
+    <th>Optional Params</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><a href="#get_schema_types"><CopyableCode code="get_schema_types" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td></td>
+    <td></td>
+    <td>Retrieve the schema types supported by this registry.</td>
+</tr>
+</tbody>
+</table>
+
+## Parameters
+
+Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#methods) section to see which parameters are required or optional for each operation.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+</tbody>
+</table>
 
 ## `SELECT` examples
 
-Retrieve the schema types supported by this registry.
+<Tabs
+    defaultValue="get_schema_types"
+    values={[
+        { label: 'get_schema_types', value: 'get_schema_types' }
+    ]}
+>
+<TabItem value="get_schema_types">
 
+Retrieve the schema types supported by this registry.
 
 ```sql
 SELECT
-column_anon
+*
 FROM confluent.schema_registry.types
 ;
 ```
+</TabItem>
+</Tabs>

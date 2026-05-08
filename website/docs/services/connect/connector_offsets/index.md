@@ -1,4 +1,4 @@
----
+--- 
 title: connector_offsets
 hide_title: false
 hide_table_of_contents: false
@@ -15,6 +15,7 @@ image: /img/stackql-confluent-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,28 +23,111 @@ Creates, updates, deletes, gets or lists a <code>connector_offsets</code> resour
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>connector_offsets</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="connector_offsets" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="confluent.connect.connector_offsets" /></td></tr>
 </tbody></table>
 
 ## Fields
-| Name | Datatype | Description |
-|:-----|:---------|:------------|
-| <CopyableCode code="id" /> | `string` | The ID of the connector. |
-| <CopyableCode code="name" /> | `string` | The name of the connector. |
-| <CopyableCode code="metadata" /> | `object` | Metadata of the connector offset. |
-| <CopyableCode code="offsets" /> | `array` | Array of offsets which are categorised into partitions. |
+
+The following fields are returned by `SELECT` queries:
+
+<Tabs
+    defaultValue="get_connectv1_connector_offsets"
+    values={[
+        { label: 'get_connectv1_connector_offsets', value: 'get_connectv1_connector_offsets' }
+    ]}
+>
+<TabItem value="get_connectv1_connector_offsets">
+
+Connector Offsets.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><CopyableCode code="id" /></td>
+    <td><code>string</code></td>
+    <td>The ID of the connector.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="name" /></td>
+    <td><code>string</code></td>
+    <td>The name of the connector.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="metadata" /></td>
+    <td><code>object</code></td>
+    <td>Metadata of the connector offset.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="offsets" /></td>
+    <td><code>array</code></td>
+    <td>Array of offsets which are categorised into partitions.</td>
+</tr>
+</tbody>
+</table>
+</TabItem>
+</Tabs>
 
 ## Methods
-| Name | Accessible by | Required Params | Description |
-|:-----|:--------------|:----------------|:------------|
-| <CopyableCode code="get_connectv1connector_offsets" /> | `SELECT` | <CopyableCode code="connector_name, environment_id, kafka_cluster_id" /> | [![General Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Get the current offsets for the connector. The offsets provide information on the point in the source system, from which the connector is pulling in data. The offsets of a connector are continuously observed periodically and are queryable via this API. |
+
+The following methods are available for this resource:
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Accessible by</th>
+    <th>Required Params</th>
+    <th>Optional Params</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><a href="#get_connectv1_connector_offsets"><CopyableCode code="get_connectv1_connector_offsets" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td></td>
+    <td></td>
+    <td>Get the current offsets for the connector. The offsets provide information on the point in the source system, <br />from which the connector is pulling in data. The offsets of a connector are continuously observed periodically and are queryable via this API.</td>
+</tr>
+</tbody>
+</table>
+
+## Parameters
+
+Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#methods) section to see which parameters are required or optional for each operation.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+</tbody>
+</table>
 
 ## `SELECT` examples
 
-[![General Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Get the current offsets for the connector. The offsets provide information on the point in the source system, from which the connector is pulling in data. The offsets of a connector are continuously observed periodically and are queryable via this API.
+<Tabs
+    defaultValue="get_connectv1_connector_offsets"
+    values={[
+        { label: 'get_connectv1_connector_offsets', value: 'get_connectv1_connector_offsets' }
+    ]}
+>
+<TabItem value="get_connectv1_connector_offsets">
 
+Get the current offsets for the connector. The offsets provide information on the point in the source system, <br />from which the connector is pulling in data. The offsets of a connector are continuously observed periodically and are queryable via this API.
 
 ```sql
 SELECT
@@ -52,7 +136,7 @@ name,
 metadata,
 offsets
 FROM confluent.connect.connector_offsets
-WHERE connector_name = '{{ connector_name }}'
-AND environment_id = '{{ environment_id }}'
-AND kafka_cluster_id = '{{ kafka_cluster_id }}';
+;
 ```
+</TabItem>
+</Tabs>

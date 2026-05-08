@@ -1,4 +1,4 @@
----
+--- 
 title: private_link_accesses
 hide_title: false
 hide_table_of_contents: false
@@ -15,6 +15,7 @@ image: /img/stackql-confluent-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,109 +23,384 @@ Creates, updates, deletes, gets or lists a <code>private_link_accesses</code> re
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>private_link_accesses</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="private_link_accesses" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="confluent.networking.private_link_accesses" /></td></tr>
 </tbody></table>
 
 ## Fields
-| Name | Datatype | Description |
-|:-----|:---------|:------------|
-| <CopyableCode code="id" /> | `string` | ID is the "natural identifier" for an object within its scope/namespace; it is normally unique across time but not space. That is, you can assume that the ID will not be reclaimed and reused after an object is deleted ("time"); however, it may collide with IDs for other object `kinds` or objects of the same `kind` within a different scope/namespace ("space"). |
-| <CopyableCode code="_spec" /> | `object` |  |
-| <CopyableCode code="api_version" /> | `string` | APIVersion defines the schema version of this representation of a resource. |
-| <CopyableCode code="kind" /> | `string` | Kind defines the object this REST resource represents. |
-| <CopyableCode code="metadata" /> | `` | ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create. |
-| <CopyableCode code="spec" /> | `object` | The desired state of the Private Link Access |
-| <CopyableCode code="status" /> | `object` | The status of the Private Link Access |
+
+The following fields are returned by `SELECT` queries:
+
+<Tabs
+    defaultValue="get_networking_v1_private_link_access"
+    values={[
+        { label: 'get_networking_v1_private_link_access', value: 'get_networking_v1_private_link_access' },
+        { label: 'list_networking_v1_private_link_accesses', value: 'list_networking_v1_private_link_accesses' }
+    ]}
+>
+<TabItem value="get_networking_v1_private_link_access">
+
+Private Link Access.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><CopyableCode code="id" /></td>
+    <td><code>string</code></td>
+    <td>ID is the "natural identifier" for an object within its scope/namespace; it is normally unique across time but not space. That is, you can assume that the ID will not be reclaimed and reused after an object is deleted ("time"); however, it may collide with IDs for other object `kinds` or objects of the same `kind` within a different scope/namespace ("space"). (example: dlz-f3a90de)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="api_version" /></td>
+    <td><code>string</code></td>
+    <td>APIVersion defines the schema version of this representation of a resource. (networking/v1)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="kind" /></td>
+    <td><code>string</code></td>
+    <td>Kind defines the object this REST resource represents. (PrivateLinkAccess)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="metadata" /></td>
+    <td><code>object</code></td>
+    <td>ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="spec" /></td>
+    <td><code>object</code></td>
+    <td>The desired state of the Private Link Access</td>
+</tr>
+<tr>
+    <td><CopyableCode code="status" /></td>
+    <td><code>object</code></td>
+    <td>The status of the Private Link Access</td>
+</tr>
+</tbody>
+</table>
+</TabItem>
+<TabItem value="list_networking_v1_private_link_accesses">
+
+Private Link Access.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><CopyableCode code="id" /></td>
+    <td><code>string</code></td>
+    <td>ID is the "natural identifier" for an object within its scope/namespace; it is normally unique across time but not space. That is, you can assume that the ID will not be reclaimed and reused after an object is deleted ("time"); however, it may collide with IDs for other object `kinds` or objects of the same `kind` within a different scope/namespace ("space"). (example: dlz-f3a90de)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="api_version" /></td>
+    <td><code>string</code></td>
+    <td>APIVersion defines the schema version of this representation of a resource. (networking/v1)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="kind" /></td>
+    <td><code>string</code></td>
+    <td>Kind defines the object this REST resource represents. (PrivateLinkAccess)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="metadata" /></td>
+    <td><code>object</code></td>
+    <td>ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="spec" /></td>
+    <td><code>object</code></td>
+    <td>The desired state of the Private Link Access</td>
+</tr>
+<tr>
+    <td><CopyableCode code="status" /></td>
+    <td><code>object</code></td>
+    <td>The status of the Private Link Access</td>
+</tr>
+</tbody>
+</table>
+</TabItem>
+</Tabs>
 
 ## Methods
-| Name | Accessible by | Required Params | Description |
-|:-----|:--------------|:----------------|:------------|
-| <CopyableCode code="get_networking_v1private_link_access" /> | `SELECT` | <CopyableCode code="environment, id" /> | [![General Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Make a request to read a private link access. |
-| <CopyableCode code="list_networking_v1private_link_accesses" /> | `SELECT` | <CopyableCode code="environment" /> | [![General Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Retrieve a sorted, filtered, paginated list of all private link accesses. |
-| <CopyableCode code="create_networking_v1private_link_access" /> | `INSERT` | <CopyableCode code="" /> | [![General Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Make a request to create a private link access. |
-| <CopyableCode code="delete_networking_v1private_link_access" /> | `DELETE` | <CopyableCode code="environment, id" /> | [![General Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Make a request to delete a private link access. |
-| <CopyableCode code="update_networking_v1private_link_access" /> | `UPDATE` | <CopyableCode code="id" /> | [![General Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Make a request to update a private link access. |
+
+The following methods are available for this resource:
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Accessible by</th>
+    <th>Required Params</th>
+    <th>Optional Params</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><a href="#get_networking_v1_private_link_access"><CopyableCode code="get_networking_v1_private_link_access" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td><a href="#parameter-environment"><code>environment</code></a>, <a href="#parameter-id"><code>id</code></a></td>
+    <td></td>
+    <td>Make a request to read a private link access.</td>
+</tr>
+<tr>
+    <td><a href="#list_networking_v1_private_link_accesses"><CopyableCode code="list_networking_v1_private_link_accesses" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td><a href="#parameter-environment"><code>environment</code></a></td>
+    <td><a href="#parameter-spec.display_name"><code>spec.display_name</code></a>, <a href="#parameter-status.phase"><code>status.phase</code></a>, <a href="#parameter-spec.network"><code>spec.network</code></a>, <a href="#parameter-page_size"><code>page_size</code></a>, <a href="#parameter-page_token"><code>page_token</code></a></td>
+    <td>Retrieve a sorted, filtered, paginated list of all private link accesses.</td>
+</tr>
+<tr>
+    <td><a href="#create_networking_v1_private_link_access"><CopyableCode code="create_networking_v1_private_link_access" /></a></td>
+    <td><CopyableCode code="insert" /></td>
+    <td><a href="#parameter-spec"><code>spec</code></a></td>
+    <td></td>
+    <td>Make a request to create a private link access.</td>
+</tr>
+<tr>
+    <td><a href="#update_networking_v1_private_link_access"><CopyableCode code="update_networking_v1_private_link_access" /></a></td>
+    <td><CopyableCode code="update" /></td>
+    <td><a href="#parameter-id"><code>id</code></a>, <a href="#parameter-spec"><code>spec</code></a></td>
+    <td></td>
+    <td>Make a request to update a private link access.<br /><br /></td>
+</tr>
+<tr>
+    <td><a href="#delete_networking_v1_private_link_access"><CopyableCode code="delete_networking_v1_private_link_access" /></a></td>
+    <td><CopyableCode code="delete" /></td>
+    <td><a href="#parameter-environment"><code>environment</code></a>, <a href="#parameter-id"><code>id</code></a></td>
+    <td></td>
+    <td>Make a request to delete a private link access.</td>
+</tr>
+</tbody>
+</table>
+
+## Parameters
+
+Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#methods) section to see which parameters are required or optional for each operation.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr id="parameter-environment">
+    <td><CopyableCode code="environment" /></td>
+    <td><code>string</code></td>
+    <td>Scope the operation to the given environment. (example: env-00000)</td>
+</tr>
+<tr id="parameter-id">
+    <td><CopyableCode code="id" /></td>
+    <td><code>string</code></td>
+    <td>The unique identifier for the private link access.</td>
+</tr>
+<tr id="parameter-page_size">
+    <td><CopyableCode code="page_size" /></td>
+    <td><code>integer</code></td>
+    <td>A pagination size for collection requests.</td>
+</tr>
+<tr id="parameter-page_token">
+    <td><CopyableCode code="page_token" /></td>
+    <td><code>string</code></td>
+    <td>An opaque pagination token for collection requests.</td>
+</tr>
+<tr id="parameter-spec.display_name">
+    <td><CopyableCode code="spec.display_name" /></td>
+    <td><code>array</code></td>
+    <td>Filter the results by exact match for spec.display_name. Pass multiple times to see results matching any of the values. (example: [prod-pl-use1, prod-pl-usw2])</td>
+</tr>
+<tr id="parameter-spec.network">
+    <td><CopyableCode code="spec.network" /></td>
+    <td><code>array</code></td>
+    <td>Filter the results by exact match for spec.network. Pass multiple times to see results matching any of the values. (example: [n-00000, n-00001])</td>
+</tr>
+<tr id="parameter-status.phase">
+    <td><CopyableCode code="status.phase" /></td>
+    <td><code>array</code></td>
+    <td>Filter the results by exact match for status.phase. Pass multiple times to see results matching any of the values. (example: [PROVISIONING, READY])</td>
+</tr>
+</tbody>
+</table>
 
 ## `SELECT` examples
 
-[![General Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Retrieve a sorted, filtered, paginated list of all private link accesses.
+<Tabs
+    defaultValue="get_networking_v1_private_link_access"
+    values={[
+        { label: 'get_networking_v1_private_link_access', value: 'get_networking_v1_private_link_access' },
+        { label: 'list_networking_v1_private_link_accesses', value: 'list_networking_v1_private_link_accesses' }
+    ]}
+>
+<TabItem value="get_networking_v1_private_link_access">
 
+Make a request to read a private link access.
 
 ```sql
 SELECT
 id,
-_spec,
 api_version,
 kind,
 metadata,
 spec,
 status
 FROM confluent.networking.private_link_accesses
-WHERE environment = '{{ environment }}';
-```
-## `INSERT` example
-
-Use the following StackQL query and manifest file to create a new <code>private_link_accesses</code> resource.
-
-<Tabs
-    defaultValue="all"
-    values={[
-        
-        { label: 'All Properties', value: 'all', },
-        { label: 'Manifest', value: 'manifest', },
-    ]
-}>
-<TabItem value="all">
-
-```sql
-/*+ create */
-INSERT INTO confluent.networking.private_link_accesses (
-data__spec
-)
-SELECT 
-'{{ spec }}'
+WHERE environment = '{{ environment }}' -- required
+AND id = '{{ id }}' -- required
 ;
 ```
 </TabItem>
+<TabItem value="list_networking_v1_private_link_accesses">
 
-<TabItem value="manifest">
+Retrieve a sorted, filtered, paginated list of all private link accesses.
 
-```yaml
-- name: private_link_accesses
-  props:
-    - name: spec
-      props:
-        - name: environment
-          value: string
-        - name: network
-          value: string
-
+```sql
+SELECT
+id,
+api_version,
+kind,
+metadata,
+spec,
+status
+FROM confluent.networking.private_link_accesses
+WHERE environment = '{{ environment }}' -- required
+AND spec.display_name = '{{ spec.display_name }}'
+AND status.phase = '{{ status.phase }}'
+AND spec.network = '{{ spec.network }}'
+AND page_size = '{{ page_size }}'
+AND page_token = '{{ page_token }}'
+;
 ```
 </TabItem>
 </Tabs>
 
-## `UPDATE` example
 
-Updates a <code>private_link_accesses</code> resource.
+## `INSERT` examples
+
+<Tabs
+    defaultValue="create_networking_v1_private_link_access"
+    values={[
+        { label: 'create_networking_v1_private_link_access', value: 'create_networking_v1_private_link_access' },
+        { label: 'Manifest', value: 'manifest' }
+    ]}
+>
+<TabItem value="create_networking_v1_private_link_access">
+
+Make a request to create a private link access.
 
 ```sql
-/*+ update */
+INSERT INTO confluent.networking.private_link_accesses (
+spec
+)
+SELECT 
+'{{ spec }}' /* required */
+RETURNING
+id,
+api_version,
+kind,
+metadata,
+spec,
+status
+;
+```
+</TabItem>
+<TabItem value="manifest">
+
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
+- name: private_link_accesses
+  props:
+    - name: spec
+      description: |
+        The desired state of the Private Link Access
+      value:
+        display_name: "{{ display_name }}"
+        cloud:
+          kind: "{{ kind }}"
+          account: "{{ account }}"
+          subscription: "{{ subscription }}"
+          project: "{{ project }}"
+        environment:
+          id: "{{ id }}"
+          environment: "{{ environment }}"
+          related: "{{ related }}"
+          resource_name: "{{ resource_name }}"
+          api_version: "{{ api_version }}"
+          kind: "{{ kind }}"
+        network:
+          id: "{{ id }}"
+          environment: "{{ environment }}"
+          related: "{{ related }}"
+          resource_name: "{{ resource_name }}"
+          api_version: "{{ api_version }}"
+          kind: "{{ kind }}"
+`}</CodeBlock>
+
+</TabItem>
+</Tabs>
+
+
+## `UPDATE` examples
+
+<Tabs
+    defaultValue="update_networking_v1_private_link_access"
+    values={[
+        { label: 'update_networking_v1_private_link_access', value: 'update_networking_v1_private_link_access' }
+    ]}
+>
+<TabItem value="update_networking_v1_private_link_access">
+
+Make a request to update a private link access.<br /><br />
+
+```sql
 UPDATE confluent.networking.private_link_accesses
 SET 
 spec = '{{ spec }}'
 WHERE 
-id = '{{ id }}';
+id = '{{ id }}' --required
+AND spec = '{{ spec }}' --required
+RETURNING
+id,
+api_version,
+kind,
+metadata,
+spec,
+status;
 ```
+</TabItem>
+</Tabs>
 
-## `DELETE` example
 
-Deletes the specified <code>private_link_accesses</code> resource.
+## `DELETE` examples
+
+<Tabs
+    defaultValue="delete_networking_v1_private_link_access"
+    values={[
+        { label: 'delete_networking_v1_private_link_access', value: 'delete_networking_v1_private_link_access' }
+    ]}
+>
+<TabItem value="delete_networking_v1_private_link_access">
+
+Make a request to delete a private link access.
 
 ```sql
-/*+ delete */
 DELETE FROM confluent.networking.private_link_accesses
-WHERE environment = '{{ environment }}'
-AND id = '{{ id }}';
+WHERE environment = '{{ environment }}' --required
+AND id = '{{ id }}' --required
+;
 ```
+</TabItem>
+</Tabs>

@@ -1,0 +1,1070 @@
+openapi: 3.0.0
+info:
+  title: billing API
+  description: confluent billing API
+  version: 1.0.0
+paths:
+  /billing/v1/costs:
+    get:
+      x-lifecycle-stage: General Availability
+      x-self-access: true
+      operationId: listBillingV1Costs
+      summary: List of Costs
+      description: >-
+        [![General
+        Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy)
+
+
+        Retrieve a sorted, filtered, paginated list of all costs.
+      parameters:
+        - name: start_date
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          example: '2022-10-12'
+          description: Filter the results by exact match for start_date.
+        - name: end_date
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          example: '2022-10-15'
+          description: Filter the results by exact match for end_date.
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 5000
+            maximum: 10000
+            x-max-page-items: 500
+          description: A pagination size for collection requests.
+        - name: page_token
+          in: query
+          required: false
+          schema:
+            type: string
+            maxLength: 255
+          description: An opaque pagination token for collection requests.
+      tags:
+        - Costs (billing/v1)
+      security:
+        - cloud-api-key: []
+        - confluent-sts-access-token: []
+      responses:
+        '200':
+          description: Cost.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: >-
+                  `Cost` objects represent the aggregated billing costs for an
+                  organization
+
+
+
+                  Related guide: [Retrieve costs for a range of
+                  dates](https://docs.confluent.io/cloud/current/billing/overview.html#retrieve-costs-for-a-range-of-dates).
+
+
+                  ## The Costs Model
+
+                  <SchemaDefinition
+                  schemaRef="#/components/schemas/billing.v1.Cost" />
+                required:
+                  - api_version
+                  - kind
+                  - metadata
+                  - data
+                properties:
+                  api_version:
+                    type: string
+                    enum:
+                      - billing/v1
+                    description: >-
+                      APIVersion defines the schema version of this
+                      representation of a resource.
+                    readOnly: true
+                  kind:
+                    type: string
+                    description: Kind defines the object this REST resource represents.
+                    readOnly: true
+                    enum:
+                      - CostList
+                  metadata:
+                    type: object
+                    description: >-
+                      CostListMeta describes metadata that resource collections
+                      may have
+                    properties:
+                      next:
+                        description: >-
+                          A link to the next page of results. If a response does
+                          not contain a next link, then there is no more data
+                          available.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: >-
+                          https://api.confluent.cloud/v2/resourcekinds?page_token=UvmDWOB1iwfAIBPj6EYb
+                  data:
+                    type: array
+                    description: >-
+                      A data property that contains an array of resource items.
+                      Each entry in the array is a separate resource.
+                    items:
+                      type: object
+                      description: >-
+                        `Cost` objects represent the aggregated billing costs
+                        for an organization
+
+
+
+                        Related guide: [Retrieve costs for a range of
+                        dates](https://docs.confluent.io/cloud/current/billing/overview.html#retrieve-costs-for-a-range-of-dates).
+
+
+                        ## The Costs Model
+
+                        <SchemaDefinition
+                        schemaRef="#/components/schemas/billing.v1.Cost" />
+                      properties:
+                        api_version:
+                          type: string
+                          enum:
+                            - billing/v1
+                          description: >-
+                            APIVersion defines the schema version of this
+                            representation of a resource.
+                          readOnly: true
+                        kind:
+                          type: string
+                          description: >-
+                            Kind defines the object this REST resource
+                            represents.
+                          readOnly: true
+                          enum:
+                            - Cost
+                        id:
+                          description: >-
+                            ID is the "natural identifier" for an object within
+                            its scope/namespace; it is normally unique across
+                            time but not space. That is, you can assume that the
+                            ID will not be reclaimed and reused after an object
+                            is deleted ("time"); however, it may collide with
+                            IDs for other object `kinds` or objects of the same
+                            `kind` within a different scope/namespace ("space").
+                          type: string
+                          maxLength: 255
+                          readOnly: true
+                          example: dlz-f3a90de
+                        start_date:
+                          type: string
+                          format: date
+                          example: '2022-10-12'
+                          description: >-
+                            Start date of time period (inclusive) to retrieve
+                            billing costs. It is represented in RFC3339 format
+                            and is in UTC.
+                        end_date:
+                          type: string
+                          format: date
+                          example: '2022-10-15'
+                          description: >-
+                            End date of time period (exclusive) to retrieve
+                            billing costs. It is represented in RFC3339 format
+                            and is in UTC.
+                        granularity:
+                          type: string
+                          x-extensible-enum:
+                            - DAILY
+                          default: DAILY
+                          description: Granularity at which each line item is aggregated.
+                        network_access_type:
+                          type: string
+                          x-extensible-enum:
+                            - INTERNET
+                            - TRANSIT_GATEWAY
+                            - PRIVATE_LINK
+                            - PEERED_VPC
+                            - PNI
+                            - MULTI
+                          example: INTERNET
+                          description: Network access type for the cluster.
+                        product:
+                          type: string
+                          x-extensible-enum:
+                            - KAFKA
+                            - CONNECT
+                            - KSQL
+                            - AUDIT_LOG
+                            - STREAM_GOVERNANCE
+                            - CLUSTER_LINK
+                            - CUSTOM_CONNECT
+                            - FLINK
+                            - TABLEFLOW
+                            - SUPPORT_CLOUD_BASIC
+                            - SUPPORT_CLOUD_DEVELOPER
+                            - SUPPORT_CLOUD_BUSINESS
+                            - SUPPORT_CLOUD_PREMIER
+                            - USM
+                          example: KAFKA
+                          description: Product name.
+                        line_type:
+                          type: string
+                          x-extensible-enum:
+                            - KAFKA_STORAGE
+                            - KAFKA_PARTITION
+                            - KAFKA_NETWORK_READ
+                            - KAFKA_NETWORK_WRITE
+                            - KAFKA_BASE
+                            - KAFKA_NUM_CKUS
+                            - KAFKA_REST_PRODUCE
+                            - KSQL_NUM_CSUS
+                            - CONNECT_CAPACITY
+                            - CONNECT_NUM_TASKS
+                            - CONNECT_THROUGHPUT
+                            - CONNECT_NUM_RECORDS
+                            - SUPPORT
+                            - CLUSTER_LINKING_PER_LINK
+                            - CLUSTER_LINKING_WRITE
+                            - CLUSTER_LINKING_READ
+                            - AUDIT_LOG_READ
+                            - GOVERNANCE_BASE
+                            - SCHEMA_REGISTRY
+                            - PROMO_CREDIT
+                            - CUSTOM_CONNECT_NUM_TASKS
+                            - CUSTOM_CONNECT_THROUGHPUT
+                            - NUM_RULES
+                            - FLINK_NUM_CFUS
+                            - TABLEFLOW_DATA_PROCESSED
+                            - TABLEFLOW_NUM_TOPICS
+                            - TABLEFLOW_STORAGE
+                            - USM_CONNECTED_NODE
+                            - KAFKA_STREAMS
+                          example: KAFKA_NUM_CKUS
+                          description: Type of the line item.
+                        price:
+                          type: number
+                          format: double
+                          example: 1.5
+                          description: Price for the line item in dollars.
+                        unit:
+                          type: string
+                          example: GB
+                          description: Unit of the line item.
+                        quantity:
+                          type: number
+                          format: double
+                          example: 99.9
+                          description: Quantity of the line item.
+                        original_amount:
+                          type: number
+                          format: double
+                          example: 149.85
+                          description: Original amount accrued for this line item.
+                        discount_amount:
+                          type: number
+                          format: double
+                          example: 20.85
+                          description: >-
+                            Amount discounted from the original amount in
+                            dollars.
+                        amount:
+                          type: number
+                          format: double
+                          example: 129
+                          description: Final amount after deducting discounts.
+                        description:
+                          type: string
+                          example: KAFKA101
+                          description: Additional details about promotional offers/credits.
+                        tier_dimensions:
+                          type: object
+                          additionalProperties:
+                            type: string
+                          description: >-
+                            Tier dimensions which exist for tiered pricing cost
+                            items only.
+                          x-go-type: map[string]string
+                          example:
+                            provider: aws
+                            region: us-east-1
+                            connector_type: BigQuerySink
+                        resource:
+                          description: The resource for a given object
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              description: ID of the resource.
+                              example: lkc-12345
+                            display_name:
+                              type: string
+                              description: Display name of the resource.
+                              example: prod-kafka-cluster
+                            environment:
+                              description: The environment associated with this resource
+                              nullable: true
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                  description: ID of the environment.
+                                  example: env-123
+                      required:
+                        - id
+                        - start_date
+                        - end_date
+                        - unit
+                        - original_amount
+                    uniqueItems: true
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+              description: The unique identifier for the API request.
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+              description: >-
+                The maximum number of requests you're permitted to make per time
+                period.
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: >-
+                The number of requests remaining in the current rate limit
+                window.
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: >-
+                The relative time in seconds until the current rate-limit window
+                resets.  
+                  
+                **Important:** This differs from Github and Twitter's same-named
+                header which uses UTC epoch seconds. We use relative time to
+                avoid client/server time synchronization issues.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthenticatedError'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/DefaultSystemError'
+    x-lifecycle-stage: General Availability
+    x-self-access: true
+components:
+  schemas:
+    SearchFilter:
+      description: Filter a collection by a string search
+      type: string
+    billing.v1.CostList:
+      type: object
+      description: >-
+        `Cost` objects represent the aggregated billing costs for an
+        organization
+
+
+
+        Related guide: [Retrieve costs for a range of
+        dates](https://docs.confluent.io/cloud/current/billing/overview.html#retrieve-costs-for-a-range-of-dates).
+
+
+        ## The Costs Model
+
+        <SchemaDefinition schemaRef="#/components/schemas/billing.v1.Cost" />
+      required:
+        - api_version
+        - kind
+        - metadata
+        - data
+      properties:
+        api_version:
+          type: string
+          enum:
+            - billing/v1
+          description: >-
+            APIVersion defines the schema version of this representation of a
+            resource.
+          readOnly: true
+        kind:
+          type: string
+          description: Kind defines the object this REST resource represents.
+          readOnly: true
+          enum:
+            - CostList
+        metadata:
+          type: object
+          description: CostListMeta describes metadata that resource collections may have
+          properties:
+            next:
+              description: >-
+                A link to the next page of results. If a response does not
+                contain a next link, then there is no more data available.
+              type: string
+              format: uri
+              nullable: true
+              example: >-
+                https://api.confluent.cloud/v2/resourcekinds?page_token=UvmDWOB1iwfAIBPj6EYb
+        data:
+          type: array
+          description: >-
+            A data property that contains an array of resource items. Each entry
+            in the array is a separate resource.
+          items:
+            type: object
+            description: >-
+              `Cost` objects represent the aggregated billing costs for an
+              organization
+
+
+
+              Related guide: [Retrieve costs for a range of
+              dates](https://docs.confluent.io/cloud/current/billing/overview.html#retrieve-costs-for-a-range-of-dates).
+
+
+              ## The Costs Model
+
+              <SchemaDefinition schemaRef="#/components/schemas/billing.v1.Cost"
+              />
+            properties:
+              api_version:
+                type: string
+                enum:
+                  - billing/v1
+                description: >-
+                  APIVersion defines the schema version of this representation
+                  of a resource.
+                readOnly: true
+              kind:
+                type: string
+                description: Kind defines the object this REST resource represents.
+                readOnly: true
+                enum:
+                  - Cost
+              id:
+                description: >-
+                  ID is the "natural identifier" for an object within its
+                  scope/namespace; it is normally unique across time but not
+                  space. That is, you can assume that the ID will not be
+                  reclaimed and reused after an object is deleted ("time");
+                  however, it may collide with IDs for other object `kinds` or
+                  objects of the same `kind` within a different scope/namespace
+                  ("space").
+                type: string
+                maxLength: 255
+                readOnly: true
+                example: dlz-f3a90de
+              start_date:
+                type: string
+                format: date
+                example: '2022-10-12'
+                description: >-
+                  Start date of time period (inclusive) to retrieve billing
+                  costs. It is represented in RFC3339 format and is in UTC.
+              end_date:
+                type: string
+                format: date
+                example: '2022-10-15'
+                description: >-
+                  End date of time period (exclusive) to retrieve billing costs.
+                  It is represented in RFC3339 format and is in UTC.
+              granularity:
+                type: string
+                x-extensible-enum:
+                  - DAILY
+                default: DAILY
+                description: Granularity at which each line item is aggregated.
+              network_access_type:
+                type: string
+                x-extensible-enum:
+                  - INTERNET
+                  - TRANSIT_GATEWAY
+                  - PRIVATE_LINK
+                  - PEERED_VPC
+                  - PNI
+                  - MULTI
+                example: INTERNET
+                description: Network access type for the cluster.
+              product:
+                type: string
+                x-extensible-enum:
+                  - KAFKA
+                  - CONNECT
+                  - KSQL
+                  - AUDIT_LOG
+                  - STREAM_GOVERNANCE
+                  - CLUSTER_LINK
+                  - CUSTOM_CONNECT
+                  - FLINK
+                  - TABLEFLOW
+                  - SUPPORT_CLOUD_BASIC
+                  - SUPPORT_CLOUD_DEVELOPER
+                  - SUPPORT_CLOUD_BUSINESS
+                  - SUPPORT_CLOUD_PREMIER
+                  - USM
+                example: KAFKA
+                description: Product name.
+              line_type:
+                type: string
+                x-extensible-enum:
+                  - KAFKA_STORAGE
+                  - KAFKA_PARTITION
+                  - KAFKA_NETWORK_READ
+                  - KAFKA_NETWORK_WRITE
+                  - KAFKA_BASE
+                  - KAFKA_NUM_CKUS
+                  - KAFKA_REST_PRODUCE
+                  - KSQL_NUM_CSUS
+                  - CONNECT_CAPACITY
+                  - CONNECT_NUM_TASKS
+                  - CONNECT_THROUGHPUT
+                  - CONNECT_NUM_RECORDS
+                  - SUPPORT
+                  - CLUSTER_LINKING_PER_LINK
+                  - CLUSTER_LINKING_WRITE
+                  - CLUSTER_LINKING_READ
+                  - AUDIT_LOG_READ
+                  - GOVERNANCE_BASE
+                  - SCHEMA_REGISTRY
+                  - PROMO_CREDIT
+                  - CUSTOM_CONNECT_NUM_TASKS
+                  - CUSTOM_CONNECT_THROUGHPUT
+                  - NUM_RULES
+                  - FLINK_NUM_CFUS
+                  - TABLEFLOW_DATA_PROCESSED
+                  - TABLEFLOW_NUM_TOPICS
+                  - TABLEFLOW_STORAGE
+                  - USM_CONNECTED_NODE
+                  - KAFKA_STREAMS
+                example: KAFKA_NUM_CKUS
+                description: Type of the line item.
+              price:
+                type: number
+                format: double
+                example: 1.5
+                description: Price for the line item in dollars.
+              unit:
+                type: string
+                example: GB
+                description: Unit of the line item.
+              quantity:
+                type: number
+                format: double
+                example: 99.9
+                description: Quantity of the line item.
+              original_amount:
+                type: number
+                format: double
+                example: 149.85
+                description: Original amount accrued for this line item.
+              discount_amount:
+                type: number
+                format: double
+                example: 20.85
+                description: Amount discounted from the original amount in dollars.
+              amount:
+                type: number
+                format: double
+                example: 129
+                description: Final amount after deducting discounts.
+              description:
+                type: string
+                example: KAFKA101
+                description: Additional details about promotional offers/credits.
+              tier_dimensions:
+                type: object
+                additionalProperties:
+                  type: string
+                description: >-
+                  Tier dimensions which exist for tiered pricing cost items
+                  only.
+                x-go-type: map[string]string
+                example:
+                  provider: aws
+                  region: us-east-1
+                  connector_type: BigQuerySink
+              resource:
+                description: The resource for a given object
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: ID of the resource.
+                    example: lkc-12345
+                  display_name:
+                    type: string
+                    description: Display name of the resource.
+                    example: prod-kafka-cluster
+                  environment:
+                    description: The environment associated with this resource
+                    nullable: true
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: ID of the environment.
+                        example: env-123
+            required:
+              - id
+              - start_date
+              - end_date
+              - unit
+              - original_amount
+          uniqueItems: true
+    CostListMeta:
+      type: object
+      description: CostListMeta describes metadata that resource collections may have
+      properties:
+        next:
+          description: >-
+            A link to the next page of results. If a response does not contain a
+            next link, then there is no more data available.
+          type: string
+          format: uri
+          nullable: true
+          example: >-
+            https://api.confluent.cloud/v2/resourcekinds?page_token=UvmDWOB1iwfAIBPj6EYb
+    billing.v1.Cost:
+      type: object
+      description: >-
+        `Cost` objects represent the aggregated billing costs for an
+        organization
+
+
+
+        Related guide: [Retrieve costs for a range of
+        dates](https://docs.confluent.io/cloud/current/billing/overview.html#retrieve-costs-for-a-range-of-dates).
+
+
+        ## The Costs Model
+
+        <SchemaDefinition schemaRef="#/components/schemas/billing.v1.Cost" />
+      properties:
+        api_version:
+          type: string
+          enum:
+            - billing/v1
+          description: >-
+            APIVersion defines the schema version of this representation of a
+            resource.
+          readOnly: true
+        kind:
+          type: string
+          description: Kind defines the object this REST resource represents.
+          readOnly: true
+          enum:
+            - Cost
+        id:
+          description: >-
+            ID is the "natural identifier" for an object within its
+            scope/namespace; it is normally unique across time but not space.
+            That is, you can assume that the ID will not be reclaimed and reused
+            after an object is deleted ("time"); however, it may collide with
+            IDs for other object `kinds` or objects of the same `kind` within a
+            different scope/namespace ("space").
+          type: string
+          maxLength: 255
+          readOnly: true
+          example: dlz-f3a90de
+        start_date:
+          type: string
+          format: date
+          example: '2022-10-12'
+          description: >-
+            Start date of time period (inclusive) to retrieve billing costs. It
+            is represented in RFC3339 format and is in UTC.
+        end_date:
+          type: string
+          format: date
+          example: '2022-10-15'
+          description: >-
+            End date of time period (exclusive) to retrieve billing costs. It is
+            represented in RFC3339 format and is in UTC.
+        granularity:
+          type: string
+          x-extensible-enum:
+            - DAILY
+          default: DAILY
+          description: Granularity at which each line item is aggregated.
+        network_access_type:
+          type: string
+          x-extensible-enum:
+            - INTERNET
+            - TRANSIT_GATEWAY
+            - PRIVATE_LINK
+            - PEERED_VPC
+            - PNI
+            - MULTI
+          example: INTERNET
+          description: Network access type for the cluster.
+        product:
+          type: string
+          x-extensible-enum:
+            - KAFKA
+            - CONNECT
+            - KSQL
+            - AUDIT_LOG
+            - STREAM_GOVERNANCE
+            - CLUSTER_LINK
+            - CUSTOM_CONNECT
+            - FLINK
+            - TABLEFLOW
+            - SUPPORT_CLOUD_BASIC
+            - SUPPORT_CLOUD_DEVELOPER
+            - SUPPORT_CLOUD_BUSINESS
+            - SUPPORT_CLOUD_PREMIER
+            - USM
+          example: KAFKA
+          description: Product name.
+        line_type:
+          type: string
+          x-extensible-enum:
+            - KAFKA_STORAGE
+            - KAFKA_PARTITION
+            - KAFKA_NETWORK_READ
+            - KAFKA_NETWORK_WRITE
+            - KAFKA_BASE
+            - KAFKA_NUM_CKUS
+            - KAFKA_REST_PRODUCE
+            - KSQL_NUM_CSUS
+            - CONNECT_CAPACITY
+            - CONNECT_NUM_TASKS
+            - CONNECT_THROUGHPUT
+            - CONNECT_NUM_RECORDS
+            - SUPPORT
+            - CLUSTER_LINKING_PER_LINK
+            - CLUSTER_LINKING_WRITE
+            - CLUSTER_LINKING_READ
+            - AUDIT_LOG_READ
+            - GOVERNANCE_BASE
+            - SCHEMA_REGISTRY
+            - PROMO_CREDIT
+            - CUSTOM_CONNECT_NUM_TASKS
+            - CUSTOM_CONNECT_THROUGHPUT
+            - NUM_RULES
+            - FLINK_NUM_CFUS
+            - TABLEFLOW_DATA_PROCESSED
+            - TABLEFLOW_NUM_TOPICS
+            - TABLEFLOW_STORAGE
+            - USM_CONNECTED_NODE
+            - KAFKA_STREAMS
+          example: KAFKA_NUM_CKUS
+          description: Type of the line item.
+        price:
+          type: number
+          format: double
+          example: 1.5
+          description: Price for the line item in dollars.
+        unit:
+          type: string
+          example: GB
+          description: Unit of the line item.
+        quantity:
+          type: number
+          format: double
+          example: 99.9
+          description: Quantity of the line item.
+        original_amount:
+          type: number
+          format: double
+          example: 149.85
+          description: Original amount accrued for this line item.
+        discount_amount:
+          type: number
+          format: double
+          example: 20.85
+          description: Amount discounted from the original amount in dollars.
+        amount:
+          type: number
+          format: double
+          example: 129
+          description: Final amount after deducting discounts.
+        description:
+          type: string
+          example: KAFKA101
+          description: Additional details about promotional offers/credits.
+        tier_dimensions:
+          type: object
+          additionalProperties:
+            type: string
+          description: Tier dimensions which exist for tiered pricing cost items only.
+          x-go-type: map[string]string
+          example:
+            provider: aws
+            region: us-east-1
+            connector_type: BigQuerySink
+        resource:
+          description: The resource for a given object
+          type: object
+          properties:
+            id:
+              type: string
+              description: ID of the resource.
+              example: lkc-12345
+            display_name:
+              type: string
+              description: Display name of the resource.
+              example: prod-kafka-cluster
+            environment:
+              description: The environment associated with this resource
+              nullable: true
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID of the environment.
+                  example: env-123
+    Failure:
+      type: object
+      description: >-
+        Provides information about problems encountered while performing an
+        operation.
+      required:
+        - errors
+      properties:
+        errors:
+          description: List of errors which caused this operation to fail
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+          uniqueItems: true
+    billing.v1.Resource:
+      type: object
+      description: >
+        The resource associated with this object. The resource can be one of
+        Kafka Cluster ID (example: lkc-12345),
+
+        Connector ID (example:
+            lcc-12345), Schema Registry Cluster ID (example: lsrc-12345), or ksqlDB Cluster ID
+        (example: lksqlc-12345).
+
+        May be null or omitted if not associated with a resource.
+      properties:
+        id:
+          type: string
+          description: ID of the resource.
+          example: lkc-12345
+        display_name:
+          type: string
+          description: Display name of the resource.
+          example: prod-kafka-cluster
+        environment:
+          description: The environment associated with this resource
+          nullable: true
+          type: object
+          properties:
+            id:
+              type: string
+              description: ID of the environment.
+              example: env-123
+    Error:
+      type: object
+      description: Describes a particular error encountered while performing an operation.
+      properties:
+        id:
+          description: A unique identifier for this particular occurrence of the problem.
+          type: string
+          maxLength: 255
+        status:
+          description: >-
+            The HTTP status code applicable to this problem, expressed as a
+            string value.
+          type: string
+        code:
+          description: An application-specific error code, expressed as a string value.
+          type: string
+        title:
+          description: >-
+            A short, human-readable summary of the problem. It **SHOULD NOT**
+            change from occurrence to occurrence of the problem, except for
+            purposes of localization.
+          type: string
+        detail:
+          description: >-
+            A human-readable explanation specific to this occurrence of the
+            problem.
+          type: string
+        source:
+          type: object
+          description: >-
+            If this error was caused by a particular part of the API request,
+            the source will point to the query string parameter or request body
+            property that caused it.
+          properties:
+            pointer:
+              description: >-
+                A JSON Pointer [RFC6901] to the associated entity in the request
+                document [e.g. "/spec" for a spec object, or "/spec/title" for a
+                specific field].
+              type: string
+            parameter:
+              description: A string indicating which query parameter caused the error.
+              type: string
+        error_code:
+          type: integer
+          format: int32
+        message:
+          type: string
+          nullable: true
+      additionalProperties: false
+    billing.v1.Environment:
+      type: object
+      description: |
+        The details of the environment for a given resource.
+      properties:
+        id:
+          type: string
+          description: ID of the environment.
+          example: env-123
+  responses:
+    BadRequestError:
+      description: Bad Request
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                status: '400'
+                code: invalid_filter
+                title: Invalid Filter
+                detail: The 'delorean' resource can't be filtered by 'num_doors'
+                source:
+                  parameter: num_doors
+    UnauthenticatedError:
+      x-summary: Unauthorized
+      description: The request lacks valid authentication credentials for this resource.
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+        WWW-Authenticate:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+          example: >-
+            Basic error="invalid_key", error_description="The API Key is
+            invalid"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                status: '401'
+                code: user_unauthenticated
+                title: Authentication Required
+                detail: Valid authentication credentials must be provided
+    UnauthorizedError:
+      x-summary: Forbidden
+      description: The access credentials were considered insufficient to grant access
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                status: '403'
+                code: user_unauthorized
+                title: User Access Unauthorized
+                detail: >-
+                  The user 'mcfly' is not allowed to access the 'delorean'
+                  resource without the 'plutonium' role.
+    RateLimitError:
+      description: Rate Limit Exceeded
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+        X-RateLimit-Limit:
+          schema:
+            type: integer
+          description: >-
+            The maximum number of requests you're permitted to make per time
+            period.
+        X-RateLimit-Remaining:
+          schema:
+            type: integer
+          description: The number of requests remaining in the current rate limit window.
+        X-RateLimit-Reset:
+          schema:
+            type: integer
+          description: >-
+            The relative time in seconds until the current rate-limit window
+            resets.  
+              
+            **Important:** This differs from Github and Twitter's same-named
+            header which uses UTC epoch seconds. We use relative time to avoid
+            client/server time synchronization issues.
+        Retry-After:
+          schema:
+            type: integer
+          description: >-
+            The number of seconds to wait until the rate limit window resets.
+            Only sent when the rate limit is reached.
+    DefaultSystemError:
+      description: Oops, something went wrong!
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                status: '500'
+                code: out_of_gas
+                title: DeLorean Out Of Gas
+                detail: >-
+                  The DeLorean has run out of gas, but Doc Brown will fill 'er
+                  up for you asap
+  x-stackQL-resources:
+    costs:
+      id: confluent.billing.costs
+      name: costs
+      title: Costs
+      methods:
+        list_billing_v1_costs:
+          operation:
+            $ref: '#/paths/~1billing~1v1~1costs/get'
+          response:
+            mediaType: application/json
+            openAPIDocKey: '200'
+            objectKey: $.data
+      sqlVerbs:
+        select:
+          - $ref: >-
+              #/components/x-stackQL-resources/costs/methods/list_billing_v1_costs
+        insert: []
+        update: []
+        delete: []
+        replace: []
+servers:
+  - url: https://api.confluent.cloud

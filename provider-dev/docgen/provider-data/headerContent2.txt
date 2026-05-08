@@ -1,41 +1,43 @@
-See also:   
+See also:
 [[` SHOW `]](https://stackql.io/docs/language-spec/show) [[` DESCRIBE `]](https://stackql.io/docs/language-spec/describe)  [[` REGISTRY `]](https://stackql.io/docs/language-spec/registry)
-* * * 
+* * *
 
 ## Installation
 
-To pull the latest version of the `REPLACEME` provider, run the following command:  
+To pull the latest version of the `confluent` provider, run the following command:
 
 ```bash
-REGISTRY PULL REPLACEME;
+REGISTRY PULL confluent;
 ```
-> To view previous provider versions or to pull a specific provider version, see [here](https://stackql.io/docs/language-spec/registry).  
+> To view previous provider versions or to pull a specific provider version, see [here](https://stackql.io/docs/language-spec/registry).
 
 ## Authentication
 
-The following system environment variables are used for authentication by default:  
+The following system environment variables are used for authentication by default:
 
-- <CopyableCode code="REPLACEME" /> - REPLACEME API token (see <a href="REPLACEME>How to Create a Personal Access Token</a>)
-  
-These variables are sourced at runtime (from the local machine or as CI variables/secrets).  
+- <CopyableCode code="CONFLUENT_CLOUD_API_KEY" /> - Confluent Cloud API key (see <a href="https://docs.confluent.io/cloud/current/security/authenticate/overview.html#api-keys">Confluent Cloud API Keys</a>)
+- <CopyableCode code="CONFLUENT_CLOUD_API_SECRET" /> - Confluent Cloud API secret (see <a href="https://docs.confluent.io/cloud/current/security/authenticate/overview.html#api-keys">Confluent Cloud API Keys</a>)
+
+These variables are sourced at runtime (from the local machine or as CI variables/secrets).
 
 <details>
 
 <summary>Using different environment variables</summary>
 
-To use different environment variables (instead of the defaults), use the `--auth` flag of the `stackql` program.  For example:  
+To use different environment variables (instead of the defaults), use the `--auth` flag of the `stackql` program.  For example:
 
 ```bash
 
-AUTH='{ "REPLACEME": { "type": "bearer",  "credentialsenvvar": "REPLACEME" }}'
+AUTH='{ "confluent": { "type": "basic", "username_var": "MY_CONFLUENT_CLOUD_API_KEY_VAR", "password_var": "MY_CONFLUENT_CLOUD_API_SECRET_VAR" }}'
 stackql shell --auth="${AUTH}"
 
 ```
-or using PowerShell:  
+
+or using PowerShell:
 
 ```powershell
 
-$Auth = "{ 'REPLACEME': { 'type': 'bearer',  'credentialsenvvar': 'REPLACEME' }}"
+$Auth = "{ 'confluent': { 'type': 'basic', 'username_var': 'MY_CONFLUENT_CLOUD_API_KEY_VAR', 'password_var': 'MY_CONFLUENT_CLOUD_API_SECRET_VAR' }}"
 stackql.exe shell --auth=$Auth
 
 ```

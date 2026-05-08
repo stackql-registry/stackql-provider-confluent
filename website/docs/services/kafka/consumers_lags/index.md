@@ -1,4 +1,4 @@
----
+--- 
 title: consumers_lags
 hide_title: false
 hide_table_of_contents: false
@@ -15,6 +15,7 @@ image: /img/stackql-confluent-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,37 +23,236 @@ Creates, updates, deletes, gets or lists a <code>consumers_lags</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>consumers_lags</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="consumers_lags" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="confluent.kafka.consumers_lags" /></td></tr>
 </tbody></table>
 
 ## Fields
-| Name | Datatype | Description |
-|:-----|:---------|:------------|
-| <CopyableCode code="client_id" /> | `string` |  |
-| <CopyableCode code="cluster_id" /> | `string` |  |
-| <CopyableCode code="consumer_group_id" /> | `string` |  |
-| <CopyableCode code="consumer_id" /> | `string` |  |
-| <CopyableCode code="current_offset" /> | `integer` |  |
-| <CopyableCode code="instance_id" /> | `string` |  |
-| <CopyableCode code="kind" /> | `string` |  |
-| <CopyableCode code="lag" /> | `integer` |  |
-| <CopyableCode code="log_end_offset" /> | `integer` |  |
-| <CopyableCode code="metadata" /> | `object` |  |
-| <CopyableCode code="partition_id" /> | `integer` |  |
-| <CopyableCode code="topic_name" /> | `string` |  |
+
+The following fields are returned by `SELECT` queries:
+
+<Tabs
+    defaultValue="get_kafka_consumer_lag"
+    values={[
+        { label: 'get_kafka_consumer_lag', value: 'get_kafka_consumer_lag' },
+        { label: 'list_kafka_consumer_lags', value: 'list_kafka_consumer_lags' }
+    ]}
+>
+<TabItem value="get_kafka_consumer_lag">
+
+The consumer lag.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><CopyableCode code="client_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="consumer_group_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="consumer_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="instance_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="partition_id" /></td>
+    <td><code>integer</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="topic_name" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="current_offset" /></td>
+    <td><code>integer (int64)</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="kind" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="lag" /></td>
+    <td><code>integer (int64)</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="log_end_offset" /></td>
+    <td><code>integer (int64)</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="metadata" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+</tbody>
+</table>
+</TabItem>
+<TabItem value="list_kafka_consumer_lags">
+
+The list of consumer lags.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><CopyableCode code="client_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="consumer_group_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="consumer_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="instance_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="partition_id" /></td>
+    <td><code>integer</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="topic_name" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="current_offset" /></td>
+    <td><code>integer (int64)</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="kind" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="lag" /></td>
+    <td><code>integer (int64)</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="log_end_offset" /></td>
+    <td><code>integer (int64)</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="metadata" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+</tbody>
+</table>
+</TabItem>
+</Tabs>
 
 ## Methods
-| Name | Accessible by | Required Params | Description |
-|:-----|:--------------|:----------------|:------------|
-| <CopyableCode code="get_kafka_consumer_lag" /> | `SELECT` | <CopyableCode code="cluster_id, consumer_group_id, partition_id, topic_name" /> | [![Generally Available](https://img.shields.io/badge/Lifecycle%20Stage-Generally%20Available-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) [![Available in dedicated clusters only](https://img.shields.io/badge/-Available%20in%20dedicated%20clusters%20only-%23bc8540)](https://docs.confluent.io/cloud/current/clusters/cluster-types.html#dedicated-cluster) Return the consumer lag on a partition with the given `partition_id`. |
-| <CopyableCode code="list_kafka_consumer_lags" /> | `SELECT` | <CopyableCode code="cluster_id, consumer_group_id" /> | [![Generally Available](https://img.shields.io/badge/Lifecycle%20Stage-Generally%20Available-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) [![Available in dedicated clusters only](https://img.shields.io/badge/-Available%20in%20dedicated%20clusters%20only-%23bc8540)](https://docs.confluent.io/cloud/current/clusters/cluster-types.html#dedicated-cluster) Return a list of consumer lags of the consumers belonging to the specified consumer group. |
+
+The following methods are available for this resource:
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Accessible by</th>
+    <th>Required Params</th>
+    <th>Optional Params</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><a href="#get_kafka_consumer_lag"><CopyableCode code="get_kafka_consumer_lag" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td></td>
+    <td></td>
+    <td> Return the consumer lag on a partition with the given `partition_id`.</td>
+</tr>
+<tr>
+    <td><a href="#list_kafka_consumer_lags"><CopyableCode code="list_kafka_consumer_lags" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td></td>
+    <td></td>
+    <td> Return a list of consumer lags of the consumers belonging to the<br />specified consumer group.</td>
+</tr>
+</tbody>
+</table>
+
+## Parameters
+
+Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#methods) section to see which parameters are required or optional for each operation.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+</tbody>
+</table>
 
 ## `SELECT` examples
 
-[![Generally Available](https://img.shields.io/badge/Lifecycle%20Stage-Generally%20Available-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) [![Available in dedicated clusters only](https://img.shields.io/badge/-Available%20in%20dedicated%20clusters%20only-%23bc8540)](https://docs.confluent.io/cloud/current/clusters/cluster-types.html#dedicated-cluster) Return a list of consumer lags of the consumers belonging to the specified consumer group.
+<Tabs
+    defaultValue="get_kafka_consumer_lag"
+    values={[
+        { label: 'get_kafka_consumer_lag', value: 'get_kafka_consumer_lag' },
+        { label: 'list_kafka_consumer_lags', value: 'list_kafka_consumer_lags' }
+    ]}
+>
+<TabItem value="get_kafka_consumer_lag">
 
+ Return the consumer lag on a partition with the given `partition_id`.
 
 ```sql
 SELECT
@@ -60,15 +260,38 @@ client_id,
 cluster_id,
 consumer_group_id,
 consumer_id,
-current_offset,
 instance_id,
+partition_id,
+topic_name,
+current_offset,
 kind,
 lag,
 log_end_offset,
-metadata,
-partition_id,
-topic_name
+metadata
 FROM confluent.kafka.consumers_lags
-WHERE cluster_id = '{{ cluster_id }}'
-AND consumer_group_id = '{{ consumer_group_id }}';
+;
 ```
+</TabItem>
+<TabItem value="list_kafka_consumer_lags">
+
+ Return a list of consumer lags of the consumers belonging to the<br />specified consumer group.
+
+```sql
+SELECT
+client_id,
+cluster_id,
+consumer_group_id,
+consumer_id,
+instance_id,
+partition_id,
+topic_name,
+current_offset,
+kind,
+lag,
+log_end_offset,
+metadata
+FROM confluent.kafka.consumers_lags
+;
+```
+</TabItem>
+</Tabs>

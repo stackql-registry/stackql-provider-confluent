@@ -1,4 +1,4 @@
----
+--- 
 title: consumers
 hide_title: false
 hide_table_of_contents: false
@@ -15,6 +15,7 @@ image: /img/stackql-confluent-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,45 +23,227 @@ Creates, updates, deletes, gets or lists a <code>consumers</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>consumers</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="consumers" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="confluent.kafka.consumers" /></td></tr>
 </tbody></table>
 
 ## Fields
-| Name | Datatype | Description |
-|:-----|:---------|:------------|
-| <CopyableCode code="assignments" /> | `object` |  |
-| <CopyableCode code="client_id" /> | `string` |  |
-| <CopyableCode code="cluster_id" /> | `string` |  |
-| <CopyableCode code="consumer_group_id" /> | `string` |  |
-| <CopyableCode code="consumer_id" /> | `string` |  |
-| <CopyableCode code="instance_id" /> | `string` |  |
-| <CopyableCode code="kind" /> | `string` |  |
-| <CopyableCode code="metadata" /> | `object` |  |
+
+The following fields are returned by `SELECT` queries:
+
+<Tabs
+    defaultValue="get_kafka_consumer"
+    values={[
+        { label: 'get_kafka_consumer', value: 'get_kafka_consumer' },
+        { label: 'list_kafka_consumers', value: 'list_kafka_consumers' }
+    ]}
+>
+<TabItem value="get_kafka_consumer">
+
+The consumer.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><CopyableCode code="client_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="consumer_group_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="consumer_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="instance_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="assignments" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="kind" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="metadata" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+</tbody>
+</table>
+</TabItem>
+<TabItem value="list_kafka_consumers">
+
+The list of consumers.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><CopyableCode code="client_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="consumer_group_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="consumer_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="instance_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="assignments" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="kind" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="metadata" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+</tbody>
+</table>
+</TabItem>
+</Tabs>
 
 ## Methods
-| Name | Accessible by | Required Params | Description |
-|:-----|:--------------|:----------------|:------------|
-| <CopyableCode code="get_kafka_consumer" /> | `SELECT` | <CopyableCode code="cluster_id, consumer_group_id, consumer_id" /> | [![Generally Available](https://img.shields.io/badge/Lifecycle%20Stage-Generally%20Available-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Return the consumer specified by the ``consumer_id``. |
-| <CopyableCode code="list_kafka_consumers" /> | `SELECT` | <CopyableCode code="cluster_id, consumer_group_id" /> | [![Generally Available](https://img.shields.io/badge/Lifecycle%20Stage-Generally%20Available-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Return a list of consumers that belong to the specified consumer group. |
+
+The following methods are available for this resource:
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Accessible by</th>
+    <th>Required Params</th>
+    <th>Optional Params</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><a href="#get_kafka_consumer"><CopyableCode code="get_kafka_consumer" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td></td>
+    <td></td>
+    <td>Return the consumer specified by the ``consumer_id``.</td>
+</tr>
+<tr>
+    <td><a href="#list_kafka_consumers"><CopyableCode code="list_kafka_consumers" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td></td>
+    <td></td>
+    <td>Return a list of consumers that belong to the specified consumer<br />group.</td>
+</tr>
+</tbody>
+</table>
+
+## Parameters
+
+Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#methods) section to see which parameters are required or optional for each operation.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+</tbody>
+</table>
 
 ## `SELECT` examples
 
-[![Generally Available](https://img.shields.io/badge/Lifecycle%20Stage-Generally%20Available-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Return a list of consumers that belong to the specified consumer group.
+<Tabs
+    defaultValue="get_kafka_consumer"
+    values={[
+        { label: 'get_kafka_consumer', value: 'get_kafka_consumer' },
+        { label: 'list_kafka_consumers', value: 'list_kafka_consumers' }
+    ]}
+>
+<TabItem value="get_kafka_consumer">
 
+Return the consumer specified by the ``consumer_id``.
 
 ```sql
 SELECT
-assignments,
 client_id,
 cluster_id,
 consumer_group_id,
 consumer_id,
 instance_id,
+assignments,
 kind,
 metadata
 FROM confluent.kafka.consumers
-WHERE cluster_id = '{{ cluster_id }}'
-AND consumer_group_id = '{{ consumer_group_id }}';
+;
 ```
+</TabItem>
+<TabItem value="list_kafka_consumers">
+
+Return a list of consumers that belong to the specified consumer<br />group.
+
+```sql
+SELECT
+client_id,
+cluster_id,
+consumer_group_id,
+consumer_id,
+instance_id,
+assignments,
+kind,
+metadata
+FROM confluent.kafka.consumers
+;
+```
+</TabItem>
+</Tabs>

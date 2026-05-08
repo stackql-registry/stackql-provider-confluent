@@ -16,13 +16,9 @@ image: /img/stackql-confluent-provider-featured-image.png
 
 connect service documentation.
 
-:::info Service Summary
+:::info[Service Summary]
 
-<div class="row">
-<div class="providerDocColumn">
-<span>total resources:&nbsp;<b>10</b></span><br />
-</div>
-</div>
+total resources: __10__  
 
 :::
 
@@ -37,8 +33,8 @@ connect service documentation.
 </div>
 <div class="providerDocColumn">
 <a href="/services/connect/connectors/">connectors</a><br />
-<a href="/services/connect/connectors_with_expansions/">connectors_with_expansions</a><br />
 <a href="/services/connect/custom_connector_plugins/">custom_connector_plugins</a><br />
+<a href="/services/connect/custom_connector_runtimes/">custom_connector_runtimes</a><br />
 <a href="/services/connect/managed_connector_plugins/">managed_connector_plugins</a><br />
 <a href="/services/connect/presigned_urls/">presigned_urls</a>
 </div>

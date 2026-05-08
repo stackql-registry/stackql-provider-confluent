@@ -1,4 +1,4 @@
----
+--- 
 title: entitlements
 hide_title: false
 hide_table_of_contents: false
@@ -15,141 +15,395 @@ image: /img/stackql-confluent-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Creates, updates, deletes, gets or lists a <code>entitlements</code> resource.
+Creates, updates, deletes, gets or lists an <code>entitlements</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>entitlements</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="entitlements" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="confluent.partner.entitlements" /></td></tr>
 </tbody></table>
 
 ## Fields
-| Name | Datatype | Description |
-|:-----|:---------|:------------|
-| <CopyableCode code="id" /> | `string` | ID is the "natural identifier" for an object within its scope/namespace; it is normally unique across time but not space. That is, you can assume that the ID will not be reclaimed and reused after an object is deleted ("time"); however, it may collide with IDs for other object `kinds` or objects of the same `kind` within a different scope/namespace ("space"). |
-| <CopyableCode code="name" /> | `string` | The name of the entitlement |
-| <CopyableCode code="api_version" /> | `string` | APIVersion defines the schema version of this representation of a resource. |
-| <CopyableCode code="external_id" /> | `string` | The unique external ID of the entitlement (this should be unique to customer) |
-| <CopyableCode code="kind" /> | `string` | Kind defines the object this REST resource represents. |
-| <CopyableCode code="metadata" /> | `` | ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create. |
-| <CopyableCode code="organization" /> | `object` | The organization associated with this object. |
-| <CopyableCode code="plan_id" /> | `string` | The plan ID the entitlement |
-| <CopyableCode code="product_id" /> | `string` | The product ID of the entitlement |
-| <CopyableCode code="resource_id" /> | `string` | The resource ID of the entitlement |
-| <CopyableCode code="usage_reporting_id" /> | `string` | The usage reporting ID of the entitlement (if usage reporting uses a different ID, otherwise, same as external_id) |
+
+The following fields are returned by `SELECT` queries:
+
+<Tabs
+    defaultValue="get_partner_v2_entitlement"
+    values={[
+        { label: 'get_partner_v2_entitlement', value: 'get_partner_v2_entitlement' },
+        { label: 'list_partner_v2_entitlements', value: 'list_partner_v2_entitlements' }
+    ]}
+>
+<TabItem value="get_partner_v2_entitlement">
+
+Entitlement.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><CopyableCode code="id" /></td>
+    <td><code>string</code></td>
+    <td>ID is the "natural identifier" for an object within its scope/namespace; it is normally unique across time but not space. That is, you can assume that the ID will not be reclaimed and reused after an object is deleted ("time"); however, it may collide with IDs for other object `kinds` or objects of the same `kind` within a different scope/namespace ("space"). (example: dlz-f3a90de)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="name" /></td>
+    <td><code>string</code></td>
+    <td>The name of the entitlement (example: Acme Prod Entitlement)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="external_id" /></td>
+    <td><code>string</code></td>
+    <td>The unique external ID of the entitlement (this should be unique to customer) (example: 1111-2222-3333-4444)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="plan_id" /></td>
+    <td><code>string</code></td>
+    <td>The plan ID the entitlement (example: confluent-cloud-payg-prod)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="product_id" /></td>
+    <td><code>string</code></td>
+    <td>The product ID of the entitlement (example: confluent-cloud-kafka-service-azure)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="resource_id" /></td>
+    <td><code>string</code></td>
+    <td>The resource ID of the entitlement (example: 1111-2222-3333-4444)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="usage_reporting_id" /></td>
+    <td><code>string</code></td>
+    <td>The usage reporting ID of the entitlement (if usage reporting uses a different ID, otherwise, same as external_id)  (example: 1111-2222-3333-4444)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="api_version" /></td>
+    <td><code>string</code></td>
+    <td>APIVersion defines the schema version of this representation of a resource. (partner/v2)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="kind" /></td>
+    <td><code>string</code></td>
+    <td>Kind defines the object this REST resource represents. (Entitlement)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="metadata" /></td>
+    <td><code>object</code></td>
+    <td>ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="organization" /></td>
+    <td><code>object</code></td>
+    <td>The organization associated with this object.</td>
+</tr>
+</tbody>
+</table>
+</TabItem>
+<TabItem value="list_partner_v2_entitlements">
+
+Entitlement.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><CopyableCode code="id" /></td>
+    <td><code>string</code></td>
+    <td>ID is the "natural identifier" for an object within its scope/namespace; it is normally unique across time but not space. That is, you can assume that the ID will not be reclaimed and reused after an object is deleted ("time"); however, it may collide with IDs for other object `kinds` or objects of the same `kind` within a different scope/namespace ("space"). (example: dlz-f3a90de)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="name" /></td>
+    <td><code>string</code></td>
+    <td>The name of the entitlement (example: Acme Prod Entitlement)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="external_id" /></td>
+    <td><code>string</code></td>
+    <td>The unique external ID of the entitlement (this should be unique to customer) (example: 1111-2222-3333-4444)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="plan_id" /></td>
+    <td><code>string</code></td>
+    <td>The plan ID the entitlement (example: confluent-cloud-payg-prod)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="product_id" /></td>
+    <td><code>string</code></td>
+    <td>The product ID of the entitlement (example: confluent-cloud-kafka-service-azure)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="resource_id" /></td>
+    <td><code>string</code></td>
+    <td>The resource ID of the entitlement (example: 1111-2222-3333-4444)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="usage_reporting_id" /></td>
+    <td><code>string</code></td>
+    <td>The usage reporting ID of the entitlement (if usage reporting uses a different ID, otherwise, same as external_id)  (example: 1111-2222-3333-4444)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="api_version" /></td>
+    <td><code>string</code></td>
+    <td>APIVersion defines the schema version of this representation of a resource. (partner/v2)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="kind" /></td>
+    <td><code>string</code></td>
+    <td>Kind defines the object this REST resource represents. (Entitlement)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="metadata" /></td>
+    <td><code>object</code></td>
+    <td>ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="organization" /></td>
+    <td><code>object</code></td>
+    <td>The organization associated with this object.</td>
+</tr>
+</tbody>
+</table>
+</TabItem>
+</Tabs>
 
 ## Methods
-| Name | Accessible by | Required Params | Description |
-|:-----|:--------------|:----------------|:------------|
-| <CopyableCode code="get_partner_v2entitlement" /> | `SELECT` | <CopyableCode code="id" /> | [![Early Access](https://img.shields.io/badge/Lifecycle%20Stage-Early%20Access-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) [![Request Access To Partner v2](https://img.shields.io/badge/-Request%20Access%20To%20Partner%20v2-%23bc8540)](mailto:ccloud-api-access+partner-v2-early-access@confluent.io?subject=Request%20to%20join%20partner/v2%20API%20Early%20Access&body=I%E2%80%99d%20like%20to%20join%20the%20Confluent%20Cloud%20API%20Early%20Access%20for%20partner/v2%20to%20provide%20early%20feedback%21%20My%20Cloud%20Organization%20ID%20is%20%3Cretrieve%20from%20https%3A//confluent.cloud/settings/billing/payment%3E.) Make a request to read an entitlement. |
-| <CopyableCode code="list_partner_v2entitlements" /> | `SELECT` | <CopyableCode code="" /> | [![Early Access](https://img.shields.io/badge/Lifecycle%20Stage-Early%20Access-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) [![Request Access To Partner v2](https://img.shields.io/badge/-Request%20Access%20To%20Partner%20v2-%23bc8540)](mailto:ccloud-api-access+partner-v2-early-access@confluent.io?subject=Request%20to%20join%20partner/v2%20API%20Early%20Access&body=I%E2%80%99d%20like%20to%20join%20the%20Confluent%20Cloud%20API%20Early%20Access%20for%20partner/v2%20to%20provide%20early%20feedback%21%20My%20Cloud%20Organization%20ID%20is%20%3Cretrieve%20from%20https%3A//confluent.cloud/settings/billing/payment%3E.) Retrieve a sorted, filtered, paginated list of all entitlements. |
-| <CopyableCode code="create_partner_v2entitlement" /> | `INSERT` | <CopyableCode code="" /> | [![Early Access](https://img.shields.io/badge/Lifecycle%20Stage-Early%20Access-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) [![Request Access To Partner v2](https://img.shields.io/badge/-Request%20Access%20To%20Partner%20v2-%23bc8540)](mailto:ccloud-api-access+partner-v2-early-access@confluent.io?subject=Request%20to%20join%20partner/v2%20API%20Early%20Access&body=I%E2%80%99d%20like%20to%20join%20the%20Confluent%20Cloud%20API%20Early%20Access%20for%20partner/v2%20to%20provide%20early%20feedback%21%20My%20Cloud%20Organization%20ID%20is%20%3Cretrieve%20from%20https%3A//confluent.cloud/settings/billing/payment%3E.) Make a request to create an entitlement. |
+
+The following methods are available for this resource:
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Accessible by</th>
+    <th>Required Params</th>
+    <th>Optional Params</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><a href="#get_partner_v2_entitlement"><CopyableCode code="get_partner_v2_entitlement" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td><a href="#parameter-id"><code>id</code></a></td>
+    <td><a href="#parameter-organization.id"><code>organization.id</code></a></td>
+    <td> Make a request to read an entitlement.</td>
+</tr>
+<tr>
+    <td><a href="#list_partner_v2_entitlements"><CopyableCode code="list_partner_v2_entitlements" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td></td>
+    <td><a href="#parameter-organization.id"><code>organization.id</code></a>, <a href="#parameter-page_size"><code>page_size</code></a>, <a href="#parameter-page_token"><code>page_token</code></a></td>
+    <td> Retrieve a sorted, filtered, paginated list of all entitlements.</td>
+</tr>
+<tr>
+    <td><a href="#create_partner_v2_entitlement"><CopyableCode code="create_partner_v2_entitlement" /></a></td>
+    <td><CopyableCode code="insert" /></td>
+    <td><a href="#parameter-external_id"><code>external_id</code></a>, <a href="#parameter-name"><code>name</code></a>, <a href="#parameter-plan_id"><code>plan_id</code></a>, <a href="#parameter-product_id"><code>product_id</code></a></td>
+    <td></td>
+    <td> Make a request to create an entitlement.</td>
+</tr>
+</tbody>
+</table>
+
+## Parameters
+
+Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#methods) section to see which parameters are required or optional for each operation.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr id="parameter-id">
+    <td><CopyableCode code="id" /></td>
+    <td><code>string</code></td>
+    <td>The unique identifier for the entitlement.</td>
+</tr>
+<tr id="parameter-organization.id">
+    <td><CopyableCode code="organization.id" /></td>
+    <td><code>string</code></td>
+    <td>Filter the results by exact match for organization.id. (example: b3a17773-05cc-4431-9560-433fb4613da8)</td>
+</tr>
+<tr id="parameter-page_size">
+    <td><CopyableCode code="page_size" /></td>
+    <td><code>integer</code></td>
+    <td>A pagination size for collection requests.</td>
+</tr>
+<tr id="parameter-page_token">
+    <td><CopyableCode code="page_token" /></td>
+    <td><code>string</code></td>
+    <td>An opaque pagination token for collection requests.</td>
+</tr>
+</tbody>
+</table>
 
 ## `SELECT` examples
 
-[![Early Access](https://img.shields.io/badge/Lifecycle%20Stage-Early%20Access-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) [![Request Access To Partner v2](https://img.shields.io/badge/-Request%20Access%20To%20Partner%20v2-%23bc8540)](mailto:ccloud-api-access+partner-v2-early-access@confluent.io?subject=Request%20to%20join%20partner/v2%20API%20Early%20Access&body=I%E2%80%99d%20like%20to%20join%20the%20Confluent%20Cloud%20API%20Early%20Access%20for%20partner/v2%20to%20provide%20early%20feedback%21%20My%20Cloud%20Organization%20ID%20is%20%3Cretrieve%20from%20https%3A//confluent.cloud/settings/billing/payment%3E.) Retrieve a sorted, filtered, paginated list of all entitlements.
+<Tabs
+    defaultValue="get_partner_v2_entitlement"
+    values={[
+        { label: 'get_partner_v2_entitlement', value: 'get_partner_v2_entitlement' },
+        { label: 'list_partner_v2_entitlements', value: 'list_partner_v2_entitlements' }
+    ]}
+>
+<TabItem value="get_partner_v2_entitlement">
 
+ Make a request to read an entitlement.
 
 ```sql
 SELECT
 id,
 name,
-api_version,
 external_id,
-kind,
-metadata,
-organization,
 plan_id,
 product_id,
 resource_id,
-usage_reporting_id
+usage_reporting_id,
+api_version,
+kind,
+metadata,
+organization
 FROM confluent.partner.entitlements
+WHERE id = '{{ id }}' -- required
+AND organization.id = '{{ organization.id }}'
 ;
 ```
-## `INSERT` example
+</TabItem>
+<TabItem value="list_partner_v2_entitlements">
 
-Use the following StackQL query and manifest file to create a new <code>entitlements</code> resource.
-
-<Tabs
-    defaultValue="all"
-    values={[
-        { label: 'Required Properties', value: 'required' },
-        { label: 'All Properties', value: 'all', },
-        { label: 'Manifest', value: 'manifest', },
-    ]
-}>
-<TabItem value="all">
+ Retrieve a sorted, filtered, paginated list of all entitlements.
 
 ```sql
-/*+ create */
+SELECT
+id,
+name,
+external_id,
+plan_id,
+product_id,
+resource_id,
+usage_reporting_id,
+api_version,
+kind,
+metadata,
+organization
+FROM confluent.partner.entitlements
+WHERE organization.id = '{{ organization.id }}'
+AND page_size = '{{ page_size }}'
+AND page_token = '{{ page_token }}'
+;
+```
+</TabItem>
+</Tabs>
+
+
+## `INSERT` examples
+
+<Tabs
+    defaultValue="create_partner_v2_entitlement"
+    values={[
+        { label: 'create_partner_v2_entitlement', value: 'create_partner_v2_entitlement' },
+        { label: 'Manifest', value: 'manifest' }
+    ]}
+>
+<TabItem value="create_partner_v2_entitlement">
+
+ Make a request to create an entitlement.
+
+```sql
 INSERT INTO confluent.partner.entitlements (
-data__external_id,
-data__name,
-data__plan_id,
-data__product_id,
-data__usage_reporting_id,
-data__resource_id,
-data__organization
+external_id,
+name,
+plan_id,
+product_id,
+usage_reporting_id,
+resource_id,
+organization
 )
 SELECT 
-'{{ external_id }}',
-'{{ name }}',
-'{{ plan_id }}',
-'{{ product_id }}',
+'{{ external_id }}' /* required */,
+'{{ name }}' /* required */,
+'{{ plan_id }}' /* required */,
+'{{ product_id }}' /* required */,
 '{{ usage_reporting_id }}',
 '{{ resource_id }}',
 '{{ organization }}'
+RETURNING
+id,
+name,
+external_id,
+plan_id,
+product_id,
+resource_id,
+usage_reporting_id,
+api_version,
+kind,
+metadata,
+organization
 ;
 ```
 </TabItem>
-
-<TabItem value="required">
-
-```sql
-/*+ create */
-INSERT INTO confluent.partner.entitlements (
-data__external_id,
-data__name,
-data__plan_id,
-data__product_id
-)
-SELECT 
-'{{ external_id }}',
-'{{ name }}',
-'{{ plan_id }}',
-'{{ product_id }}'
-;
-```
-</TabItem>
-
 <TabItem value="manifest">
 
-```yaml
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: entitlements
   props:
     - name: external_id
-      value: string
+      value: "{{ external_id }}"
+      description: |
+        The unique external ID of the entitlement (this should be unique to customer)
     - name: name
-      value: string
+      value: "{{ name }}"
+      description: |
+        The name of the entitlement
     - name: plan_id
-      value: string
+      value: "{{ plan_id }}"
+      description: |
+        The plan ID the entitlement
     - name: product_id
-      value: string
+      value: "{{ product_id }}"
+      description: |
+        The product ID of the entitlement
     - name: usage_reporting_id
-      value: string
+      value: "{{ usage_reporting_id }}"
+      description: |
+        The usage reporting ID of the entitlement (if usage reporting uses
+        a different ID, otherwise, same as external_id)
     - name: resource_id
-      value: string
+      value: "{{ resource_id }}"
+      description: |
+        The resource ID of the entitlement
     - name: organization
-      props:
-        - name: id
-          value: string
-        - name: environment
-          value: string
+      description: |
+        The organization associated with this object.
+      value:
+        id: "{{ id }}"
+        environment: "{{ environment }}"
+        related: "{{ related }}"
+        resource_name: "{{ resource_name }}"
+        api_version: "{{ api_version }}"
+        kind: "{{ kind }}"
+`}</CodeBlock>
 
-```
 </TabItem>
 </Tabs>

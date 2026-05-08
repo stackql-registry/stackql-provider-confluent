@@ -16,13 +16,9 @@ image: /img/stackql-confluent-provider-featured-image.png
 
 catalog service documentation.
 
-:::info Service Summary
+:::info[Service Summary]
 
-<div class="row">
-<div class="providerDocColumn">
-<span>total resources:&nbsp;<b>6</b></span><br />
-</div>
-</div>
+total resources: __5__  
 
 :::
 
@@ -34,7 +30,6 @@ catalog service documentation.
 <a href="/services/catalog/entities/">entities</a>
 </div>
 <div class="providerDocColumn">
-<a href="/services/catalog/searches/">searches</a><br />
 <a href="/services/catalog/tag_defs/">tag_defs</a><br />
 <a href="/services/catalog/tags/">tags</a>
 </div>

@@ -1,4 +1,4 @@
----
+--- 
 title: cluster_configs
 hide_title: false
 hide_table_of_contents: false
@@ -15,6 +15,7 @@ image: /img/stackql-confluent-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,39 +23,247 @@ Creates, updates, deletes, gets or lists a <code>cluster_configs</code> resource
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>cluster_configs</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="cluster_configs" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="confluent.kafka.cluster_configs" /></td></tr>
 </tbody></table>
 
 ## Fields
-| Name | Datatype | Description |
-|:-----|:---------|:------------|
-| <CopyableCode code="name" /> | `string` |  |
-| <CopyableCode code="cluster_id" /> | `string` |  |
-| <CopyableCode code="config_type" /> | `string` |  |
-| <CopyableCode code="is_default" /> | `boolean` |  |
-| <CopyableCode code="is_read_only" /> | `boolean` |  |
-| <CopyableCode code="is_sensitive" /> | `boolean` |  |
-| <CopyableCode code="kind" /> | `string` |  |
-| <CopyableCode code="metadata" /> | `object` |  |
-| <CopyableCode code="source" /> | `string` |  |
-| <CopyableCode code="synonyms" /> | `array` |  |
-| <CopyableCode code="value" /> | `string` |  |
+
+The following fields are returned by `SELECT` queries:
+
+<Tabs
+    defaultValue="get_kafka_cluster_config"
+    values={[
+        { label: 'get_kafka_cluster_config', value: 'get_kafka_cluster_config' },
+        { label: 'list_kafka_cluster_configs', value: 'list_kafka_cluster_configs' }
+    ]}
+>
+<TabItem value="get_kafka_cluster_config">
+
+The cluster configuration parameter.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><CopyableCode code="name" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="config_type" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="is_default" /></td>
+    <td><code>boolean</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="is_read_only" /></td>
+    <td><code>boolean</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="is_sensitive" /></td>
+    <td><code>boolean</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="kind" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="metadata" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="source" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="synonyms" /></td>
+    <td><code>array</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="value" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+</tbody>
+</table>
+</TabItem>
+<TabItem value="list_kafka_cluster_configs">
+
+The list of cluster configs.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><CopyableCode code="name" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="config_type" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="is_default" /></td>
+    <td><code>boolean</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="is_read_only" /></td>
+    <td><code>boolean</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="is_sensitive" /></td>
+    <td><code>boolean</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="kind" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="metadata" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="source" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="synonyms" /></td>
+    <td><code>array</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="value" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+</tbody>
+</table>
+</TabItem>
+</Tabs>
 
 ## Methods
-| Name | Accessible by | Required Params | Description |
-|:-----|:--------------|:----------------|:------------|
-| <CopyableCode code="get_kafka_cluster_config" /> | `SELECT` | <CopyableCode code="cluster_id, name" /> | [![Generally Available](https://img.shields.io/badge/Lifecycle%20Stage-Generally%20Available-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Return the dynamic cluster-wide broker configuration parameter specified by ``name``. |
-| <CopyableCode code="list_kafka_cluster_configs" /> | `SELECT` | <CopyableCode code="cluster_id" /> | [![Generally Available](https://img.shields.io/badge/Lifecycle%20Stage-Generally%20Available-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Return a list of dynamic cluster-wide broker configuration parameters for the specified Kafka cluster. Returns an empty list if there are no dynamic cluster-wide broker configuration parameters. |
-| <CopyableCode code="delete_kafka_cluster_config" /> | `DELETE` | <CopyableCode code="cluster_id, name" /> | [![Generally Available](https://img.shields.io/badge/Lifecycle%20Stage-Generally%20Available-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Reset the configuration parameter specified by ``name`` to its default value by deleting a dynamic cluster-wide configuration. |
-| <CopyableCode code="update_kafka_cluster_configs" /> | `UPDATE` | <CopyableCode code="cluster_id, data__data" /> | [![Generally Available](https://img.shields.io/badge/Lifecycle%20Stage-Generally%20Available-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Update or delete a set of dynamic cluster-wide broker configuration parameters. |
-| <CopyableCode code="update_kafka_cluster_config" /> | `EXEC` | <CopyableCode code="cluster_id, name" /> | [![Generally Available](https://img.shields.io/badge/Lifecycle%20Stage-Generally%20Available-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Update the dynamic cluster-wide broker configuration parameter specified by ``name``. |
+
+The following methods are available for this resource:
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Accessible by</th>
+    <th>Required Params</th>
+    <th>Optional Params</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><a href="#get_kafka_cluster_config"><CopyableCode code="get_kafka_cluster_config" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td></td>
+    <td></td>
+    <td>Return the dynamic cluster-wide broker configuration parameter specified by ``name``.</td>
+</tr>
+<tr>
+    <td><a href="#list_kafka_cluster_configs"><CopyableCode code="list_kafka_cluster_configs" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td></td>
+    <td></td>
+    <td>Return a list of dynamic cluster-wide broker configuration parameters for the specified Kafka<br />cluster. Returns an empty list if there are no dynamic cluster-wide broker configuration parameters.</td>
+</tr>
+<tr>
+    <td><a href="#update_kafka_cluster_config"><CopyableCode code="update_kafka_cluster_config" /></a></td>
+    <td><CopyableCode code="replace" /></td>
+    <td></td>
+    <td></td>
+    <td>Update the dynamic cluster-wide broker configuration parameter specified by ``name``.</td>
+</tr>
+<tr>
+    <td><a href="#update_kafka_cluster_configs"><CopyableCode code="update_kafka_cluster_configs" /></a></td>
+    <td><CopyableCode code="replace" /></td>
+    <td><a href="#parameter-data"><code>data</code></a></td>
+    <td></td>
+    <td>Update or delete a set of dynamic cluster-wide broker configuration parameters.</td>
+</tr>
+<tr>
+    <td><a href="#delete_kafka_cluster_config"><CopyableCode code="delete_kafka_cluster_config" /></a></td>
+    <td><CopyableCode code="delete" /></td>
+    <td></td>
+    <td></td>
+    <td>Reset the configuration parameter specified by ``name`` to its<br />default value by deleting a dynamic cluster-wide configuration.</td>
+</tr>
+</tbody>
+</table>
+
+## Parameters
+
+Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#methods) section to see which parameters are required or optional for each operation.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+</tbody>
+</table>
 
 ## `SELECT` examples
 
-[![Generally Available](https://img.shields.io/badge/Lifecycle%20Stage-Generally%20Available-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Return a list of dynamic cluster-wide broker configuration parameters for the specified Kafka cluster. Returns an empty list if there are no dynamic cluster-wide broker configuration parameters.
+<Tabs
+    defaultValue="get_kafka_cluster_config"
+    values={[
+        { label: 'get_kafka_cluster_config', value: 'get_kafka_cluster_config' },
+        { label: 'list_kafka_cluster_configs', value: 'list_kafka_cluster_configs' }
+    ]}
+>
+<TabItem value="get_kafka_cluster_config">
 
+Return the dynamic cluster-wide broker configuration parameter specified by ``name``.
 
 ```sql
 SELECT
@@ -70,30 +279,83 @@ source,
 synonyms,
 value
 FROM confluent.kafka.cluster_configs
-WHERE cluster_id = '{{ cluster_id }}';
+;
 ```
-## `UPDATE` example
+</TabItem>
+<TabItem value="list_kafka_cluster_configs">
 
-Updates a <code>cluster_configs</code> resource.
+Return a list of dynamic cluster-wide broker configuration parameters for the specified Kafka<br />cluster. Returns an empty list if there are no dynamic cluster-wide broker configuration parameters.
 
 ```sql
-/*+ update */
-UPDATE confluent.kafka.cluster_configs
+SELECT
+name,
+cluster_id,
+config_type,
+is_default,
+is_read_only,
+is_sensitive,
+kind,
+metadata,
+source,
+synonyms,
+value
+FROM confluent.kafka.cluster_configs
+;
+```
+</TabItem>
+</Tabs>
+
+
+## `REPLACE` examples
+
+<Tabs
+    defaultValue="update_kafka_cluster_config"
+    values={[
+        { label: 'update_kafka_cluster_config', value: 'update_kafka_cluster_config' },
+        { label: 'update_kafka_cluster_configs', value: 'update_kafka_cluster_configs' }
+    ]}
+>
+<TabItem value="update_kafka_cluster_config">
+
+Update the dynamic cluster-wide broker configuration parameter specified by ``name``.
+
+```sql
+REPLACE confluent.kafka.cluster_configs
+SET 
+value = '{{ value }}';
+```
+</TabItem>
+<TabItem value="update_kafka_cluster_configs">
+
+Update or delete a set of dynamic cluster-wide broker configuration parameters.
+
+```sql
+REPLACE confluent.kafka.cluster_configs
 SET 
 data = '{{ data }}',
-validate_only = true|false
+validate_only = {{ validate_only }}
 WHERE 
-cluster_id = '{{ cluster_id }}'
-AND data__data = '{{ data__data }}';
+data = '{{ data }}' --required;
 ```
+</TabItem>
+</Tabs>
 
-## `DELETE` example
 
-Deletes the specified <code>cluster_configs</code> resource.
+## `DELETE` examples
+
+<Tabs
+    defaultValue="delete_kafka_cluster_config"
+    values={[
+        { label: 'delete_kafka_cluster_config', value: 'delete_kafka_cluster_config' }
+    ]}
+>
+<TabItem value="delete_kafka_cluster_config">
+
+Reset the configuration parameter specified by ``name`` to its<br />default value by deleting a dynamic cluster-wide configuration.
 
 ```sql
-/*+ delete */
 DELETE FROM confluent.kafka.cluster_configs
-WHERE cluster_id = '{{ cluster_id }}'
-AND name = '{{ name }}';
+;
 ```
+</TabItem>
+</Tabs>

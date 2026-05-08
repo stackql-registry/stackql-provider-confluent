@@ -1,0 +1,3860 @@
+openapi: 3.0.0
+info:
+  title: encryption_keys API
+  description: confluent encryption_keys API
+  version: 1.0.0
+paths:
+  /dek-registry/v1/keks:
+    get:
+      tags:
+        - Key Encryption Keys (v1)
+      operationId: getKekNames
+      parameters:
+        - description: Whether to include deleted keys
+          explode: true
+          in: query
+          name: deleted
+          required: false
+          schema:
+            type: boolean
+          style: form
+      responses:
+        '200':
+          content:
+            application/vnd.schemaregistry.v1+json:
+              schema:
+                items:
+                  example: mykek
+                  type: string
+                type: array
+            application/vnd.schemaregistry+json; qs=0.9:
+              schema:
+                items:
+                  example: mykek
+                  type: string
+                type: array
+            application/json; qs=0.5:
+              schema:
+                items:
+                  example: mykek
+                  type: string
+                type: array
+          description: List of kek names
+      summary: Get a list of kek names
+      security:
+        - resource-api-key: []
+        - external-access-token: []
+    post:
+      tags:
+        - Key Encryption Keys (v1)
+      operationId: createKek
+      parameters:
+        - description: Whether to test kek sharing
+          explode: true
+          in: query
+          name: testSharing
+          required: false
+          schema:
+            type: boolean
+            default: false
+          style: form
+      requestBody:
+        content:
+          application/vnd.schemaregistry.v1+json:
+            schema:
+              $ref: '#/components/schemas/CreateKekRequest'
+          application/vnd.schemaregistry+json:
+            schema:
+              $ref: '#/components/schemas/CreateKekRequest'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateKekRequest'
+          application/octet-stream:
+            schema:
+              $ref: '#/components/schemas/CreateKekRequest'
+        description: The create request
+        required: true
+      responses:
+        '200':
+          content:
+            application/vnd.schemaregistry.v1+json:
+              schema:
+                $ref: '#/components/schemas/Kek'
+            application/vnd.schemaregistry+json; qs=0.9:
+              schema:
+                $ref: '#/components/schemas/Kek'
+            application/json; qs=0.5:
+              schema:
+                $ref: '#/components/schemas/Kek'
+          description: The create response
+        '409':
+          description: Conflict. Error code 40971 -- Key already exists. Error code 40972 -- Too many keys.
+        '422':
+          description: Error code 42271 -- Invalid key
+      summary: Create a kek
+      security:
+        - resource-api-key: []
+        - external-access-token: []
+    servers:
+      - url: https://psrc-00000.region.provider.confluent.cloud
+        description: Confluent Cloud Schema Registry Endpoint.
+  /dek-registry/v1/keks/{name}:
+    delete:
+      tags:
+        - Key Encryption Keys (v1)
+      operationId: deleteKek
+      parameters:
+        - description: Name of the kek
+          explode: false
+          in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Whether to perform a permanent delete
+          explode: true
+          in: query
+          name: permanent
+          required: false
+          schema:
+            type: boolean
+          style: form
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not found. Error code 40470 -- Key not found. Error code 40471 -- Key not soft-deleted.
+        '422':
+          description: Unprocessable entity. Error code 42271 -- Invalid key. Error code 42272 -- References to key exist.
+      summary: Delete a kek
+      security:
+        - resource-api-key: []
+        - external-access-token: []
+    get:
+      tags:
+        - Key Encryption Keys (v1)
+      operationId: getKek
+      parameters:
+        - description: Name of the kek
+          explode: false
+          in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Whether to include deleted keys
+          explode: true
+          in: query
+          name: deleted
+          required: false
+          schema:
+            type: boolean
+          style: form
+      responses:
+        '200':
+          content:
+            application/vnd.schemaregistry.v1+json:
+              schema:
+                $ref: '#/components/schemas/Kek'
+            application/vnd.schemaregistry+json; qs=0.9:
+              schema:
+                $ref: '#/components/schemas/Kek'
+            application/json; qs=0.5:
+              schema:
+                $ref: '#/components/schemas/Kek'
+          description: The kek info
+        '404':
+          description: Error code 40470 -- Key not found
+        '422':
+          description: Error code 42271 -- Invalid key
+      summary: Get a kek by name
+      security:
+        - resource-api-key: []
+        - external-access-token: []
+    put:
+      tags:
+        - Key Encryption Keys (v1)
+      operationId: putKek
+      parameters:
+        - description: Name of the kek
+          explode: false
+          in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Whether to test kek sharing
+          explode: true
+          in: query
+          name: testSharing
+          required: false
+          schema:
+            type: boolean
+            default: false
+          style: form
+      requestBody:
+        content:
+          application/vnd.schemaregistry.v1+json:
+            schema:
+              $ref: '#/components/schemas/UpdateKekRequest'
+          application/vnd.schemaregistry+json:
+            schema:
+              $ref: '#/components/schemas/UpdateKekRequest'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateKekRequest'
+          application/octet-stream:
+            schema:
+              $ref: '#/components/schemas/UpdateKekRequest'
+        description: The update request
+        required: true
+      responses:
+        '200':
+          content:
+            application/vnd.schemaregistry.v1+json:
+              schema:
+                $ref: '#/components/schemas/Kek'
+            application/vnd.schemaregistry+json; qs=0.9:
+              schema:
+                $ref: '#/components/schemas/Kek'
+            application/json; qs=0.5:
+              schema:
+                $ref: '#/components/schemas/Kek'
+          description: The update response
+        '404':
+          description: Error code 40470 -- Key not found
+        '409':
+          description: Error code 40971 -- Key already exists
+        '422':
+          description: Error code 42271 -- Invalid key
+      summary: Alters a kek
+      security:
+        - resource-api-key: []
+        - external-access-token: []
+    servers:
+      - url: https://psrc-00000.region.provider.confluent.cloud
+        description: Confluent Cloud Schema Registry Endpoint.
+  /dek-registry/v1/keks/{name}/undelete:
+    post:
+      tags:
+        - Key Encryption Keys (v1)
+      operationId: undeleteKek
+      parameters:
+        - description: Name of the kek
+          explode: false
+          in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Error code 40470 -- Key not found
+        '422':
+          description: Unprocessable entity. Error code 42271 -- Invalid key. Error code 42272 -- References to key exist.
+      summary: Undelete a kek
+      security:
+        - resource-api-key: []
+        - external-access-token: []
+    servers:
+      - url: https://psrc-00000.region.provider.confluent.cloud
+        description: Confluent Cloud Schema Registry Endpoint.
+  /dek-registry/v1/keks/{name}/test:
+    post:
+      tags:
+        - Key Encryption Keys (v1)
+      operationId: testKek
+      parameters:
+        - description: Name of the kek
+          explode: false
+          in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        '200':
+          content:
+            application/vnd.schemaregistry.v1+json:
+              schema:
+                $ref: '#/components/schemas/Kek'
+            application/vnd.schemaregistry+json; qs=0.9:
+              schema:
+                $ref: '#/components/schemas/Kek'
+            application/json; qs=0.5:
+              schema:
+                $ref: '#/components/schemas/Kek'
+          description: The test response
+        '422':
+          description: Error code 42271 -- Invalid key
+        '500':
+          description: Error code 50070 -- Dek generation error
+      summary: Test a kek
+      security:
+        - resource-api-key: []
+        - external-access-token: []
+    servers:
+      - url: https://psrc-00000.region.provider.confluent.cloud
+        description: Confluent Cloud Schema Registry Endpoint.
+  /dek-registry/v1/keks/{name}/deks:
+    get:
+      tags:
+        - Data Encryption Keys (v1)
+      operationId: getDekSubjects
+      parameters:
+        - description: Name of the kek
+          explode: false
+          in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Whether to include deleted keys
+          explode: true
+          in: query
+          name: deleted
+          required: false
+          schema:
+            type: boolean
+          style: form
+        - description: Pagination offset for results
+          explode: true
+          in: query
+          name: offset
+          required: false
+          schema:
+            type: integer
+            default: 0
+          style: form
+        - description: Pagination size for results. Ignored if negative
+          explode: true
+          in: query
+          name: limit
+          required: false
+          schema:
+            type: integer
+            default: -1
+          style: form
+      responses:
+        '200':
+          content:
+            application/vnd.schemaregistry.v1+json:
+              schema:
+                items:
+                  example: User
+                  type: string
+                type: array
+            application/vnd.schemaregistry+json; qs=0.9:
+              schema:
+                items:
+                  example: User
+                  type: string
+                type: array
+            application/json; qs=0.5:
+              schema:
+                items:
+                  example: User
+                  type: string
+                type: array
+          description: List of dek subjects
+        '404':
+          description: Error code 40470 -- Key not found
+        '422':
+          description: Error code 42271 -- Invalid key
+      summary: Get a list of dek subjects
+      security:
+        - resource-api-key: []
+        - external-access-token: []
+    post:
+      tags:
+        - Data Encryption Keys (v1)
+      operationId: createDek
+      parameters:
+        - description: Name of the kek
+          explode: false
+          in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/vnd.schemaregistry.v1+json:
+            schema:
+              $ref: '#/components/schemas/CreateDekRequest'
+          application/vnd.schemaregistry+json:
+            schema:
+              $ref: '#/components/schemas/CreateDekRequest'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDekRequest'
+          application/octet-stream:
+            schema:
+              $ref: '#/components/schemas/CreateDekRequest'
+        description: The create request
+        required: true
+      responses:
+        '200':
+          content:
+            application/vnd.schemaregistry.v1+json:
+              schema:
+                $ref: '#/components/schemas/Dek'
+            application/vnd.schemaregistry+json; qs=0.9:
+              schema:
+                $ref: '#/components/schemas/Dek'
+            application/json; qs=0.5:
+              schema:
+                $ref: '#/components/schemas/Dek'
+          description: The create response
+        '409':
+          description: Conflict. Error code 40971 -- Key already exists. Error code 40972 -- Too many keys.
+        '422':
+          description: Error code 42271 -- Invalid key
+        '500':
+          description: Error code 50070 -- Dek generation error
+      summary: Create a dek
+      security:
+        - resource-api-key: []
+        - external-access-token: []
+    servers:
+      - url: https://psrc-00000.region.provider.confluent.cloud
+        description: Confluent Cloud Schema Registry Endpoint.
+  /dek-registry/v1/keks/{name}/deks/{subject}:
+    delete:
+      tags:
+        - Data Encryption Keys (v1)
+      operationId: deleteDekVersions
+      parameters:
+        - description: Name of the kek
+          explode: false
+          in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Subject of the dek
+          explode: false
+          in: path
+          name: subject
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Algorithm of the dek
+          explode: true
+          in: query
+          name: algorithm
+          required: false
+          schema:
+            enum:
+              - AES128_GCM
+              - AES256_GCM
+              - AES256_SIV
+            type: string
+          style: form
+        - description: Whether to perform a permanent delete
+          explode: true
+          in: query
+          name: permanent
+          required: false
+          schema:
+            type: boolean
+          style: form
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not found. Error code 40470 -- Key not found. Error code 40471 -- Key not soft-deleted.
+        '422':
+          description: Error code 42271 -- Invalid key
+      summary: Delete all versions of a dek
+      security:
+        - resource-api-key: []
+        - external-access-token: []
+    get:
+      tags:
+        - Data Encryption Keys (v1)
+      operationId: getDek
+      parameters:
+        - description: Name of the kek
+          explode: false
+          in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Subject of the dek
+          explode: false
+          in: path
+          name: subject
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Algorithm of the dek
+          explode: true
+          in: query
+          name: algorithm
+          required: false
+          schema:
+            enum:
+              - AES128_GCM
+              - AES256_GCM
+              - AES256_SIV
+            type: string
+          style: form
+        - description: Whether to include deleted keys
+          explode: true
+          in: query
+          name: deleted
+          required: false
+          schema:
+            type: boolean
+          style: form
+      responses:
+        '200':
+          content:
+            application/vnd.schemaregistry.v1+json:
+              schema:
+                $ref: '#/components/schemas/Dek'
+            application/vnd.schemaregistry+json; qs=0.9:
+              schema:
+                $ref: '#/components/schemas/Dek'
+            application/json; qs=0.5:
+              schema:
+                $ref: '#/components/schemas/Dek'
+          description: The dek info
+        '404':
+          description: Error code 40470 -- Key not found
+        '422':
+          description: Error code 42271 -- Invalid key
+        '500':
+          description: Error code 50070 -- Dek generation error
+      summary: Get a dek by subject
+      security:
+        - resource-api-key: []
+        - external-access-token: []
+    servers:
+      - url: https://psrc-00000.region.provider.confluent.cloud
+        description: Confluent Cloud Schema Registry Endpoint.
+  /dek-registry/v1/keks/{name}/deks/{subject}/versions/{version}:
+    delete:
+      tags:
+        - Data Encryption Keys (v1)
+      operationId: deleteDekVersion
+      parameters:
+        - description: Name of the kek
+          explode: false
+          in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Subject of the dek
+          explode: false
+          in: path
+          name: subject
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Version of the dek
+          explode: false
+          in: path
+          name: version
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Algorithm of the dek
+          explode: true
+          in: query
+          name: algorithm
+          required: false
+          schema:
+            enum:
+              - AES128_GCM
+              - AES256_GCM
+              - AES256_SIV
+            type: string
+          style: form
+        - description: Whether to perform a permanent delete
+          explode: true
+          in: query
+          name: permanent
+          required: false
+          schema:
+            type: boolean
+          style: form
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not found. Error code 40470 -- Key not found. Error code 40471 -- Key not soft-deleted.
+        '422':
+          description: Unprocessable entity. Error code 42202 -- Invalid version. Error code 42271 -- Invalid key.
+      summary: Delete a dek version
+      security:
+        - resource-api-key: []
+        - external-access-token: []
+    get:
+      tags:
+        - Data Encryption Keys (v1)
+      operationId: getDekByVersion
+      parameters:
+        - description: Name of the kek
+          explode: false
+          in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Subject of the dek
+          explode: false
+          in: path
+          name: subject
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Version of the dek
+          explode: false
+          in: path
+          name: version
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Algorithm of the dek
+          explode: true
+          in: query
+          name: algorithm
+          required: false
+          schema:
+            enum:
+              - AES128_GCM
+              - AES256_GCM
+              - AES256_SIV
+            type: string
+          style: form
+        - description: Whether to include deleted keys
+          explode: true
+          in: query
+          name: deleted
+          required: false
+          schema:
+            type: boolean
+          style: form
+      responses:
+        '200':
+          content:
+            application/vnd.schemaregistry.v1+json:
+              schema:
+                $ref: '#/components/schemas/Dek'
+            application/vnd.schemaregistry+json; qs=0.9:
+              schema:
+                $ref: '#/components/schemas/Dek'
+            application/json; qs=0.5:
+              schema:
+                $ref: '#/components/schemas/Dek'
+          description: The dek info
+        '404':
+          description: Error code 40470 -- Key not found
+        '422':
+          description: Unprocessable entity. Error code 42202 -- Invalid version. Error code 42271 -- Invalid key.
+        '500':
+          description: Error code 50070 -- Dek generation error
+      summary: Get a dek by subject and version
+      security:
+        - resource-api-key: []
+        - external-access-token: []
+    servers:
+      - url: https://psrc-00000.region.provider.confluent.cloud
+        description: Confluent Cloud Schema Registry Endpoint.
+  /dek-registry/v1/keks/{name}/deks/{subject}/versions:
+    get:
+      tags:
+        - Data Encryption Keys (v1)
+      operationId: getDekVersions
+      parameters:
+        - description: Name of the kek
+          explode: false
+          in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Subject of the dek
+          explode: false
+          in: path
+          name: subject
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Algorithm of the dek
+          explode: true
+          in: query
+          name: algorithm
+          required: false
+          schema:
+            enum:
+              - AES128_GCM
+              - AES256_GCM
+              - AES256_SIV
+            type: string
+          style: form
+        - description: Whether to include deleted keys
+          explode: true
+          in: query
+          name: deleted
+          required: false
+          schema:
+            type: boolean
+          style: form
+        - description: Pagination offset for results
+          explode: true
+          in: query
+          name: offset
+          required: false
+          schema:
+            type: integer
+            default: 0
+          style: form
+        - description: Pagination size for results. Ignored if negative
+          explode: true
+          in: query
+          name: limit
+          required: false
+          schema:
+            type: integer
+            default: -1
+          style: form
+      responses:
+        '200':
+          content:
+            application/vnd.schemaregistry.v1+json:
+              schema:
+                items:
+                  example: 1
+                  format: int32
+                  type: integer
+                type: array
+            application/vnd.schemaregistry+json; qs=0.9:
+              schema:
+                items:
+                  example: 1
+                  format: int32
+                  type: integer
+                type: array
+            application/json; qs=0.5:
+              schema:
+                items:
+                  example: 1
+                  format: int32
+                  type: integer
+                type: array
+          description: List of version numbers for dek
+        '404':
+          description: Error code 40470 -- Key not found
+        '422':
+          description: Error code 42271 -- Invalid key
+      summary: List versions of dek
+      security:
+        - resource-api-key: []
+        - external-access-token: []
+    servers:
+      - url: https://psrc-00000.region.provider.confluent.cloud
+        description: Confluent Cloud Schema Registry Endpoint.
+  /dek-registry/v1/keks/{name}/deks/{subject}/versions/{version}/undelete:
+    post:
+      tags:
+        - Data Encryption Keys (v1)
+      operationId: undeleteDekVersion
+      parameters:
+        - description: Name of the kek
+          explode: false
+          in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Subject of the dek
+          explode: false
+          in: path
+          name: subject
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Version of the dek
+          explode: false
+          in: path
+          name: version
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Algorithm of the dek
+          explode: true
+          in: query
+          name: algorithm
+          required: false
+          schema:
+            enum:
+              - AES128_GCM
+              - AES256_GCM
+              - AES256_SIV
+            type: string
+          style: form
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not found. Error code 40470 -- Key not found. Error code 40472 -- Key must be undeleted.
+        '422':
+          description: Unprocessable entity. Error code 42202 -- Invalid version. Error code 42271 -- Invalid key.
+      summary: Undelete a dek version
+      security:
+        - resource-api-key: []
+        - external-access-token: []
+    servers:
+      - url: https://psrc-00000.region.provider.confluent.cloud
+        description: Confluent Cloud Schema Registry Endpoint.
+  /dek-registry/v1/keks/{name}/deks/{subject}/undelete:
+    post:
+      tags:
+        - Data Encryption Keys (v1)
+      operationId: undeleteDekVersions
+      parameters:
+        - description: Name of the kek
+          explode: false
+          in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Subject of the dek
+          explode: false
+          in: path
+          name: subject
+          required: true
+          schema:
+            type: string
+          style: simple
+        - description: Algorithm of the dek
+          explode: true
+          in: query
+          name: algorithm
+          required: false
+          schema:
+            enum:
+              - AES128_GCM
+              - AES256_GCM
+              - AES256_SIV
+            type: string
+          style: form
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not found. Error code 40470 -- Key not found. Error code 40472 -- Key must be undeleted.
+        '422':
+          description: Error code 42271 -- Invalid key
+      summary: Undelete all versions of a dek
+      security:
+        - resource-api-key: []
+        - external-access-token: []
+    servers:
+      - url: https://psrc-00000.region.provider.confluent.cloud
+        description: Confluent Cloud Schema Registry Endpoint.
+  /byok/v1/keys:
+    get:
+      x-lifecycle-stage: General Availability
+      x-self-access: true
+      operationId: listByokV1Keys
+      summary: List of Keys
+      description: |-
+        [![General Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy)
+
+        Retrieve a sorted, filtered, paginated list of all keys.
+      parameters:
+        - name: display_name
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          example: Key for billing cluster
+          description: Filter the results by a partial search of display_name.
+        - name: provider
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          example: AWS
+          description: Filter the results by exact match for provider.
+        - name: state
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          example: IN_USE
+          description: Filter the results by exact match for state.
+        - name: validation_phase
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          description: Filter the results by exact match for validation_phase.
+        - name: validation_region
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          example: us-west-2
+          description: |
+            Filter keys by the cloud region where they are deployed.
+        - name: key
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          example: vault-name
+          description: |
+            Filters results by a partial match on the key identifier: key_arn for AWS, key_id for Azure and GCP.
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+            maximum: 100
+            x-max-page-items: 500
+          description: A pagination size for collection requests.
+        - name: page_token
+          in: query
+          required: false
+          schema:
+            type: string
+            maxLength: 255
+          description: An opaque pagination token for collection requests.
+      tags:
+        - Keys (byok/v1)
+      security:
+        - cloud-api-key: []
+        - confluent-sts-access-token: []
+      responses:
+        '200':
+          description: Key.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: |-
+                  `Key` objects represent customer managed keys on dedicated Confluent Cloud clusters.
+
+                  Keys are used to protect data at rest stored in your dedicated Confluent Cloud clusters on AWS, Azure, and GCP.
+                  This API allows you to upload and retrieve self-managed keys on Confluent Cloud.
+
+
+                  Related guide: [Confluent Cloud Bring Your Own Key (BYOK) Management API](https://docs.confluent.io/cloud/current/clusters/byok/index.html).
+
+                  ## The Keys Model
+                  <SchemaDefinition schemaRef="#/components/schemas/byok.v1.Key" />
+
+                  ## Quotas and Limits
+                  This resource is subject to the [following quotas](https://docs.confluent.io/cloud/current/quotas/overview.html):
+
+                  | Quota | Description |
+                  | --- | --- |
+                  | `byok.max_keys.per_org` | BYOK keys in one Confluent Cloud organisation. |
+                required:
+                  - api_version
+                  - kind
+                  - metadata
+                  - data
+                properties:
+                  api_version:
+                    type: string
+                    enum:
+                      - byok/v1
+                    description: APIVersion defines the schema version of this representation of a resource.
+                    readOnly: true
+                  kind:
+                    type: string
+                    description: Kind defines the object this REST resource represents.
+                    readOnly: true
+                    enum:
+                      - KeyList
+                  metadata:
+                    type: object
+                    description: ListMeta describes metadata that resource collections may have
+                    properties:
+                      first:
+                        description: A link to the first page of results. If a response does not contain a first link, then direct navigation to the first page is not supported.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: https://api.confluent.cloud/v2/resourcekinds
+                      last:
+                        description: A link to the last page of results. If a response does not contain a last link, then direct navigation to the last page is not supported.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: https://api.confluent.cloud/v2/resourcekinds?page_token=bcAOehAY8F16YD84Z1wT
+                      prev:
+                        description: A link to the previous page of results. If a response does not contain a prev link, then either there is no previous data or backwards traversal through the result set is not supported.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: https://api.confluent.cloud/v2/resourcekinds?page_token=YIXRY97wWYmwzrax4dld
+                      next:
+                        description: A link to the next page of results. If a response does not contain a next link, then there is no more data available.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: https://api.confluent.cloud/v2/resourcekinds?page_token=UvmDWOB1iwfAIBPj6EYb
+                      total_size:
+                        description: Number of records in the full result set. This response may be paginated and have a smaller number of records.
+                        type: integer
+                        format: int32
+                        minimum: 0
+                        example: 123
+                  data:
+                    type: array
+                    description: A data property that contains an array of resource items. Each entry in the array is a separate resource.
+                    items:
+                      type: object
+                      description: |-
+                        `Key` objects represent customer managed keys on dedicated Confluent Cloud clusters.
+
+                        Keys are used to protect data at rest stored in your dedicated Confluent Cloud clusters on AWS, Azure, and GCP.
+                        This API allows you to upload and retrieve self-managed keys on Confluent Cloud.
+
+
+                        Related guide: [Confluent Cloud Bring Your Own Key (BYOK) Management API](https://docs.confluent.io/cloud/current/clusters/byok/index.html).
+
+                        ## The Keys Model
+                        <SchemaDefinition schemaRef="#/components/schemas/byok.v1.Key" />
+
+                        ## Quotas and Limits
+                        This resource is subject to the [following quotas](https://docs.confluent.io/cloud/current/quotas/overview.html):
+
+                        | Quota | Description |
+                        | --- | --- |
+                        | `byok.max_keys.per_org` | BYOK keys in one Confluent Cloud organisation. |
+                      properties:
+                        api_version:
+                          type: string
+                          enum:
+                            - byok/v1
+                          description: APIVersion defines the schema version of this representation of a resource.
+                          readOnly: true
+                        kind:
+                          type: string
+                          description: Kind defines the object this REST resource represents.
+                          readOnly: true
+                          enum:
+                            - Key
+                        id:
+                          description: ID is the "natural identifier" for an object within its scope/namespace; it is normally unique across time but not space. That is, you can assume that the ID will not be reclaimed and reused after an object is deleted ("time"); however, it may collide with IDs for other object `kinds` or objects of the same `kind` within a different scope/namespace ("space").
+                          type: string
+                          maxLength: 255
+                          readOnly: true
+                          example: dlz-f3a90de
+                        metadata:
+                          description: ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create.
+                          required:
+                            - self
+                          properties:
+                            self:
+                              description: Self is a Uniform Resource Locator (URL) at which an object can be addressed. This URL encodes the service location, API version, and other particulars necessary to locate the resource at a point in time
+                              type: string
+                              format: uri
+                              readOnly: true
+                              example: https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                            resource_name:
+                              description: Resource Name is a Uniform Resource Identifier (URI) that is globally unique across space and time. It is represented as a Confluent Resource Name
+                              type: string
+                              format: uri
+                              readOnly: true
+                              example: crn://confluent.cloud/kafka=lkc-f3a90de
+                            created_at:
+                              type: string
+                              format: date-time
+                              example: '2006-01-02T15:04:05-07:00'
+                              readOnly: true
+                              description: The date and time at which this object was created. It is represented in RFC3339 format and is in UTC.
+                            updated_at:
+                              type: string
+                              format: date-time
+                              example: '2006-01-02T15:04:05-07:00'
+                              readOnly: true
+                              description: The date and time at which this object was last updated. It is represented in RFC3339 format and is in UTC.
+                            deleted_at:
+                              type: string
+                              format: date-time
+                              example: '2006-01-02T15:04:05-07:00'
+                              readOnly: true
+                              description: The date and time at which this object was (or will be) deleted. It is represented in RFC3339 format and is in UTC.
+                          readOnly: true
+                          type: object
+                        key:
+                          type: object
+                          description: |
+                            The cloud-specific key details.
+
+                            For AWS, provide the corresponding `key_arn`.
+
+                            For Azure, provide the corresponding `key_id`.
+
+                            For GCP, provide the corresponding `key_id`.
+                          discriminator:
+                            propertyName: kind
+                            mapping:
+                              AwsKey: '#/components/schemas/byok.v1.AwsKey'
+                              AzureKey: '#/components/schemas/byok.v1.AzureKey'
+                              GcpKey: '#/components/schemas/byok.v1.GcpKey'
+                          x-immutable: true
+                          properties:
+                            key_arn:
+                              description: |
+                                The Amazon Resource Name (ARN) of an AWS KMS key.
+                              type: string
+                              example: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+                              x-immutable: true
+                            roles:
+                              description: |
+                                The Amazon Resource Names (ARNs) of IAM Roles created for this key-environment combination.
+                              type: array
+                              items:
+                                type: string
+                              readOnly: true
+                              example:
+                                - arn:aws:iam::123456789876:role/block_storage_manager
+                                - arn:aws:iam::987654321234:role/cc-kafka-1111aaaa-11aa-11aa-11aa-111111aaaaaa
+                            kind:
+                              description: |
+                                BYOK kind type.
+                              type: string
+                              enum:
+                                - AwsKey
+                              x-immutable: true
+                            application_id:
+                              description: |
+                                The Application ID created for this key-environment combination.
+                              type: string
+                              readOnly: true
+                            key_id:
+                              description: |
+                                The unique Key Object Identifier URL without version of an Azure Key Vault key.
+                              type: string
+                              example: https://vault-name.vault.azure.net/keys/key-name
+                              x-immutable: true
+                            key_vault_id:
+                              description: |
+                                Key Vault ID containing the key
+                              type: string
+                              example: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resourcegroup-name/providers/Microsoft.KeyVault/vaults/vault-name
+                              x-immutable: true
+                            tenant_id:
+                              description: |
+                                Tenant ID (uuid) hosting the Key Vault containing the key
+                              type: string
+                              example: 00000000-0000-0000-0000-000000000000
+                              x-immutable: true
+                            security_group:
+                              description: |
+                                The Google security group created for this key.
+                              type: string
+                              example: testgroupid@domain.com
+                              readOnly: true
+                          required:
+                            - key_arn
+                            - kind
+                            - key_id
+                            - key_vault_id
+                            - tenant_id
+                        display_name:
+                          type: string
+                          description: |
+                            The human-readable name of the key object.
+                          example: Key for billing cluster
+                          x-immutable: false
+                        provider:
+                          type: string
+                          x-extensible-enum:
+                            - AWS
+                            - Azure
+                            - GCP
+                          description: The cloud provider of the Key.
+                          readOnly: true
+                          example: AWS
+                        state:
+                          type: string
+                          x-extensible-enum:
+                            - AVAILABLE
+                            - IN_USE
+                          description: |
+                            The state of the key:
+
+                              AVAILABLE: key can be used for a Kafka cluster provisioning.
+
+                              IN_USE: key is already in use by a Kafka cluster provisioning.
+                          readOnly: true
+                          example: IN_USE
+                        validation:
+                          description: |
+                            The validation details of the key.
+                          readOnly: true
+                          type: object
+                          required:
+                            - phase
+                            - since
+                          properties:
+                            phase:
+                              type: string
+                              x-extensible-enum:
+                                - INITIALIZING
+                                - VALID
+                                - INVALID
+                              description: |
+                                The validation phase of the key:
+
+                                  INITIALIZING: Initial phase for new keys awaiting first successful validation.
+
+                                  VALID: Last validation attempt succeeded.
+
+                                  INVALID: Last validation attempt failed.
+                              example: VALID
+                            message:
+                              type: string
+                              description: |
+                                A message describing validation events.
+                              example: Access to key denied.
+                            since:
+                              type: string
+                              format: date-time
+                              description: |
+                                The timestamp since which the key is in the current validation phase.
+                                Changes to the validation message or phase will update this timestamp.
+                              example: '2024-03-20T15:30:00Z'
+                            region:
+                              type: string
+                              description: |
+                                The cloud region where the key is deployed. This value is computed by the
+                                API after the key is successfully validated.
+                              example: us-west-2
+                              readOnly: true
+                      required:
+                        - id
+                        - metadata
+                        - key
+                        - provider
+                        - state
+                        - validation
+                    uniqueItems: true
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+              description: The unique identifier for the API request.
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+              description: The maximum number of requests you're permitted to make per time period.
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: The number of requests remaining in the current rate limit window.
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: |-
+                The relative time in seconds until the current rate-limit window resets.  
+                  
+                **Important:** This differs from Github and Twitter's same-named header which uses UTC epoch seconds. We use relative time to avoid client/server time synchronization issues.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthenticatedError'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/DefaultSystemError'
+    post:
+      x-lifecycle-stage: General Availability
+      x-self-access: true
+      operationId: createByokV1Key
+      summary: Create a Key
+      description: |-
+        [![General Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy)
+
+        Make a request to create a key.
+      tags:
+        - Keys (byok/v1)
+      security:
+        - cloud-api-key: []
+        - confluent-sts-access-token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: |-
+                `Key` objects represent customer managed keys on dedicated Confluent Cloud clusters.
+
+                Keys are used to protect data at rest stored in your dedicated Confluent Cloud clusters on AWS, Azure, and GCP.
+                This API allows you to upload and retrieve self-managed keys on Confluent Cloud.
+
+
+                Related guide: [Confluent Cloud Bring Your Own Key (BYOK) Management API](https://docs.confluent.io/cloud/current/clusters/byok/index.html).
+
+                ## The Keys Model
+                <SchemaDefinition schemaRef="#/components/schemas/byok.v1.Key" />
+
+                ## Quotas and Limits
+                This resource is subject to the [following quotas](https://docs.confluent.io/cloud/current/quotas/overview.html):
+
+                | Quota | Description |
+                | --- | --- |
+                | `byok.max_keys.per_org` | BYOK keys in one Confluent Cloud organisation. |
+              properties:
+                api_version:
+                  type: string
+                  enum:
+                    - byok/v1
+                  description: APIVersion defines the schema version of this representation of a resource.
+                  readOnly: true
+                kind:
+                  type: string
+                  description: Kind defines the object this REST resource represents.
+                  readOnly: true
+                  enum:
+                    - Key
+                id:
+                  description: ID is the "natural identifier" for an object within its scope/namespace; it is normally unique across time but not space. That is, you can assume that the ID will not be reclaimed and reused after an object is deleted ("time"); however, it may collide with IDs for other object `kinds` or objects of the same `kind` within a different scope/namespace ("space").
+                  type: string
+                  maxLength: 255
+                  readOnly: true
+                  example: dlz-f3a90de
+                metadata:
+                  description: ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create.
+                  required:
+                    - self
+                  properties:
+                    self:
+                      description: Self is a Uniform Resource Locator (URL) at which an object can be addressed. This URL encodes the service location, API version, and other particulars necessary to locate the resource at a point in time
+                      type: string
+                      format: uri
+                      readOnly: true
+                      example: https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                    resource_name:
+                      description: Resource Name is a Uniform Resource Identifier (URI) that is globally unique across space and time. It is represented as a Confluent Resource Name
+                      type: string
+                      format: uri
+                      readOnly: true
+                      example: crn://confluent.cloud/kafka=lkc-f3a90de
+                    created_at:
+                      type: string
+                      format: date-time
+                      example: '2006-01-02T15:04:05-07:00'
+                      readOnly: true
+                      description: The date and time at which this object was created. It is represented in RFC3339 format and is in UTC.
+                    updated_at:
+                      type: string
+                      format: date-time
+                      example: '2006-01-02T15:04:05-07:00'
+                      readOnly: true
+                      description: The date and time at which this object was last updated. It is represented in RFC3339 format and is in UTC.
+                    deleted_at:
+                      type: string
+                      format: date-time
+                      example: '2006-01-02T15:04:05-07:00'
+                      readOnly: true
+                      description: The date and time at which this object was (or will be) deleted. It is represented in RFC3339 format and is in UTC.
+                  readOnly: true
+                  type: object
+                key:
+                  type: object
+                  description: |
+                    The cloud-specific key details.
+
+                    For AWS, provide the corresponding `key_arn`.
+
+                    For Azure, provide the corresponding `key_id`.
+
+                    For GCP, provide the corresponding `key_id`.
+                  discriminator:
+                    propertyName: kind
+                    mapping:
+                      AwsKey: '#/components/schemas/byok.v1.AwsKey'
+                      AzureKey: '#/components/schemas/byok.v1.AzureKey'
+                      GcpKey: '#/components/schemas/byok.v1.GcpKey'
+                  x-immutable: true
+                  properties:
+                    key_arn:
+                      description: |
+                        The Amazon Resource Name (ARN) of an AWS KMS key.
+                      type: string
+                      example: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+                      x-immutable: true
+                    roles:
+                      description: |
+                        The Amazon Resource Names (ARNs) of IAM Roles created for this key-environment combination.
+                      type: array
+                      items:
+                        type: string
+                      readOnly: true
+                      example:
+                        - arn:aws:iam::123456789876:role/block_storage_manager
+                        - arn:aws:iam::987654321234:role/cc-kafka-1111aaaa-11aa-11aa-11aa-111111aaaaaa
+                    kind:
+                      description: |
+                        BYOK kind type.
+                      type: string
+                      enum:
+                        - AwsKey
+                      x-immutable: true
+                    application_id:
+                      description: |
+                        The Application ID created for this key-environment combination.
+                      type: string
+                      readOnly: true
+                    key_id:
+                      description: |
+                        The unique Key Object Identifier URL without version of an Azure Key Vault key.
+                      type: string
+                      example: https://vault-name.vault.azure.net/keys/key-name
+                      x-immutable: true
+                    key_vault_id:
+                      description: |
+                        Key Vault ID containing the key
+                      type: string
+                      example: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resourcegroup-name/providers/Microsoft.KeyVault/vaults/vault-name
+                      x-immutable: true
+                    tenant_id:
+                      description: |
+                        Tenant ID (uuid) hosting the Key Vault containing the key
+                      type: string
+                      example: 00000000-0000-0000-0000-000000000000
+                      x-immutable: true
+                    security_group:
+                      description: |
+                        The Google security group created for this key.
+                      type: string
+                      example: testgroupid@domain.com
+                      readOnly: true
+                  required:
+                    - key_arn
+                    - kind
+                    - key_id
+                    - key_vault_id
+                    - tenant_id
+                display_name:
+                  type: string
+                  description: |
+                    The human-readable name of the key object.
+                  example: Key for billing cluster
+                  x-immutable: false
+                provider:
+                  type: string
+                  x-extensible-enum:
+                    - AWS
+                    - Azure
+                    - GCP
+                  description: The cloud provider of the Key.
+                  readOnly: true
+                  example: AWS
+                state:
+                  type: string
+                  x-extensible-enum:
+                    - AVAILABLE
+                    - IN_USE
+                  description: |
+                    The state of the key:
+
+                      AVAILABLE: key can be used for a Kafka cluster provisioning.
+
+                      IN_USE: key is already in use by a Kafka cluster provisioning.
+                  readOnly: true
+                  example: IN_USE
+                validation:
+                  description: |
+                    The validation details of the key.
+                  readOnly: true
+                  type: object
+                  required:
+                    - phase
+                    - since
+                  properties:
+                    phase:
+                      type: string
+                      x-extensible-enum:
+                        - INITIALIZING
+                        - VALID
+                        - INVALID
+                      description: |
+                        The validation phase of the key:
+
+                          INITIALIZING: Initial phase for new keys awaiting first successful validation.
+
+                          VALID: Last validation attempt succeeded.
+
+                          INVALID: Last validation attempt failed.
+                      example: VALID
+                    message:
+                      type: string
+                      description: |
+                        A message describing validation events.
+                      example: Access to key denied.
+                    since:
+                      type: string
+                      format: date-time
+                      description: |
+                        The timestamp since which the key is in the current validation phase.
+                        Changes to the validation message or phase will update this timestamp.
+                      example: '2024-03-20T15:30:00Z'
+                    region:
+                      type: string
+                      description: |
+                        The cloud region where the key is deployed. This value is computed by the
+                        API after the key is successfully validated.
+                      example: us-west-2
+                      readOnly: true
+              required:
+                - key
+      responses:
+        '201':
+          description: A Key was created.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+              description: The unique identifier for the API request.
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+              description: The maximum number of requests you're permitted to make per time period.
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: The number of requests remaining in the current rate limit window.
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: |-
+                The relative time in seconds until the current rate-limit window resets.  
+                  
+                **Important:** This differs from Github and Twitter's same-named header which uses UTC epoch seconds. We use relative time to avoid client/server time synchronization issues.
+            Location:
+              schema:
+                type: string
+                format: uri
+                example: https://api.confluent.cloud/byok/v1/keys/{id}
+              description: Key resource uri
+          content:
+            application/json:
+              schema:
+                type: object
+                description: |-
+                  `Key` objects represent customer managed keys on dedicated Confluent Cloud clusters.
+
+                  Keys are used to protect data at rest stored in your dedicated Confluent Cloud clusters on AWS, Azure, and GCP.
+                  This API allows you to upload and retrieve self-managed keys on Confluent Cloud.
+
+
+                  Related guide: [Confluent Cloud Bring Your Own Key (BYOK) Management API](https://docs.confluent.io/cloud/current/clusters/byok/index.html).
+
+                  ## The Keys Model
+                  <SchemaDefinition schemaRef="#/components/schemas/byok.v1.Key" />
+
+                  ## Quotas and Limits
+                  This resource is subject to the [following quotas](https://docs.confluent.io/cloud/current/quotas/overview.html):
+
+                  | Quota | Description |
+                  | --- | --- |
+                  | `byok.max_keys.per_org` | BYOK keys in one Confluent Cloud organisation. |
+                properties:
+                  api_version:
+                    type: string
+                    enum:
+                      - byok/v1
+                    description: APIVersion defines the schema version of this representation of a resource.
+                    readOnly: true
+                  kind:
+                    type: string
+                    description: Kind defines the object this REST resource represents.
+                    readOnly: true
+                    enum:
+                      - Key
+                  id:
+                    description: ID is the "natural identifier" for an object within its scope/namespace; it is normally unique across time but not space. That is, you can assume that the ID will not be reclaimed and reused after an object is deleted ("time"); however, it may collide with IDs for other object `kinds` or objects of the same `kind` within a different scope/namespace ("space").
+                    type: string
+                    maxLength: 255
+                    readOnly: true
+                    example: dlz-f3a90de
+                  metadata:
+                    description: ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create.
+                    required:
+                      - self
+                    properties:
+                      self:
+                        description: Self is a Uniform Resource Locator (URL) at which an object can be addressed. This URL encodes the service location, API version, and other particulars necessary to locate the resource at a point in time
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                      resource_name:
+                        description: Resource Name is a Uniform Resource Identifier (URI) that is globally unique across space and time. It is represented as a Confluent Resource Name
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: crn://confluent.cloud/kafka=lkc-f3a90de
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: The date and time at which this object was created. It is represented in RFC3339 format and is in UTC.
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: The date and time at which this object was last updated. It is represented in RFC3339 format and is in UTC.
+                      deleted_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: The date and time at which this object was (or will be) deleted. It is represented in RFC3339 format and is in UTC.
+                    readOnly: true
+                    type: object
+                  key:
+                    type: object
+                    description: |
+                      The cloud-specific key details.
+
+                      For AWS, provide the corresponding `key_arn`.
+
+                      For Azure, provide the corresponding `key_id`.
+
+                      For GCP, provide the corresponding `key_id`.
+                    discriminator:
+                      propertyName: kind
+                      mapping:
+                        AwsKey: '#/components/schemas/byok.v1.AwsKey'
+                        AzureKey: '#/components/schemas/byok.v1.AzureKey'
+                        GcpKey: '#/components/schemas/byok.v1.GcpKey'
+                    x-immutable: true
+                    properties:
+                      key_arn:
+                        description: |
+                          The Amazon Resource Name (ARN) of an AWS KMS key.
+                        type: string
+                        example: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+                        x-immutable: true
+                      roles:
+                        description: |
+                          The Amazon Resource Names (ARNs) of IAM Roles created for this key-environment combination.
+                        type: array
+                        items:
+                          type: string
+                        readOnly: true
+                        example:
+                          - arn:aws:iam::123456789876:role/block_storage_manager
+                          - arn:aws:iam::987654321234:role/cc-kafka-1111aaaa-11aa-11aa-11aa-111111aaaaaa
+                      kind:
+                        description: |
+                          BYOK kind type.
+                        type: string
+                        enum:
+                          - AwsKey
+                        x-immutable: true
+                      application_id:
+                        description: |
+                          The Application ID created for this key-environment combination.
+                        type: string
+                        readOnly: true
+                      key_id:
+                        description: |
+                          The unique Key Object Identifier URL without version of an Azure Key Vault key.
+                        type: string
+                        example: https://vault-name.vault.azure.net/keys/key-name
+                        x-immutable: true
+                      key_vault_id:
+                        description: |
+                          Key Vault ID containing the key
+                        type: string
+                        example: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resourcegroup-name/providers/Microsoft.KeyVault/vaults/vault-name
+                        x-immutable: true
+                      tenant_id:
+                        description: |
+                          Tenant ID (uuid) hosting the Key Vault containing the key
+                        type: string
+                        example: 00000000-0000-0000-0000-000000000000
+                        x-immutable: true
+                      security_group:
+                        description: |
+                          The Google security group created for this key.
+                        type: string
+                        example: testgroupid@domain.com
+                        readOnly: true
+                    required:
+                      - key_arn
+                      - kind
+                      - key_id
+                      - key_vault_id
+                      - tenant_id
+                  display_name:
+                    type: string
+                    description: |
+                      The human-readable name of the key object.
+                    example: Key for billing cluster
+                    x-immutable: false
+                  provider:
+                    type: string
+                    x-extensible-enum:
+                      - AWS
+                      - Azure
+                      - GCP
+                    description: The cloud provider of the Key.
+                    readOnly: true
+                    example: AWS
+                  state:
+                    type: string
+                    x-extensible-enum:
+                      - AVAILABLE
+                      - IN_USE
+                    description: |
+                      The state of the key:
+
+                        AVAILABLE: key can be used for a Kafka cluster provisioning.
+
+                        IN_USE: key is already in use by a Kafka cluster provisioning.
+                    readOnly: true
+                    example: IN_USE
+                  validation:
+                    description: |
+                      The validation details of the key.
+                    readOnly: true
+                    type: object
+                    required:
+                      - phase
+                      - since
+                    properties:
+                      phase:
+                        type: string
+                        x-extensible-enum:
+                          - INITIALIZING
+                          - VALID
+                          - INVALID
+                        description: |
+                          The validation phase of the key:
+
+                            INITIALIZING: Initial phase for new keys awaiting first successful validation.
+
+                            VALID: Last validation attempt succeeded.
+
+                            INVALID: Last validation attempt failed.
+                        example: VALID
+                      message:
+                        type: string
+                        description: |
+                          A message describing validation events.
+                        example: Access to key denied.
+                      since:
+                        type: string
+                        format: date-time
+                        description: |
+                          The timestamp since which the key is in the current validation phase.
+                          Changes to the validation message or phase will update this timestamp.
+                        example: '2024-03-20T15:30:00Z'
+                      region:
+                        type: string
+                        description: |
+                          The cloud region where the key is deployed. This value is computed by the
+                          API after the key is successfully validated.
+                        example: us-west-2
+                        readOnly: true
+                required:
+                  - key
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthenticatedError'
+        '402':
+          $ref: '#/components/responses/OverQuotaError'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/DefaultSystemError'
+    x-lifecycle-stage: General Availability
+    x-self-access: true
+  /byok/v1/keys/{id}:
+    get:
+      x-lifecycle-stage: General Availability
+      x-self-access: true
+      operationId: getByokV1Key
+      summary: Read a Key
+      description: |-
+        [![General Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy)
+
+        Make a request to read a key.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique identifier for the key.
+      tags:
+        - Keys (byok/v1)
+      security:
+        - cloud-api-key: []
+        - confluent-sts-access-token: []
+      responses:
+        '200':
+          description: Key.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: |-
+                  `Key` objects represent customer managed keys on dedicated Confluent Cloud clusters.
+
+                  Keys are used to protect data at rest stored in your dedicated Confluent Cloud clusters on AWS, Azure, and GCP.
+                  This API allows you to upload and retrieve self-managed keys on Confluent Cloud.
+
+
+                  Related guide: [Confluent Cloud Bring Your Own Key (BYOK) Management API](https://docs.confluent.io/cloud/current/clusters/byok/index.html).
+
+                  ## The Keys Model
+                  <SchemaDefinition schemaRef="#/components/schemas/byok.v1.Key" />
+
+                  ## Quotas and Limits
+                  This resource is subject to the [following quotas](https://docs.confluent.io/cloud/current/quotas/overview.html):
+
+                  | Quota | Description |
+                  | --- | --- |
+                  | `byok.max_keys.per_org` | BYOK keys in one Confluent Cloud organisation. |
+                properties:
+                  api_version:
+                    type: string
+                    enum:
+                      - byok/v1
+                    description: APIVersion defines the schema version of this representation of a resource.
+                    readOnly: true
+                  kind:
+                    type: string
+                    description: Kind defines the object this REST resource represents.
+                    readOnly: true
+                    enum:
+                      - Key
+                  id:
+                    description: ID is the "natural identifier" for an object within its scope/namespace; it is normally unique across time but not space. That is, you can assume that the ID will not be reclaimed and reused after an object is deleted ("time"); however, it may collide with IDs for other object `kinds` or objects of the same `kind` within a different scope/namespace ("space").
+                    type: string
+                    maxLength: 255
+                    readOnly: true
+                    example: dlz-f3a90de
+                  metadata:
+                    description: ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create.
+                    required:
+                      - self
+                    properties:
+                      self:
+                        description: Self is a Uniform Resource Locator (URL) at which an object can be addressed. This URL encodes the service location, API version, and other particulars necessary to locate the resource at a point in time
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                      resource_name:
+                        description: Resource Name is a Uniform Resource Identifier (URI) that is globally unique across space and time. It is represented as a Confluent Resource Name
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: crn://confluent.cloud/kafka=lkc-f3a90de
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: The date and time at which this object was created. It is represented in RFC3339 format and is in UTC.
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: The date and time at which this object was last updated. It is represented in RFC3339 format and is in UTC.
+                      deleted_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: The date and time at which this object was (or will be) deleted. It is represented in RFC3339 format and is in UTC.
+                    readOnly: true
+                    type: object
+                  key:
+                    type: object
+                    description: |
+                      The cloud-specific key details.
+
+                      For AWS, provide the corresponding `key_arn`.
+
+                      For Azure, provide the corresponding `key_id`.
+
+                      For GCP, provide the corresponding `key_id`.
+                    discriminator:
+                      propertyName: kind
+                      mapping:
+                        AwsKey: '#/components/schemas/byok.v1.AwsKey'
+                        AzureKey: '#/components/schemas/byok.v1.AzureKey'
+                        GcpKey: '#/components/schemas/byok.v1.GcpKey'
+                    x-immutable: true
+                    properties:
+                      key_arn:
+                        description: |
+                          The Amazon Resource Name (ARN) of an AWS KMS key.
+                        type: string
+                        example: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+                        x-immutable: true
+                      roles:
+                        description: |
+                          The Amazon Resource Names (ARNs) of IAM Roles created for this key-environment combination.
+                        type: array
+                        items:
+                          type: string
+                        readOnly: true
+                        example:
+                          - arn:aws:iam::123456789876:role/block_storage_manager
+                          - arn:aws:iam::987654321234:role/cc-kafka-1111aaaa-11aa-11aa-11aa-111111aaaaaa
+                      kind:
+                        description: |
+                          BYOK kind type.
+                        type: string
+                        enum:
+                          - AwsKey
+                        x-immutable: true
+                      application_id:
+                        description: |
+                          The Application ID created for this key-environment combination.
+                        type: string
+                        readOnly: true
+                      key_id:
+                        description: |
+                          The unique Key Object Identifier URL without version of an Azure Key Vault key.
+                        type: string
+                        example: https://vault-name.vault.azure.net/keys/key-name
+                        x-immutable: true
+                      key_vault_id:
+                        description: |
+                          Key Vault ID containing the key
+                        type: string
+                        example: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resourcegroup-name/providers/Microsoft.KeyVault/vaults/vault-name
+                        x-immutable: true
+                      tenant_id:
+                        description: |
+                          Tenant ID (uuid) hosting the Key Vault containing the key
+                        type: string
+                        example: 00000000-0000-0000-0000-000000000000
+                        x-immutable: true
+                      security_group:
+                        description: |
+                          The Google security group created for this key.
+                        type: string
+                        example: testgroupid@domain.com
+                        readOnly: true
+                    required:
+                      - key_arn
+                      - kind
+                      - key_id
+                      - key_vault_id
+                      - tenant_id
+                  display_name:
+                    type: string
+                    description: |
+                      The human-readable name of the key object.
+                    example: Key for billing cluster
+                    x-immutable: false
+                  provider:
+                    type: string
+                    x-extensible-enum:
+                      - AWS
+                      - Azure
+                      - GCP
+                    description: The cloud provider of the Key.
+                    readOnly: true
+                    example: AWS
+                  state:
+                    type: string
+                    x-extensible-enum:
+                      - AVAILABLE
+                      - IN_USE
+                    description: |
+                      The state of the key:
+
+                        AVAILABLE: key can be used for a Kafka cluster provisioning.
+
+                        IN_USE: key is already in use by a Kafka cluster provisioning.
+                    readOnly: true
+                    example: IN_USE
+                  validation:
+                    description: |
+                      The validation details of the key.
+                    readOnly: true
+                    type: object
+                    required:
+                      - phase
+                      - since
+                    properties:
+                      phase:
+                        type: string
+                        x-extensible-enum:
+                          - INITIALIZING
+                          - VALID
+                          - INVALID
+                        description: |
+                          The validation phase of the key:
+
+                            INITIALIZING: Initial phase for new keys awaiting first successful validation.
+
+                            VALID: Last validation attempt succeeded.
+
+                            INVALID: Last validation attempt failed.
+                        example: VALID
+                      message:
+                        type: string
+                        description: |
+                          A message describing validation events.
+                        example: Access to key denied.
+                      since:
+                        type: string
+                        format: date-time
+                        description: |
+                          The timestamp since which the key is in the current validation phase.
+                          Changes to the validation message or phase will update this timestamp.
+                        example: '2024-03-20T15:30:00Z'
+                      region:
+                        type: string
+                        description: |
+                          The cloud region where the key is deployed. This value is computed by the
+                          API after the key is successfully validated.
+                        example: us-west-2
+                        readOnly: true
+                required:
+                  - api_version
+                  - kind
+                  - id
+                  - key
+                  - provider
+                  - state
+                  - validation
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+              description: The unique identifier for the API request.
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+              description: The maximum number of requests you're permitted to make per time period.
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: The number of requests remaining in the current rate limit window.
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: |-
+                The relative time in seconds until the current rate-limit window resets.  
+                  
+                **Important:** This differs from Github and Twitter's same-named header which uses UTC epoch seconds. We use relative time to avoid client/server time synchronization issues.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthenticatedError'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/DefaultSystemError'
+    patch:
+      x-lifecycle-stage: General Availability
+      x-self-access: true
+      operationId: updateByokV1Key
+      summary: Update a Key
+      description: |+
+        [![General Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy)
+
+        Make a request to update a key.
+
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique identifier for the key.
+      tags:
+        - Keys (byok/v1)
+      security:
+        - cloud-api-key: []
+        - confluent-sts-access-token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/byok.v1.Key'
+      responses:
+        '200':
+          description: Key.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: |-
+                  `Key` objects represent customer managed keys on dedicated Confluent Cloud clusters.
+
+                  Keys are used to protect data at rest stored in your dedicated Confluent Cloud clusters on AWS, Azure, and GCP.
+                  This API allows you to upload and retrieve self-managed keys on Confluent Cloud.
+
+
+                  Related guide: [Confluent Cloud Bring Your Own Key (BYOK) Management API](https://docs.confluent.io/cloud/current/clusters/byok/index.html).
+
+                  ## The Keys Model
+                  <SchemaDefinition schemaRef="#/components/schemas/byok.v1.Key" />
+
+                  ## Quotas and Limits
+                  This resource is subject to the [following quotas](https://docs.confluent.io/cloud/current/quotas/overview.html):
+
+                  | Quota | Description |
+                  | --- | --- |
+                  | `byok.max_keys.per_org` | BYOK keys in one Confluent Cloud organisation. |
+                properties:
+                  api_version:
+                    type: string
+                    enum:
+                      - byok/v1
+                    description: APIVersion defines the schema version of this representation of a resource.
+                    readOnly: true
+                  kind:
+                    type: string
+                    description: Kind defines the object this REST resource represents.
+                    readOnly: true
+                    enum:
+                      - Key
+                  id:
+                    description: ID is the "natural identifier" for an object within its scope/namespace; it is normally unique across time but not space. That is, you can assume that the ID will not be reclaimed and reused after an object is deleted ("time"); however, it may collide with IDs for other object `kinds` or objects of the same `kind` within a different scope/namespace ("space").
+                    type: string
+                    maxLength: 255
+                    readOnly: true
+                    example: dlz-f3a90de
+                  metadata:
+                    description: ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create.
+                    required:
+                      - self
+                    properties:
+                      self:
+                        description: Self is a Uniform Resource Locator (URL) at which an object can be addressed. This URL encodes the service location, API version, and other particulars necessary to locate the resource at a point in time
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                      resource_name:
+                        description: Resource Name is a Uniform Resource Identifier (URI) that is globally unique across space and time. It is represented as a Confluent Resource Name
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: crn://confluent.cloud/kafka=lkc-f3a90de
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: The date and time at which this object was created. It is represented in RFC3339 format and is in UTC.
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: The date and time at which this object was last updated. It is represented in RFC3339 format and is in UTC.
+                      deleted_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: The date and time at which this object was (or will be) deleted. It is represented in RFC3339 format and is in UTC.
+                    readOnly: true
+                    type: object
+                  key:
+                    type: object
+                    description: |
+                      The cloud-specific key details.
+
+                      For AWS, provide the corresponding `key_arn`.
+
+                      For Azure, provide the corresponding `key_id`.
+
+                      For GCP, provide the corresponding `key_id`.
+                    discriminator:
+                      propertyName: kind
+                      mapping:
+                        AwsKey: '#/components/schemas/byok.v1.AwsKey'
+                        AzureKey: '#/components/schemas/byok.v1.AzureKey'
+                        GcpKey: '#/components/schemas/byok.v1.GcpKey'
+                    x-immutable: true
+                    properties:
+                      key_arn:
+                        description: |
+                          The Amazon Resource Name (ARN) of an AWS KMS key.
+                        type: string
+                        example: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+                        x-immutable: true
+                      roles:
+                        description: |
+                          The Amazon Resource Names (ARNs) of IAM Roles created for this key-environment combination.
+                        type: array
+                        items:
+                          type: string
+                        readOnly: true
+                        example:
+                          - arn:aws:iam::123456789876:role/block_storage_manager
+                          - arn:aws:iam::987654321234:role/cc-kafka-1111aaaa-11aa-11aa-11aa-111111aaaaaa
+                      kind:
+                        description: |
+                          BYOK kind type.
+                        type: string
+                        enum:
+                          - AwsKey
+                        x-immutable: true
+                      application_id:
+                        description: |
+                          The Application ID created for this key-environment combination.
+                        type: string
+                        readOnly: true
+                      key_id:
+                        description: |
+                          The unique Key Object Identifier URL without version of an Azure Key Vault key.
+                        type: string
+                        example: https://vault-name.vault.azure.net/keys/key-name
+                        x-immutable: true
+                      key_vault_id:
+                        description: |
+                          Key Vault ID containing the key
+                        type: string
+                        example: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resourcegroup-name/providers/Microsoft.KeyVault/vaults/vault-name
+                        x-immutable: true
+                      tenant_id:
+                        description: |
+                          Tenant ID (uuid) hosting the Key Vault containing the key
+                        type: string
+                        example: 00000000-0000-0000-0000-000000000000
+                        x-immutable: true
+                      security_group:
+                        description: |
+                          The Google security group created for this key.
+                        type: string
+                        example: testgroupid@domain.com
+                        readOnly: true
+                    required:
+                      - key_arn
+                      - kind
+                      - key_id
+                      - key_vault_id
+                      - tenant_id
+                  display_name:
+                    type: string
+                    description: |
+                      The human-readable name of the key object.
+                    example: Key for billing cluster
+                    x-immutable: false
+                  provider:
+                    type: string
+                    x-extensible-enum:
+                      - AWS
+                      - Azure
+                      - GCP
+                    description: The cloud provider of the Key.
+                    readOnly: true
+                    example: AWS
+                  state:
+                    type: string
+                    x-extensible-enum:
+                      - AVAILABLE
+                      - IN_USE
+                    description: |
+                      The state of the key:
+
+                        AVAILABLE: key can be used for a Kafka cluster provisioning.
+
+                        IN_USE: key is already in use by a Kafka cluster provisioning.
+                    readOnly: true
+                    example: IN_USE
+                  validation:
+                    description: |
+                      The validation details of the key.
+                    readOnly: true
+                    type: object
+                    required:
+                      - phase
+                      - since
+                    properties:
+                      phase:
+                        type: string
+                        x-extensible-enum:
+                          - INITIALIZING
+                          - VALID
+                          - INVALID
+                        description: |
+                          The validation phase of the key:
+
+                            INITIALIZING: Initial phase for new keys awaiting first successful validation.
+
+                            VALID: Last validation attempt succeeded.
+
+                            INVALID: Last validation attempt failed.
+                        example: VALID
+                      message:
+                        type: string
+                        description: |
+                          A message describing validation events.
+                        example: Access to key denied.
+                      since:
+                        type: string
+                        format: date-time
+                        description: |
+                          The timestamp since which the key is in the current validation phase.
+                          Changes to the validation message or phase will update this timestamp.
+                        example: '2024-03-20T15:30:00Z'
+                      region:
+                        type: string
+                        description: |
+                          The cloud region where the key is deployed. This value is computed by the
+                          API after the key is successfully validated.
+                        example: us-west-2
+                        readOnly: true
+                required:
+                  - api_version
+                  - kind
+                  - id
+                  - key
+                  - provider
+                  - state
+                  - validation
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+              description: The unique identifier for the API request.
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+              description: The maximum number of requests you're permitted to make per time period.
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: The number of requests remaining in the current rate limit window.
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: |-
+                The relative time in seconds until the current rate-limit window resets.  
+                  
+                **Important:** This differs from Github and Twitter's same-named header which uses UTC epoch seconds. We use relative time to avoid client/server time synchronization issues.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthenticatedError'
+        '402':
+          $ref: '#/components/responses/OverQuotaError'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/DefaultSystemError'
+    delete:
+      x-lifecycle-stage: General Availability
+      x-self-access: true
+      operationId: deleteByokV1Key
+      summary: Delete a Key
+      description: |-
+        [![General Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy)
+
+        Make a request to delete a key.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique identifier for the key.
+      tags:
+        - Keys (byok/v1)
+      security:
+        - cloud-api-key: []
+        - confluent-sts-access-token: []
+      responses:
+        '204':
+          description: A Key is being deleted.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+              description: The unique identifier for the API request.
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+              description: The maximum number of requests you're permitted to make per time period.
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: The number of requests remaining in the current rate limit window.
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: |-
+                The relative time in seconds until the current rate-limit window resets.  
+                  
+                **Important:** This differs from Github and Twitter's same-named header which uses UTC epoch seconds. We use relative time to avoid client/server time synchronization issues.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthenticatedError'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/DefaultSystemError'
+    x-lifecycle-stage: General Availability
+    x-self-access: true
+components:
+  schemas:
+    CreateKekRequest:
+      example:
+        kmsProps:
+          key: kmsProps
+        shared: true
+        name: name
+        doc: doc
+        kmsKeyId: kmsKeyId
+        kmsType: kmsType
+      properties:
+        name:
+          type: string
+          description: Name of the kek
+        kmsType:
+          type: string
+          description: KMS type of the kek
+        kmsKeyId:
+          type: string
+          description: KMS key ID of the kek
+        kmsProps:
+          type: object
+          additionalProperties:
+            type: string
+          description: Properties of the kek
+        doc:
+          type: string
+          description: Description of the kek
+        shared:
+          type: boolean
+          description: Whether the kek is shared
+        deleted:
+          type: boolean
+          description: Whether the kek is deleted
+      type: object
+    Kek:
+      example:
+        kmsProps:
+          key: kmsProps
+        shared: true
+        deleted: true
+        name: name
+        doc: doc
+        kmsKeyId: kmsKeyId
+        kmsType: kmsType
+        ts: 0
+      properties:
+        name:
+          type: string
+          description: Name of the kek
+        kmsType:
+          type: string
+          description: KMS type of the kek
+        kmsKeyId:
+          type: string
+          description: KMS key ID of the kek
+        kmsProps:
+          type: object
+          additionalProperties:
+            type: string
+          description: Properties of the kek
+        doc:
+          type: string
+          description: Description of the kek
+        shared:
+          type: boolean
+          description: Whether the kek is shared
+        ts:
+          type: integer
+          description: Timestamp of the kek
+          format: int64
+        deleted:
+          type: boolean
+          description: Whether the kek is deleted
+      type: object
+    UpdateKekRequest:
+      example:
+        kmsProps:
+          key: kmsProps
+        shared: true
+        doc: doc
+      properties:
+        kmsProps:
+          type: object
+          additionalProperties:
+            type: string
+          description: Properties of the kek
+        doc:
+          type: string
+          description: Description of the kek
+        shared:
+          type: boolean
+          description: Whether the kek is shared
+      type: object
+    CreateDekRequest:
+      example:
+        subject: subject
+        encryptedKeyMaterial: encryptedKeyMaterial
+        version: 0
+        algorithm: AES128_GCM
+      properties:
+        subject:
+          type: string
+          description: Subject of the dek
+        version:
+          type: integer
+          description: Version of the dek
+          format: int32
+        algorithm:
+          type: string
+          description: Algorithm of the dek
+          enum:
+            - AES128_GCM
+            - AES256_GCM
+            - AES256_SIV
+        encryptedKeyMaterial:
+          type: string
+          description: Encrypted key material of the dek
+        deleted:
+          type: boolean
+          description: Whether the dek is deleted
+      type: object
+    Dek:
+      example:
+        kekName: kekName
+        keyMaterial: keyMaterial
+        deleted: true
+        subject: subject
+        encryptedKeyMaterial: encryptedKeyMaterial
+        version: 0
+        algorithm: AES128_GCM
+        ts: 6
+      properties:
+        kekName:
+          type: string
+          description: Kek name of the dek
+        subject:
+          type: string
+          description: Subject of the dek
+        version:
+          type: integer
+          description: Version of the dek
+          format: int32
+        algorithm:
+          type: string
+          description: Algorithm of the dek
+          enum:
+            - AES128_GCM
+            - AES256_GCM
+            - AES256_SIV
+        encryptedKeyMaterial:
+          type: string
+          description: Encrypted key material of the dek
+        keyMaterial:
+          type: string
+          description: Raw key material of the dek
+        ts:
+          type: integer
+          description: Timestamp of the dek
+          format: int64
+        deleted:
+          type: boolean
+          description: Whether the dek is deleted
+      type: object
+    SearchFilter:
+      description: Filter a collection by a string search
+      type: string
+    byok.v1.KeyList:
+      type: object
+      description: |-
+        `Key` objects represent customer managed keys on dedicated Confluent Cloud clusters.
+
+        Keys are used to protect data at rest stored in your dedicated Confluent Cloud clusters on AWS, Azure, and GCP.
+        This API allows you to upload and retrieve self-managed keys on Confluent Cloud.
+
+
+        Related guide: [Confluent Cloud Bring Your Own Key (BYOK) Management API](https://docs.confluent.io/cloud/current/clusters/byok/index.html).
+
+        ## The Keys Model
+        <SchemaDefinition schemaRef="#/components/schemas/byok.v1.Key" />
+
+        ## Quotas and Limits
+        This resource is subject to the [following quotas](https://docs.confluent.io/cloud/current/quotas/overview.html):
+
+        | Quota | Description |
+        | --- | --- |
+        | `byok.max_keys.per_org` | BYOK keys in one Confluent Cloud organisation. |
+      required:
+        - api_version
+        - kind
+        - metadata
+        - data
+      properties:
+        api_version:
+          type: string
+          enum:
+            - byok/v1
+          description: APIVersion defines the schema version of this representation of a resource.
+          readOnly: true
+        kind:
+          type: string
+          description: Kind defines the object this REST resource represents.
+          readOnly: true
+          enum:
+            - KeyList
+        metadata:
+          type: object
+          description: ListMeta describes metadata that resource collections may have
+          properties:
+            first:
+              description: A link to the first page of results. If a response does not contain a first link, then direct navigation to the first page is not supported.
+              type: string
+              format: uri
+              nullable: true
+              example: https://api.confluent.cloud/v2/resourcekinds
+            last:
+              description: A link to the last page of results. If a response does not contain a last link, then direct navigation to the last page is not supported.
+              type: string
+              format: uri
+              nullable: true
+              example: https://api.confluent.cloud/v2/resourcekinds?page_token=bcAOehAY8F16YD84Z1wT
+            prev:
+              description: A link to the previous page of results. If a response does not contain a prev link, then either there is no previous data or backwards traversal through the result set is not supported.
+              type: string
+              format: uri
+              nullable: true
+              example: https://api.confluent.cloud/v2/resourcekinds?page_token=YIXRY97wWYmwzrax4dld
+            next:
+              description: A link to the next page of results. If a response does not contain a next link, then there is no more data available.
+              type: string
+              format: uri
+              nullable: true
+              example: https://api.confluent.cloud/v2/resourcekinds?page_token=UvmDWOB1iwfAIBPj6EYb
+            total_size:
+              description: Number of records in the full result set. This response may be paginated and have a smaller number of records.
+              type: integer
+              format: int32
+              minimum: 0
+              example: 123
+        data:
+          type: array
+          description: A data property that contains an array of resource items. Each entry in the array is a separate resource.
+          items:
+            type: object
+            description: |-
+              `Key` objects represent customer managed keys on dedicated Confluent Cloud clusters.
+
+              Keys are used to protect data at rest stored in your dedicated Confluent Cloud clusters on AWS, Azure, and GCP.
+              This API allows you to upload and retrieve self-managed keys on Confluent Cloud.
+
+
+              Related guide: [Confluent Cloud Bring Your Own Key (BYOK) Management API](https://docs.confluent.io/cloud/current/clusters/byok/index.html).
+
+              ## The Keys Model
+              <SchemaDefinition schemaRef="#/components/schemas/byok.v1.Key" />
+
+              ## Quotas and Limits
+              This resource is subject to the [following quotas](https://docs.confluent.io/cloud/current/quotas/overview.html):
+
+              | Quota | Description |
+              | --- | --- |
+              | `byok.max_keys.per_org` | BYOK keys in one Confluent Cloud organisation. |
+            properties:
+              api_version:
+                type: string
+                enum:
+                  - byok/v1
+                description: APIVersion defines the schema version of this representation of a resource.
+                readOnly: true
+              kind:
+                type: string
+                description: Kind defines the object this REST resource represents.
+                readOnly: true
+                enum:
+                  - Key
+              id:
+                description: ID is the "natural identifier" for an object within its scope/namespace; it is normally unique across time but not space. That is, you can assume that the ID will not be reclaimed and reused after an object is deleted ("time"); however, it may collide with IDs for other object `kinds` or objects of the same `kind` within a different scope/namespace ("space").
+                type: string
+                maxLength: 255
+                readOnly: true
+                example: dlz-f3a90de
+              metadata:
+                description: ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create.
+                required:
+                  - self
+                properties:
+                  self:
+                    description: Self is a Uniform Resource Locator (URL) at which an object can be addressed. This URL encodes the service location, API version, and other particulars necessary to locate the resource at a point in time
+                    type: string
+                    format: uri
+                    readOnly: true
+                    example: https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                  resource_name:
+                    description: Resource Name is a Uniform Resource Identifier (URI) that is globally unique across space and time. It is represented as a Confluent Resource Name
+                    type: string
+                    format: uri
+                    readOnly: true
+                    example: crn://confluent.cloud/kafka=lkc-f3a90de
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: '2006-01-02T15:04:05-07:00'
+                    readOnly: true
+                    description: The date and time at which this object was created. It is represented in RFC3339 format and is in UTC.
+                  updated_at:
+                    type: string
+                    format: date-time
+                    example: '2006-01-02T15:04:05-07:00'
+                    readOnly: true
+                    description: The date and time at which this object was last updated. It is represented in RFC3339 format and is in UTC.
+                  deleted_at:
+                    type: string
+                    format: date-time
+                    example: '2006-01-02T15:04:05-07:00'
+                    readOnly: true
+                    description: The date and time at which this object was (or will be) deleted. It is represented in RFC3339 format and is in UTC.
+                readOnly: true
+                type: object
+              key:
+                type: object
+                description: |
+                  The cloud-specific key details.
+
+                  For AWS, provide the corresponding `key_arn`.
+
+                  For Azure, provide the corresponding `key_id`.
+
+                  For GCP, provide the corresponding `key_id`.
+                discriminator:
+                  propertyName: kind
+                  mapping:
+                    AwsKey: '#/components/schemas/byok.v1.AwsKey'
+                    AzureKey: '#/components/schemas/byok.v1.AzureKey'
+                    GcpKey: '#/components/schemas/byok.v1.GcpKey'
+                x-immutable: true
+                properties:
+                  key_arn:
+                    description: |
+                      The Amazon Resource Name (ARN) of an AWS KMS key.
+                    type: string
+                    example: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+                    x-immutable: true
+                  roles:
+                    description: |
+                      The Amazon Resource Names (ARNs) of IAM Roles created for this key-environment combination.
+                    type: array
+                    items:
+                      type: string
+                    readOnly: true
+                    example:
+                      - arn:aws:iam::123456789876:role/block_storage_manager
+                      - arn:aws:iam::987654321234:role/cc-kafka-1111aaaa-11aa-11aa-11aa-111111aaaaaa
+                  kind:
+                    description: |
+                      BYOK kind type.
+                    type: string
+                    enum:
+                      - AwsKey
+                    x-immutable: true
+                  application_id:
+                    description: |
+                      The Application ID created for this key-environment combination.
+                    type: string
+                    readOnly: true
+                  key_id:
+                    description: |
+                      The unique Key Object Identifier URL without version of an Azure Key Vault key.
+                    type: string
+                    example: https://vault-name.vault.azure.net/keys/key-name
+                    x-immutable: true
+                  key_vault_id:
+                    description: |
+                      Key Vault ID containing the key
+                    type: string
+                    example: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resourcegroup-name/providers/Microsoft.KeyVault/vaults/vault-name
+                    x-immutable: true
+                  tenant_id:
+                    description: |
+                      Tenant ID (uuid) hosting the Key Vault containing the key
+                    type: string
+                    example: 00000000-0000-0000-0000-000000000000
+                    x-immutable: true
+                  security_group:
+                    description: |
+                      The Google security group created for this key.
+                    type: string
+                    example: testgroupid@domain.com
+                    readOnly: true
+                required:
+                  - key_arn
+                  - kind
+                  - key_id
+                  - key_vault_id
+                  - tenant_id
+              display_name:
+                type: string
+                description: |
+                  The human-readable name of the key object.
+                example: Key for billing cluster
+                x-immutable: false
+              provider:
+                type: string
+                x-extensible-enum:
+                  - AWS
+                  - Azure
+                  - GCP
+                description: The cloud provider of the Key.
+                readOnly: true
+                example: AWS
+              state:
+                type: string
+                x-extensible-enum:
+                  - AVAILABLE
+                  - IN_USE
+                description: |
+                  The state of the key:
+
+                    AVAILABLE: key can be used for a Kafka cluster provisioning.
+
+                    IN_USE: key is already in use by a Kafka cluster provisioning.
+                readOnly: true
+                example: IN_USE
+              validation:
+                description: |
+                  The validation details of the key.
+                readOnly: true
+                type: object
+                required:
+                  - phase
+                  - since
+                properties:
+                  phase:
+                    type: string
+                    x-extensible-enum:
+                      - INITIALIZING
+                      - VALID
+                      - INVALID
+                    description: |
+                      The validation phase of the key:
+
+                        INITIALIZING: Initial phase for new keys awaiting first successful validation.
+
+                        VALID: Last validation attempt succeeded.
+
+                        INVALID: Last validation attempt failed.
+                    example: VALID
+                  message:
+                    type: string
+                    description: |
+                      A message describing validation events.
+                    example: Access to key denied.
+                  since:
+                    type: string
+                    format: date-time
+                    description: |
+                      The timestamp since which the key is in the current validation phase.
+                      Changes to the validation message or phase will update this timestamp.
+                    example: '2024-03-20T15:30:00Z'
+                  region:
+                    type: string
+                    description: |
+                      The cloud region where the key is deployed. This value is computed by the
+                      API after the key is successfully validated.
+                    example: us-west-2
+                    readOnly: true
+            required:
+              - id
+              - metadata
+              - key
+              - provider
+              - state
+              - validation
+          uniqueItems: true
+    byok.v1.Key:
+      type: object
+      description: |-
+        `Key` objects represent customer managed keys on dedicated Confluent Cloud clusters.
+
+        Keys are used to protect data at rest stored in your dedicated Confluent Cloud clusters on AWS, Azure, and GCP.
+        This API allows you to upload and retrieve self-managed keys on Confluent Cloud.
+
+
+        Related guide: [Confluent Cloud Bring Your Own Key (BYOK) Management API](https://docs.confluent.io/cloud/current/clusters/byok/index.html).
+
+        ## The Keys Model
+        <SchemaDefinition schemaRef="#/components/schemas/byok.v1.Key" />
+
+        ## Quotas and Limits
+        This resource is subject to the [following quotas](https://docs.confluent.io/cloud/current/quotas/overview.html):
+
+        | Quota | Description |
+        | --- | --- |
+        | `byok.max_keys.per_org` | BYOK keys in one Confluent Cloud organisation. |
+      properties:
+        api_version:
+          type: string
+          enum:
+            - byok/v1
+          description: APIVersion defines the schema version of this representation of a resource.
+          readOnly: true
+        kind:
+          type: string
+          description: Kind defines the object this REST resource represents.
+          readOnly: true
+          enum:
+            - Key
+        id:
+          description: ID is the "natural identifier" for an object within its scope/namespace; it is normally unique across time but not space. That is, you can assume that the ID will not be reclaimed and reused after an object is deleted ("time"); however, it may collide with IDs for other object `kinds` or objects of the same `kind` within a different scope/namespace ("space").
+          type: string
+          maxLength: 255
+          readOnly: true
+          example: dlz-f3a90de
+        metadata:
+          description: ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create.
+          required:
+            - self
+          properties:
+            self:
+              description: Self is a Uniform Resource Locator (URL) at which an object can be addressed. This URL encodes the service location, API version, and other particulars necessary to locate the resource at a point in time
+              type: string
+              format: uri
+              readOnly: true
+              example: https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+            resource_name:
+              description: Resource Name is a Uniform Resource Identifier (URI) that is globally unique across space and time. It is represented as a Confluent Resource Name
+              type: string
+              format: uri
+              readOnly: true
+              example: crn://confluent.cloud/kafka=lkc-f3a90de
+            created_at:
+              type: string
+              format: date-time
+              example: '2006-01-02T15:04:05-07:00'
+              readOnly: true
+              description: The date and time at which this object was created. It is represented in RFC3339 format and is in UTC.
+            updated_at:
+              type: string
+              format: date-time
+              example: '2006-01-02T15:04:05-07:00'
+              readOnly: true
+              description: The date and time at which this object was last updated. It is represented in RFC3339 format and is in UTC.
+            deleted_at:
+              type: string
+              format: date-time
+              example: '2006-01-02T15:04:05-07:00'
+              readOnly: true
+              description: The date and time at which this object was (or will be) deleted. It is represented in RFC3339 format and is in UTC.
+          readOnly: true
+          type: object
+        key:
+          type: object
+          description: |
+            The cloud-specific key details.
+
+            For AWS, provide the corresponding `key_arn`.
+
+            For Azure, provide the corresponding `key_id`.
+
+            For GCP, provide the corresponding `key_id`.
+          discriminator:
+            propertyName: kind
+            mapping:
+              AwsKey: '#/components/schemas/byok.v1.AwsKey'
+              AzureKey: '#/components/schemas/byok.v1.AzureKey'
+              GcpKey: '#/components/schemas/byok.v1.GcpKey'
+          x-immutable: true
+          properties:
+            key_arn:
+              description: |
+                The Amazon Resource Name (ARN) of an AWS KMS key.
+              type: string
+              example: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+              x-immutable: true
+            roles:
+              description: |
+                The Amazon Resource Names (ARNs) of IAM Roles created for this key-environment combination.
+              type: array
+              items:
+                type: string
+              readOnly: true
+              example:
+                - arn:aws:iam::123456789876:role/block_storage_manager
+                - arn:aws:iam::987654321234:role/cc-kafka-1111aaaa-11aa-11aa-11aa-111111aaaaaa
+            kind:
+              description: |
+                BYOK kind type.
+              type: string
+              enum:
+                - AwsKey
+              x-immutable: true
+            application_id:
+              description: |
+                The Application ID created for this key-environment combination.
+              type: string
+              readOnly: true
+            key_id:
+              description: |
+                The unique Key Object Identifier URL without version of an Azure Key Vault key.
+              type: string
+              example: https://vault-name.vault.azure.net/keys/key-name
+              x-immutable: true
+            key_vault_id:
+              description: |
+                Key Vault ID containing the key
+              type: string
+              example: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resourcegroup-name/providers/Microsoft.KeyVault/vaults/vault-name
+              x-immutable: true
+            tenant_id:
+              description: |
+                Tenant ID (uuid) hosting the Key Vault containing the key
+              type: string
+              example: 00000000-0000-0000-0000-000000000000
+              x-immutable: true
+            security_group:
+              description: |
+                The Google security group created for this key.
+              type: string
+              example: testgroupid@domain.com
+              readOnly: true
+          required:
+            - key_arn
+            - kind
+            - key_id
+            - key_vault_id
+            - tenant_id
+        display_name:
+          type: string
+          description: |
+            The human-readable name of the key object.
+          example: Key for billing cluster
+          x-immutable: false
+        provider:
+          type: string
+          x-extensible-enum:
+            - AWS
+            - Azure
+            - GCP
+          description: The cloud provider of the Key.
+          readOnly: true
+          example: AWS
+        state:
+          type: string
+          x-extensible-enum:
+            - AVAILABLE
+            - IN_USE
+          description: |
+            The state of the key:
+
+              AVAILABLE: key can be used for a Kafka cluster provisioning.
+
+              IN_USE: key is already in use by a Kafka cluster provisioning.
+          readOnly: true
+          example: IN_USE
+        validation:
+          description: |
+            The validation details of the key.
+          readOnly: true
+          type: object
+          required:
+            - phase
+            - since
+          properties:
+            phase:
+              type: string
+              x-extensible-enum:
+                - INITIALIZING
+                - VALID
+                - INVALID
+              description: |
+                The validation phase of the key:
+
+                  INITIALIZING: Initial phase for new keys awaiting first successful validation.
+
+                  VALID: Last validation attempt succeeded.
+
+                  INVALID: Last validation attempt failed.
+              example: VALID
+            message:
+              type: string
+              description: |
+                A message describing validation events.
+              example: Access to key denied.
+            since:
+              type: string
+              format: date-time
+              description: |
+                The timestamp since which the key is in the current validation phase.
+                Changes to the validation message or phase will update this timestamp.
+              example: '2024-03-20T15:30:00Z'
+            region:
+              type: string
+              description: |
+                The cloud region where the key is deployed. This value is computed by the
+                API after the key is successfully validated.
+              example: us-west-2
+              readOnly: true
+    ListMeta:
+      type: object
+      description: ListMeta describes metadata that resource collections may have
+      properties:
+        first:
+          description: A link to the first page of results. If a response does not contain a first link, then direct navigation to the first page is not supported.
+          type: string
+          format: uri
+          nullable: true
+          example: https://api.confluent.cloud/v2/resourcekinds
+        last:
+          description: A link to the last page of results. If a response does not contain a last link, then direct navigation to the last page is not supported.
+          type: string
+          format: uri
+          nullable: true
+          example: https://api.confluent.cloud/v2/resourcekinds?page_token=bcAOehAY8F16YD84Z1wT
+        prev:
+          description: A link to the previous page of results. If a response does not contain a prev link, then either there is no previous data or backwards traversal through the result set is not supported.
+          type: string
+          format: uri
+          nullable: true
+          example: https://api.confluent.cloud/v2/resourcekinds?page_token=YIXRY97wWYmwzrax4dld
+        next:
+          description: A link to the next page of results. If a response does not contain a next link, then there is no more data available.
+          type: string
+          format: uri
+          nullable: true
+          example: https://api.confluent.cloud/v2/resourcekinds?page_token=UvmDWOB1iwfAIBPj6EYb
+        total_size:
+          description: Number of records in the full result set. This response may be paginated and have a smaller number of records.
+          type: integer
+          format: int32
+          minimum: 0
+          example: 123
+    Failure:
+      type: object
+      description: Provides information about problems encountered while performing an operation.
+      required:
+        - errors
+      properties:
+        errors:
+          description: List of errors which caused this operation to fail
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+          uniqueItems: true
+    ObjectMeta:
+      description: ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create.
+      required:
+        - self
+      properties:
+        self:
+          description: Self is a Uniform Resource Locator (URL) at which an object can be addressed. This URL encodes the service location, API version, and other particulars necessary to locate the resource at a point in time
+          type: string
+          format: uri
+          readOnly: true
+          example: https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+        resource_name:
+          description: Resource Name is a Uniform Resource Identifier (URI) that is globally unique across space and time. It is represented as a Confluent Resource Name
+          type: string
+          format: uri
+          readOnly: true
+          example: crn://confluent.cloud/kafka=lkc-f3a90de
+        created_at:
+          type: string
+          format: date-time
+          example: '2006-01-02T15:04:05-07:00'
+          readOnly: true
+          description: The date and time at which this object was created. It is represented in RFC3339 format and is in UTC.
+        updated_at:
+          type: string
+          format: date-time
+          example: '2006-01-02T15:04:05-07:00'
+          readOnly: true
+          description: The date and time at which this object was last updated. It is represented in RFC3339 format and is in UTC.
+        deleted_at:
+          type: string
+          format: date-time
+          example: '2006-01-02T15:04:05-07:00'
+          readOnly: true
+          description: The date and time at which this object was (or will be) deleted. It is represented in RFC3339 format and is in UTC.
+      readOnly: true
+      type: object
+    byok.v1.AwsKey:
+      type: object
+      description: |
+        The AWS BYOK details
+      properties:
+        key_arn:
+          description: |
+            The Amazon Resource Name (ARN) of an AWS KMS key.
+          type: string
+          example: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+          x-immutable: true
+        roles:
+          description: |
+            The Amazon Resource Names (ARNs) of IAM Roles created for this key-environment combination.
+          type: array
+          items:
+            type: string
+          readOnly: true
+          example:
+            - arn:aws:iam::123456789876:role/block_storage_manager
+            - arn:aws:iam::987654321234:role/cc-kafka-1111aaaa-11aa-11aa-11aa-111111aaaaaa
+        kind:
+          description: |
+            BYOK kind type.
+          type: string
+          enum:
+            - AwsKey
+          x-immutable: true
+      required:
+        - key_arn
+        - kind
+    byok.v1.AzureKey:
+      type: object
+      description: |
+        The Azure BYOK details.
+      properties:
+        application_id:
+          description: |
+            The Application ID created for this key-environment combination.
+          type: string
+          readOnly: true
+        key_id:
+          description: |
+            The unique Key Object Identifier URL without version of an Azure Key Vault key.
+          type: string
+          example: https://vault-name.vault.azure.net/keys/key-name
+          x-immutable: true
+        key_vault_id:
+          description: |
+            Key Vault ID containing the key
+          type: string
+          example: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resourcegroup-name/providers/Microsoft.KeyVault/vaults/vault-name
+          x-immutable: true
+        kind:
+          description: |
+            BYOK kind type.
+          type: string
+          enum:
+            - AzureKey
+          x-immutable: true
+        tenant_id:
+          description: |
+            Tenant ID (uuid) hosting the Key Vault containing the key
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+          x-immutable: true
+      required:
+        - key_id
+        - key_vault_id
+        - kind
+        - tenant_id
+    byok.v1.GcpKey:
+      type: object
+      description: |
+        The GCP BYOK details
+      properties:
+        key_id:
+          description: |
+            The Google Cloud Platform key ID.
+          type: string
+          example: projects/exampleproject/locations/us-central1/keyRings/testkeyring/cryptoKeys/testbyokkey/cryptoKeyVersions/3
+          x-immutable: true
+        security_group:
+          description: |
+            The Google security group created for this key.
+          type: string
+          example: testgroupid@domain.com
+          readOnly: true
+        kind:
+          description: |
+            BYOK kind type.
+          type: string
+          enum:
+            - GcpKey
+          x-immutable: true
+      required:
+        - key_id
+        - kind
+    byok.v1.KeyValidation:
+      type: object
+      description: |
+        The validation details of the key.
+      required:
+        - phase
+        - since
+      properties:
+        phase:
+          type: string
+          x-extensible-enum:
+            - INITIALIZING
+            - VALID
+            - INVALID
+          description: |
+            The validation phase of the key:
+
+              INITIALIZING: Initial phase for new keys awaiting first successful validation.
+
+              VALID: Last validation attempt succeeded.
+
+              INVALID: Last validation attempt failed.
+          example: VALID
+        message:
+          type: string
+          description: |
+            A message describing validation events.
+          example: Access to key denied.
+        since:
+          type: string
+          format: date-time
+          description: |
+            The timestamp since which the key is in the current validation phase.
+            Changes to the validation message or phase will update this timestamp.
+          example: '2024-03-20T15:30:00Z'
+        region:
+          type: string
+          description: |
+            The cloud region where the key is deployed. This value is computed by the
+            API after the key is successfully validated.
+          example: us-west-2
+          readOnly: true
+    Error:
+      type: object
+      description: Describes a particular error encountered while performing an operation.
+      properties:
+        id:
+          description: A unique identifier for this particular occurrence of the problem.
+          type: string
+          maxLength: 255
+        status:
+          description: The HTTP status code applicable to this problem, expressed as a string value.
+          type: string
+        code:
+          description: An application-specific error code, expressed as a string value.
+          type: string
+        title:
+          description: A short, human-readable summary of the problem. It **SHOULD NOT** change from occurrence to occurrence of the problem, except for purposes of localization.
+          type: string
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          type: string
+        source:
+          type: object
+          description: If this error was caused by a particular part of the API request, the source will point to the query string parameter or request body property that caused it.
+          properties:
+            pointer:
+              description: A JSON Pointer [RFC6901] to the associated entity in the request document [e.g. "/spec" for a spec object, or "/spec/title" for a specific field].
+              type: string
+            parameter:
+              description: A string indicating which query parameter caused the error.
+              type: string
+        error_code:
+          type: integer
+          format: int32
+        message:
+          type: string
+          nullable: true
+      additionalProperties: false
+  responses:
+    BadRequestError:
+      description: Bad Request
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                status: '400'
+                code: invalid_filter
+                title: Invalid Filter
+                detail: The 'delorean' resource can't be filtered by 'num_doors'
+                source:
+                  parameter: num_doors
+    UnauthenticatedError:
+      x-summary: Unauthorized
+      description: The request lacks valid authentication credentials for this resource.
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+        WWW-Authenticate:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+          example: Basic error="invalid_key", error_description="The API Key is invalid"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                status: '401'
+                code: user_unauthenticated
+                title: Authentication Required
+                detail: Valid authentication credentials must be provided
+    UnauthorizedError:
+      x-summary: Forbidden
+      description: The access credentials were considered insufficient to grant access
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                status: '403'
+                code: user_unauthorized
+                title: User Access Unauthorized
+                detail: The user 'mcfly' is not allowed to access the 'delorean' resource without the 'plutonium' role.
+    RateLimitError:
+      description: Rate Limit Exceeded
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+        X-RateLimit-Limit:
+          schema:
+            type: integer
+          description: The maximum number of requests you're permitted to make per time period.
+        X-RateLimit-Remaining:
+          schema:
+            type: integer
+          description: The number of requests remaining in the current rate limit window.
+        X-RateLimit-Reset:
+          schema:
+            type: integer
+          description: |-
+            The relative time in seconds until the current rate-limit window resets.  
+              
+            **Important:** This differs from Github and Twitter's same-named header which uses UTC epoch seconds. We use relative time to avoid client/server time synchronization issues.
+        Retry-After:
+          schema:
+            type: integer
+          description: The number of seconds to wait until the rate limit window resets. Only sent when the rate limit is reached.
+    DefaultSystemError:
+      description: Oops, something went wrong!
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                status: '500'
+                code: out_of_gas
+                title: DeLorean Out Of Gas
+                detail: The DeLorean has run out of gas, but Doc Brown will fill 'er up for you asap
+    OverQuotaError:
+      x-summary: Over Quota
+      description: The request would exceed one or more quotas.
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                status: '402'
+                code: quota_exceeded
+                title: Kafka Clusters Per Org Quota Exceeded
+                detail: 'The request would exceed the quota: kafka_clusters_per_environment'
+    ConflictError:
+      x-summary: Conflict
+      description: The request is in conflict with the current server state
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+        Location:
+          schema:
+            type: string
+            format: uri
+            example: https://api.confluent.cloud/{object}/{id}
+          description: Resource URI of conflicting resource
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                status: '409'
+                code: resource_already_exists
+                title: Resource Already exists
+                detail: The entitlement '91e3e86f-fca6-4f14-98f5-a48e64113ce2' already exists.
+    ValidationError:
+      description: Validation Failed
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: 'The property ''/cluster/storage_size'' of type string did not match the following type: integer'
+                source:
+                  pointer: /cluster/storage_size
+    NotFoundError:
+      description: Not Found
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                status: '404'
+                title: Not Found
+servers:
+  - url: https://api.confluent.cloud
+    description: Confluent Cloud API

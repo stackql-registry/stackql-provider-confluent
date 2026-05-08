@@ -1,0 +1,261 @@
+id: confluent
+name: confluent
+version: v00.00.00000
+providerServices:
+  billing:
+    id: billing:v00.00.00000
+    name: billing
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/billing.yaml
+    title: billing API
+    version: v00.00.00000
+    description: confluent billing API
+  catalog:
+    id: catalog:v00.00.00000
+    name: catalog
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/catalog.yaml
+    title: catalog API
+    version: v00.00.00000
+    description: confluent catalog API
+  ccl:
+    id: ccl:v00.00.00000
+    name: ccl
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/ccl.yaml
+    title: ccl API
+    version: v00.00.00000
+    description: confluent ccl API
+  ccpm:
+    id: ccpm:v00.00.00000
+    name: ccpm
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/ccpm.yaml
+    title: ccpm API
+    version: v00.00.00000
+    description: confluent ccpm API
+  connect:
+    id: connect:v00.00.00000
+    name: connect
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/connect.yaml
+    title: connect API
+    version: v00.00.00000
+    description: confluent connect API
+  encryption_keys:
+    id: encryption_keys:v00.00.00000
+    name: encryption_keys
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/encryption_keys.yaml
+    title: encryption_keys API
+    version: v00.00.00000
+    description: confluent encryption_keys API
+  endpoints:
+    id: endpoints:v00.00.00000
+    name: endpoints
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/endpoints.yaml
+    title: endpoints API
+    version: v00.00.00000
+    description: confluent endpoints API
+  flink_artifacts:
+    id: flink_artifacts:v00.00.00000
+    name: flink_artifacts
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/flink_artifacts.yaml
+    title: flink_artifacts API
+    version: v00.00.00000
+    description: confluent flink_artifacts API
+  flink_compute_pools:
+    id: flink_compute_pools:v00.00.00000
+    name: flink_compute_pools
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/flink_compute_pools.yaml
+    title: flink_compute_pools API
+    version: v00.00.00000
+    description: confluent flink_compute_pools API
+  iam:
+    id: iam:v00.00.00000
+    name: iam
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/iam.yaml
+    title: iam API
+    version: v00.00.00000
+    description: confluent iam API
+  kafka:
+    id: kafka:v00.00.00000
+    name: kafka
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/kafka.yaml
+    title: kafka API
+    version: v00.00.00000
+    description: confluent kafka API
+  ksqldb_clusters:
+    id: ksqldb_clusters:v00.00.00000
+    name: ksqldb_clusters
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/ksqldb_clusters.yaml
+    title: ksqldb_clusters API
+    version: v00.00.00000
+    description: confluent ksqldb_clusters API
+  managed_kafka_clusters:
+    id: managed_kafka_clusters:v00.00.00000
+    name: managed_kafka_clusters
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/managed_kafka_clusters.yaml
+    title: managed_kafka_clusters API
+    version: v00.00.00000
+    description: confluent managed_kafka_clusters API
+  networking:
+    id: networking:v00.00.00000
+    name: networking
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/networking.yaml
+    title: networking API
+    version: v00.00.00000
+    description: confluent networking API
+  notifications:
+    id: notifications:v00.00.00000
+    name: notifications
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/notifications.yaml
+    title: notifications API
+    version: v00.00.00000
+    description: confluent notifications API
+  org:
+    id: org:v00.00.00000
+    name: org
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/org.yaml
+    title: org API
+    version: v00.00.00000
+    description: confluent org API
+  partner:
+    id: partner:v00.00.00000
+    name: partner
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/partner.yaml
+    title: partner API
+    version: v00.00.00000
+    description: confluent partner API
+  provider_integrations:
+    id: provider_integrations:v00.00.00000
+    name: provider_integrations
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/provider_integrations.yaml
+    title: provider_integrations API
+    version: v00.00.00000
+    description: confluent provider_integrations API
+  quotas:
+    id: quotas:v00.00.00000
+    name: quotas
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/quotas.yaml
+    title: quotas API
+    version: v00.00.00000
+    description: confluent quotas API
+  schema_registry:
+    id: schema_registry:v00.00.00000
+    name: schema_registry
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/schema_registry.yaml
+    title: schema_registry API
+    version: v00.00.00000
+    description: confluent schema_registry API
+  schema_registry_clusters:
+    id: schema_registry_clusters:v00.00.00000
+    name: schema_registry_clusters
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/schema_registry_clusters.yaml
+    title: schema_registry_clusters API
+    version: v00.00.00000
+    description: confluent schema_registry_clusters API
+  share_group:
+    id: share_group:v00.00.00000
+    name: share_group
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/share_group.yaml
+    title: share_group API
+    version: v00.00.00000
+    description: confluent share_group API
+  sql:
+    id: sql:v00.00.00000
+    name: sql
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/sql.yaml
+    title: sql API
+    version: v00.00.00000
+    description: confluent sql API
+  stream_sharing:
+    id: stream_sharing:v00.00.00000
+    name: stream_sharing
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/stream_sharing.yaml
+    title: stream_sharing API
+    version: v00.00.00000
+    description: confluent stream_sharing API
+  streams_group:
+    id: streams_group:v00.00.00000
+    name: streams_group
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/streams_group.yaml
+    title: streams_group API
+    version: v00.00.00000
+    description: confluent streams_group API
+  sts:
+    id: sts:v00.00.00000
+    name: sts
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/sts.yaml
+    title: sts API
+    version: v00.00.00000
+    description: confluent sts API
+  tableflow:
+    id: tableflow:v00.00.00000
+    name: tableflow
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/tableflow.yaml
+    title: tableflow API
+    version: v00.00.00000
+    description: confluent tableflow API
+  usm:
+    id: usm:v00.00.00000
+    name: usm
+    preferred: true
+    service:
+      $ref: confluent/v00.00.00000/services/usm.yaml
+    title: usm API
+    version: v00.00.00000
+    description: confluent usm API
+config:
+  auth:
+    type: basic
+    username_var: CONFLUENT_CLOUD_API_KEY
+    password_var: CONFLUENT_CLOUD_API_SECRET

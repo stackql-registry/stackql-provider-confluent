@@ -1,4 +1,4 @@
----
+--- 
 title: v3_clusters
 hide_title: false
 hide_table_of_contents: false
@@ -15,6 +15,7 @@ image: /img/stackql-confluent-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,42 +23,228 @@ Creates, updates, deletes, gets or lists a <code>v3_clusters</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>v3_clusters</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="v3_clusters" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="confluent.schema_registry_clusters.v3_clusters" /></td></tr>
 </tbody></table>
 
 ## Fields
-| Name | Datatype | Description |
-|:-----|:---------|:------------|
-| <CopyableCode code="id" /> | `string` | ID is the "natural identifier" for an object within its scope/namespace; it is normally unique across time but not space. That is, you can assume that the ID will not be reclaimed and reused after an object is deleted ("time"); however, it may collide with IDs for other object `kinds` or objects of the same `kind` within a different scope/namespace ("space"). |
-| <CopyableCode code="_spec" /> | `object` |  |
-| <CopyableCode code="api_version" /> | `string` | APIVersion defines the schema version of this representation of a resource. |
-| <CopyableCode code="kind" /> | `string` | Kind defines the object this REST resource represents. |
-| <CopyableCode code="metadata" /> | `` | ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create. |
-| <CopyableCode code="spec" /> | `object` | The desired state of the Cluster |
-| <CopyableCode code="status" /> | `object` | The status of the Cluster |
+
+The following fields are returned by `SELECT` queries:
+
+<Tabs
+    defaultValue="get_srcm_v3_cluster"
+    values={[
+        { label: 'get_srcm_v3_cluster', value: 'get_srcm_v3_cluster' },
+        { label: 'list_srcm_v3_clusters', value: 'list_srcm_v3_clusters' }
+    ]}
+>
+<TabItem value="get_srcm_v3_cluster">
+
+Cluster.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><CopyableCode code="id" /></td>
+    <td><code>string</code></td>
+    <td>ID is the "natural identifier" for an object within its scope/namespace; it is normally unique across time but not space. That is, you can assume that the ID will not be reclaimed and reused after an object is deleted ("time"); however, it may collide with IDs for other object `kinds` or objects of the same `kind` within a different scope/namespace ("space"). (example: dlz-f3a90de)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="api_version" /></td>
+    <td><code>string</code></td>
+    <td>APIVersion defines the schema version of this representation of a resource. (srcm/v3)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="kind" /></td>
+    <td><code>string</code></td>
+    <td>Kind defines the object this REST resource represents. (Cluster)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="metadata" /></td>
+    <td><code>object</code></td>
+    <td>ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="spec" /></td>
+    <td><code>object</code></td>
+    <td>The desired state of the Cluster</td>
+</tr>
+<tr>
+    <td><CopyableCode code="status" /></td>
+    <td><code>object</code></td>
+    <td>The status of the Cluster</td>
+</tr>
+</tbody>
+</table>
+</TabItem>
+<TabItem value="list_srcm_v3_clusters">
+
+Cluster.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><CopyableCode code="id" /></td>
+    <td><code>string</code></td>
+    <td>ID is the "natural identifier" for an object within its scope/namespace; it is normally unique across time but not space. That is, you can assume that the ID will not be reclaimed and reused after an object is deleted ("time"); however, it may collide with IDs for other object `kinds` or objects of the same `kind` within a different scope/namespace ("space"). (example: dlz-f3a90de)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="api_version" /></td>
+    <td><code>string</code></td>
+    <td>APIVersion defines the schema version of this representation of a resource. (srcm/v3)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="kind" /></td>
+    <td><code>string</code></td>
+    <td>Kind defines the object this REST resource represents. (Cluster)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="metadata" /></td>
+    <td><code>object</code></td>
+    <td>ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="spec" /></td>
+    <td><code>object</code></td>
+    <td>The desired state of the Cluster</td>
+</tr>
+<tr>
+    <td><CopyableCode code="status" /></td>
+    <td><code>object</code></td>
+    <td>The status of the Cluster</td>
+</tr>
+</tbody>
+</table>
+</TabItem>
+</Tabs>
 
 ## Methods
-| Name | Accessible by | Required Params | Description |
-|:-----|:--------------|:----------------|:------------|
-| <CopyableCode code="get_srcm_v3cluster" /> | `SELECT` | <CopyableCode code="environment, id" /> | [![General Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Make a request to read a cluster. |
-| <CopyableCode code="list_srcm_v3clusters" /> | `SELECT` | <CopyableCode code="environment" /> | [![General Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Retrieve a sorted, filtered, paginated list of all clusters. |
+
+The following methods are available for this resource:
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Accessible by</th>
+    <th>Required Params</th>
+    <th>Optional Params</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><a href="#get_srcm_v3_cluster"><CopyableCode code="get_srcm_v3_cluster" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td><a href="#parameter-environment"><code>environment</code></a>, <a href="#parameter-id"><code>id</code></a></td>
+    <td></td>
+    <td>Make a request to read a cluster.</td>
+</tr>
+<tr>
+    <td><a href="#list_srcm_v3_clusters"><CopyableCode code="list_srcm_v3_clusters" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td><a href="#parameter-environment"><code>environment</code></a></td>
+    <td><a href="#parameter-page_size"><code>page_size</code></a>, <a href="#parameter-page_token"><code>page_token</code></a></td>
+    <td>Retrieve a sorted, filtered, paginated list of all clusters.</td>
+</tr>
+</tbody>
+</table>
+
+## Parameters
+
+Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#methods) section to see which parameters are required or optional for each operation.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr id="parameter-environment">
+    <td><CopyableCode code="environment" /></td>
+    <td><code>string</code></td>
+    <td>Filter the results by exact match for environment. (example: env-00000)</td>
+</tr>
+<tr id="parameter-id">
+    <td><CopyableCode code="id" /></td>
+    <td><code>string</code></td>
+    <td>The unique identifier for the cluster.</td>
+</tr>
+<tr id="parameter-page_size">
+    <td><CopyableCode code="page_size" /></td>
+    <td><code>integer</code></td>
+    <td>A pagination size for collection requests.</td>
+</tr>
+<tr id="parameter-page_token">
+    <td><CopyableCode code="page_token" /></td>
+    <td><code>string</code></td>
+    <td>An opaque pagination token for collection requests.</td>
+</tr>
+</tbody>
+</table>
 
 ## `SELECT` examples
 
-[![General Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Retrieve a sorted, filtered, paginated list of all clusters.
+<Tabs
+    defaultValue="get_srcm_v3_cluster"
+    values={[
+        { label: 'get_srcm_v3_cluster', value: 'get_srcm_v3_cluster' },
+        { label: 'list_srcm_v3_clusters', value: 'list_srcm_v3_clusters' }
+    ]}
+>
+<TabItem value="get_srcm_v3_cluster">
 
+Make a request to read a cluster.
 
 ```sql
 SELECT
 id,
-_spec,
 api_version,
 kind,
 metadata,
 spec,
 status
 FROM confluent.schema_registry_clusters.v3_clusters
-WHERE environment = '{{ environment }}';
+WHERE environment = '{{ environment }}' -- required
+AND id = '{{ id }}' -- required
+;
 ```
+</TabItem>
+<TabItem value="list_srcm_v3_clusters">
+
+Retrieve a sorted, filtered, paginated list of all clusters.
+
+```sql
+SELECT
+id,
+api_version,
+kind,
+metadata,
+spec,
+status
+FROM confluent.schema_registry_clusters.v3_clusters
+WHERE environment = '{{ environment }}' -- required
+AND page_size = '{{ page_size }}'
+AND page_token = '{{ page_token }}'
+;
+```
+</TabItem>
+</Tabs>

@@ -16,13 +16,9 @@ image: /img/stackql-confluent-provider-featured-image.png
 
 kafka service documentation.
 
-:::info Service Summary
+:::info[Service Summary]
 
-<div class="row">
-<div class="providerDocColumn">
-<span>total resources:&nbsp;<b>15</b></span><br />
-</div>
-</div>
+total resources: __16__  
 
 :::
 
@@ -41,6 +37,7 @@ kafka service documentation.
 <div class="providerDocColumn">
 <a href="/services/kafka/consumers_lags/">consumers_lags</a><br />
 <a href="/services/kafka/default_topic_configs/">default_topic_configs</a><br />
+<a href="/services/kafka/group_configs/">group_configs</a><br />
 <a href="/services/kafka/mirror_topics/">mirror_topics</a><br />
 <a href="/services/kafka/records/">records</a><br />
 <a href="/services/kafka/topic_configs/">topic_configs</a><br />

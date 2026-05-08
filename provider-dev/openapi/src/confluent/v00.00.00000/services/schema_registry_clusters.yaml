@@ -1,0 +1,4282 @@
+openapi: 3.0.0
+info:
+  title: schema_registry_clusters API
+  description: confluent schema_registry_clusters API
+  version: 1.0.0
+paths:
+  /srcm/v2/regions:
+    get:
+      x-lifecycle-stage: Deprecated
+      deprecated: true
+      x-deprecated-at: 20240801T00:00:00Z
+      x-sunset-at: 20250228T00:00:00Z
+      x-self-access: true
+      operationId: listSrcmV2Regions
+      summary: List of Regions
+      description: >-
+        [![Deprecated](https://img.shields.io/badge/Lifecycle%20Stage-Deprecated-%23ff005c)](#section/Versioning/API-Lifecycle-Policy)
+
+
+        Retrieve a sorted, filtered, paginated list of all regions.
+      parameters:
+        - name: spec.cloud
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          example: AWS
+          description: Filter the results by exact match for spec.cloud.
+        - name: spec.region_name
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          example: us-east-2
+          description: Filter the results by exact match for spec.region_name.
+        - name: spec.packages
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/MultipleSearchFilter'
+          example:
+            - ESSENTIALS
+            - ADVANCED
+          description: >-
+            Filter the results by exact match for spec.packages. Pass multiple
+            times to see results matching any of the values.
+          style: form
+          explode: true
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+            maximum: 100
+            x-max-page-items: 500
+          description: A pagination size for collection requests.
+        - name: page_token
+          in: query
+          required: false
+          schema:
+            type: string
+            maxLength: 255
+          description: An opaque pagination token for collection requests.
+      tags:
+        - Regions (srcm/v2)
+      security:
+        - cloud-api-key: []
+        - confluent-sts-access-token: []
+      responses:
+        '200':
+          description: Region.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: >-
+                  `Region` objects represent cloud provider regions available
+                  when placing Schema Registry clusters.
+
+                  The API allows you to list Schema Registry regions.
+
+
+
+                  Related guides:
+
+                  * [Confluent Cloud providers and region
+                  support](https://docs.confluent.io/cloud/current/stream-governance/packages.html#cloud-providers-and-region-support).
+
+                  * [srcm/v3 Migration
+                  Guide](https://docs.confluent.io/cloud/current/stream-governance/packages.html#deprecation-of-srcm-v2-clusters-and-regions-apis-and-upgrade-guide).
+
+
+
+                  ## The Regions Model
+
+                  <SchemaDefinition
+                  schemaRef="#/components/schemas/srcm.v2.Region" />
+                required:
+                  - api_version
+                  - kind
+                  - metadata
+                  - data
+                properties:
+                  api_version:
+                    type: string
+                    enum:
+                      - srcm/v2
+                    description: >-
+                      APIVersion defines the schema version of this
+                      representation of a resource.
+                    readOnly: true
+                  kind:
+                    type: string
+                    description: Kind defines the object this REST resource represents.
+                    readOnly: true
+                    enum:
+                      - RegionList
+                  metadata:
+                    type: object
+                    description: >-
+                      ListMeta describes metadata that resource collections may
+                      have
+                    properties:
+                      first:
+                        description: >-
+                          A link to the first page of results. If a response
+                          does not contain a first link, then direct navigation
+                          to the first page is not supported.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: https://api.confluent.cloud/v2/resourcekinds
+                      last:
+                        description: >-
+                          A link to the last page of results. If a response does
+                          not contain a last link, then direct navigation to the
+                          last page is not supported.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: >-
+                          https://api.confluent.cloud/v2/resourcekinds?page_token=bcAOehAY8F16YD84Z1wT
+                      prev:
+                        description: >-
+                          A link to the previous page of results. If a response
+                          does not contain a prev link, then either there is no
+                          previous data or backwards traversal through the
+                          result set is not supported.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: >-
+                          https://api.confluent.cloud/v2/resourcekinds?page_token=YIXRY97wWYmwzrax4dld
+                      next:
+                        description: >-
+                          A link to the next page of results. If a response does
+                          not contain a next link, then there is no more data
+                          available.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: >-
+                          https://api.confluent.cloud/v2/resourcekinds?page_token=UvmDWOB1iwfAIBPj6EYb
+                      total_size:
+                        description: >-
+                          Number of records in the full result set. This
+                          response may be paginated and have a smaller number of
+                          records.
+                        type: integer
+                        format: int32
+                        minimum: 0
+                        example: 123
+                  data:
+                    type: array
+                    description: >-
+                      A data property that contains an array of resource items.
+                      Each entry in the array is a separate resource.
+                    items:
+                      type: object
+                      description: >-
+                        `Region` objects represent cloud provider regions
+                        available when placing Schema Registry clusters.
+
+                        The API allows you to list Schema Registry regions.
+
+
+
+                        Related guides:
+
+                        * [Confluent Cloud providers and region
+                        support](https://docs.confluent.io/cloud/current/stream-governance/packages.html#cloud-providers-and-region-support).
+
+                        * [srcm/v3 Migration
+                        Guide](https://docs.confluent.io/cloud/current/stream-governance/packages.html#deprecation-of-srcm-v2-clusters-and-regions-apis-and-upgrade-guide).
+
+
+
+                        ## The Regions Model
+
+                        <SchemaDefinition
+                        schemaRef="#/components/schemas/srcm.v2.Region" />
+                      properties:
+                        api_version:
+                          type: string
+                          enum:
+                            - srcm/v2
+                          description: >-
+                            APIVersion defines the schema version of this
+                            representation of a resource.
+                          readOnly: true
+                        kind:
+                          type: string
+                          description: >-
+                            Kind defines the object this REST resource
+                            represents.
+                          readOnly: true
+                          enum:
+                            - Region
+                        id:
+                          description: >-
+                            ID is the "natural identifier" for an object within
+                            its scope/namespace; it is normally unique across
+                            time but not space. That is, you can assume that the
+                            ID will not be reclaimed and reused after an object
+                            is deleted ("time"); however, it may collide with
+                            IDs for other object `kinds` or objects of the same
+                            `kind` within a different scope/namespace ("space").
+                          type: string
+                          maxLength: 255
+                          readOnly: true
+                          example: dlz-f3a90de
+                        metadata:
+                          description: >-
+                            ObjectMeta is metadata that all persisted resources
+                            must have, which includes all objects users must
+                            create.
+                          required:
+                            - self
+                          properties:
+                            self:
+                              description: >-
+                                Self is a Uniform Resource Locator (URL) at
+                                which an object can be addressed. This URL
+                                encodes the service location, API version, and
+                                other particulars necessary to locate the
+                                resource at a point in time
+                              type: string
+                              format: uri
+                              readOnly: true
+                              example: >-
+                                https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                            resource_name:
+                              description: >-
+                                Resource Name is a Uniform Resource Identifier
+                                (URI) that is globally unique across space and
+                                time. It is represented as a Confluent Resource
+                                Name
+                              type: string
+                              format: uri
+                              readOnly: true
+                              example: crn://confluent.cloud/kafka=lkc-f3a90de
+                            created_at:
+                              type: string
+                              format: date-time
+                              example: '2006-01-02T15:04:05-07:00'
+                              readOnly: true
+                              description: >-
+                                The date and time at which this object was
+                                created. It is represented in RFC3339 format and
+                                is in UTC.
+                            updated_at:
+                              type: string
+                              format: date-time
+                              example: '2006-01-02T15:04:05-07:00'
+                              readOnly: true
+                              description: >-
+                                The date and time at which this object was last
+                                updated. It is represented in RFC3339 format and
+                                is in UTC.
+                            deleted_at:
+                              type: string
+                              format: date-time
+                              example: '2006-01-02T15:04:05-07:00'
+                              readOnly: true
+                              description: >-
+                                The date and time at which this object was (or
+                                will be) deleted. It is represented in RFC3339
+                                format and is in UTC.
+                          readOnly: true
+                          type: object
+                        spec:
+                          $ref: '#/components/schemas/srcm.v2.RegionSpec'
+                      required:
+                        - id
+                        - metadata
+                        - spec
+                    uniqueItems: true
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+              description: The unique identifier for the API request.
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+              description: >-
+                The maximum number of requests you're permitted to make per time
+                period.
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: >-
+                The number of requests remaining in the current rate limit
+                window.
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: >-
+                The relative time in seconds until the current rate-limit window
+                resets.  
+                  
+                **Important:** This differs from Github and Twitter's same-named
+                header which uses UTC epoch seconds. We use relative time to
+                avoid client/server time synchronization issues.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthenticatedError'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/DefaultSystemError'
+    x-lifecycle-stage: Deprecated
+    x-deprecated-at: 20240801T00:00:00Z
+    x-sunset-at: 20250228T00:00:00Z
+    x-self-access: true
+  /srcm/v2/regions/{id}:
+    get:
+      x-lifecycle-stage: Deprecated
+      deprecated: true
+      x-deprecated-at: 20240801T00:00:00Z
+      x-sunset-at: 20250228T00:00:00Z
+      x-self-access: true
+      operationId: getSrcmV2Region
+      summary: Read a Region
+      description: >-
+        [![Deprecated](https://img.shields.io/badge/Lifecycle%20Stage-Deprecated-%23ff005c)](#section/Versioning/API-Lifecycle-Policy)
+
+
+        Make a request to read a region.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique identifier for the region.
+      tags:
+        - Regions (srcm/v2)
+      security:
+        - cloud-api-key: []
+        - confluent-sts-access-token: []
+      responses:
+        '200':
+          description: Region.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: >-
+                  `Region` objects represent cloud provider regions available
+                  when placing Schema Registry clusters.
+
+                  The API allows you to list Schema Registry regions.
+
+
+
+                  Related guides:
+
+                  * [Confluent Cloud providers and region
+                  support](https://docs.confluent.io/cloud/current/stream-governance/packages.html#cloud-providers-and-region-support).
+
+                  * [srcm/v3 Migration
+                  Guide](https://docs.confluent.io/cloud/current/stream-governance/packages.html#deprecation-of-srcm-v2-clusters-and-regions-apis-and-upgrade-guide).
+
+
+
+                  ## The Regions Model
+
+                  <SchemaDefinition
+                  schemaRef="#/components/schemas/srcm.v2.Region" />
+                properties:
+                  api_version:
+                    type: string
+                    enum:
+                      - srcm/v2
+                    description: >-
+                      APIVersion defines the schema version of this
+                      representation of a resource.
+                    readOnly: true
+                  kind:
+                    type: string
+                    description: Kind defines the object this REST resource represents.
+                    readOnly: true
+                    enum:
+                      - Region
+                  id:
+                    description: >-
+                      ID is the "natural identifier" for an object within its
+                      scope/namespace; it is normally unique across time but not
+                      space. That is, you can assume that the ID will not be
+                      reclaimed and reused after an object is deleted ("time");
+                      however, it may collide with IDs for other object `kinds`
+                      or objects of the same `kind` within a different
+                      scope/namespace ("space").
+                    type: string
+                    maxLength: 255
+                    readOnly: true
+                    example: dlz-f3a90de
+                  metadata:
+                    description: >-
+                      ObjectMeta is metadata that all persisted resources must
+                      have, which includes all objects users must create.
+                    required:
+                      - self
+                    properties:
+                      self:
+                        description: >-
+                          Self is a Uniform Resource Locator (URL) at which an
+                          object can be addressed. This URL encodes the service
+                          location, API version, and other particulars necessary
+                          to locate the resource at a point in time
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: >-
+                          https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                      resource_name:
+                        description: >-
+                          Resource Name is a Uniform Resource Identifier (URI)
+                          that is globally unique across space and time. It is
+                          represented as a Confluent Resource Name
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: crn://confluent.cloud/kafka=lkc-f3a90de
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was created. It
+                          is represented in RFC3339 format and is in UTC.
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was last
+                          updated. It is represented in RFC3339 format and is in
+                          UTC.
+                      deleted_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was (or will
+                          be) deleted. It is represented in RFC3339 format and
+                          is in UTC.
+                    readOnly: true
+                    type: object
+                  spec:
+                    $ref: '#/components/schemas/srcm.v2.RegionSpec'
+                required:
+                  - api_version
+                  - kind
+                  - id
+                  - spec
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+              description: The unique identifier for the API request.
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+              description: >-
+                The maximum number of requests you're permitted to make per time
+                period.
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: >-
+                The number of requests remaining in the current rate limit
+                window.
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: >-
+                The relative time in seconds until the current rate-limit window
+                resets.  
+                  
+                **Important:** This differs from Github and Twitter's same-named
+                header which uses UTC epoch seconds. We use relative time to
+                avoid client/server time synchronization issues.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthenticatedError'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/DefaultSystemError'
+    x-lifecycle-stage: Deprecated
+    x-deprecated-at: 20240801T00:00:00Z
+    x-sunset-at: 20250228T00:00:00Z
+    x-self-access: true
+  /srcm/v2/clusters:
+    get:
+      x-lifecycle-stage: Deprecated
+      deprecated: true
+      x-deprecated-at: 20240801T00:00:00Z
+      x-sunset-at: 20250228T00:00:00Z
+      x-self-access: true
+      operationId: listSrcmV2Clusters
+      summary: List of Clusters
+      description: >-
+        [![Deprecated](https://img.shields.io/badge/Lifecycle%20Stage-Deprecated-%23ff005c)](#section/Versioning/API-Lifecycle-Policy)
+
+
+        Retrieve a sorted, filtered, paginated list of all clusters.
+      parameters:
+        - name: environment
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          example: env-00000
+          description: Filter the results by exact match for environment.
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+            maximum: 100
+            x-max-page-items: 500
+          description: A pagination size for collection requests.
+        - name: page_token
+          in: query
+          required: false
+          schema:
+            type: string
+            maxLength: 255
+          description: An opaque pagination token for collection requests.
+      tags:
+        - Clusters (srcm/v2)
+      security:
+        - cloud-api-key: []
+        - confluent-sts-access-token: []
+      responses:
+        '200':
+          description: Cluster.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: >-
+                  `Clusters` objects represent Schema Registry Clusters on
+                  Confluent Cloud.
+
+
+                  The API allows you to list, create, read, and delete your
+                  Schema Registry clusters.
+
+
+
+                  Related guides:
+
+                  * [Confluent Cloud Schema Registry Cluster
+                  APIs](https://docs.confluent.io/cloud/current/stream-governance/clusters-regions-api.html#schema-registry-cluster-management).
+
+                  * [srcm/v3 Migration
+                  Guide](https://docs.confluent.io/cloud/current/stream-governance/packages.html#deprecation-of-srcm-v2-clusters-and-regions-apis-and-upgrade-guide).
+
+
+
+                  ## The Clusters Model
+
+                  <SchemaDefinition
+                  schemaRef="#/components/schemas/srcm.v2.Cluster" />
+                required:
+                  - api_version
+                  - kind
+                  - metadata
+                  - data
+                properties:
+                  api_version:
+                    type: string
+                    enum:
+                      - srcm/v2
+                    description: >-
+                      APIVersion defines the schema version of this
+                      representation of a resource.
+                    readOnly: true
+                  kind:
+                    type: string
+                    description: Kind defines the object this REST resource represents.
+                    readOnly: true
+                    enum:
+                      - ClusterList
+                  metadata:
+                    type: object
+                    description: >-
+                      ListMeta describes metadata that resource collections may
+                      have
+                    properties:
+                      first:
+                        description: >-
+                          A link to the first page of results. If a response
+                          does not contain a first link, then direct navigation
+                          to the first page is not supported.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: https://api.confluent.cloud/v2/resourcekinds
+                      last:
+                        description: >-
+                          A link to the last page of results. If a response does
+                          not contain a last link, then direct navigation to the
+                          last page is not supported.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: >-
+                          https://api.confluent.cloud/v2/resourcekinds?page_token=bcAOehAY8F16YD84Z1wT
+                      prev:
+                        description: >-
+                          A link to the previous page of results. If a response
+                          does not contain a prev link, then either there is no
+                          previous data or backwards traversal through the
+                          result set is not supported.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: >-
+                          https://api.confluent.cloud/v2/resourcekinds?page_token=YIXRY97wWYmwzrax4dld
+                      next:
+                        description: >-
+                          A link to the next page of results. If a response does
+                          not contain a next link, then there is no more data
+                          available.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: >-
+                          https://api.confluent.cloud/v2/resourcekinds?page_token=UvmDWOB1iwfAIBPj6EYb
+                      total_size:
+                        description: >-
+                          Number of records in the full result set. This
+                          response may be paginated and have a smaller number of
+                          records.
+                        type: integer
+                        format: int32
+                        minimum: 0
+                        example: 123
+                  data:
+                    type: array
+                    description: >-
+                      A data property that contains an array of resource items.
+                      Each entry in the array is a separate resource.
+                    items:
+                      type: object
+                      description: >-
+                        `Clusters` objects represent Schema Registry Clusters on
+                        Confluent Cloud.
+
+
+                        The API allows you to list, create, read, and delete
+                        your Schema Registry clusters.
+
+
+
+                        Related guides:
+
+                        * [Confluent Cloud Schema Registry Cluster
+                        APIs](https://docs.confluent.io/cloud/current/stream-governance/clusters-regions-api.html#schema-registry-cluster-management).
+
+                        * [srcm/v3 Migration
+                        Guide](https://docs.confluent.io/cloud/current/stream-governance/packages.html#deprecation-of-srcm-v2-clusters-and-regions-apis-and-upgrade-guide).
+
+
+
+                        ## The Clusters Model
+
+                        <SchemaDefinition
+                        schemaRef="#/components/schemas/srcm.v2.Cluster" />
+                      properties:
+                        api_version:
+                          type: string
+                          enum:
+                            - srcm/v2
+                          description: >-
+                            APIVersion defines the schema version of this
+                            representation of a resource.
+                          readOnly: true
+                        kind:
+                          type: string
+                          description: >-
+                            Kind defines the object this REST resource
+                            represents.
+                          readOnly: true
+                          enum:
+                            - Cluster
+                        id:
+                          description: >-
+                            ID is the "natural identifier" for an object within
+                            its scope/namespace; it is normally unique across
+                            time but not space. That is, you can assume that the
+                            ID will not be reclaimed and reused after an object
+                            is deleted ("time"); however, it may collide with
+                            IDs for other object `kinds` or objects of the same
+                            `kind` within a different scope/namespace ("space").
+                          type: string
+                          maxLength: 255
+                          readOnly: true
+                          example: dlz-f3a90de
+                        metadata:
+                          description: >-
+                            ObjectMeta is metadata that all persisted resources
+                            must have, which includes all objects users must
+                            create.
+                          required:
+                            - self
+                          properties:
+                            self:
+                              description: >-
+                                Self is a Uniform Resource Locator (URL) at
+                                which an object can be addressed. This URL
+                                encodes the service location, API version, and
+                                other particulars necessary to locate the
+                                resource at a point in time
+                              type: string
+                              format: uri
+                              readOnly: true
+                              example: >-
+                                https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                            resource_name:
+                              description: >-
+                                Resource Name is a Uniform Resource Identifier
+                                (URI) that is globally unique across space and
+                                time. It is represented as a Confluent Resource
+                                Name
+                              type: string
+                              format: uri
+                              readOnly: true
+                              example: crn://confluent.cloud/kafka=lkc-f3a90de
+                            created_at:
+                              type: string
+                              format: date-time
+                              example: '2006-01-02T15:04:05-07:00'
+                              readOnly: true
+                              description: >-
+                                The date and time at which this object was
+                                created. It is represented in RFC3339 format and
+                                is in UTC.
+                            updated_at:
+                              type: string
+                              format: date-time
+                              example: '2006-01-02T15:04:05-07:00'
+                              readOnly: true
+                              description: >-
+                                The date and time at which this object was last
+                                updated. It is represented in RFC3339 format and
+                                is in UTC.
+                            deleted_at:
+                              type: string
+                              format: date-time
+                              example: '2006-01-02T15:04:05-07:00'
+                              readOnly: true
+                              description: >-
+                                The date and time at which this object was (or
+                                will be) deleted. It is represented in RFC3339
+                                format and is in UTC.
+                          readOnly: true
+                          type: object
+                        spec:
+                          $ref: '#/components/schemas/srcm.v2.ClusterSpec'
+                        status:
+                          $ref: '#/components/schemas/srcm.v2.ClusterStatus'
+                      required:
+                        - id
+                        - metadata
+                        - spec
+                        - status
+                    uniqueItems: true
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+              description: The unique identifier for the API request.
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+              description: >-
+                The maximum number of requests you're permitted to make per time
+                period.
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: >-
+                The number of requests remaining in the current rate limit
+                window.
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: >-
+                The relative time in seconds until the current rate-limit window
+                resets.  
+                  
+                **Important:** This differs from Github and Twitter's same-named
+                header which uses UTC epoch seconds. We use relative time to
+                avoid client/server time synchronization issues.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthenticatedError'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/DefaultSystemError'
+    post:
+      x-lifecycle-stage: Deprecated
+      deprecated: true
+      x-deprecated-at: 20240801T00:00:00Z
+      x-sunset-at: 20250228T00:00:00Z
+      x-self-access: true
+      operationId: createSrcmV2Cluster
+      summary: Create a Cluster
+      description: >-
+        [![Deprecated](https://img.shields.io/badge/Lifecycle%20Stage-Deprecated-%23ff005c)](#section/Versioning/API-Lifecycle-Policy)
+
+
+        Make a request to create a cluster.
+      tags:
+        - Clusters (srcm/v2)
+      security:
+        - cloud-api-key: []
+        - confluent-sts-access-token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: >-
+                `Clusters` objects represent Schema Registry Clusters on
+                Confluent Cloud.
+
+
+                The API allows you to list, create, read, and delete your Schema
+                Registry clusters.
+
+
+
+                Related guides:
+
+                * [Confluent Cloud Schema Registry Cluster
+                APIs](https://docs.confluent.io/cloud/current/stream-governance/clusters-regions-api.html#schema-registry-cluster-management).
+
+                * [srcm/v3 Migration
+                Guide](https://docs.confluent.io/cloud/current/stream-governance/packages.html#deprecation-of-srcm-v2-clusters-and-regions-apis-and-upgrade-guide).
+
+
+
+                ## The Clusters Model
+
+                <SchemaDefinition
+                schemaRef="#/components/schemas/srcm.v2.Cluster" />
+              properties:
+                api_version:
+                  type: string
+                  enum:
+                    - srcm/v2
+                  description: >-
+                    APIVersion defines the schema version of this representation
+                    of a resource.
+                  readOnly: true
+                kind:
+                  type: string
+                  description: Kind defines the object this REST resource represents.
+                  readOnly: true
+                  enum:
+                    - Cluster
+                id:
+                  description: >-
+                    ID is the "natural identifier" for an object within its
+                    scope/namespace; it is normally unique across time but not
+                    space. That is, you can assume that the ID will not be
+                    reclaimed and reused after an object is deleted ("time");
+                    however, it may collide with IDs for other object `kinds` or
+                    objects of the same `kind` within a different
+                    scope/namespace ("space").
+                  type: string
+                  maxLength: 255
+                  readOnly: true
+                  example: dlz-f3a90de
+                metadata:
+                  description: >-
+                    ObjectMeta is metadata that all persisted resources must
+                    have, which includes all objects users must create.
+                  required:
+                    - self
+                  properties:
+                    self:
+                      description: >-
+                        Self is a Uniform Resource Locator (URL) at which an
+                        object can be addressed. This URL encodes the service
+                        location, API version, and other particulars necessary
+                        to locate the resource at a point in time
+                      type: string
+                      format: uri
+                      readOnly: true
+                      example: >-
+                        https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                    resource_name:
+                      description: >-
+                        Resource Name is a Uniform Resource Identifier (URI)
+                        that is globally unique across space and time. It is
+                        represented as a Confluent Resource Name
+                      type: string
+                      format: uri
+                      readOnly: true
+                      example: crn://confluent.cloud/kafka=lkc-f3a90de
+                    created_at:
+                      type: string
+                      format: date-time
+                      example: '2006-01-02T15:04:05-07:00'
+                      readOnly: true
+                      description: >-
+                        The date and time at which this object was created. It
+                        is represented in RFC3339 format and is in UTC.
+                    updated_at:
+                      type: string
+                      format: date-time
+                      example: '2006-01-02T15:04:05-07:00'
+                      readOnly: true
+                      description: >-
+                        The date and time at which this object was last updated.
+                        It is represented in RFC3339 format and is in UTC.
+                    deleted_at:
+                      type: string
+                      format: date-time
+                      example: '2006-01-02T15:04:05-07:00'
+                      readOnly: true
+                      description: >-
+                        The date and time at which this object was (or will be)
+                        deleted. It is represented in RFC3339 format and is in
+                        UTC.
+                  readOnly: true
+                  type: object
+                spec:
+                  $ref: '#/components/schemas/srcm.v2.ClusterSpec'
+                status:
+                  $ref: '#/components/schemas/srcm.v2.ClusterStatus'
+              required:
+                - spec
+      responses:
+        '202':
+          description: A Cluster is being created.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+              description: The unique identifier for the API request.
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+              description: >-
+                The maximum number of requests you're permitted to make per time
+                period.
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: >-
+                The number of requests remaining in the current rate limit
+                window.
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: >-
+                The relative time in seconds until the current rate-limit window
+                resets.  
+                  
+                **Important:** This differs from Github and Twitter's same-named
+                header which uses UTC epoch seconds. We use relative time to
+                avoid client/server time synchronization issues.
+            Location:
+              schema:
+                type: string
+                format: uri
+                example: https://api.confluent.cloud/srcm/v2/clusters/{id}
+              description: Cluster resource uri
+          content:
+            application/json:
+              schema:
+                type: object
+                description: >-
+                  `Clusters` objects represent Schema Registry Clusters on
+                  Confluent Cloud.
+
+
+                  The API allows you to list, create, read, and delete your
+                  Schema Registry clusters.
+
+
+
+                  Related guides:
+
+                  * [Confluent Cloud Schema Registry Cluster
+                  APIs](https://docs.confluent.io/cloud/current/stream-governance/clusters-regions-api.html#schema-registry-cluster-management).
+
+                  * [srcm/v3 Migration
+                  Guide](https://docs.confluent.io/cloud/current/stream-governance/packages.html#deprecation-of-srcm-v2-clusters-and-regions-apis-and-upgrade-guide).
+
+
+
+                  ## The Clusters Model
+
+                  <SchemaDefinition
+                  schemaRef="#/components/schemas/srcm.v2.Cluster" />
+                properties:
+                  api_version:
+                    type: string
+                    enum:
+                      - srcm/v2
+                    description: >-
+                      APIVersion defines the schema version of this
+                      representation of a resource.
+                    readOnly: true
+                  kind:
+                    type: string
+                    description: Kind defines the object this REST resource represents.
+                    readOnly: true
+                    enum:
+                      - Cluster
+                  id:
+                    description: >-
+                      ID is the "natural identifier" for an object within its
+                      scope/namespace; it is normally unique across time but not
+                      space. That is, you can assume that the ID will not be
+                      reclaimed and reused after an object is deleted ("time");
+                      however, it may collide with IDs for other object `kinds`
+                      or objects of the same `kind` within a different
+                      scope/namespace ("space").
+                    type: string
+                    maxLength: 255
+                    readOnly: true
+                    example: dlz-f3a90de
+                  metadata:
+                    description: >-
+                      ObjectMeta is metadata that all persisted resources must
+                      have, which includes all objects users must create.
+                    required:
+                      - self
+                    properties:
+                      self:
+                        description: >-
+                          Self is a Uniform Resource Locator (URL) at which an
+                          object can be addressed. This URL encodes the service
+                          location, API version, and other particulars necessary
+                          to locate the resource at a point in time
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: >-
+                          https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                      resource_name:
+                        description: >-
+                          Resource Name is a Uniform Resource Identifier (URI)
+                          that is globally unique across space and time. It is
+                          represented as a Confluent Resource Name
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: crn://confluent.cloud/kafka=lkc-f3a90de
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was created. It
+                          is represented in RFC3339 format and is in UTC.
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was last
+                          updated. It is represented in RFC3339 format and is in
+                          UTC.
+                      deleted_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was (or will
+                          be) deleted. It is represented in RFC3339 format and
+                          is in UTC.
+                    readOnly: true
+                    type: object
+                  spec:
+                    $ref: '#/components/schemas/srcm.v2.ClusterSpec'
+                  status:
+                    $ref: '#/components/schemas/srcm.v2.ClusterStatus'
+                required:
+                  - spec
+                  - status
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthenticatedError'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/DefaultSystemError'
+    x-lifecycle-stage: Deprecated
+    x-deprecated-at: 20240801T00:00:00Z
+    x-sunset-at: 20250228T00:00:00Z
+    x-self-access: true
+  /srcm/v2/clusters/{id}:
+    get:
+      x-lifecycle-stage: Deprecated
+      deprecated: true
+      x-deprecated-at: 20240801T00:00:00Z
+      x-sunset-at: 20250228T00:00:00Z
+      x-self-access: true
+      operationId: getSrcmV2Cluster
+      summary: Read a Cluster
+      description: >-
+        [![Deprecated](https://img.shields.io/badge/Lifecycle%20Stage-Deprecated-%23ff005c)](#section/Versioning/API-Lifecycle-Policy)
+
+
+        Make a request to read a cluster.
+      parameters:
+        - name: environment
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          example: env-00000
+          description: Scope the operation to the given environment.
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique identifier for the cluster.
+      tags:
+        - Clusters (srcm/v2)
+      security:
+        - cloud-api-key: []
+        - confluent-sts-access-token: []
+      responses:
+        '200':
+          description: Cluster.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: >-
+                  `Clusters` objects represent Schema Registry Clusters on
+                  Confluent Cloud.
+
+
+                  The API allows you to list, create, read, and delete your
+                  Schema Registry clusters.
+
+
+
+                  Related guides:
+
+                  * [Confluent Cloud Schema Registry Cluster
+                  APIs](https://docs.confluent.io/cloud/current/stream-governance/clusters-regions-api.html#schema-registry-cluster-management).
+
+                  * [srcm/v3 Migration
+                  Guide](https://docs.confluent.io/cloud/current/stream-governance/packages.html#deprecation-of-srcm-v2-clusters-and-regions-apis-and-upgrade-guide).
+
+
+
+                  ## The Clusters Model
+
+                  <SchemaDefinition
+                  schemaRef="#/components/schemas/srcm.v2.Cluster" />
+                properties:
+                  api_version:
+                    type: string
+                    enum:
+                      - srcm/v2
+                    description: >-
+                      APIVersion defines the schema version of this
+                      representation of a resource.
+                    readOnly: true
+                  kind:
+                    type: string
+                    description: Kind defines the object this REST resource represents.
+                    readOnly: true
+                    enum:
+                      - Cluster
+                  id:
+                    description: >-
+                      ID is the "natural identifier" for an object within its
+                      scope/namespace; it is normally unique across time but not
+                      space. That is, you can assume that the ID will not be
+                      reclaimed and reused after an object is deleted ("time");
+                      however, it may collide with IDs for other object `kinds`
+                      or objects of the same `kind` within a different
+                      scope/namespace ("space").
+                    type: string
+                    maxLength: 255
+                    readOnly: true
+                    example: dlz-f3a90de
+                  metadata:
+                    description: >-
+                      ObjectMeta is metadata that all persisted resources must
+                      have, which includes all objects users must create.
+                    required:
+                      - self
+                    properties:
+                      self:
+                        description: >-
+                          Self is a Uniform Resource Locator (URL) at which an
+                          object can be addressed. This URL encodes the service
+                          location, API version, and other particulars necessary
+                          to locate the resource at a point in time
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: >-
+                          https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                      resource_name:
+                        description: >-
+                          Resource Name is a Uniform Resource Identifier (URI)
+                          that is globally unique across space and time. It is
+                          represented as a Confluent Resource Name
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: crn://confluent.cloud/kafka=lkc-f3a90de
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was created. It
+                          is represented in RFC3339 format and is in UTC.
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was last
+                          updated. It is represented in RFC3339 format and is in
+                          UTC.
+                      deleted_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was (or will
+                          be) deleted. It is represented in RFC3339 format and
+                          is in UTC.
+                    readOnly: true
+                    type: object
+                  spec:
+                    $ref: '#/components/schemas/srcm.v2.ClusterSpec'
+                  status:
+                    $ref: '#/components/schemas/srcm.v2.ClusterStatus'
+                required:
+                  - api_version
+                  - kind
+                  - id
+                  - spec
+                  - status
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+              description: The unique identifier for the API request.
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+              description: >-
+                The maximum number of requests you're permitted to make per time
+                period.
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: >-
+                The number of requests remaining in the current rate limit
+                window.
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: >-
+                The relative time in seconds until the current rate-limit window
+                resets.  
+                  
+                **Important:** This differs from Github and Twitter's same-named
+                header which uses UTC epoch seconds. We use relative time to
+                avoid client/server time synchronization issues.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthenticatedError'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/DefaultSystemError'
+    patch:
+      x-lifecycle-stage: Deprecated
+      deprecated: true
+      x-deprecated-at: 20240801T00:00:00Z
+      x-sunset-at: 20250228T00:00:00Z
+      x-self-access: true
+      operationId: updateSrcmV2Cluster
+      summary: Update a Cluster
+      description: >+
+        [![Deprecated](https://img.shields.io/badge/Lifecycle%20Stage-Deprecated-%23ff005c)](#section/Versioning/API-Lifecycle-Policy)
+
+
+        Make a request to update a cluster.
+
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique identifier for the cluster.
+      tags:
+        - Clusters (srcm/v2)
+      security:
+        - cloud-api-key: []
+        - confluent-sts-access-token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: >-
+                `Clusters` objects represent Schema Registry Clusters on
+                Confluent Cloud.
+
+
+                The API allows you to list, create, read, and delete your Schema
+                Registry clusters.
+
+
+
+                Related guides:
+
+                * [Confluent Cloud Schema Registry Cluster
+                APIs](https://docs.confluent.io/cloud/current/stream-governance/clusters-regions-api.html#schema-registry-cluster-management).
+
+                * [srcm/v3 Migration
+                Guide](https://docs.confluent.io/cloud/current/stream-governance/packages.html#deprecation-of-srcm-v2-clusters-and-regions-apis-and-upgrade-guide).
+
+
+
+                ## The Clusters Model
+
+                <SchemaDefinition
+                schemaRef="#/components/schemas/srcm.v2.Cluster" />
+              properties:
+                api_version:
+                  type: string
+                  enum:
+                    - srcm/v2
+                  description: >-
+                    APIVersion defines the schema version of this representation
+                    of a resource.
+                  readOnly: true
+                kind:
+                  type: string
+                  description: Kind defines the object this REST resource represents.
+                  readOnly: true
+                  enum:
+                    - Cluster
+                id:
+                  description: >-
+                    ID is the "natural identifier" for an object within its
+                    scope/namespace; it is normally unique across time but not
+                    space. That is, you can assume that the ID will not be
+                    reclaimed and reused after an object is deleted ("time");
+                    however, it may collide with IDs for other object `kinds` or
+                    objects of the same `kind` within a different
+                    scope/namespace ("space").
+                  type: string
+                  maxLength: 255
+                  readOnly: true
+                  example: dlz-f3a90de
+                metadata:
+                  description: >-
+                    ObjectMeta is metadata that all persisted resources must
+                    have, which includes all objects users must create.
+                  required:
+                    - self
+                  properties:
+                    self:
+                      description: >-
+                        Self is a Uniform Resource Locator (URL) at which an
+                        object can be addressed. This URL encodes the service
+                        location, API version, and other particulars necessary
+                        to locate the resource at a point in time
+                      type: string
+                      format: uri
+                      readOnly: true
+                      example: >-
+                        https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                    resource_name:
+                      description: >-
+                        Resource Name is a Uniform Resource Identifier (URI)
+                        that is globally unique across space and time. It is
+                        represented as a Confluent Resource Name
+                      type: string
+                      format: uri
+                      readOnly: true
+                      example: crn://confluent.cloud/kafka=lkc-f3a90de
+                    created_at:
+                      type: string
+                      format: date-time
+                      example: '2006-01-02T15:04:05-07:00'
+                      readOnly: true
+                      description: >-
+                        The date and time at which this object was created. It
+                        is represented in RFC3339 format and is in UTC.
+                    updated_at:
+                      type: string
+                      format: date-time
+                      example: '2006-01-02T15:04:05-07:00'
+                      readOnly: true
+                      description: >-
+                        The date and time at which this object was last updated.
+                        It is represented in RFC3339 format and is in UTC.
+                    deleted_at:
+                      type: string
+                      format: date-time
+                      example: '2006-01-02T15:04:05-07:00'
+                      readOnly: true
+                      description: >-
+                        The date and time at which this object was (or will be)
+                        deleted. It is represented in RFC3339 format and is in
+                        UTC.
+                  readOnly: true
+                  type: object
+                spec:
+                  $ref: '#/components/schemas/srcm.v2.ClusterSpec'
+                status:
+                  $ref: '#/components/schemas/srcm.v2.ClusterStatus'
+              required:
+                - spec
+      responses:
+        '200':
+          description: Cluster.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: >-
+                  `Clusters` objects represent Schema Registry Clusters on
+                  Confluent Cloud.
+
+
+                  The API allows you to list, create, read, and delete your
+                  Schema Registry clusters.
+
+
+
+                  Related guides:
+
+                  * [Confluent Cloud Schema Registry Cluster
+                  APIs](https://docs.confluent.io/cloud/current/stream-governance/clusters-regions-api.html#schema-registry-cluster-management).
+
+                  * [srcm/v3 Migration
+                  Guide](https://docs.confluent.io/cloud/current/stream-governance/packages.html#deprecation-of-srcm-v2-clusters-and-regions-apis-and-upgrade-guide).
+
+
+
+                  ## The Clusters Model
+
+                  <SchemaDefinition
+                  schemaRef="#/components/schemas/srcm.v2.Cluster" />
+                properties:
+                  api_version:
+                    type: string
+                    enum:
+                      - srcm/v2
+                    description: >-
+                      APIVersion defines the schema version of this
+                      representation of a resource.
+                    readOnly: true
+                  kind:
+                    type: string
+                    description: Kind defines the object this REST resource represents.
+                    readOnly: true
+                    enum:
+                      - Cluster
+                  id:
+                    description: >-
+                      ID is the "natural identifier" for an object within its
+                      scope/namespace; it is normally unique across time but not
+                      space. That is, you can assume that the ID will not be
+                      reclaimed and reused after an object is deleted ("time");
+                      however, it may collide with IDs for other object `kinds`
+                      or objects of the same `kind` within a different
+                      scope/namespace ("space").
+                    type: string
+                    maxLength: 255
+                    readOnly: true
+                    example: dlz-f3a90de
+                  metadata:
+                    description: >-
+                      ObjectMeta is metadata that all persisted resources must
+                      have, which includes all objects users must create.
+                    required:
+                      - self
+                    properties:
+                      self:
+                        description: >-
+                          Self is a Uniform Resource Locator (URL) at which an
+                          object can be addressed. This URL encodes the service
+                          location, API version, and other particulars necessary
+                          to locate the resource at a point in time
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: >-
+                          https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                      resource_name:
+                        description: >-
+                          Resource Name is a Uniform Resource Identifier (URI)
+                          that is globally unique across space and time. It is
+                          represented as a Confluent Resource Name
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: crn://confluent.cloud/kafka=lkc-f3a90de
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was created. It
+                          is represented in RFC3339 format and is in UTC.
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was last
+                          updated. It is represented in RFC3339 format and is in
+                          UTC.
+                      deleted_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was (or will
+                          be) deleted. It is represented in RFC3339 format and
+                          is in UTC.
+                    readOnly: true
+                    type: object
+                  spec:
+                    $ref: '#/components/schemas/srcm.v2.ClusterSpec'
+                  status:
+                    $ref: '#/components/schemas/srcm.v2.ClusterStatus'
+                required:
+                  - api_version
+                  - kind
+                  - id
+                  - spec
+                  - status
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+              description: The unique identifier for the API request.
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+              description: >-
+                The maximum number of requests you're permitted to make per time
+                period.
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: >-
+                The number of requests remaining in the current rate limit
+                window.
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: >-
+                The relative time in seconds until the current rate-limit window
+                resets.  
+                  
+                **Important:** This differs from Github and Twitter's same-named
+                header which uses UTC epoch seconds. We use relative time to
+                avoid client/server time synchronization issues.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthenticatedError'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/DefaultSystemError'
+    delete:
+      x-lifecycle-stage: Deprecated
+      deprecated: true
+      x-deprecated-at: 20240801T00:00:00Z
+      x-sunset-at: 20250228T00:00:00Z
+      x-self-access: true
+      operationId: deleteSrcmV2Cluster
+      summary: Delete a Cluster
+      description: >-
+        [![Deprecated](https://img.shields.io/badge/Lifecycle%20Stage-Deprecated-%23ff005c)](#section/Versioning/API-Lifecycle-Policy)
+
+
+        Make a request to delete a cluster.
+      parameters:
+        - name: environment
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          example: env-00000
+          description: Scope the operation to the given environment.
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique identifier for the cluster.
+      tags:
+        - Clusters (srcm/v2)
+      security:
+        - cloud-api-key: []
+        - confluent-sts-access-token: []
+      responses:
+        '204':
+          description: A Cluster is being deleted.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+              description: The unique identifier for the API request.
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+              description: >-
+                The maximum number of requests you're permitted to make per time
+                period.
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: >-
+                The number of requests remaining in the current rate limit
+                window.
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: >-
+                The relative time in seconds until the current rate-limit window
+                resets.  
+                  
+                **Important:** This differs from Github and Twitter's same-named
+                header which uses UTC epoch seconds. We use relative time to
+                avoid client/server time synchronization issues.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthenticatedError'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/DefaultSystemError'
+    x-lifecycle-stage: Deprecated
+    x-deprecated-at: 20240801T00:00:00Z
+    x-sunset-at: 20250228T00:00:00Z
+    x-self-access: true
+  /srcm/v3/clusters:
+    get:
+      x-lifecycle-stage: General Availability
+      x-self-access: true
+      operationId: listSrcmV3Clusters
+      summary: List of Clusters
+      description: >-
+        [![General
+        Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy)
+
+
+        Retrieve a sorted, filtered, paginated list of all clusters.
+      parameters:
+        - name: environment
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          example: env-00000
+          description: Filter the results by exact match for environment.
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+            maximum: 100
+            x-max-page-items: 500
+          description: A pagination size for collection requests.
+        - name: page_token
+          in: query
+          required: false
+          schema:
+            type: string
+            maxLength: 255
+          description: An opaque pagination token for collection requests.
+      tags:
+        - Clusters (srcm/v3)
+      security:
+        - cloud-api-key: []
+        - confluent-sts-access-token: []
+      responses:
+        '200':
+          description: Cluster.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: >-
+                  `Clusters` objects represent Schema Registry Clusters on
+                  Confluent Cloud.
+
+
+                  The API allows you to list and read your Schema Registry
+                  clusters.
+
+
+
+                  Related guide: [Confluent Cloud Schema Registry Cluster
+                  APIs](https://docs.confluent.io/cloud/current/stream-governance/clusters-regions-api.html#schema-registry-cluster-management).
+
+
+                  ## The Clusters Model
+
+                  <SchemaDefinition
+                  schemaRef="#/components/schemas/srcm.v3.Cluster" />
+                required:
+                  - api_version
+                  - kind
+                  - metadata
+                  - data
+                properties:
+                  api_version:
+                    type: string
+                    enum:
+                      - srcm/v3
+                    description: >-
+                      APIVersion defines the schema version of this
+                      representation of a resource.
+                    readOnly: true
+                  kind:
+                    type: string
+                    description: Kind defines the object this REST resource represents.
+                    readOnly: true
+                    enum:
+                      - ClusterList
+                  metadata:
+                    type: object
+                    description: >-
+                      ListMeta describes metadata that resource collections may
+                      have
+                    properties:
+                      first:
+                        description: >-
+                          A link to the first page of results. If a response
+                          does not contain a first link, then direct navigation
+                          to the first page is not supported.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: https://api.confluent.cloud/v2/resourcekinds
+                      last:
+                        description: >-
+                          A link to the last page of results. If a response does
+                          not contain a last link, then direct navigation to the
+                          last page is not supported.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: >-
+                          https://api.confluent.cloud/v2/resourcekinds?page_token=bcAOehAY8F16YD84Z1wT
+                      prev:
+                        description: >-
+                          A link to the previous page of results. If a response
+                          does not contain a prev link, then either there is no
+                          previous data or backwards traversal through the
+                          result set is not supported.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: >-
+                          https://api.confluent.cloud/v2/resourcekinds?page_token=YIXRY97wWYmwzrax4dld
+                      next:
+                        description: >-
+                          A link to the next page of results. If a response does
+                          not contain a next link, then there is no more data
+                          available.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: >-
+                          https://api.confluent.cloud/v2/resourcekinds?page_token=UvmDWOB1iwfAIBPj6EYb
+                      total_size:
+                        description: >-
+                          Number of records in the full result set. This
+                          response may be paginated and have a smaller number of
+                          records.
+                        type: integer
+                        format: int32
+                        minimum: 0
+                        example: 123
+                  data:
+                    type: array
+                    description: >-
+                      A data property that contains an array of resource items.
+                      Each entry in the array is a separate resource.
+                    items:
+                      type: object
+                      description: >-
+                        `Clusters` objects represent Schema Registry Clusters on
+                        Confluent Cloud.
+
+
+                        The API allows you to list and read your Schema Registry
+                        clusters.
+
+
+
+                        Related guide: [Confluent Cloud Schema Registry Cluster
+                        APIs](https://docs.confluent.io/cloud/current/stream-governance/clusters-regions-api.html#schema-registry-cluster-management).
+
+
+                        ## The Clusters Model
+
+                        <SchemaDefinition
+                        schemaRef="#/components/schemas/srcm.v3.Cluster" />
+                      properties:
+                        api_version:
+                          type: string
+                          enum:
+                            - srcm/v3
+                          description: >-
+                            APIVersion defines the schema version of this
+                            representation of a resource.
+                          readOnly: true
+                        kind:
+                          type: string
+                          description: >-
+                            Kind defines the object this REST resource
+                            represents.
+                          readOnly: true
+                          enum:
+                            - Cluster
+                        id:
+                          description: >-
+                            ID is the "natural identifier" for an object within
+                            its scope/namespace; it is normally unique across
+                            time but not space. That is, you can assume that the
+                            ID will not be reclaimed and reused after an object
+                            is deleted ("time"); however, it may collide with
+                            IDs for other object `kinds` or objects of the same
+                            `kind` within a different scope/namespace ("space").
+                          type: string
+                          maxLength: 255
+                          readOnly: true
+                          example: dlz-f3a90de
+                        metadata:
+                          description: >-
+                            ObjectMeta is metadata that all persisted resources
+                            must have, which includes all objects users must
+                            create.
+                          required:
+                            - self
+                          properties:
+                            self:
+                              description: >-
+                                Self is a Uniform Resource Locator (URL) at
+                                which an object can be addressed. This URL
+                                encodes the service location, API version, and
+                                other particulars necessary to locate the
+                                resource at a point in time
+                              type: string
+                              format: uri
+                              readOnly: true
+                              example: >-
+                                https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                            resource_name:
+                              description: >-
+                                Resource Name is a Uniform Resource Identifier
+                                (URI) that is globally unique across space and
+                                time. It is represented as a Confluent Resource
+                                Name
+                              type: string
+                              format: uri
+                              readOnly: true
+                              example: crn://confluent.cloud/kafka=lkc-f3a90de
+                            created_at:
+                              type: string
+                              format: date-time
+                              example: '2006-01-02T15:04:05-07:00'
+                              readOnly: true
+                              description: >-
+                                The date and time at which this object was
+                                created. It is represented in RFC3339 format and
+                                is in UTC.
+                            updated_at:
+                              type: string
+                              format: date-time
+                              example: '2006-01-02T15:04:05-07:00'
+                              readOnly: true
+                              description: >-
+                                The date and time at which this object was last
+                                updated. It is represented in RFC3339 format and
+                                is in UTC.
+                            deleted_at:
+                              type: string
+                              format: date-time
+                              example: '2006-01-02T15:04:05-07:00'
+                              readOnly: true
+                              description: >-
+                                The date and time at which this object was (or
+                                will be) deleted. It is represented in RFC3339
+                                format and is in UTC.
+                          readOnly: true
+                          type: object
+                        spec:
+                          $ref: '#/components/schemas/srcm.v3.ClusterSpec'
+                        status:
+                          $ref: '#/components/schemas/srcm.v3.ClusterStatus'
+                      required:
+                        - id
+                        - metadata
+                        - spec
+                        - status
+                    uniqueItems: true
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+              description: The unique identifier for the API request.
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+              description: >-
+                The maximum number of requests you're permitted to make per time
+                period.
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: >-
+                The number of requests remaining in the current rate limit
+                window.
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: >-
+                The relative time in seconds until the current rate-limit window
+                resets.  
+                  
+                **Important:** This differs from Github and Twitter's same-named
+                header which uses UTC epoch seconds. We use relative time to
+                avoid client/server time synchronization issues.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthenticatedError'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/DefaultSystemError'
+    x-lifecycle-stage: General Availability
+    x-self-access: true
+  /srcm/v3/clusters/{id}:
+    get:
+      x-lifecycle-stage: General Availability
+      x-self-access: true
+      operationId: getSrcmV3Cluster
+      summary: Read a Cluster
+      description: >-
+        [![General
+        Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy)
+
+
+        Make a request to read a cluster.
+      parameters:
+        - name: environment
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          example: env-00000
+          description: Scope the operation to the given environment.
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique identifier for the cluster.
+      tags:
+        - Clusters (srcm/v3)
+      security:
+        - cloud-api-key: []
+        - confluent-sts-access-token: []
+      responses:
+        '200':
+          description: Cluster.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: >-
+                  `Clusters` objects represent Schema Registry Clusters on
+                  Confluent Cloud.
+
+
+                  The API allows you to list and read your Schema Registry
+                  clusters.
+
+
+
+                  Related guide: [Confluent Cloud Schema Registry Cluster
+                  APIs](https://docs.confluent.io/cloud/current/stream-governance/clusters-regions-api.html#schema-registry-cluster-management).
+
+
+                  ## The Clusters Model
+
+                  <SchemaDefinition
+                  schemaRef="#/components/schemas/srcm.v3.Cluster" />
+                properties:
+                  api_version:
+                    type: string
+                    enum:
+                      - srcm/v3
+                    description: >-
+                      APIVersion defines the schema version of this
+                      representation of a resource.
+                    readOnly: true
+                  kind:
+                    type: string
+                    description: Kind defines the object this REST resource represents.
+                    readOnly: true
+                    enum:
+                      - Cluster
+                  id:
+                    description: >-
+                      ID is the "natural identifier" for an object within its
+                      scope/namespace; it is normally unique across time but not
+                      space. That is, you can assume that the ID will not be
+                      reclaimed and reused after an object is deleted ("time");
+                      however, it may collide with IDs for other object `kinds`
+                      or objects of the same `kind` within a different
+                      scope/namespace ("space").
+                    type: string
+                    maxLength: 255
+                    readOnly: true
+                    example: dlz-f3a90de
+                  metadata:
+                    description: >-
+                      ObjectMeta is metadata that all persisted resources must
+                      have, which includes all objects users must create.
+                    required:
+                      - self
+                    properties:
+                      self:
+                        description: >-
+                          Self is a Uniform Resource Locator (URL) at which an
+                          object can be addressed. This URL encodes the service
+                          location, API version, and other particulars necessary
+                          to locate the resource at a point in time
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: >-
+                          https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                      resource_name:
+                        description: >-
+                          Resource Name is a Uniform Resource Identifier (URI)
+                          that is globally unique across space and time. It is
+                          represented as a Confluent Resource Name
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: crn://confluent.cloud/kafka=lkc-f3a90de
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was created. It
+                          is represented in RFC3339 format and is in UTC.
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was last
+                          updated. It is represented in RFC3339 format and is in
+                          UTC.
+                      deleted_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was (or will
+                          be) deleted. It is represented in RFC3339 format and
+                          is in UTC.
+                    readOnly: true
+                    type: object
+                  spec:
+                    $ref: '#/components/schemas/srcm.v3.ClusterSpec'
+                  status:
+                    $ref: '#/components/schemas/srcm.v3.ClusterStatus'
+                required:
+                  - api_version
+                  - kind
+                  - id
+                  - spec
+                  - status
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+              description: The unique identifier for the API request.
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+              description: >-
+                The maximum number of requests you're permitted to make per time
+                period.
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: >-
+                The number of requests remaining in the current rate limit
+                window.
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: >-
+                The relative time in seconds until the current rate-limit window
+                resets.  
+                  
+                **Important:** This differs from Github and Twitter's same-named
+                header which uses UTC epoch seconds. We use relative time to
+                avoid client/server time synchronization issues.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthenticatedError'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/DefaultSystemError'
+    x-lifecycle-stage: General Availability
+    x-self-access: true
+components:
+  schemas:
+    SearchFilter:
+      description: Filter a collection by a string search
+      type: string
+    MultipleSearchFilter:
+      description: Filter a collection by a string search for one or more values
+      type: array
+      items:
+        type: string
+    srcm.v2.RegionList:
+      type: object
+      description: >-
+        `Region` objects represent cloud provider regions available when placing
+        Schema Registry clusters.
+
+        The API allows you to list Schema Registry regions.
+
+
+
+        Related guides:
+
+        * [Confluent Cloud providers and region
+        support](https://docs.confluent.io/cloud/current/stream-governance/packages.html#cloud-providers-and-region-support).
+
+        * [srcm/v3 Migration
+        Guide](https://docs.confluent.io/cloud/current/stream-governance/packages.html#deprecation-of-srcm-v2-clusters-and-regions-apis-and-upgrade-guide).
+
+
+
+        ## The Regions Model
+
+        <SchemaDefinition schemaRef="#/components/schemas/srcm.v2.Region" />
+      required:
+        - api_version
+        - kind
+        - metadata
+        - data
+      properties:
+        api_version:
+          type: string
+          enum:
+            - srcm/v2
+          description: >-
+            APIVersion defines the schema version of this representation of a
+            resource.
+          readOnly: true
+        kind:
+          type: string
+          description: Kind defines the object this REST resource represents.
+          readOnly: true
+          enum:
+            - RegionList
+        metadata:
+          type: object
+          description: ListMeta describes metadata that resource collections may have
+          properties:
+            first:
+              description: >-
+                A link to the first page of results. If a response does not
+                contain a first link, then direct navigation to the first page
+                is not supported.
+              type: string
+              format: uri
+              nullable: true
+              example: https://api.confluent.cloud/v2/resourcekinds
+            last:
+              description: >-
+                A link to the last page of results. If a response does not
+                contain a last link, then direct navigation to the last page is
+                not supported.
+              type: string
+              format: uri
+              nullable: true
+              example: >-
+                https://api.confluent.cloud/v2/resourcekinds?page_token=bcAOehAY8F16YD84Z1wT
+            prev:
+              description: >-
+                A link to the previous page of results. If a response does not
+                contain a prev link, then either there is no previous data or
+                backwards traversal through the result set is not supported.
+              type: string
+              format: uri
+              nullable: true
+              example: >-
+                https://api.confluent.cloud/v2/resourcekinds?page_token=YIXRY97wWYmwzrax4dld
+            next:
+              description: >-
+                A link to the next page of results. If a response does not
+                contain a next link, then there is no more data available.
+              type: string
+              format: uri
+              nullable: true
+              example: >-
+                https://api.confluent.cloud/v2/resourcekinds?page_token=UvmDWOB1iwfAIBPj6EYb
+            total_size:
+              description: >-
+                Number of records in the full result set. This response may be
+                paginated and have a smaller number of records.
+              type: integer
+              format: int32
+              minimum: 0
+              example: 123
+        data:
+          type: array
+          description: >-
+            A data property that contains an array of resource items. Each entry
+            in the array is a separate resource.
+          items:
+            type: object
+            description: >-
+              `Region` objects represent cloud provider regions available when
+              placing Schema Registry clusters.
+
+              The API allows you to list Schema Registry regions.
+
+
+
+              Related guides:
+
+              * [Confluent Cloud providers and region
+              support](https://docs.confluent.io/cloud/current/stream-governance/packages.html#cloud-providers-and-region-support).
+
+              * [srcm/v3 Migration
+              Guide](https://docs.confluent.io/cloud/current/stream-governance/packages.html#deprecation-of-srcm-v2-clusters-and-regions-apis-and-upgrade-guide).
+
+
+
+              ## The Regions Model
+
+              <SchemaDefinition schemaRef="#/components/schemas/srcm.v2.Region"
+              />
+            properties:
+              api_version:
+                type: string
+                enum:
+                  - srcm/v2
+                description: >-
+                  APIVersion defines the schema version of this representation
+                  of a resource.
+                readOnly: true
+              kind:
+                type: string
+                description: Kind defines the object this REST resource represents.
+                readOnly: true
+                enum:
+                  - Region
+              id:
+                description: >-
+                  ID is the "natural identifier" for an object within its
+                  scope/namespace; it is normally unique across time but not
+                  space. That is, you can assume that the ID will not be
+                  reclaimed and reused after an object is deleted ("time");
+                  however, it may collide with IDs for other object `kinds` or
+                  objects of the same `kind` within a different scope/namespace
+                  ("space").
+                type: string
+                maxLength: 255
+                readOnly: true
+                example: dlz-f3a90de
+              metadata:
+                description: >-
+                  ObjectMeta is metadata that all persisted resources must have,
+                  which includes all objects users must create.
+                required:
+                  - self
+                properties:
+                  self:
+                    description: >-
+                      Self is a Uniform Resource Locator (URL) at which an
+                      object can be addressed. This URL encodes the service
+                      location, API version, and other particulars necessary to
+                      locate the resource at a point in time
+                    type: string
+                    format: uri
+                    readOnly: true
+                    example: https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                  resource_name:
+                    description: >-
+                      Resource Name is a Uniform Resource Identifier (URI) that
+                      is globally unique across space and time. It is
+                      represented as a Confluent Resource Name
+                    type: string
+                    format: uri
+                    readOnly: true
+                    example: crn://confluent.cloud/kafka=lkc-f3a90de
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: '2006-01-02T15:04:05-07:00'
+                    readOnly: true
+                    description: >-
+                      The date and time at which this object was created. It is
+                      represented in RFC3339 format and is in UTC.
+                  updated_at:
+                    type: string
+                    format: date-time
+                    example: '2006-01-02T15:04:05-07:00'
+                    readOnly: true
+                    description: >-
+                      The date and time at which this object was last updated.
+                      It is represented in RFC3339 format and is in UTC.
+                  deleted_at:
+                    type: string
+                    format: date-time
+                    example: '2006-01-02T15:04:05-07:00'
+                    readOnly: true
+                    description: >-
+                      The date and time at which this object was (or will be)
+                      deleted. It is represented in RFC3339 format and is in
+                      UTC.
+                readOnly: true
+                type: object
+              spec:
+                $ref: '#/components/schemas/srcm.v2.RegionSpec'
+            required:
+              - id
+              - metadata
+              - spec
+          uniqueItems: true
+    srcm.v2.Region:
+      type: object
+      description: >-
+        `Region` objects represent cloud provider regions available when placing
+        Schema Registry clusters.
+
+        The API allows you to list Schema Registry regions.
+
+
+
+        Related guides:
+
+        * [Confluent Cloud providers and region
+        support](https://docs.confluent.io/cloud/current/stream-governance/packages.html#cloud-providers-and-region-support).
+
+        * [srcm/v3 Migration
+        Guide](https://docs.confluent.io/cloud/current/stream-governance/packages.html#deprecation-of-srcm-v2-clusters-and-regions-apis-and-upgrade-guide).
+
+
+
+        ## The Regions Model
+
+        <SchemaDefinition schemaRef="#/components/schemas/srcm.v2.Region" />
+      properties:
+        api_version:
+          type: string
+          enum:
+            - srcm/v2
+          description: >-
+            APIVersion defines the schema version of this representation of a
+            resource.
+          readOnly: true
+        kind:
+          type: string
+          description: Kind defines the object this REST resource represents.
+          readOnly: true
+          enum:
+            - Region
+        id:
+          description: >-
+            ID is the "natural identifier" for an object within its
+            scope/namespace; it is normally unique across time but not space.
+            That is, you can assume that the ID will not be reclaimed and reused
+            after an object is deleted ("time"); however, it may collide with
+            IDs for other object `kinds` or objects of the same `kind` within a
+            different scope/namespace ("space").
+          type: string
+          maxLength: 255
+          readOnly: true
+          example: dlz-f3a90de
+        metadata:
+          description: >-
+            ObjectMeta is metadata that all persisted resources must have, which
+            includes all objects users must create.
+          required:
+            - self
+          properties:
+            self:
+              description: >-
+                Self is a Uniform Resource Locator (URL) at which an object can
+                be addressed. This URL encodes the service location, API
+                version, and other particulars necessary to locate the resource
+                at a point in time
+              type: string
+              format: uri
+              readOnly: true
+              example: https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+            resource_name:
+              description: >-
+                Resource Name is a Uniform Resource Identifier (URI) that is
+                globally unique across space and time. It is represented as a
+                Confluent Resource Name
+              type: string
+              format: uri
+              readOnly: true
+              example: crn://confluent.cloud/kafka=lkc-f3a90de
+            created_at:
+              type: string
+              format: date-time
+              example: '2006-01-02T15:04:05-07:00'
+              readOnly: true
+              description: >-
+                The date and time at which this object was created. It is
+                represented in RFC3339 format and is in UTC.
+            updated_at:
+              type: string
+              format: date-time
+              example: '2006-01-02T15:04:05-07:00'
+              readOnly: true
+              description: >-
+                The date and time at which this object was last updated. It is
+                represented in RFC3339 format and is in UTC.
+            deleted_at:
+              type: string
+              format: date-time
+              example: '2006-01-02T15:04:05-07:00'
+              readOnly: true
+              description: >-
+                The date and time at which this object was (or will be) deleted.
+                It is represented in RFC3339 format and is in UTC.
+          readOnly: true
+          type: object
+        spec:
+          $ref: '#/components/schemas/srcm.v2.RegionSpec'
+    srcm.v2.ClusterList:
+      type: object
+      description: >-
+        `Clusters` objects represent Schema Registry Clusters on Confluent
+        Cloud.
+
+
+        The API allows you to list, create, read, and delete your Schema
+        Registry clusters.
+
+
+
+        Related guides:
+
+        * [Confluent Cloud Schema Registry Cluster
+        APIs](https://docs.confluent.io/cloud/current/stream-governance/clusters-regions-api.html#schema-registry-cluster-management).
+
+        * [srcm/v3 Migration
+        Guide](https://docs.confluent.io/cloud/current/stream-governance/packages.html#deprecation-of-srcm-v2-clusters-and-regions-apis-and-upgrade-guide).
+
+
+
+        ## The Clusters Model
+
+        <SchemaDefinition schemaRef="#/components/schemas/srcm.v2.Cluster" />
+      required:
+        - api_version
+        - kind
+        - metadata
+        - data
+      properties:
+        api_version:
+          type: string
+          enum:
+            - srcm/v2
+          description: >-
+            APIVersion defines the schema version of this representation of a
+            resource.
+          readOnly: true
+        kind:
+          type: string
+          description: Kind defines the object this REST resource represents.
+          readOnly: true
+          enum:
+            - ClusterList
+        metadata:
+          type: object
+          description: ListMeta describes metadata that resource collections may have
+          properties:
+            first:
+              description: >-
+                A link to the first page of results. If a response does not
+                contain a first link, then direct navigation to the first page
+                is not supported.
+              type: string
+              format: uri
+              nullable: true
+              example: https://api.confluent.cloud/v2/resourcekinds
+            last:
+              description: >-
+                A link to the last page of results. If a response does not
+                contain a last link, then direct navigation to the last page is
+                not supported.
+              type: string
+              format: uri
+              nullable: true
+              example: >-
+                https://api.confluent.cloud/v2/resourcekinds?page_token=bcAOehAY8F16YD84Z1wT
+            prev:
+              description: >-
+                A link to the previous page of results. If a response does not
+                contain a prev link, then either there is no previous data or
+                backwards traversal through the result set is not supported.
+              type: string
+              format: uri
+              nullable: true
+              example: >-
+                https://api.confluent.cloud/v2/resourcekinds?page_token=YIXRY97wWYmwzrax4dld
+            next:
+              description: >-
+                A link to the next page of results. If a response does not
+                contain a next link, then there is no more data available.
+              type: string
+              format: uri
+              nullable: true
+              example: >-
+                https://api.confluent.cloud/v2/resourcekinds?page_token=UvmDWOB1iwfAIBPj6EYb
+            total_size:
+              description: >-
+                Number of records in the full result set. This response may be
+                paginated and have a smaller number of records.
+              type: integer
+              format: int32
+              minimum: 0
+              example: 123
+        data:
+          type: array
+          description: >-
+            A data property that contains an array of resource items. Each entry
+            in the array is a separate resource.
+          items:
+            type: object
+            description: >-
+              `Clusters` objects represent Schema Registry Clusters on Confluent
+              Cloud.
+
+
+              The API allows you to list, create, read, and delete your Schema
+              Registry clusters.
+
+
+
+              Related guides:
+
+              * [Confluent Cloud Schema Registry Cluster
+              APIs](https://docs.confluent.io/cloud/current/stream-governance/clusters-regions-api.html#schema-registry-cluster-management).
+
+              * [srcm/v3 Migration
+              Guide](https://docs.confluent.io/cloud/current/stream-governance/packages.html#deprecation-of-srcm-v2-clusters-and-regions-apis-and-upgrade-guide).
+
+
+
+              ## The Clusters Model
+
+              <SchemaDefinition schemaRef="#/components/schemas/srcm.v2.Cluster"
+              />
+            properties:
+              api_version:
+                type: string
+                enum:
+                  - srcm/v2
+                description: >-
+                  APIVersion defines the schema version of this representation
+                  of a resource.
+                readOnly: true
+              kind:
+                type: string
+                description: Kind defines the object this REST resource represents.
+                readOnly: true
+                enum:
+                  - Cluster
+              id:
+                description: >-
+                  ID is the "natural identifier" for an object within its
+                  scope/namespace; it is normally unique across time but not
+                  space. That is, you can assume that the ID will not be
+                  reclaimed and reused after an object is deleted ("time");
+                  however, it may collide with IDs for other object `kinds` or
+                  objects of the same `kind` within a different scope/namespace
+                  ("space").
+                type: string
+                maxLength: 255
+                readOnly: true
+                example: dlz-f3a90de
+              metadata:
+                description: >-
+                  ObjectMeta is metadata that all persisted resources must have,
+                  which includes all objects users must create.
+                required:
+                  - self
+                properties:
+                  self:
+                    description: >-
+                      Self is a Uniform Resource Locator (URL) at which an
+                      object can be addressed. This URL encodes the service
+                      location, API version, and other particulars necessary to
+                      locate the resource at a point in time
+                    type: string
+                    format: uri
+                    readOnly: true
+                    example: https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                  resource_name:
+                    description: >-
+                      Resource Name is a Uniform Resource Identifier (URI) that
+                      is globally unique across space and time. It is
+                      represented as a Confluent Resource Name
+                    type: string
+                    format: uri
+                    readOnly: true
+                    example: crn://confluent.cloud/kafka=lkc-f3a90de
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: '2006-01-02T15:04:05-07:00'
+                    readOnly: true
+                    description: >-
+                      The date and time at which this object was created. It is
+                      represented in RFC3339 format and is in UTC.
+                  updated_at:
+                    type: string
+                    format: date-time
+                    example: '2006-01-02T15:04:05-07:00'
+                    readOnly: true
+                    description: >-
+                      The date and time at which this object was last updated.
+                      It is represented in RFC3339 format and is in UTC.
+                  deleted_at:
+                    type: string
+                    format: date-time
+                    example: '2006-01-02T15:04:05-07:00'
+                    readOnly: true
+                    description: >-
+                      The date and time at which this object was (or will be)
+                      deleted. It is represented in RFC3339 format and is in
+                      UTC.
+                readOnly: true
+                type: object
+              spec:
+                $ref: '#/components/schemas/srcm.v2.ClusterSpec'
+              status:
+                $ref: '#/components/schemas/srcm.v2.ClusterStatus'
+            required:
+              - id
+              - metadata
+              - spec
+              - status
+          uniqueItems: true
+    srcm.v2.Cluster:
+      type: object
+      description: >-
+        `Clusters` objects represent Schema Registry Clusters on Confluent
+        Cloud.
+
+
+        The API allows you to list, create, read, and delete your Schema
+        Registry clusters.
+
+
+
+        Related guides:
+
+        * [Confluent Cloud Schema Registry Cluster
+        APIs](https://docs.confluent.io/cloud/current/stream-governance/clusters-regions-api.html#schema-registry-cluster-management).
+
+        * [srcm/v3 Migration
+        Guide](https://docs.confluent.io/cloud/current/stream-governance/packages.html#deprecation-of-srcm-v2-clusters-and-regions-apis-and-upgrade-guide).
+
+
+
+        ## The Clusters Model
+
+        <SchemaDefinition schemaRef="#/components/schemas/srcm.v2.Cluster" />
+      properties:
+        api_version:
+          type: string
+          enum:
+            - srcm/v2
+          description: >-
+            APIVersion defines the schema version of this representation of a
+            resource.
+          readOnly: true
+        kind:
+          type: string
+          description: Kind defines the object this REST resource represents.
+          readOnly: true
+          enum:
+            - Cluster
+        id:
+          description: >-
+            ID is the "natural identifier" for an object within its
+            scope/namespace; it is normally unique across time but not space.
+            That is, you can assume that the ID will not be reclaimed and reused
+            after an object is deleted ("time"); however, it may collide with
+            IDs for other object `kinds` or objects of the same `kind` within a
+            different scope/namespace ("space").
+          type: string
+          maxLength: 255
+          readOnly: true
+          example: dlz-f3a90de
+        metadata:
+          description: >-
+            ObjectMeta is metadata that all persisted resources must have, which
+            includes all objects users must create.
+          required:
+            - self
+          properties:
+            self:
+              description: >-
+                Self is a Uniform Resource Locator (URL) at which an object can
+                be addressed. This URL encodes the service location, API
+                version, and other particulars necessary to locate the resource
+                at a point in time
+              type: string
+              format: uri
+              readOnly: true
+              example: https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+            resource_name:
+              description: >-
+                Resource Name is a Uniform Resource Identifier (URI) that is
+                globally unique across space and time. It is represented as a
+                Confluent Resource Name
+              type: string
+              format: uri
+              readOnly: true
+              example: crn://confluent.cloud/kafka=lkc-f3a90de
+            created_at:
+              type: string
+              format: date-time
+              example: '2006-01-02T15:04:05-07:00'
+              readOnly: true
+              description: >-
+                The date and time at which this object was created. It is
+                represented in RFC3339 format and is in UTC.
+            updated_at:
+              type: string
+              format: date-time
+              example: '2006-01-02T15:04:05-07:00'
+              readOnly: true
+              description: >-
+                The date and time at which this object was last updated. It is
+                represented in RFC3339 format and is in UTC.
+            deleted_at:
+              type: string
+              format: date-time
+              example: '2006-01-02T15:04:05-07:00'
+              readOnly: true
+              description: >-
+                The date and time at which this object was (or will be) deleted.
+                It is represented in RFC3339 format and is in UTC.
+          readOnly: true
+          type: object
+        spec:
+          $ref: '#/components/schemas/srcm.v2.ClusterSpec'
+        status:
+          $ref: '#/components/schemas/srcm.v2.ClusterStatus'
+    srcm.v3.ClusterList:
+      type: object
+      description: >-
+        `Clusters` objects represent Schema Registry Clusters on Confluent
+        Cloud.
+
+
+        The API allows you to list and read your Schema Registry clusters.
+
+
+
+        Related guide: [Confluent Cloud Schema Registry Cluster
+        APIs](https://docs.confluent.io/cloud/current/stream-governance/clusters-regions-api.html#schema-registry-cluster-management).
+
+
+        ## The Clusters Model
+
+        <SchemaDefinition schemaRef="#/components/schemas/srcm.v3.Cluster" />
+      required:
+        - api_version
+        - kind
+        - metadata
+        - data
+      properties:
+        api_version:
+          type: string
+          enum:
+            - srcm/v3
+          description: >-
+            APIVersion defines the schema version of this representation of a
+            resource.
+          readOnly: true
+        kind:
+          type: string
+          description: Kind defines the object this REST resource represents.
+          readOnly: true
+          enum:
+            - ClusterList
+        metadata:
+          type: object
+          description: ListMeta describes metadata that resource collections may have
+          properties:
+            first:
+              description: >-
+                A link to the first page of results. If a response does not
+                contain a first link, then direct navigation to the first page
+                is not supported.
+              type: string
+              format: uri
+              nullable: true
+              example: https://api.confluent.cloud/v2/resourcekinds
+            last:
+              description: >-
+                A link to the last page of results. If a response does not
+                contain a last link, then direct navigation to the last page is
+                not supported.
+              type: string
+              format: uri
+              nullable: true
+              example: >-
+                https://api.confluent.cloud/v2/resourcekinds?page_token=bcAOehAY8F16YD84Z1wT
+            prev:
+              description: >-
+                A link to the previous page of results. If a response does not
+                contain a prev link, then either there is no previous data or
+                backwards traversal through the result set is not supported.
+              type: string
+              format: uri
+              nullable: true
+              example: >-
+                https://api.confluent.cloud/v2/resourcekinds?page_token=YIXRY97wWYmwzrax4dld
+            next:
+              description: >-
+                A link to the next page of results. If a response does not
+                contain a next link, then there is no more data available.
+              type: string
+              format: uri
+              nullable: true
+              example: >-
+                https://api.confluent.cloud/v2/resourcekinds?page_token=UvmDWOB1iwfAIBPj6EYb
+            total_size:
+              description: >-
+                Number of records in the full result set. This response may be
+                paginated and have a smaller number of records.
+              type: integer
+              format: int32
+              minimum: 0
+              example: 123
+        data:
+          type: array
+          description: >-
+            A data property that contains an array of resource items. Each entry
+            in the array is a separate resource.
+          items:
+            type: object
+            description: >-
+              `Clusters` objects represent Schema Registry Clusters on Confluent
+              Cloud.
+
+
+              The API allows you to list and read your Schema Registry clusters.
+
+
+
+              Related guide: [Confluent Cloud Schema Registry Cluster
+              APIs](https://docs.confluent.io/cloud/current/stream-governance/clusters-regions-api.html#schema-registry-cluster-management).
+
+
+              ## The Clusters Model
+
+              <SchemaDefinition schemaRef="#/components/schemas/srcm.v3.Cluster"
+              />
+            properties:
+              api_version:
+                type: string
+                enum:
+                  - srcm/v3
+                description: >-
+                  APIVersion defines the schema version of this representation
+                  of a resource.
+                readOnly: true
+              kind:
+                type: string
+                description: Kind defines the object this REST resource represents.
+                readOnly: true
+                enum:
+                  - Cluster
+              id:
+                description: >-
+                  ID is the "natural identifier" for an object within its
+                  scope/namespace; it is normally unique across time but not
+                  space. That is, you can assume that the ID will not be
+                  reclaimed and reused after an object is deleted ("time");
+                  however, it may collide with IDs for other object `kinds` or
+                  objects of the same `kind` within a different scope/namespace
+                  ("space").
+                type: string
+                maxLength: 255
+                readOnly: true
+                example: dlz-f3a90de
+              metadata:
+                description: >-
+                  ObjectMeta is metadata that all persisted resources must have,
+                  which includes all objects users must create.
+                required:
+                  - self
+                properties:
+                  self:
+                    description: >-
+                      Self is a Uniform Resource Locator (URL) at which an
+                      object can be addressed. This URL encodes the service
+                      location, API version, and other particulars necessary to
+                      locate the resource at a point in time
+                    type: string
+                    format: uri
+                    readOnly: true
+                    example: https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                  resource_name:
+                    description: >-
+                      Resource Name is a Uniform Resource Identifier (URI) that
+                      is globally unique across space and time. It is
+                      represented as a Confluent Resource Name
+                    type: string
+                    format: uri
+                    readOnly: true
+                    example: crn://confluent.cloud/kafka=lkc-f3a90de
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: '2006-01-02T15:04:05-07:00'
+                    readOnly: true
+                    description: >-
+                      The date and time at which this object was created. It is
+                      represented in RFC3339 format and is in UTC.
+                  updated_at:
+                    type: string
+                    format: date-time
+                    example: '2006-01-02T15:04:05-07:00'
+                    readOnly: true
+                    description: >-
+                      The date and time at which this object was last updated.
+                      It is represented in RFC3339 format and is in UTC.
+                  deleted_at:
+                    type: string
+                    format: date-time
+                    example: '2006-01-02T15:04:05-07:00'
+                    readOnly: true
+                    description: >-
+                      The date and time at which this object was (or will be)
+                      deleted. It is represented in RFC3339 format and is in
+                      UTC.
+                readOnly: true
+                type: object
+              spec:
+                $ref: '#/components/schemas/srcm.v3.ClusterSpec'
+              status:
+                $ref: '#/components/schemas/srcm.v3.ClusterStatus'
+            required:
+              - id
+              - metadata
+              - spec
+              - status
+          uniqueItems: true
+    srcm.v3.Cluster:
+      type: object
+      description: >-
+        `Clusters` objects represent Schema Registry Clusters on Confluent
+        Cloud.
+
+
+        The API allows you to list and read your Schema Registry clusters.
+
+
+
+        Related guide: [Confluent Cloud Schema Registry Cluster
+        APIs](https://docs.confluent.io/cloud/current/stream-governance/clusters-regions-api.html#schema-registry-cluster-management).
+
+
+        ## The Clusters Model
+
+        <SchemaDefinition schemaRef="#/components/schemas/srcm.v3.Cluster" />
+      properties:
+        api_version:
+          type: string
+          enum:
+            - srcm/v3
+          description: >-
+            APIVersion defines the schema version of this representation of a
+            resource.
+          readOnly: true
+        kind:
+          type: string
+          description: Kind defines the object this REST resource represents.
+          readOnly: true
+          enum:
+            - Cluster
+        id:
+          description: >-
+            ID is the "natural identifier" for an object within its
+            scope/namespace; it is normally unique across time but not space.
+            That is, you can assume that the ID will not be reclaimed and reused
+            after an object is deleted ("time"); however, it may collide with
+            IDs for other object `kinds` or objects of the same `kind` within a
+            different scope/namespace ("space").
+          type: string
+          maxLength: 255
+          readOnly: true
+          example: dlz-f3a90de
+        metadata:
+          description: >-
+            ObjectMeta is metadata that all persisted resources must have, which
+            includes all objects users must create.
+          required:
+            - self
+          properties:
+            self:
+              description: >-
+                Self is a Uniform Resource Locator (URL) at which an object can
+                be addressed. This URL encodes the service location, API
+                version, and other particulars necessary to locate the resource
+                at a point in time
+              type: string
+              format: uri
+              readOnly: true
+              example: https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+            resource_name:
+              description: >-
+                Resource Name is a Uniform Resource Identifier (URI) that is
+                globally unique across space and time. It is represented as a
+                Confluent Resource Name
+              type: string
+              format: uri
+              readOnly: true
+              example: crn://confluent.cloud/kafka=lkc-f3a90de
+            created_at:
+              type: string
+              format: date-time
+              example: '2006-01-02T15:04:05-07:00'
+              readOnly: true
+              description: >-
+                The date and time at which this object was created. It is
+                represented in RFC3339 format and is in UTC.
+            updated_at:
+              type: string
+              format: date-time
+              example: '2006-01-02T15:04:05-07:00'
+              readOnly: true
+              description: >-
+                The date and time at which this object was last updated. It is
+                represented in RFC3339 format and is in UTC.
+            deleted_at:
+              type: string
+              format: date-time
+              example: '2006-01-02T15:04:05-07:00'
+              readOnly: true
+              description: >-
+                The date and time at which this object was (or will be) deleted.
+                It is represented in RFC3339 format and is in UTC.
+          readOnly: true
+          type: object
+        spec:
+          $ref: '#/components/schemas/srcm.v3.ClusterSpec'
+        status:
+          $ref: '#/components/schemas/srcm.v3.ClusterStatus'
+    ListMeta:
+      type: object
+      description: ListMeta describes metadata that resource collections may have
+      properties:
+        first:
+          description: >-
+            A link to the first page of results. If a response does not contain
+            a first link, then direct navigation to the first page is not
+            supported.
+          type: string
+          format: uri
+          nullable: true
+          example: https://api.confluent.cloud/v2/resourcekinds
+        last:
+          description: >-
+            A link to the last page of results. If a response does not contain a
+            last link, then direct navigation to the last page is not supported.
+          type: string
+          format: uri
+          nullable: true
+          example: >-
+            https://api.confluent.cloud/v2/resourcekinds?page_token=bcAOehAY8F16YD84Z1wT
+        prev:
+          description: >-
+            A link to the previous page of results. If a response does not
+            contain a prev link, then either there is no previous data or
+            backwards traversal through the result set is not supported.
+          type: string
+          format: uri
+          nullable: true
+          example: >-
+            https://api.confluent.cloud/v2/resourcekinds?page_token=YIXRY97wWYmwzrax4dld
+        next:
+          description: >-
+            A link to the next page of results. If a response does not contain a
+            next link, then there is no more data available.
+          type: string
+          format: uri
+          nullable: true
+          example: >-
+            https://api.confluent.cloud/v2/resourcekinds?page_token=UvmDWOB1iwfAIBPj6EYb
+        total_size:
+          description: >-
+            Number of records in the full result set. This response may be
+            paginated and have a smaller number of records.
+          type: integer
+          format: int32
+          minimum: 0
+          example: 123
+    Failure:
+      type: object
+      description: >-
+        Provides information about problems encountered while performing an
+        operation.
+      required:
+        - errors
+      properties:
+        errors:
+          description: List of errors which caused this operation to fail
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+          uniqueItems: true
+    ObjectMeta:
+      description: >-
+        ObjectMeta is metadata that all persisted resources must have, which
+        includes all objects users must create.
+      required:
+        - self
+      properties:
+        self:
+          description: >-
+            Self is a Uniform Resource Locator (URL) at which an object can be
+            addressed. This URL encodes the service location, API version, and
+            other particulars necessary to locate the resource at a point in
+            time
+          type: string
+          format: uri
+          readOnly: true
+          example: https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+        resource_name:
+          description: >-
+            Resource Name is a Uniform Resource Identifier (URI) that is
+            globally unique across space and time. It is represented as a
+            Confluent Resource Name
+          type: string
+          format: uri
+          readOnly: true
+          example: crn://confluent.cloud/kafka=lkc-f3a90de
+        created_at:
+          type: string
+          format: date-time
+          example: '2006-01-02T15:04:05-07:00'
+          readOnly: true
+          description: >-
+            The date and time at which this object was created. It is
+            represented in RFC3339 format and is in UTC.
+        updated_at:
+          type: string
+          format: date-time
+          example: '2006-01-02T15:04:05-07:00'
+          readOnly: true
+          description: >-
+            The date and time at which this object was last updated. It is
+            represented in RFC3339 format and is in UTC.
+        deleted_at:
+          type: string
+          format: date-time
+          example: '2006-01-02T15:04:05-07:00'
+          readOnly: true
+          description: >-
+            The date and time at which this object was (or will be) deleted. It
+            is represented in RFC3339 format and is in UTC.
+      readOnly: true
+      type: object
+    srcm.v2.RegionSpec:
+      type: object
+      description: The desired state of the Region
+      properties:
+        display_name:
+          type: string
+          description: The display name.
+          example: Ohio (us-east-2)
+          x-immutable: true
+          readOnly: true
+        cloud:
+          type: string
+          description: The cloud service provider that hosts the region.
+          x-extensible-enum:
+            - AWS
+            - GCP
+            - AZURE
+          example: AWS
+          x-immutable: true
+          readOnly: true
+        region_name:
+          type: string
+          description: The region name.
+          example: us-east-2
+          x-immutable: true
+          readOnly: true
+        packages:
+          type: array
+          items:
+            type: string
+            x-extensible-enum:
+              - ESSENTIALS
+              - ADVANCED
+          description: >-
+            List of Stream Governance packages allowing placement in this
+            region.
+          example:
+            - ESSENTIALS
+            - ADVANCED
+          x-immutable: true
+          readOnly: true
+      x-enable-id: true
+      x-enable-listmeta: true
+      x-enable-objectmeta: true
+    srcm.v2.ClusterSpec:
+      type: object
+      description: The desired state of the Cluster
+      properties:
+        display_name:
+          type: string
+          description: The cluster name.
+          example: Stream Governance package
+          x-immutable: true
+          readOnly: true
+        package:
+          type: string
+          description: >
+            The billing package.
+
+
+            Note: Clusters can be upgraded from ESSENTIALS to ADVANCED, but
+            cannot be
+
+            downgraded from ADVANCED to ESSENTIALS.
+          x-extensible-enum:
+            - ESSENTIALS
+            - ADVANCED
+          example: ESSENTIALS
+        http_endpoint:
+          type: string
+          description: The cluster HTTP request URL.
+          format: uri
+          example: https://psrc-00000.us-central1.gcp.confluent.cloud
+          x-immutable: true
+          readOnly: true
+        environment:
+          description: The environment to which this belongs.
+          type: object
+          required:
+            - id
+            - related
+            - resource_name
+          properties:
+            id:
+              type: string
+              description: ID of the referred resource
+              minLength: 1
+              maxLength: 255
+            related:
+              type: string
+              format: uri
+              description: API URL for accessing or modifying the referred object
+              minLength: 1
+              readOnly: true
+            resource_name:
+              type: string
+              format: uri
+              description: CRN reference to the referred resource
+              minLength: 1
+              readOnly: true
+        region:
+          description: The region to which this belongs.
+          x-immutable: true
+          type: object
+          required:
+            - id
+            - related
+            - resource_name
+          properties:
+            id:
+              type: string
+              description: ID of the referred resource
+              minLength: 1
+              maxLength: 255
+            related:
+              type: string
+              format: uri
+              description: API URL for accessing or modifying the referred object
+              minLength: 1
+              readOnly: true
+            resource_name:
+              type: string
+              format: uri
+              description: CRN reference to the referred resource
+              minLength: 1
+              readOnly: true
+      x-enable-id: true
+      x-enable-listmeta: true
+      x-enable-objectmeta: true
+    srcm.v2.ClusterStatus:
+      type: object
+      required:
+        - phase
+      description: The status of the Cluster
+      properties:
+        phase:
+          type: string
+          x-extensible-enum:
+            - PROVISIONING
+            - PROVISIONED
+            - FAILED
+          description: >
+            The lifecyle phase of the cluster:
+
+              PROVISIONED:  cluster is provisioned;
+
+              PROVISIONING:  cluster provisioning is in progress;
+
+              FAILED:  provisioning failed
+
+            Note: Schema Registry Cluster Management is handled through the
+            org/v2 Environments API as of srcm/v3.
+          readOnly: true
+          example: PROVISIONED
+      readOnly: true
+    srcm.v3.ClusterSpec:
+      type: object
+      description: The desired state of the Cluster
+      properties:
+        display_name:
+          type: string
+          description: The cluster name.
+          example: Stream Governance package
+          x-immutable: true
+          readOnly: true
+        package:
+          type: string
+          description: >
+            The billing package.
+
+
+            Note: Clusters can be upgraded from ESSENTIALS to ADVANCED, but
+            cannot be
+
+            downgraded from ADVANCED to ESSENTIALS.
+          x-extensible-enum:
+            - ESSENTIALS
+            - ADVANCED
+          example: ESSENTIALS
+        http_endpoint:
+          type: string
+          description: The cluster HTTP request URL.
+          format: uri
+          example: https://psrc-00000.us-central1.gcp.confluent.cloud
+          x-immutable: true
+          readOnly: true
+        catalog_http_endpoint:
+          type: string
+          description: The cluster's catalog HTTP request URL.
+          format: uri
+          example: https://psrc-00000.us-central1.gcp.confluent.cloud
+          x-immutable: true
+          readOnly: true
+        private_http_endpoint:
+          type: string
+          description: >
+            The cluster's private HTTP request URL.
+
+
+            DEPRECATED - Please use the
+            `private_networking_config.regional_endpoints` attribute instead,
+
+            which supersedes the `private_http_endpoint` attribute.
+          format: uri
+          example: https://lsrc-abc.us-central-1.aws.private.confluent.cloud
+          x-immutable: true
+          readOnly: true
+        private_networking_config:
+          type: object
+          description: Available HTTP request URLs for private connectivity.
+          properties:
+            regional_endpoints:
+              type: object
+              description: >-
+                A map of region identifiers to their corresponding private HTTP
+                request URL.
+              additionalProperties:
+                type: string
+                format: uri
+          example:
+            regional_endpoints:
+              us-central-1: https://lsrc-abc.us-central-1.aws.private.confluent.cloud
+              us-west-2: https://lsrc-abc.us-west-2.aws.private.confluent.cloud
+          x-immutable: true
+          readOnly: true
+        cloud:
+          type: string
+          description: The cloud service provider in which the cluster is running.
+          x-extensible-enum:
+            - AWS
+            - GCP
+            - AZURE
+          example: GCP
+          x-immutable: true
+        region:
+          type: string
+          description: The cloud service provider region where the cluster is running.
+          example: us-east4
+          x-immutable: true
+        environment:
+          description: The environment to which this belongs.
+          x-immutable: true
+          type: object
+          required:
+            - id
+            - related
+            - resource_name
+          properties:
+            id:
+              type: string
+              description: ID of the referred resource
+              minLength: 1
+              maxLength: 255
+            related:
+              type: string
+              format: uri
+              description: API URL for accessing or modifying the referred object
+              minLength: 1
+              readOnly: true
+            resource_name:
+              type: string
+              format: uri
+              description: CRN reference to the referred resource
+              minLength: 1
+              readOnly: true
+      x-enable-id: true
+      x-enable-listmeta: true
+      x-enable-objectmeta: true
+    srcm.v3.ClusterStatus:
+      type: object
+      required:
+        - phase
+      description: The status of the Cluster
+      properties:
+        phase:
+          type: string
+          x-extensible-enum:
+            - PROVISIONING
+            - PROVISIONED
+            - FAILED
+          description: |
+            The lifecyle phase of the cluster:
+
+              PROVISIONED:  cluster is provisioned;
+
+              PROVISIONING:  cluster provisioning is in progress;
+
+              FAILED:  provisioning failed
+          readOnly: true
+          example: PROVISIONED
+      readOnly: true
+    Error:
+      type: object
+      description: Describes a particular error encountered while performing an operation.
+      properties:
+        id:
+          description: A unique identifier for this particular occurrence of the problem.
+          type: string
+          maxLength: 255
+        status:
+          description: >-
+            The HTTP status code applicable to this problem, expressed as a
+            string value.
+          type: string
+        code:
+          description: An application-specific error code, expressed as a string value.
+          type: string
+        title:
+          description: >-
+            A short, human-readable summary of the problem. It **SHOULD NOT**
+            change from occurrence to occurrence of the problem, except for
+            purposes of localization.
+          type: string
+        detail:
+          description: >-
+            A human-readable explanation specific to this occurrence of the
+            problem.
+          type: string
+        source:
+          type: object
+          description: >-
+            If this error was caused by a particular part of the API request,
+            the source will point to the query string parameter or request body
+            property that caused it.
+          properties:
+            pointer:
+              description: >-
+                A JSON Pointer [RFC6901] to the associated entity in the request
+                document [e.g. "/spec" for a spec object, or "/spec/title" for a
+                specific field].
+              type: string
+            parameter:
+              description: A string indicating which query parameter caused the error.
+              type: string
+        error_code:
+          type: integer
+          format: int32
+        message:
+          type: string
+          nullable: true
+      additionalProperties: false
+    GlobalObjectReference:
+      type: object
+      description: >-
+        ObjectReference provides information for you to locate the referred
+        object
+      required:
+        - id
+        - related
+        - resource_name
+      properties:
+        id:
+          type: string
+          description: ID of the referred resource
+          minLength: 1
+          maxLength: 255
+        related:
+          type: string
+          format: uri
+          description: API URL for accessing or modifying the referred object
+          minLength: 1
+          readOnly: true
+        resource_name:
+          type: string
+          format: uri
+          description: CRN reference to the referred resource
+          minLength: 1
+          readOnly: true
+  responses:
+    BadRequestError:
+      description: Bad Request
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                status: '400'
+                code: invalid_filter
+                title: Invalid Filter
+                detail: The 'delorean' resource can't be filtered by 'num_doors'
+                source:
+                  parameter: num_doors
+    UnauthenticatedError:
+      x-summary: Unauthorized
+      description: The request lacks valid authentication credentials for this resource.
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+        WWW-Authenticate:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+          example: >-
+            Basic error="invalid_key", error_description="The API Key is
+            invalid"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                status: '401'
+                code: user_unauthenticated
+                title: Authentication Required
+                detail: Valid authentication credentials must be provided
+    UnauthorizedError:
+      x-summary: Forbidden
+      description: The access credentials were considered insufficient to grant access
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                status: '403'
+                code: user_unauthorized
+                title: User Access Unauthorized
+                detail: >-
+                  The user 'mcfly' is not allowed to access the 'delorean'
+                  resource without the 'plutonium' role.
+    RateLimitError:
+      description: Rate Limit Exceeded
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+        X-RateLimit-Limit:
+          schema:
+            type: integer
+          description: >-
+            The maximum number of requests you're permitted to make per time
+            period.
+        X-RateLimit-Remaining:
+          schema:
+            type: integer
+          description: The number of requests remaining in the current rate limit window.
+        X-RateLimit-Reset:
+          schema:
+            type: integer
+          description: >-
+            The relative time in seconds until the current rate-limit window
+            resets.  
+              
+            **Important:** This differs from Github and Twitter's same-named
+            header which uses UTC epoch seconds. We use relative time to avoid
+            client/server time synchronization issues.
+        Retry-After:
+          schema:
+            type: integer
+          description: >-
+            The number of seconds to wait until the rate limit window resets.
+            Only sent when the rate limit is reached.
+    DefaultSystemError:
+      description: Oops, something went wrong!
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                status: '500'
+                code: out_of_gas
+                title: DeLorean Out Of Gas
+                detail: >-
+                  The DeLorean has run out of gas, but Doc Brown will fill 'er
+                  up for you asap
+    NotFoundError:
+      description: Not Found
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                status: '404'
+                title: Not Found
+    ConflictError:
+      x-summary: Conflict
+      description: The request is in conflict with the current server state
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+        Location:
+          schema:
+            type: string
+            format: uri
+            example: https://api.confluent.cloud/{object}/{id}
+          description: Resource URI of conflicting resource
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                status: '409'
+                code: resource_already_exists
+                title: Resource Already exists
+                detail: >-
+                  The entitlement '91e3e86f-fca6-4f14-98f5-a48e64113ce2' already
+                  exists.
+    ValidationError:
+      description: Validation Failed
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+  x-stackQL-resources:
+    regions:
+      id: confluent.schema_registry_clusters.regions
+      name: regions
+      title: Regions
+      methods:
+        list_srcm_v2_regions:
+          operation:
+            $ref: '#/paths/~1srcm~1v2~1regions/get'
+          response:
+            mediaType: application/json
+            openAPIDocKey: '200'
+            objectKey: $.data
+        get_srcm_v2_region:
+          operation:
+            $ref: '#/paths/~1srcm~1v2~1regions~1{id}/get'
+          response:
+            mediaType: application/json
+            openAPIDocKey: '200'
+      sqlVerbs:
+        select:
+          - $ref: >-
+              #/components/x-stackQL-resources/regions/methods/get_srcm_v2_region
+          - $ref: >-
+              #/components/x-stackQL-resources/regions/methods/list_srcm_v2_regions
+        insert: []
+        update: []
+        delete: []
+        replace: []
+    v2_clusters:
+      id: confluent.schema_registry_clusters.v2_clusters
+      name: v2_clusters
+      title: V2 Clusters
+      methods:
+        list_srcm_v2_clusters:
+          operation:
+            $ref: '#/paths/~1srcm~1v2~1clusters/get'
+          response:
+            mediaType: application/json
+            openAPIDocKey: '200'
+            objectKey: $.data
+        create_srcm_v2_cluster:
+          config:
+            requestBodyTranslate:
+              algorithm: naive
+          operation:
+            $ref: '#/paths/~1srcm~1v2~1clusters/post'
+          response:
+            mediaType: application/json
+            openAPIDocKey: '202'
+        get_srcm_v2_cluster:
+          operation:
+            $ref: '#/paths/~1srcm~1v2~1clusters~1{id}/get'
+          response:
+            mediaType: application/json
+            openAPIDocKey: '200'
+        update_srcm_v2_cluster:
+          config:
+            requestBodyTranslate:
+              algorithm: naive
+          operation:
+            $ref: '#/paths/~1srcm~1v2~1clusters~1{id}/patch'
+          response:
+            mediaType: application/json
+            openAPIDocKey: '200'
+        delete_srcm_v2_cluster:
+          operation:
+            $ref: '#/paths/~1srcm~1v2~1clusters~1{id}/delete'
+          response:
+            mediaType: application/json
+            openAPIDocKey: '204'
+      sqlVerbs:
+        select:
+          - $ref: >-
+              #/components/x-stackQL-resources/v2_clusters/methods/get_srcm_v2_cluster
+          - $ref: >-
+              #/components/x-stackQL-resources/v2_clusters/methods/list_srcm_v2_clusters
+        insert:
+          - $ref: >-
+              #/components/x-stackQL-resources/v2_clusters/methods/create_srcm_v2_cluster
+        update:
+          - $ref: >-
+              #/components/x-stackQL-resources/v2_clusters/methods/update_srcm_v2_cluster
+        delete:
+          - $ref: >-
+              #/components/x-stackQL-resources/v2_clusters/methods/delete_srcm_v2_cluster
+        replace: []
+    v3_clusters:
+      id: confluent.schema_registry_clusters.v3_clusters
+      name: v3_clusters
+      title: V3 Clusters
+      methods:
+        list_srcm_v3_clusters:
+          operation:
+            $ref: '#/paths/~1srcm~1v3~1clusters/get'
+          response:
+            mediaType: application/json
+            openAPIDocKey: '200'
+            objectKey: $.data
+        get_srcm_v3_cluster:
+          operation:
+            $ref: '#/paths/~1srcm~1v3~1clusters~1{id}/get'
+          response:
+            mediaType: application/json
+            openAPIDocKey: '200'
+      sqlVerbs:
+        select:
+          - $ref: >-
+              #/components/x-stackQL-resources/v3_clusters/methods/get_srcm_v3_cluster
+          - $ref: >-
+              #/components/x-stackQL-resources/v3_clusters/methods/list_srcm_v3_clusters
+        insert: []
+        update: []
+        delete: []
+        replace: []
+servers:
+  - url: https://api.confluent.cloud
