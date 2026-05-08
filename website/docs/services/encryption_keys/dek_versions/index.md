@@ -108,6 +108,11 @@ List of version numbers for dek
     </tr>
 </thead>
 <tbody>
+<tr>
+    <td><CopyableCode code="dek_version" /></td>
+    <td><code>integer</code></td>
+    <td></td>
+</tr>
 </tbody>
 </table>
 </TabItem>
@@ -253,7 +258,7 @@ List of version numbers for dek
 
 ```sql
 SELECT
-*
+dek_version
 FROM confluent.encryption_keys.dek_versions
 WHERE name = '{{ name }}' -- required
 AND subject = '{{ subject }}' -- required

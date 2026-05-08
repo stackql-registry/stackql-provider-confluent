@@ -108,6 +108,11 @@ List of dek subjects
     </tr>
 </thead>
 <tbody>
+<tr>
+    <td><CopyableCode code="dek_subject" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
 </tbody>
 </table>
 </TabItem>
@@ -254,7 +259,7 @@ List of dek subjects
 
 ```sql
 SELECT
-*
+dek_subject
 FROM confluent.encryption_keys.data_encryption_keys
 WHERE name = '{{ name }}' -- required
 AND deleted = '{{ deleted }}'

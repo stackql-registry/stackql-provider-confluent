@@ -201,35 +201,35 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#get_kafka_topic"><CopyableCode code="get_kafka_topic" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-topic_name"><code>topic_name</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-topic_name"><code>topic_name</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a></td>
     <td><a href="#parameter-include_authorized_operations"><code>include_authorized_operations</code></a></td>
     <td>Return the topic with the given `topic_name`.</td>
 </tr>
 <tr>
     <td><a href="#list_kafka_topics"><CopyableCode code="list_kafka_topics" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a></td>
     <td></td>
     <td>Return the list of topics that belong to the specified Kafka cluster.</td>
 </tr>
 <tr>
     <td><a href="#create_kafka_topic"><CopyableCode code="create_kafka_topic" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-topic_name"><code>topic_name</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a>, <a href="#parameter-topic_name"><code>topic_name</code></a></td>
     <td></td>
     <td>Create a topic.<br />Also supports a dry-run mode that only validates whether the topic creation would succeed<br />if the ``validate_only`` request property is explicitly specified and set to true. Note that<br />when dry-run mode is being used the response status would be 200 OK instead of 201 Created.</td>
 </tr>
 <tr>
     <td><a href="#update_partition_count_kafka_topic"><CopyableCode code="update_partition_count_kafka_topic" /></a></td>
     <td><CopyableCode code="update" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-topic_name"><code>topic_name</code></a>, <a href="#parameter-partitions_count"><code>partitions_count</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-topic_name"><code>topic_name</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a>, <a href="#parameter-partitions_count"><code>partitions_count</code></a></td>
     <td></td>
     <td>Increase the number of partitions for a topic. To update other topic<br />configurations, see https://docs.confluent.io/cloud/current/api.html#tag/Configs-(v3)/operation/updateKafkaTopicConfig.</td>
 </tr>
 <tr>
     <td><a href="#delete_kafka_topic"><CopyableCode code="delete_kafka_topic" /></a></td>
     <td><CopyableCode code="delete" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-topic_name"><code>topic_name</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-topic_name"><code>topic_name</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a></td>
     <td></td>
     <td>Delete the topic with the given `topic_name`.</td>
 </tr>
@@ -249,10 +249,25 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cloud_provider">
+    <td><CopyableCode code="cloud_provider" /></td>
+    <td><code>string</code></td>
+    <td>Cloud provider, lowercase: aws, gcp, or azure (from the cluster spec.cloud). (default: cloud)</td>
+</tr>
 <tr id="parameter-cluster_id">
     <td><CopyableCode code="cluster_id" /></td>
     <td><code>string</code></td>
     <td>The Kafka cluster ID. (example: cluster-1)</td>
+</tr>
+<tr id="parameter-kafka_endpoint_id">
+    <td><CopyableCode code="kafka_endpoint_id" /></td>
+    <td><code>string</code></td>
+    <td>Per-cluster Kafka REST endpoint ID (the pkc-* host prefix from the Confluent UI Cluster -&gt; Overview -&gt; REST endpoint, or extract from confluent.managed_kafka_clusters.clusters spec.http_endpoint). (default: pkc-00000)</td>
+</tr>
+<tr id="parameter-region">
+    <td><CopyableCode code="region" /></td>
+    <td><code>string</code></td>
+    <td>Cloud region the cluster runs in, e.g. ap-southeast-2 (from the cluster spec.region). (default: region)</td>
 </tr>
 <tr id="parameter-topic_name">
     <td><CopyableCode code="topic_name" /></td>
@@ -296,6 +311,9 @@ replication_factor
 FROM confluent.kafka.topics
 WHERE cluster_id = '{{ cluster_id }}' -- required
 AND topic_name = '{{ topic_name }}' -- required
+AND kafka_endpoint_id = '{{ kafka_endpoint_id }}' -- required
+AND region = '{{ region }}' -- required
+AND cloud_provider = '{{ cloud_provider }}' -- required
 AND include_authorized_operations = '{{ include_authorized_operations }}'
 ;
 ```
@@ -319,6 +337,9 @@ partitions_count,
 replication_factor
 FROM confluent.kafka.topics
 WHERE cluster_id = '{{ cluster_id }}' -- required
+AND kafka_endpoint_id = '{{ kafka_endpoint_id }}' -- required
+AND region = '{{ region }}' -- required
+AND cloud_provider = '{{ cloud_provider }}' -- required
 ;
 ```
 </TabItem>
@@ -345,7 +366,10 @@ partitions_count,
 replication_factor,
 configs,
 validate_only,
-cluster_id
+cluster_id,
+kafka_endpoint_id,
+region,
+cloud_provider
 )
 SELECT 
 '{{ topic_name }}' /* required */,
@@ -353,7 +377,10 @@ SELECT
 {{ replication_factor }},
 '{{ configs }}',
 {{ validate_only }},
-'{{ cluster_id }}'
+'{{ cluster_id }}',
+'{{ kafka_endpoint_id }}',
+'{{ region }}',
+'{{ cloud_provider }}'
 RETURNING
 cluster_id,
 topic_name,
@@ -376,6 +403,15 @@ replication_factor
   props:
     - name: cluster_id
       value: "{{ cluster_id }}"
+      description: Required parameter for the topics resource.
+    - name: kafka_endpoint_id
+      value: "{{ kafka_endpoint_id }}"
+      description: Required parameter for the topics resource.
+    - name: region
+      value: "{{ region }}"
+      description: Required parameter for the topics resource.
+    - name: cloud_provider
+      value: "{{ cloud_provider }}"
       description: Required parameter for the topics resource.
     - name: topic_name
       value: "{{ topic_name }}"
@@ -414,6 +450,9 @@ partitions_count = {{ partitions_count }}
 WHERE 
 cluster_id = '{{ cluster_id }}' --required
 AND topic_name = '{{ topic_name }}' --required
+AND kafka_endpoint_id = '{{ kafka_endpoint_id }}' --required
+AND region = '{{ region }}' --required
+AND cloud_provider = '{{ cloud_provider }}' --required
 AND partitions_count = '{{ partitions_count }}' --required
 RETURNING
 cluster_id,
@@ -448,6 +487,9 @@ Delete the topic with the given `topic_name`.
 DELETE FROM confluent.kafka.topics
 WHERE cluster_id = '{{ cluster_id }}' --required
 AND topic_name = '{{ topic_name }}' --required
+AND kafka_endpoint_id = '{{ kafka_endpoint_id }}' --required
+AND region = '{{ region }}' --required
+AND cloud_provider = '{{ cloud_provider }}' --required
 ;
 ```
 </TabItem>

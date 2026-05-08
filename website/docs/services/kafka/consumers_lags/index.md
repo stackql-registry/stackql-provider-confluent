@@ -211,14 +211,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#get_kafka_consumer_lag"><CopyableCode code="get_kafka_consumer_lag" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-consumer_group_id"><code>consumer_group_id</code></a>, <a href="#parameter-topic_name"><code>topic_name</code></a>, <a href="#parameter-partition_id"><code>partition_id</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-consumer_group_id"><code>consumer_group_id</code></a>, <a href="#parameter-topic_name"><code>topic_name</code></a>, <a href="#parameter-partition_id"><code>partition_id</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a></td>
     <td></td>
     <td> Return the consumer lag on a partition with the given `partition_id`.</td>
 </tr>
 <tr>
     <td><a href="#list_kafka_consumer_lags"><CopyableCode code="list_kafka_consumer_lags" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-consumer_group_id"><code>consumer_group_id</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-consumer_group_id"><code>consumer_group_id</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a></td>
     <td></td>
     <td> Return a list of consumer lags of the consumers belonging to the<br />specified consumer group.</td>
 </tr>
@@ -238,6 +238,11 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cloud_provider">
+    <td><CopyableCode code="cloud_provider" /></td>
+    <td><code>string</code></td>
+    <td>Cloud provider, lowercase: aws, gcp, or azure (from the cluster spec.cloud). (default: cloud)</td>
+</tr>
 <tr id="parameter-cluster_id">
     <td><CopyableCode code="cluster_id" /></td>
     <td><code>string</code></td>
@@ -248,10 +253,20 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     <td><code>string</code></td>
     <td>The consumer group ID. (example: consumer-group-1)</td>
 </tr>
+<tr id="parameter-kafka_endpoint_id">
+    <td><CopyableCode code="kafka_endpoint_id" /></td>
+    <td><code>string</code></td>
+    <td>Per-cluster Kafka REST endpoint ID (the pkc-* host prefix from the Confluent UI Cluster -&gt; Overview -&gt; REST endpoint, or extract from confluent.managed_kafka_clusters.clusters spec.http_endpoint). (default: pkc-00000)</td>
+</tr>
 <tr id="parameter-partition_id">
     <td><CopyableCode code="partition_id" /></td>
     <td><code>integer</code></td>
     <td>The partition ID. (example: 0)</td>
+</tr>
+<tr id="parameter-region">
+    <td><CopyableCode code="region" /></td>
+    <td><code>string</code></td>
+    <td>Cloud region the cluster runs in, e.g. ap-southeast-2 (from the cluster spec.region). (default: region)</td>
 </tr>
 <tr id="parameter-topic_name">
     <td><CopyableCode code="topic_name" /></td>
@@ -293,6 +308,9 @@ WHERE cluster_id = '{{ cluster_id }}' -- required
 AND consumer_group_id = '{{ consumer_group_id }}' -- required
 AND topic_name = '{{ topic_name }}' -- required
 AND partition_id = '{{ partition_id }}' -- required
+AND kafka_endpoint_id = '{{ kafka_endpoint_id }}' -- required
+AND region = '{{ region }}' -- required
+AND cloud_provider = '{{ cloud_provider }}' -- required
 ;
 ```
 </TabItem>
@@ -317,6 +335,9 @@ metadata
 FROM confluent.kafka.consumers_lags
 WHERE cluster_id = '{{ cluster_id }}' -- required
 AND consumer_group_id = '{{ consumer_group_id }}' -- required
+AND kafka_endpoint_id = '{{ kafka_endpoint_id }}' -- required
+AND region = '{{ region }}' -- required
+AND cloud_provider = '{{ cloud_provider }}' -- required
 ;
 ```
 </TabItem>

@@ -140,6 +140,11 @@ List of version numbers matching the specified parameters.
     </tr>
 </thead>
 <tbody>
+<tr>
+    <td><CopyableCode code="version" /></td>
+    <td><code>integer</code></td>
+    <td></td>
+</tr>
 </tbody>
 </table>
 </TabItem>
@@ -325,7 +330,7 @@ Retrieves a list of versions registered under the specified subject.
 
 ```sql
 SELECT
-*
+version
 FROM confluent.schema_registry.versions
 WHERE subject = '{{ subject }}' -- required
 AND deleted = '{{ deleted }}'

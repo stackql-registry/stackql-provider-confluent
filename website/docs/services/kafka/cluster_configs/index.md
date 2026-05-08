@@ -201,35 +201,35 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#get_kafka_cluster_config"><CopyableCode code="get_kafka_cluster_config" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-name"><code>name</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-name"><code>name</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a></td>
     <td></td>
     <td>Return the dynamic cluster-wide broker configuration parameter specified by ``name``.</td>
 </tr>
 <tr>
     <td><a href="#list_kafka_cluster_configs"><CopyableCode code="list_kafka_cluster_configs" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a></td>
     <td></td>
     <td>Return a list of dynamic cluster-wide broker configuration parameters for the specified Kafka<br />cluster. Returns an empty list if there are no dynamic cluster-wide broker configuration parameters.</td>
 </tr>
 <tr>
     <td><a href="#update_kafka_cluster_config"><CopyableCode code="update_kafka_cluster_config" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-name"><code>name</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-name"><code>name</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a></td>
     <td></td>
     <td>Update the dynamic cluster-wide broker configuration parameter specified by ``name``.</td>
 </tr>
 <tr>
     <td><a href="#update_kafka_cluster_configs"><CopyableCode code="update_kafka_cluster_configs" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-data"><code>data</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a>, <a href="#parameter-data"><code>data</code></a></td>
     <td></td>
     <td>Update or delete a set of dynamic cluster-wide broker configuration parameters.</td>
 </tr>
 <tr>
     <td><a href="#delete_kafka_cluster_config"><CopyableCode code="delete_kafka_cluster_config" /></a></td>
     <td><CopyableCode code="delete" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-name"><code>name</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-name"><code>name</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a></td>
     <td></td>
     <td>Reset the configuration parameter specified by ``name`` to its<br />default value by deleting a dynamic cluster-wide configuration.</td>
 </tr>
@@ -249,15 +249,30 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cloud_provider">
+    <td><CopyableCode code="cloud_provider" /></td>
+    <td><code>string</code></td>
+    <td>Cloud provider, lowercase: aws, gcp, or azure (from the cluster spec.cloud). (default: cloud)</td>
+</tr>
 <tr id="parameter-cluster_id">
     <td><CopyableCode code="cluster_id" /></td>
     <td><code>string</code></td>
     <td>The Kafka cluster ID. (example: cluster-1)</td>
 </tr>
+<tr id="parameter-kafka_endpoint_id">
+    <td><CopyableCode code="kafka_endpoint_id" /></td>
+    <td><code>string</code></td>
+    <td>Per-cluster Kafka REST endpoint ID (the pkc-* host prefix from the Confluent UI Cluster -&gt; Overview -&gt; REST endpoint, or extract from confluent.managed_kafka_clusters.clusters spec.http_endpoint). (default: pkc-00000)</td>
+</tr>
 <tr id="parameter-name">
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
     <td>The configuration parameter name. (example: compression.type)</td>
+</tr>
+<tr id="parameter-region">
+    <td><CopyableCode code="region" /></td>
+    <td><code>string</code></td>
+    <td>Cloud region the cluster runs in, e.g. ap-southeast-2 (from the cluster spec.region). (default: region)</td>
 </tr>
 </tbody>
 </table>
@@ -291,6 +306,9 @@ value
 FROM confluent.kafka.cluster_configs
 WHERE cluster_id = '{{ cluster_id }}' -- required
 AND name = '{{ name }}' -- required
+AND kafka_endpoint_id = '{{ kafka_endpoint_id }}' -- required
+AND region = '{{ region }}' -- required
+AND cloud_provider = '{{ cloud_provider }}' -- required
 ;
 ```
 </TabItem>
@@ -313,6 +331,9 @@ synonyms,
 value
 FROM confluent.kafka.cluster_configs
 WHERE cluster_id = '{{ cluster_id }}' -- required
+AND kafka_endpoint_id = '{{ kafka_endpoint_id }}' -- required
+AND region = '{{ region }}' -- required
+AND cloud_provider = '{{ cloud_provider }}' -- required
 ;
 ```
 </TabItem>
@@ -338,7 +359,10 @@ SET
 value = '{{ value }}'
 WHERE 
 cluster_id = '{{ cluster_id }}' --required
-AND name = '{{ name }}' --required;
+AND name = '{{ name }}' --required
+AND kafka_endpoint_id = '{{ kafka_endpoint_id }}' --required
+AND region = '{{ region }}' --required
+AND cloud_provider = '{{ cloud_provider }}' --required;
 ```
 </TabItem>
 <TabItem value="update_kafka_cluster_configs">
@@ -352,6 +376,9 @@ data = '{{ data }}',
 validate_only = {{ validate_only }}
 WHERE 
 cluster_id = '{{ cluster_id }}' --required
+AND kafka_endpoint_id = '{{ kafka_endpoint_id }}' --required
+AND region = '{{ region }}' --required
+AND cloud_provider = '{{ cloud_provider }}' --required
 AND data = '{{ data }}' --required;
 ```
 </TabItem>
@@ -374,6 +401,9 @@ Reset the configuration parameter specified by ``name`` to its<br />default valu
 DELETE FROM confluent.kafka.cluster_configs
 WHERE cluster_id = '{{ cluster_id }}' --required
 AND name = '{{ name }}' --required
+AND kafka_endpoint_id = '{{ kafka_endpoint_id }}' --required
+AND region = '{{ region }}' --required
+AND cloud_provider = '{{ cloud_provider }}' --required
 ;
 ```
 </TabItem>

@@ -51,6 +51,11 @@ The contexts.
     </tr>
 </thead>
 <tbody>
+<tr>
+    <td><CopyableCode code="context" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
 </tbody>
 </table>
 </TabItem>
@@ -121,7 +126,7 @@ Retrieves a list of contexts.
 
 ```sql
 SELECT
-*
+context
 FROM confluent.schema_registry.contexts
 WHERE offset = '{{ offset }}'
 AND limit = '{{ limit }}'

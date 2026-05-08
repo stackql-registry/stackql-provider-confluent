@@ -51,6 +51,11 @@ List of IDs for schemas that reference the specified schema.
     </tr>
 </thead>
 <tbody>
+<tr>
+    <td><CopyableCode code="referenced_by" /></td>
+    <td><code>integer</code></td>
+    <td></td>
+</tr>
 </tbody>
 </table>
 </TabItem>
@@ -131,7 +136,7 @@ Retrieves the IDs of schemas that reference the specified schema.
 
 ```sql
 SELECT
-*
+referenced_by
 FROM confluent.schema_registry.subjects_referenced_by
 WHERE subject = '{{ subject }}' -- required
 AND version = '{{ version }}' -- required

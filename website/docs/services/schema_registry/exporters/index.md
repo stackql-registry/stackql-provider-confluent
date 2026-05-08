@@ -103,6 +103,11 @@ Name of the exporter
     </tr>
 </thead>
 <tbody>
+<tr>
+    <td><CopyableCode code="exporter" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
 </tbody>
 </table>
 </TabItem>
@@ -236,7 +241,7 @@ Retrieves a list of schema exporters that have been created.
 
 ```sql
 SELECT
-*
+exporter
 FROM confluent.schema_registry.exporters
 ;
 ```

@@ -201,35 +201,35 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#get_kafka_link_configs"><CopyableCode code="get_kafka_link_configs" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a>, <a href="#parameter-config_name"><code>config_name</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a>, <a href="#parameter-config_name"><code>config_name</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a></td>
     <td></td>
     <td></td>
 </tr>
 <tr>
     <td><a href="#list_kafka_link_configs"><CopyableCode code="list_kafka_link_configs" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a></td>
     <td></td>
     <td></td>
 </tr>
 <tr>
     <td><a href="#update_kafka_link_config"><CopyableCode code="update_kafka_link_config" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a>, <a href="#parameter-config_name"><code>config_name</code></a>, <a href="#parameter-value"><code>value</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a>, <a href="#parameter-config_name"><code>config_name</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a>, <a href="#parameter-value"><code>value</code></a></td>
     <td></td>
     <td></td>
 </tr>
 <tr>
     <td><a href="#update_kafka_link_config_batch"><CopyableCode code="update_kafka_link_config_batch" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a>, <a href="#parameter-data"><code>data</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a>, <a href="#parameter-data"><code>data</code></a></td>
     <td><a href="#parameter-validate_only"><code>validate_only</code></a></td>
     <td>Batch Alter Cluster Link Configs</td>
 </tr>
 <tr>
     <td><a href="#delete_kafka_link_config"><CopyableCode code="delete_kafka_link_config" /></a></td>
     <td><CopyableCode code="delete" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a>, <a href="#parameter-config_name"><code>config_name</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a>, <a href="#parameter-config_name"><code>config_name</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a></td>
     <td></td>
     <td></td>
 </tr>
@@ -249,6 +249,11 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cloud_provider">
+    <td><CopyableCode code="cloud_provider" /></td>
+    <td><code>string</code></td>
+    <td>Cloud provider, lowercase: aws, gcp, or azure (from the cluster spec.cloud). (default: cloud)</td>
+</tr>
 <tr id="parameter-cluster_id">
     <td><CopyableCode code="cluster_id" /></td>
     <td><code>string</code></td>
@@ -259,10 +264,20 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     <td><code>string</code></td>
     <td>The link config name (example: consumer.offset.sync.enable)</td>
 </tr>
+<tr id="parameter-kafka_endpoint_id">
+    <td><CopyableCode code="kafka_endpoint_id" /></td>
+    <td><code>string</code></td>
+    <td>Per-cluster Kafka REST endpoint ID (the pkc-* host prefix from the Confluent UI Cluster -&gt; Overview -&gt; REST endpoint, or extract from confluent.managed_kafka_clusters.clusters spec.http_endpoint). (default: pkc-00000)</td>
+</tr>
 <tr id="parameter-link_name">
     <td><CopyableCode code="link_name" /></td>
     <td><code>string</code></td>
     <td>The link name (example: link-sb1)</td>
+</tr>
+<tr id="parameter-region">
+    <td><CopyableCode code="region" /></td>
+    <td><code>string</code></td>
+    <td>Cloud region the cluster runs in, e.g. ap-southeast-2 (from the cluster spec.region). (default: region)</td>
 </tr>
 <tr id="parameter-validate_only">
     <td><CopyableCode code="validate_only" /></td>
@@ -302,6 +317,9 @@ FROM confluent.kafka.cluster_link_configs
 WHERE cluster_id = '{{ cluster_id }}' -- required
 AND link_name = '{{ link_name }}' -- required
 AND config_name = '{{ config_name }}' -- required
+AND kafka_endpoint_id = '{{ kafka_endpoint_id }}' -- required
+AND region = '{{ region }}' -- required
+AND cloud_provider = '{{ cloud_provider }}' -- required
 ;
 ```
 </TabItem>
@@ -325,6 +343,9 @@ value
 FROM confluent.kafka.cluster_link_configs
 WHERE cluster_id = '{{ cluster_id }}' -- required
 AND link_name = '{{ link_name }}' -- required
+AND kafka_endpoint_id = '{{ kafka_endpoint_id }}' -- required
+AND region = '{{ region }}' -- required
+AND cloud_provider = '{{ cloud_provider }}' -- required
 ;
 ```
 </TabItem>
@@ -352,6 +373,9 @@ WHERE
 cluster_id = '{{ cluster_id }}' --required
 AND link_name = '{{ link_name }}' --required
 AND config_name = '{{ config_name }}' --required
+AND kafka_endpoint_id = '{{ kafka_endpoint_id }}' --required
+AND region = '{{ region }}' --required
+AND cloud_provider = '{{ cloud_provider }}' --required
 AND value = '{{ value }}' --required;
 ```
 </TabItem>
@@ -367,6 +391,9 @@ validate_only = {{ validate_only }}
 WHERE 
 cluster_id = '{{ cluster_id }}' --required
 AND link_name = '{{ link_name }}' --required
+AND kafka_endpoint_id = '{{ kafka_endpoint_id }}' --required
+AND region = '{{ region }}' --required
+AND cloud_provider = '{{ cloud_provider }}' --required
 AND data = '{{ data }}' --required
 AND validate_only = {{ validate_only}};
 ```
@@ -391,6 +418,9 @@ DELETE FROM confluent.kafka.cluster_link_configs
 WHERE cluster_id = '{{ cluster_id }}' --required
 AND link_name = '{{ link_name }}' --required
 AND config_name = '{{ config_name }}' --required
+AND kafka_endpoint_id = '{{ kafka_endpoint_id }}' --required
+AND region = '{{ region }}' --required
+AND cloud_provider = '{{ cloud_provider }}' --required
 ;
 ```
 </TabItem>

@@ -89,28 +89,28 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#get_kafka_acls"><CopyableCode code="get_kafka_acls" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a></td>
     <td><a href="#parameter-resource_type"><code>resource_type</code></a>, <a href="#parameter-resource_name"><code>resource_name</code></a>, <a href="#parameter-pattern_type"><code>pattern_type</code></a>, <a href="#parameter-principal"><code>principal</code></a>, <a href="#parameter-host"><code>host</code></a>, <a href="#parameter-operation"><code>operation</code></a>, <a href="#parameter-permission"><code>permission</code></a></td>
     <td>- When calling `/acls` without the `principal` parameter, service<br />  accounts are returned in numeric ID format (e.g., `User:12345`).<br />- To retrieve service accounts in the `sa-xxx` format, use<br />  `/acls?principal=UserV2:*`.<br />- The `principal` parameter supports both legacy `User:` format and<br />  new `UserV2:` format for service accounts.<br />Return a list of ACLs that match the search criteria.</td>
 </tr>
 <tr>
     <td><a href="#create_kafka_acls"><CopyableCode code="create_kafka_acls" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-resource_type"><code>resource_type</code></a>, <a href="#parameter-resource_name"><code>resource_name</code></a>, <a href="#parameter-pattern_type"><code>pattern_type</code></a>, <a href="#parameter-principal"><code>principal</code></a>, <a href="#parameter-host"><code>host</code></a>, <a href="#parameter-operation"><code>operation</code></a>, <a href="#parameter-permission"><code>permission</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a>, <a href="#parameter-resource_type"><code>resource_type</code></a>, <a href="#parameter-resource_name"><code>resource_name</code></a>, <a href="#parameter-pattern_type"><code>pattern_type</code></a>, <a href="#parameter-principal"><code>principal</code></a>, <a href="#parameter-host"><code>host</code></a>, <a href="#parameter-operation"><code>operation</code></a>, <a href="#parameter-permission"><code>permission</code></a></td>
     <td></td>
     <td>Create an ACL.</td>
 </tr>
 <tr>
     <td><a href="#delete_kafka_acls"><CopyableCode code="delete_kafka_acls" /></a></td>
     <td><CopyableCode code="delete" /></td>
-    <td><a href="#parameter-resource_type"><code>resource_type</code></a>, <a href="#parameter-pattern_type"><code>pattern_type</code></a>, <a href="#parameter-operation"><code>operation</code></a>, <a href="#parameter-permission"><code>permission</code></a>, <a href="#parameter-cluster_id"><code>cluster_id</code></a></td>
+    <td><a href="#parameter-resource_type"><code>resource_type</code></a>, <a href="#parameter-pattern_type"><code>pattern_type</code></a>, <a href="#parameter-operation"><code>operation</code></a>, <a href="#parameter-permission"><code>permission</code></a>, <a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a></td>
     <td><a href="#parameter-resource_name"><code>resource_name</code></a>, <a href="#parameter-principal"><code>principal</code></a>, <a href="#parameter-host"><code>host</code></a></td>
     <td>Delete the ACLs that match the search criteria.</td>
 </tr>
 <tr>
     <td><a href="#batch_create_kafka_acls"><CopyableCode code="batch_create_kafka_acls" /></a></td>
     <td><CopyableCode code="exec" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-data"><code>data</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a>, <a href="#parameter-data"><code>data</code></a></td>
     <td></td>
     <td>Create ACLs.</td>
 </tr>
@@ -130,10 +130,20 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cloud_provider">
+    <td><CopyableCode code="cloud_provider" /></td>
+    <td><code>string</code></td>
+    <td>Cloud provider, lowercase: aws, gcp, or azure (from the cluster spec.cloud). (default: cloud)</td>
+</tr>
 <tr id="parameter-cluster_id">
     <td><CopyableCode code="cluster_id" /></td>
     <td><code>string</code></td>
     <td>The Kafka cluster ID. (example: cluster-1)</td>
+</tr>
+<tr id="parameter-kafka_endpoint_id">
+    <td><CopyableCode code="kafka_endpoint_id" /></td>
+    <td><code>string</code></td>
+    <td>Per-cluster Kafka REST endpoint ID (the pkc-* host prefix from the Confluent UI Cluster -&gt; Overview -&gt; REST endpoint, or extract from confluent.managed_kafka_clusters.clusters spec.http_endpoint). (default: pkc-00000)</td>
 </tr>
 <tr id="parameter-operation">
     <td><CopyableCode code="operation" /></td>
@@ -149,6 +159,11 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     <td><CopyableCode code="permission" /></td>
     <td><code>string</code></td>
     <td>The ACL permission.</td>
+</tr>
+<tr id="parameter-region">
+    <td><CopyableCode code="region" /></td>
+    <td><code>string</code></td>
+    <td>Cloud region the cluster runs in, e.g. ap-southeast-2 (from the cluster spec.region). (default: region)</td>
 </tr>
 <tr id="parameter-resource_type">
     <td><CopyableCode code="resource_type" /></td>
@@ -212,6 +227,9 @@ kind,
 metadata
 FROM confluent.kafka.acls
 WHERE cluster_id = '{{ cluster_id }}' -- required
+AND kafka_endpoint_id = '{{ kafka_endpoint_id }}' -- required
+AND region = '{{ region }}' -- required
+AND cloud_provider = '{{ cloud_provider }}' -- required
 AND resource_type = '{{ resource_type }}'
 AND resource_name = '{{ resource_name }}'
 AND pattern_type = '{{ pattern_type }}'
@@ -247,7 +265,10 @@ principal,
 host,
 operation,
 permission,
-cluster_id
+cluster_id,
+kafka_endpoint_id,
+region,
+cloud_provider
 )
 SELECT 
 '{{ resource_type }}' /* required */,
@@ -257,7 +278,10 @@ SELECT
 '{{ host }}' /* required */,
 '{{ operation }}' /* required */,
 '{{ permission }}' /* required */,
-'{{ cluster_id }}'
+'{{ cluster_id }}',
+'{{ kafka_endpoint_id }}',
+'{{ region }}',
+'{{ cloud_provider }}'
 ;
 ```
 </TabItem>
@@ -268,6 +292,15 @@ SELECT
   props:
     - name: cluster_id
       value: "{{ cluster_id }}"
+      description: Required parameter for the acls resource.
+    - name: kafka_endpoint_id
+      value: "{{ kafka_endpoint_id }}"
+      description: Required parameter for the acls resource.
+    - name: region
+      value: "{{ region }}"
+      description: Required parameter for the acls resource.
+    - name: cloud_provider
+      value: "{{ cloud_provider }}"
       description: Required parameter for the acls resource.
     - name: resource_type
       value: "{{ resource_type }}"
@@ -309,6 +342,9 @@ AND pattern_type = '{{ pattern_type }}' --required
 AND operation = '{{ operation }}' --required
 AND permission = '{{ permission }}' --required
 AND cluster_id = '{{ cluster_id }}' --required
+AND kafka_endpoint_id = '{{ kafka_endpoint_id }}' --required
+AND region = '{{ region }}' --required
+AND cloud_provider = '{{ cloud_provider }}' --required
 AND resource_name = '{{ resource_name }}'
 AND principal = '{{ principal }}'
 AND host = '{{ host }}'
@@ -332,7 +368,10 @@ Create ACLs.
 
 ```sql
 EXEC confluent.kafka.acls.batch_create_kafka_acls 
-@cluster_id='{{ cluster_id }}' --required 
+@cluster_id='{{ cluster_id }}' --required, 
+@kafka_endpoint_id='{{ kafka_endpoint_id }}' --required, 
+@region='{{ region }}' --required, 
+@cloud_provider='{{ cloud_provider }}' --required 
 @@json=
 '{
 "data": "{{ data }}"

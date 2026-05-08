@@ -211,14 +211,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#get_kafka_consumer_group"><CopyableCode code="get_kafka_consumer_group" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-consumer_group_id"><code>consumer_group_id</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-consumer_group_id"><code>consumer_group_id</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a></td>
     <td></td>
     <td>Return the consumer group specified by the ``consumer_group_id``.</td>
 </tr>
 <tr>
     <td><a href="#list_kafka_consumer_groups"><CopyableCode code="list_kafka_consumer_groups" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a></td>
     <td></td>
     <td>Return the list of consumer groups that belong to the specified<br />Kafka cluster.</td>
 </tr>
@@ -238,6 +238,11 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cloud_provider">
+    <td><CopyableCode code="cloud_provider" /></td>
+    <td><code>string</code></td>
+    <td>Cloud provider, lowercase: aws, gcp, or azure (from the cluster spec.cloud). (default: cloud)</td>
+</tr>
 <tr id="parameter-cluster_id">
     <td><CopyableCode code="cluster_id" /></td>
     <td><code>string</code></td>
@@ -247,6 +252,16 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     <td><CopyableCode code="consumer_group_id" /></td>
     <td><code>string</code></td>
     <td>The consumer group ID. (example: consumer-group-1)</td>
+</tr>
+<tr id="parameter-kafka_endpoint_id">
+    <td><CopyableCode code="kafka_endpoint_id" /></td>
+    <td><code>string</code></td>
+    <td>Per-cluster Kafka REST endpoint ID (the pkc-* host prefix from the Confluent UI Cluster -&gt; Overview -&gt; REST endpoint, or extract from confluent.managed_kafka_clusters.clusters spec.http_endpoint). (default: pkc-00000)</td>
+</tr>
+<tr id="parameter-region">
+    <td><CopyableCode code="region" /></td>
+    <td><code>string</code></td>
+    <td>Cloud region the cluster runs in, e.g. ap-southeast-2 (from the cluster spec.region). (default: region)</td>
 </tr>
 </tbody>
 </table>
@@ -281,6 +296,9 @@ type
 FROM confluent.kafka.consumer_groups
 WHERE cluster_id = '{{ cluster_id }}' -- required
 AND consumer_group_id = '{{ consumer_group_id }}' -- required
+AND kafka_endpoint_id = '{{ kafka_endpoint_id }}' -- required
+AND region = '{{ region }}' -- required
+AND cloud_provider = '{{ cloud_provider }}' -- required
 ;
 ```
 </TabItem>
@@ -304,6 +322,9 @@ state,
 type
 FROM confluent.kafka.consumer_groups
 WHERE cluster_id = '{{ cluster_id }}' -- required
+AND kafka_endpoint_id = '{{ kafka_endpoint_id }}' -- required
+AND region = '{{ region }}' -- required
+AND cloud_provider = '{{ cloud_provider }}' -- required
 ;
 ```
 </TabItem>

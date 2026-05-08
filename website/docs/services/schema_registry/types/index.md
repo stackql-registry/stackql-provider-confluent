@@ -51,6 +51,11 @@ List of supported schema types.
     </tr>
 </thead>
 <tbody>
+<tr>
+    <td><CopyableCode code="schema_type" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
 </tbody>
 </table>
 </TabItem>
@@ -111,7 +116,7 @@ Retrieve the schema types supported by this registry.
 
 ```sql
 SELECT
-*
+schema_type
 FROM confluent.schema_registry.types
 ;
 ```
