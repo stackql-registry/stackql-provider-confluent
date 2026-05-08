@@ -1,4 +1,4 @@
----
+--- 
 title: connector_config
 hide_title: false
 hide_table_of_contents: false
@@ -15,6 +15,7 @@ image: /img/stackql-confluent-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,33 +23,138 @@ Creates, updates, deletes, gets or lists a <code>connector_config</code> resourc
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>connector_config</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="connector_config" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="confluent.connect.connector_config" /></td></tr>
 </tbody></table>
 
 ## Fields
-| Name | Datatype | Description |
-|:-----|:---------|:------------|
-| <CopyableCode code="name" /> | `string` | Name or alias of the class (plugin) for this connector. For Custom Connector, it must be the same as connector_name. |
-| <CopyableCode code="cloud.environment" /> | `string` | The cloud environment type. |
-| <CopyableCode code="cloud.provider" /> | `string` | The cloud service provider, e.g. aws, azure, etc. |
-| <CopyableCode code="connector.class" /> | `string` | The connector class name. E.g. BigQuerySink, GcsSink, etc. |
-| <CopyableCode code="kafka.api.key" /> | `string` | The kafka cluster api key. |
-| <CopyableCode code="kafka.api.secret" /> | `string` | The kafka cluster api secret key. |
-| <CopyableCode code="kafka.endpoint" /> | `string` | The kafka cluster endpoint. |
-| <CopyableCode code="kafka.region" /> | `string` | The kafka cluster region. |
+
+The following fields are returned by `SELECT` queries:
+
+<Tabs
+    defaultValue="get_connectv1_connector_config"
+    values={[
+        { label: 'get_connectv1_connector_config', value: 'get_connectv1_connector_config' }
+    ]}
+>
+<TabItem value="get_connectv1_connector_config">
+
+Connector.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><CopyableCode code="name" /></td>
+    <td><code>string</code></td>
+    <td>Name or alias of the class (plugin) for this connector. For Custom Connector, it must be the same as connector_name.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="cloud.environment" /></td>
+    <td><code>string</code></td>
+    <td>The cloud environment type.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="cloud.provider" /></td>
+    <td><code>string</code></td>
+    <td>The cloud service provider, e.g. aws, azure, etc.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="connector.class" /></td>
+    <td><code>string</code></td>
+    <td>The connector class name. E.g. BigQuerySink, GcsSink, etc.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="kafka.api.key" /></td>
+    <td><code>string</code></td>
+    <td>The kafka cluster api key.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="kafka.api.secret" /></td>
+    <td><code>string</code></td>
+    <td>The kafka cluster api secret key.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="kafka.endpoint" /></td>
+    <td><code>string</code></td>
+    <td>The kafka cluster endpoint.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="kafka.region" /></td>
+    <td><code>string</code></td>
+    <td>The kafka cluster region.</td>
+</tr>
+</tbody>
+</table>
+</TabItem>
+</Tabs>
 
 ## Methods
-| Name | Accessible by | Required Params | Description |
-|:-----|:--------------|:----------------|:------------|
-| <CopyableCode code="get_connectv1connector_config" /> | `SELECT` | <CopyableCode code="connector_name, environment_id, kafka_cluster_id" /> | [![General Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Get the configuration for the connector. |
-| <CopyableCode code="create_or_update_connectv1connector_config" /> | `INSERT` | <CopyableCode code="connector_name, environment_id, kafka_cluster_id, data__connector.class, data__kafka.api.key, data__kafka.api.secret, data__name" /> | Create a new connector using the given configuration, or update the configuration for an existing connector. Returns information about the connector after the change has been made. |
+
+The following methods are available for this resource:
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Accessible by</th>
+    <th>Required Params</th>
+    <th>Optional Params</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><a href="#get_connectv1_connector_config"><CopyableCode code="get_connectv1_connector_config" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td></td>
+    <td></td>
+    <td>Get the configuration for the connector.</td>
+</tr>
+<tr>
+    <td><a href="#create_or_update_connectv1_connector_config"><CopyableCode code="create_or_update_connectv1_connector_config" /></a></td>
+    <td><CopyableCode code="replace" /></td>
+    <td><a href="#parameter-connector.class"><code>connector.class</code></a>, <a href="#parameter-name"><code>name</code></a>, <a href="#parameter-kafka.api.key"><code>kafka.api.key</code></a>, <a href="#parameter-kafka.api.secret"><code>kafka.api.secret</code></a></td>
+    <td></td>
+    <td>Create a new connector using the given configuration, or update the configuration for an existing connector. Returns information about the connector after the change has been made.</td>
+</tr>
+</tbody>
+</table>
+
+## Parameters
+
+Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#methods) section to see which parameters are required or optional for each operation.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+</tbody>
+</table>
 
 ## `SELECT` examples
 
-[![General Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Get the configuration for the connector.
+<Tabs
+    defaultValue="get_connectv1_connector_config"
+    values={[
+        { label: 'get_connectv1_connector_config', value: 'get_connectv1_connector_config' }
+    ]}
+>
+<TabItem value="get_connectv1_connector_config">
 
+Get the configuration for the connector.
 
 ```sql
 SELECT
@@ -61,116 +167,47 @@ kafka.api.secret,
 kafka.endpoint,
 kafka.region
 FROM confluent.connect.connector_config
-WHERE connector_name = '{{ connector_name }}'
-AND environment_id = '{{ environment_id }}'
-AND kafka_cluster_id = '{{ kafka_cluster_id }}';
+;
 ```
-## `INSERT` example
+</TabItem>
+</Tabs>
 
-Use the following StackQL query and manifest file to create a new <code>connector_config</code> resource.
+
+## `REPLACE` examples
 
 <Tabs
-    defaultValue="all"
+    defaultValue="create_or_update_connectv1_connector_config"
     values={[
-        { label: 'Required Properties', value: 'required' },
-        { label: 'All Properties', value: 'all', },
-        { label: 'Manifest', value: 'manifest', },
-    ]
-}>
-<TabItem value="all">
+        { label: 'create_or_update_connectv1_connector_config', value: 'create_or_update_connectv1_connector_config' }
+    ]}
+>
+<TabItem value="create_or_update_connectv1_connector_config">
+
+Create a new connector using the given configuration, or update the configuration for an existing connector. Returns information about the connector after the change has been made.
 
 ```sql
-/*+ create */
-INSERT INTO confluent.connect.connector_config (
-data__connector.class,
-data__name,
-data__kafka.api.key,
-data__kafka.api.secret,
-data__confluent.connector.type,
-data__confluent.custom.plugin.id,
-data__confluent.custom.connection.endpoints,
-data__confluent.custom.schema.registry.auto,
-connector_name,
-environment_id,
-kafka_cluster_id
-)
-SELECT 
-'{{ connector.class }}',
-'{{ name }}',
-'{{ kafka.api.key }}',
-'{{ kafka.api.secret }}',
-'{{ confluent.connector.type }}',
-'{{ confluent.custom.plugin.id }}',
-'{{ confluent.custom.connection.endpoints }}',
-'{{ confluent.custom.schema.registry.auto }}',
-'{{ connector_name }}',
-'{{ environment_id }}',
-'{{ kafka_cluster_id }}'
-;
-```
-</TabItem>
-
-<TabItem value="required">
-
-```sql
-/*+ create */
-INSERT INTO confluent.connect.connector_config (
-data__connector.class,
-data__name,
-data__kafka.api.key,
-data__kafka.api.secret,
-connector_name,
-environment_id,
-kafka_cluster_id
-)
-SELECT 
-'{{ connector.class }}',
-'{{ name }}',
-'{{ kafka.api.key }}',
-'{{ kafka.api.secret }}',
-'{{ connector_name }}',
-'{{ environment_id }}',
-'{{ kafka_cluster_id }}'
-;
-```
-</TabItem>
-
-<TabItem value="manifest">
-
-```yaml
-- name: connector_config
-  props:
-    - name: connector_name
-      value: string
-    - name: environment_id
-      value: string
-    - name: kafka_cluster_id
-      value: string
-    - name: data__connector.class
-      value: string
-    - name: data__kafka.api.key
-      value: string
-    - name: data__kafka.api.secret
-      value: string
-    - name: data__name
-      value: string
-    - name: connector.class
-      value: string
-    - name: name
-      value: string
-    - name: kafka.api.key
-      value: string
-    - name: kafka.api.secret
-      value: string
-    - name: confluent.connector.type
-      value: string
-    - name: confluent.custom.plugin.id
-      value: string
-    - name: confluent.custom.connection.endpoints
-      value: string
-    - name: confluent.custom.schema.registry.auto
-      value: string
-
+REPLACE confluent.connect.connector_config
+SET 
+connector.class = '{{ connector.class }}',
+name = '{{ name }}',
+kafka.api.key = '{{ kafka.api.key }}',
+kafka.api.secret = '{{ kafka.api.secret }}',
+confluent.connector.type = '{{ confluent.connector.type }}',
+confluent.custom.plugin.id = '{{ confluent.custom.plugin.id }}',
+confluent.custom.connection.endpoints = '{{ confluent.custom.connection.endpoints }}',
+confluent.custom.schema.registry.auto = '{{ confluent.custom.schema.registry.auto }}',
+confluent.custom.connect.plugin.runtime = '{{ confluent.custom.connect.plugin.runtime }}',
+confluent.custom.connect.java.version = '{{ confluent.custom.connect.java.version }}'
+WHERE 
+connector.class = '{{ connector.class }}' --required
+AND name = '{{ name }}' --required
+AND kafka.api.key = '{{ kafka.api.key }}' --required
+AND kafka.api.secret = '{{ kafka.api.secret }}' --required
+RETURNING
+name,
+config,
+tasks,
+type;
 ```
 </TabItem>
 </Tabs>

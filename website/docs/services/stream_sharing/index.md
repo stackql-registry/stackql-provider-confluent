@@ -16,13 +16,9 @@ image: /img/stackql-confluent-provider-featured-image.png
 
 stream_sharing service documentation.
 
-:::info Service Summary
+:::info[Service Summary]
 
-<div class="row">
-<div class="providerDocColumn">
-<span>total resources:&nbsp;<b>6</b></span><br />
-</div>
-</div>
+total resources: __7__  
 
 :::
 
@@ -31,11 +27,12 @@ stream_sharing service documentation.
 <div class="providerDocColumn">
 <a href="/services/stream_sharing/consumer_shared_resources/">consumer_shared_resources</a><br />
 <a href="/services/stream_sharing/consumer_shares/">consumer_shares</a><br />
-<a href="/services/stream_sharing/opt_ins/">opt_ins</a>
+<a href="/services/stream_sharing/opt_ins/">opt_ins</a><br />
+<a href="/services/stream_sharing/provider_shared_resources/">provider_shared_resources</a>
 </div>
 <div class="providerDocColumn">
-<a href="/services/stream_sharing/provider_shared_resources/">provider_shared_resources</a><br />
 <a href="/services/stream_sharing/provider_shares/">provider_shares</a><br />
+<a href="/services/stream_sharing/shared_resources_network_config/">shared_resources_network_config</a><br />
 <a href="/services/stream_sharing/shared_tokens/">shared_tokens</a>
 </div>
 </div>

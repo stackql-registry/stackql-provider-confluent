@@ -1,4 +1,4 @@
----
+--- 
 title: exporter_status
 hide_title: false
 hide_table_of_contents: false
@@ -15,36 +15,129 @@ image: /img/stackql-confluent-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-Creates, updates, deletes, gets or lists a <code>exporter_status</code> resource.
+Creates, updates, deletes, gets or lists an <code>exporter_status</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>exporter_status</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="exporter_status" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="confluent.schema_registry.exporter_status" /></td></tr>
 </tbody></table>
 
 ## Fields
-| Name | Datatype | Description |
-|:-----|:---------|:------------|
-| <CopyableCode code="name" /> | `string` | Name of exporter. |
-| <CopyableCode code="offset" /> | `integer` | Offset of the exporter |
-| <CopyableCode code="state" /> | `string` | State of the exporter. Could be STARTING, RUNNING or PAUSED |
-| <CopyableCode code="trace" /> | `string` | Error trace of the exporter |
-| <CopyableCode code="ts" /> | `integer` | Timestamp of the exporter |
+
+The following fields are returned by `SELECT` queries:
+
+<Tabs
+    defaultValue="get_exporter_status_by_name"
+    values={[
+        { label: 'get_exporter_status_by_name', value: 'get_exporter_status_by_name' }
+    ]}
+>
+<TabItem value="get_exporter_status_by_name">
+
+The original request.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><CopyableCode code="name" /></td>
+    <td><code>string</code></td>
+    <td>Name of exporter. (example: test-exporter)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="offset" /></td>
+    <td><code>integer (int64)</code></td>
+    <td>Offset of the exporter</td>
+</tr>
+<tr>
+    <td><CopyableCode code="state" /></td>
+    <td><code>string</code></td>
+    <td>State of the exporter. Could be STARTING, RUNNING or PAUSED (example: RUNNING)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="trace" /></td>
+    <td><code>string</code></td>
+    <td>Error trace of the exporter (example: )</td>
+</tr>
+<tr>
+    <td><CopyableCode code="ts" /></td>
+    <td><code>integer (int64)</code></td>
+    <td>Timestamp of the exporter</td>
+</tr>
+</tbody>
+</table>
+</TabItem>
+</Tabs>
 
 ## Methods
-| Name | Accessible by | Required Params | Description |
-|:-----|:--------------|:----------------|:------------|
-| <CopyableCode code="get_exporter_status_by_name" /> | `SELECT` | <CopyableCode code="name" /> | Retrieves the status of the schema exporter. |
+
+The following methods are available for this resource:
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Accessible by</th>
+    <th>Required Params</th>
+    <th>Optional Params</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><a href="#get_exporter_status_by_name"><CopyableCode code="get_exporter_status_by_name" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td><a href="#parameter-name"><code>name</code></a></td>
+    <td></td>
+    <td>Retrieves the status of the schema exporter.</td>
+</tr>
+</tbody>
+</table>
+
+## Parameters
+
+Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#methods) section to see which parameters are required or optional for each operation.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr id="parameter-name">
+    <td><CopyableCode code="name" /></td>
+    <td><code>string</code></td>
+    <td>Name of the exporter</td>
+</tr>
+</tbody>
+</table>
 
 ## `SELECT` examples
 
-Retrieves the status of the schema exporter.
+<Tabs
+    defaultValue="get_exporter_status_by_name"
+    values={[
+        { label: 'get_exporter_status_by_name', value: 'get_exporter_status_by_name' }
+    ]}
+>
+<TabItem value="get_exporter_status_by_name">
 
+Retrieves the status of the schema exporter.
 
 ```sql
 SELECT
@@ -54,5 +147,8 @@ state,
 trace,
 ts
 FROM confluent.schema_registry.exporter_status
-WHERE name = '{{ name }}';
+WHERE name = '{{ name }}' -- required
+;
 ```
+</TabItem>
+</Tabs>

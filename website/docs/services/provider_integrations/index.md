@@ -16,22 +16,19 @@ image: /img/stackql-confluent-provider-featured-image.png
 
 provider_integrations service documentation.
 
-:::info Service Summary
+:::info[Service Summary]
 
-<div class="row">
-<div class="providerDocColumn">
-<span>total resources:&nbsp;<b>1</b></span><br />
-</div>
-</div>
+total resources: __3__  
 
 :::
 
 ## Resources
 <div class="row">
 <div class="providerDocColumn">
-<a href="/services/provider_integrations/integrations/">integrations</a>
+<a href="/services/provider_integrations/integrations/">integrations</a><br />
+<a href="/services/provider_integrations/integrations_v1/">integrations_v1</a>
 </div>
 <div class="providerDocColumn">
-
+<a href="/services/provider_integrations/integrations_v2/">integrations_v2</a>
 </div>
 </div>

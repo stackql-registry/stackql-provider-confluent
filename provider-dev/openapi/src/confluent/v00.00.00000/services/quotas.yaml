@@ -1,0 +1,4677 @@
+openapi: 3.0.0
+info:
+  title: quotas API
+  description: confluent quotas API
+  version: 1.0.0
+paths:
+  /service-quota/v1/applied-quotas:
+    get:
+      x-lifecycle-stage: General Availability
+      x-self-access: true
+      operationId: listServiceQuotaV1AppliedQuotas
+      summary: List of Applied Quotas
+      description: >
+        [![General
+        Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy)
+
+
+        Retrieve a sorted, filtered, paginated list of all applied quotas.
+
+
+        Shows all quotas for a given scope.
+      parameters:
+        - name: scope
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          example: ORGANIZATION
+          description: |
+            The applied scope the quota belongs to.
+        - name: environment
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          example: env-00000
+          description: |
+            The environment ID the quota is associated with.
+        - name: network
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          example: n-12034
+          description: |
+            The network ID the quota is associated with.
+        - name: kafka_cluster
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          example: lkc-00000
+          description: |
+            The kafka cluster ID the quota is associated with.
+        - name: id
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          example: iam.max_environments.per_org
+          description: |
+            The id (quota code) that this quota belongs to.
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+            maximum: 200
+            x-max-page-items: 500
+          description: A pagination size for collection requests.
+        - name: page_token
+          in: query
+          required: false
+          schema:
+            type: string
+            maxLength: 255
+          description: An opaque pagination token for collection requests.
+      tags:
+        - Applied Quotas (service-quota/v1)
+      security:
+        - cloud-api-key: []
+        - confluent-sts-access-token: []
+      responses:
+        '200':
+          description: Applied Quota.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: >-
+                  A `quota` object represents a quota configuration for a
+                  specific Confluent Cloud resource.
+
+                  Use this API to retrieve an individual quota or list of quotas
+                  for a given scope.
+
+
+
+                  Related guide: [Service Quotas for Confluent
+                  Cloud](https://docs.confluent.io/cloud/current/quotas/index.html).
+
+
+                  ## The Applied Quotas Model
+
+                  <SchemaDefinition
+                  schemaRef="#/components/schemas/service-quota.v1.AppliedQuota"
+                  />
+                required:
+                  - api_version
+                  - kind
+                  - metadata
+                  - data
+                properties:
+                  api_version:
+                    type: string
+                    enum:
+                      - service-quota/v1
+                    description: >-
+                      APIVersion defines the schema version of this
+                      representation of a resource.
+                    readOnly: true
+                  kind:
+                    type: string
+                    description: Kind defines the object this REST resource represents.
+                    readOnly: true
+                    enum:
+                      - AppliedQuotaList
+                  metadata:
+                    type: object
+                    description: >-
+                      ListMeta describes metadata that resource collections may
+                      have
+                    properties:
+                      first:
+                        description: >-
+                          A link to the first page of results. If a response
+                          does not contain a first link, then direct navigation
+                          to the first page is not supported.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: https://api.confluent.cloud/v2/resourcekinds
+                      last:
+                        description: >-
+                          A link to the last page of results. If a response does
+                          not contain a last link, then direct navigation to the
+                          last page is not supported.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: >-
+                          https://api.confluent.cloud/v2/resourcekinds?page_token=bcAOehAY8F16YD84Z1wT
+                      prev:
+                        description: >-
+                          A link to the previous page of results. If a response
+                          does not contain a prev link, then either there is no
+                          previous data or backwards traversal through the
+                          result set is not supported.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: >-
+                          https://api.confluent.cloud/v2/resourcekinds?page_token=YIXRY97wWYmwzrax4dld
+                      next:
+                        description: >-
+                          A link to the next page of results. If a response does
+                          not contain a next link, then there is no more data
+                          available.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: >-
+                          https://api.confluent.cloud/v2/resourcekinds?page_token=UvmDWOB1iwfAIBPj6EYb
+                      total_size:
+                        description: >-
+                          Number of records in the full result set. This
+                          response may be paginated and have a smaller number of
+                          records.
+                        type: integer
+                        format: int32
+                        minimum: 0
+                        example: 123
+                  data:
+                    type: array
+                    description: >-
+                      A data property that contains an array of resource items.
+                      Each entry in the array is a separate resource.
+                    items:
+                      type: object
+                      description: >-
+                        A `quota` object represents a quota configuration for a
+                        specific Confluent Cloud resource.
+
+                        Use this API to retrieve an individual quota or list of
+                        quotas for a given scope.
+
+
+
+                        Related guide: [Service Quotas for Confluent
+                        Cloud](https://docs.confluent.io/cloud/current/quotas/index.html).
+
+
+                        ## The Applied Quotas Model
+
+                        <SchemaDefinition
+                        schemaRef="#/components/schemas/service-quota.v1.AppliedQuota"
+                        />
+                      properties:
+                        api_version:
+                          type: string
+                          enum:
+                            - service-quota/v1
+                          description: >-
+                            APIVersion defines the schema version of this
+                            representation of a resource.
+                          readOnly: true
+                        kind:
+                          type: string
+                          description: >-
+                            Kind defines the object this REST resource
+                            represents.
+                          readOnly: true
+                          enum:
+                            - AppliedQuota
+                        id:
+                          description: >-
+                            ID is the "natural identifier" for an object within
+                            its scope/namespace; it is normally unique across
+                            time but not space. That is, you can assume that the
+                            ID will not be reclaimed and reused after an object
+                            is deleted ("time"); however, it may collide with
+                            IDs for other object `kinds` or objects of the same
+                            `kind` within a different scope/namespace ("space").
+                          type: string
+                          maxLength: 255
+                          readOnly: true
+                          example: dlz-f3a90de
+                        metadata:
+                          description: >-
+                            ObjectMeta is metadata that all persisted resources
+                            must have, which includes all objects users must
+                            create.
+                          required:
+                            - self
+                          properties:
+                            self:
+                              description: >-
+                                Self is a Uniform Resource Locator (URL) at
+                                which an object can be addressed. This URL
+                                encodes the service location, API version, and
+                                other particulars necessary to locate the
+                                resource at a point in time
+                              type: string
+                              format: uri
+                              readOnly: true
+                              example: >-
+                                https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                            resource_name:
+                              description: >-
+                                Resource Name is a Uniform Resource Identifier
+                                (URI) that is globally unique across space and
+                                time. It is represented as a Confluent Resource
+                                Name
+                              type: string
+                              format: uri
+                              readOnly: true
+                              example: crn://confluent.cloud/kafka=lkc-f3a90de
+                            created_at:
+                              type: string
+                              format: date-time
+                              example: '2006-01-02T15:04:05-07:00'
+                              readOnly: true
+                              description: >-
+                                The date and time at which this object was
+                                created. It is represented in RFC3339 format and
+                                is in UTC.
+                            updated_at:
+                              type: string
+                              format: date-time
+                              example: '2006-01-02T15:04:05-07:00'
+                              readOnly: true
+                              description: >-
+                                The date and time at which this object was last
+                                updated. It is represented in RFC3339 format and
+                                is in UTC.
+                            deleted_at:
+                              type: string
+                              format: date-time
+                              example: '2006-01-02T15:04:05-07:00'
+                              readOnly: true
+                              description: >-
+                                The date and time at which this object was (or
+                                will be) deleted. It is represented in RFC3339
+                                format and is in UTC.
+                          readOnly: true
+                          type: object
+                        scope:
+                          type: string
+                          description: The applied scope that this quota belongs to.
+                          example: ORGANIZATION
+                          x-extensible-enum:
+                            - ORGANIZATION
+                            - ENVIRONMENT
+                            - NETWORK
+                            - KAFKA_CLUSTER
+                            - SERVICE_ACCOUNT
+                            - USER_ACCOUNT
+                        display_name:
+                          type: string
+                          example: Kafka Cluster Per Organization
+                          description: A human-readable name for the quota type name.
+                          x-immutable: true
+                        default_limit:
+                          type: integer
+                          format: int32
+                          description: |
+                            The default service quota value.
+                        applied_limit:
+                          type: integer
+                          format: int32
+                          description: >
+                            The latest applied service quota value, taking into
+                            account any limit adjustments.
+                        usage:
+                          type: integer
+                          description: >
+                            Show the quota usage value if the quota usage is
+                            available for this quota.
+                          format: int32
+                        user:
+                          description: The user associated with this object.
+                          x-immutable: true
+                          type: object
+                          required:
+                            - id
+                            - related
+                            - resource_name
+                          properties:
+                            id:
+                              type: string
+                              description: ID of the referred resource
+                              minLength: 1
+                              maxLength: 255
+                            related:
+                              type: string
+                              format: uri
+                              description: >-
+                                API URL for accessing or modifying the referred
+                                object
+                              minLength: 1
+                              readOnly: true
+                            resource_name:
+                              type: string
+                              format: uri
+                              description: CRN reference to the referred resource
+                              minLength: 1
+                              readOnly: true
+                        organization:
+                          nullable: true
+                          description: >-
+                            A unique organization id to associate a specific
+                            organization to this quota.
+                          type: object
+                          required:
+                            - id
+                            - related
+                            - resource_name
+                          properties:
+                            id:
+                              type: string
+                              description: ID of the referred resource
+                              minLength: 1
+                              maxLength: 255
+                            related:
+                              type: string
+                              format: uri
+                              description: >-
+                                API URL for accessing or modifying the referred
+                                object
+                              minLength: 1
+                              readOnly: true
+                            resource_name:
+                              type: string
+                              format: uri
+                              description: CRN reference to the referred resource
+                              minLength: 1
+                              readOnly: true
+                        environment:
+                          nullable: true
+                          description: |
+                            The environment ID the quota is associated with.
+                          x-immutable: true
+                          type: object
+                          required:
+                            - id
+                            - related
+                            - resource_name
+                          properties:
+                            id:
+                              type: string
+                              description: ID of the referred resource
+                              minLength: 1
+                              maxLength: 255
+                            related:
+                              type: string
+                              format: uri
+                              description: >-
+                                API URL for accessing or modifying the referred
+                                object
+                              minLength: 1
+                              readOnly: true
+                            resource_name:
+                              type: string
+                              format: uri
+                              description: CRN reference to the referred resource
+                              minLength: 1
+                              readOnly: true
+                        network:
+                          nullable: true
+                          description: |
+                            The network ID the quota is associated with.
+                          x-immutable: true
+                          type: object
+                          required:
+                            - id
+                            - related
+                            - resource_name
+                          properties:
+                            id:
+                              type: string
+                              description: ID of the referred resource
+                              minLength: 1
+                              maxLength: 255
+                            environment:
+                              type: string
+                              description: >-
+                                Environment of the referred resource, if
+                                env-scoped
+                              minLength: 1
+                              maxLength: 255
+                            related:
+                              type: string
+                              format: uri
+                              description: >-
+                                API URL for accessing or modifying the referred
+                                object
+                              minLength: 1
+                              readOnly: true
+                            resource_name:
+                              type: string
+                              format: uri
+                              description: CRN reference to the referred resource
+                              minLength: 1
+                              readOnly: true
+                        kafka_cluster:
+                          nullable: true
+                          description: |
+                            The kafka cluster ID the quota is associated with.
+                          x-immutable: true
+                          type: object
+                          required:
+                            - id
+                            - related
+                            - resource_name
+                          properties:
+                            id:
+                              type: string
+                              description: ID of the referred resource
+                              minLength: 1
+                              maxLength: 255
+                            environment:
+                              type: string
+                              description: >-
+                                Environment of the referred resource, if
+                                env-scoped
+                              minLength: 1
+                              maxLength: 255
+                            related:
+                              type: string
+                              format: uri
+                              description: >-
+                                API URL for accessing or modifying the referred
+                                object
+                              minLength: 1
+                              readOnly: true
+                            resource_name:
+                              type: string
+                              format: uri
+                              description: CRN reference to the referred resource
+                              minLength: 1
+                              readOnly: true
+                      required:
+                        - id
+                        - metadata
+                        - scope
+                        - display_name
+                        - default_limit
+                        - applied_limit
+                    uniqueItems: true
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+              description: The unique identifier for the API request.
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+              description: >-
+                The maximum number of requests you're permitted to make per time
+                period.
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: >-
+                The number of requests remaining in the current rate limit
+                window.
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: >-
+                The relative time in seconds until the current rate-limit window
+                resets.  
+                  
+                **Important:** This differs from Github and Twitter's same-named
+                header which uses UTC epoch seconds. We use relative time to
+                avoid client/server time synchronization issues.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthenticatedError'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/DefaultSystemError'
+    x-lifecycle-stage: General Availability
+    x-self-access: true
+  /service-quota/v1/applied-quotas/{id}:
+    get:
+      x-lifecycle-stage: General Availability
+      x-self-access: true
+      operationId: getServiceQuotaV1AppliedQuota
+      summary: Read an Applied Quota
+      description: >-
+        [![General
+        Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy)
+
+
+        Make a request to read an applied quota.
+      parameters:
+        - name: environment
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          example: env-00000
+          description: |
+            The environment ID the quota is associated with.
+            This field is only required when retrieving a single quota and
+            the scope of quota is "ENVIRONMENT" or "NETWORK" or "KAFKA_CLUSTER".
+        - name: network
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          example: n-12034
+          description: |
+            The network ID the quota is associated with.
+            This field is only required when retrieving a single quota and
+            the scope of quota is "NETWORK".
+        - name: kafka_cluster
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          example: lkc-00000
+          description: >
+            The kafka cluster ID the quota is associated with.
+
+            This field is required only when the scope of quota is
+            "KAFKA_CLUSTER".
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique identifier for the applied quota.
+      tags:
+        - Applied Quotas (service-quota/v1)
+      security:
+        - cloud-api-key: []
+        - confluent-sts-access-token: []
+      responses:
+        '200':
+          description: Applied Quota.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: >-
+                  A `quota` object represents a quota configuration for a
+                  specific Confluent Cloud resource.
+
+                  Use this API to retrieve an individual quota or list of quotas
+                  for a given scope.
+
+
+
+                  Related guide: [Service Quotas for Confluent
+                  Cloud](https://docs.confluent.io/cloud/current/quotas/index.html).
+
+
+                  ## The Applied Quotas Model
+
+                  <SchemaDefinition
+                  schemaRef="#/components/schemas/service-quota.v1.AppliedQuota"
+                  />
+                properties:
+                  api_version:
+                    type: string
+                    enum:
+                      - service-quota/v1
+                    description: >-
+                      APIVersion defines the schema version of this
+                      representation of a resource.
+                    readOnly: true
+                  kind:
+                    type: string
+                    description: Kind defines the object this REST resource represents.
+                    readOnly: true
+                    enum:
+                      - AppliedQuota
+                  id:
+                    description: >-
+                      ID is the "natural identifier" for an object within its
+                      scope/namespace; it is normally unique across time but not
+                      space. That is, you can assume that the ID will not be
+                      reclaimed and reused after an object is deleted ("time");
+                      however, it may collide with IDs for other object `kinds`
+                      or objects of the same `kind` within a different
+                      scope/namespace ("space").
+                    type: string
+                    maxLength: 255
+                    readOnly: true
+                    example: dlz-f3a90de
+                  metadata:
+                    description: >-
+                      ObjectMeta is metadata that all persisted resources must
+                      have, which includes all objects users must create.
+                    required:
+                      - self
+                    properties:
+                      self:
+                        description: >-
+                          Self is a Uniform Resource Locator (URL) at which an
+                          object can be addressed. This URL encodes the service
+                          location, API version, and other particulars necessary
+                          to locate the resource at a point in time
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: >-
+                          https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                      resource_name:
+                        description: >-
+                          Resource Name is a Uniform Resource Identifier (URI)
+                          that is globally unique across space and time. It is
+                          represented as a Confluent Resource Name
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: crn://confluent.cloud/kafka=lkc-f3a90de
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was created. It
+                          is represented in RFC3339 format and is in UTC.
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was last
+                          updated. It is represented in RFC3339 format and is in
+                          UTC.
+                      deleted_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was (or will
+                          be) deleted. It is represented in RFC3339 format and
+                          is in UTC.
+                    readOnly: true
+                    type: object
+                  scope:
+                    type: string
+                    description: The applied scope that this quota belongs to.
+                    example: ORGANIZATION
+                    x-extensible-enum:
+                      - ORGANIZATION
+                      - ENVIRONMENT
+                      - NETWORK
+                      - KAFKA_CLUSTER
+                      - SERVICE_ACCOUNT
+                      - USER_ACCOUNT
+                  display_name:
+                    type: string
+                    example: Kafka Cluster Per Organization
+                    description: A human-readable name for the quota type name.
+                    x-immutable: true
+                  default_limit:
+                    type: integer
+                    format: int32
+                    description: |
+                      The default service quota value.
+                  applied_limit:
+                    type: integer
+                    format: int32
+                    description: >
+                      The latest applied service quota value, taking into
+                      account any limit adjustments.
+                  usage:
+                    type: integer
+                    description: >
+                      Show the quota usage value if the quota usage is available
+                      for this quota.
+                    format: int32
+                  user:
+                    description: The user associated with this object.
+                    x-immutable: true
+                    type: object
+                    required:
+                      - id
+                      - related
+                      - resource_name
+                    properties:
+                      id:
+                        type: string
+                        description: ID of the referred resource
+                        minLength: 1
+                        maxLength: 255
+                      related:
+                        type: string
+                        format: uri
+                        description: API URL for accessing or modifying the referred object
+                        minLength: 1
+                        readOnly: true
+                      resource_name:
+                        type: string
+                        format: uri
+                        description: CRN reference to the referred resource
+                        minLength: 1
+                        readOnly: true
+                  organization:
+                    nullable: true
+                    description: >-
+                      A unique organization id to associate a specific
+                      organization to this quota.
+                    type: object
+                    required:
+                      - id
+                      - related
+                      - resource_name
+                    properties:
+                      id:
+                        type: string
+                        description: ID of the referred resource
+                        minLength: 1
+                        maxLength: 255
+                      related:
+                        type: string
+                        format: uri
+                        description: API URL for accessing or modifying the referred object
+                        minLength: 1
+                        readOnly: true
+                      resource_name:
+                        type: string
+                        format: uri
+                        description: CRN reference to the referred resource
+                        minLength: 1
+                        readOnly: true
+                  environment:
+                    nullable: true
+                    description: |
+                      The environment ID the quota is associated with.
+                    x-immutable: true
+                    type: object
+                    required:
+                      - id
+                      - related
+                      - resource_name
+                    properties:
+                      id:
+                        type: string
+                        description: ID of the referred resource
+                        minLength: 1
+                        maxLength: 255
+                      related:
+                        type: string
+                        format: uri
+                        description: API URL for accessing or modifying the referred object
+                        minLength: 1
+                        readOnly: true
+                      resource_name:
+                        type: string
+                        format: uri
+                        description: CRN reference to the referred resource
+                        minLength: 1
+                        readOnly: true
+                  network:
+                    nullable: true
+                    description: |
+                      The network ID the quota is associated with.
+                    x-immutable: true
+                    type: object
+                    required:
+                      - id
+                      - related
+                      - resource_name
+                    properties:
+                      id:
+                        type: string
+                        description: ID of the referred resource
+                        minLength: 1
+                        maxLength: 255
+                      environment:
+                        type: string
+                        description: Environment of the referred resource, if env-scoped
+                        minLength: 1
+                        maxLength: 255
+                      related:
+                        type: string
+                        format: uri
+                        description: API URL for accessing or modifying the referred object
+                        minLength: 1
+                        readOnly: true
+                      resource_name:
+                        type: string
+                        format: uri
+                        description: CRN reference to the referred resource
+                        minLength: 1
+                        readOnly: true
+                  kafka_cluster:
+                    nullable: true
+                    description: |
+                      The kafka cluster ID the quota is associated with.
+                    x-immutable: true
+                    type: object
+                    required:
+                      - id
+                      - related
+                      - resource_name
+                    properties:
+                      id:
+                        type: string
+                        description: ID of the referred resource
+                        minLength: 1
+                        maxLength: 255
+                      environment:
+                        type: string
+                        description: Environment of the referred resource, if env-scoped
+                        minLength: 1
+                        maxLength: 255
+                      related:
+                        type: string
+                        format: uri
+                        description: API URL for accessing or modifying the referred object
+                        minLength: 1
+                        readOnly: true
+                      resource_name:
+                        type: string
+                        format: uri
+                        description: CRN reference to the referred resource
+                        minLength: 1
+                        readOnly: true
+                required:
+                  - api_version
+                  - kind
+                  - id
+                  - scope
+                  - display_name
+                  - default_limit
+                  - applied_limit
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+              description: The unique identifier for the API request.
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+              description: >-
+                The maximum number of requests you're permitted to make per time
+                period.
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: >-
+                The number of requests remaining in the current rate limit
+                window.
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: >-
+                The relative time in seconds until the current rate-limit window
+                resets.  
+                  
+                **Important:** This differs from Github and Twitter's same-named
+                header which uses UTC epoch seconds. We use relative time to
+                avoid client/server time synchronization issues.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthenticatedError'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/DefaultSystemError'
+    x-lifecycle-stage: General Availability
+    x-self-access: true
+  /service-quota/v1/scopes:
+    get:
+      x-lifecycle-stage: General Availability
+      x-self-access: true
+      operationId: listServiceQuotaV1Scopes
+      summary: List of Scopes
+      description: >-
+        [![General
+        Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy)
+
+
+        Retrieve a sorted, filtered, paginated list of all scopes.
+      parameters:
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+            maximum: 200
+            x-max-page-items: 500
+          description: A pagination size for collection requests.
+        - name: page_token
+          in: query
+          required: false
+          schema:
+            type: string
+            maxLength: 255
+          description: An opaque pagination token for collection requests.
+      tags:
+        - Scopes (service-quota/v1)
+      security:
+        - cloud-api-key: []
+        - confluent-sts-access-token: []
+      responses:
+        '200':
+          description: Scope.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: >-
+                  Gets a list of all available scopes for applied quotas.
+
+
+
+                  Related guide: [Quota
+                  Scopes](https://docs.confluent.io/cloud/current/quotas/quotas.html#query-for-scopes).
+
+
+                  ## The Scopes Model
+
+                  <SchemaDefinition
+                  schemaRef="#/components/schemas/service-quota.v1.Scope" />
+                required:
+                  - api_version
+                  - kind
+                  - metadata
+                  - data
+                properties:
+                  api_version:
+                    type: string
+                    enum:
+                      - service-quota/v1
+                    description: >-
+                      APIVersion defines the schema version of this
+                      representation of a resource.
+                    readOnly: true
+                  kind:
+                    type: string
+                    description: Kind defines the object this REST resource represents.
+                    readOnly: true
+                    enum:
+                      - ScopeList
+                  metadata:
+                    type: object
+                    description: >-
+                      ListMeta describes metadata that resource collections may
+                      have
+                    properties:
+                      first:
+                        description: >-
+                          A link to the first page of results. If a response
+                          does not contain a first link, then direct navigation
+                          to the first page is not supported.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: https://api.confluent.cloud/v2/resourcekinds
+                      last:
+                        description: >-
+                          A link to the last page of results. If a response does
+                          not contain a last link, then direct navigation to the
+                          last page is not supported.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: >-
+                          https://api.confluent.cloud/v2/resourcekinds?page_token=bcAOehAY8F16YD84Z1wT
+                      prev:
+                        description: >-
+                          A link to the previous page of results. If a response
+                          does not contain a prev link, then either there is no
+                          previous data or backwards traversal through the
+                          result set is not supported.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: >-
+                          https://api.confluent.cloud/v2/resourcekinds?page_token=YIXRY97wWYmwzrax4dld
+                      next:
+                        description: >-
+                          A link to the next page of results. If a response does
+                          not contain a next link, then there is no more data
+                          available.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: >-
+                          https://api.confluent.cloud/v2/resourcekinds?page_token=UvmDWOB1iwfAIBPj6EYb
+                      total_size:
+                        description: >-
+                          Number of records in the full result set. This
+                          response may be paginated and have a smaller number of
+                          records.
+                        type: integer
+                        format: int32
+                        minimum: 0
+                        example: 123
+                  data:
+                    type: array
+                    description: >-
+                      A data property that contains an array of resource items.
+                      Each entry in the array is a separate resource.
+                    items:
+                      type: object
+                      description: >-
+                        Gets a list of all available scopes for applied quotas.
+
+
+
+                        Related guide: [Quota
+                        Scopes](https://docs.confluent.io/cloud/current/quotas/quotas.html#query-for-scopes).
+
+
+                        ## The Scopes Model
+
+                        <SchemaDefinition
+                        schemaRef="#/components/schemas/service-quota.v1.Scope"
+                        />
+                      properties:
+                        api_version:
+                          type: string
+                          enum:
+                            - service-quota/v1
+                          description: >-
+                            APIVersion defines the schema version of this
+                            representation of a resource.
+                          readOnly: true
+                        kind:
+                          type: string
+                          description: >-
+                            Kind defines the object this REST resource
+                            represents.
+                          readOnly: true
+                          enum:
+                            - Scope
+                        id:
+                          description: >-
+                            ID is the "natural identifier" for an object within
+                            its scope/namespace; it is normally unique across
+                            time but not space. That is, you can assume that the
+                            ID will not be reclaimed and reused after an object
+                            is deleted ("time"); however, it may collide with
+                            IDs for other object `kinds` or objects of the same
+                            `kind` within a different scope/namespace ("space").
+                          type: string
+                          maxLength: 255
+                          readOnly: true
+                          example: dlz-f3a90de
+                        metadata:
+                          description: >-
+                            ObjectMeta is metadata that all persisted resources
+                            must have, which includes all objects users must
+                            create.
+                          required:
+                            - self
+                          properties:
+                            self:
+                              description: >-
+                                Self is a Uniform Resource Locator (URL) at
+                                which an object can be addressed. This URL
+                                encodes the service location, API version, and
+                                other particulars necessary to locate the
+                                resource at a point in time
+                              type: string
+                              format: uri
+                              readOnly: true
+                              example: >-
+                                https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                            resource_name:
+                              description: >-
+                                Resource Name is a Uniform Resource Identifier
+                                (URI) that is globally unique across space and
+                                time. It is represented as a Confluent Resource
+                                Name
+                              type: string
+                              format: uri
+                              readOnly: true
+                              example: crn://confluent.cloud/kafka=lkc-f3a90de
+                            created_at:
+                              type: string
+                              format: date-time
+                              example: '2006-01-02T15:04:05-07:00'
+                              readOnly: true
+                              description: >-
+                                The date and time at which this object was
+                                created. It is represented in RFC3339 format and
+                                is in UTC.
+                            updated_at:
+                              type: string
+                              format: date-time
+                              example: '2006-01-02T15:04:05-07:00'
+                              readOnly: true
+                              description: >-
+                                The date and time at which this object was last
+                                updated. It is represented in RFC3339 format and
+                                is in UTC.
+                            deleted_at:
+                              type: string
+                              format: date-time
+                              example: '2006-01-02T15:04:05-07:00'
+                              readOnly: true
+                              description: >-
+                                The date and time at which this object was (or
+                                will be) deleted. It is represented in RFC3339
+                                format and is in UTC.
+                          readOnly: true
+                          type: object
+                        description:
+                          type: string
+                          description: the quota scope for listing quotas queries
+                          example: ORGANIZATION scope that quotas would be applied to
+                      required:
+                        - id
+                        - metadata
+                        - description
+                    uniqueItems: true
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+              description: The unique identifier for the API request.
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+              description: >-
+                The maximum number of requests you're permitted to make per time
+                period.
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: >-
+                The number of requests remaining in the current rate limit
+                window.
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: >-
+                The relative time in seconds until the current rate-limit window
+                resets.  
+                  
+                **Important:** This differs from Github and Twitter's same-named
+                header which uses UTC epoch seconds. We use relative time to
+                avoid client/server time synchronization issues.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthenticatedError'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/DefaultSystemError'
+    x-lifecycle-stage: General Availability
+    x-self-access: true
+  /service-quota/v1/scopes/{id}:
+    get:
+      x-lifecycle-stage: General Availability
+      x-self-access: true
+      operationId: getServiceQuotaV1Scope
+      summary: Read a Scope
+      description: >-
+        [![General
+        Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy)
+
+
+        Make a request to read a scope.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique identifier for the scope.
+      tags:
+        - Scopes (service-quota/v1)
+      security:
+        - cloud-api-key: []
+        - confluent-sts-access-token: []
+      responses:
+        '200':
+          description: Scope.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: >-
+                  Gets a list of all available scopes for applied quotas.
+
+
+
+                  Related guide: [Quota
+                  Scopes](https://docs.confluent.io/cloud/current/quotas/quotas.html#query-for-scopes).
+
+
+                  ## The Scopes Model
+
+                  <SchemaDefinition
+                  schemaRef="#/components/schemas/service-quota.v1.Scope" />
+                properties:
+                  api_version:
+                    type: string
+                    enum:
+                      - service-quota/v1
+                    description: >-
+                      APIVersion defines the schema version of this
+                      representation of a resource.
+                    readOnly: true
+                  kind:
+                    type: string
+                    description: Kind defines the object this REST resource represents.
+                    readOnly: true
+                    enum:
+                      - Scope
+                  id:
+                    description: >-
+                      ID is the "natural identifier" for an object within its
+                      scope/namespace; it is normally unique across time but not
+                      space. That is, you can assume that the ID will not be
+                      reclaimed and reused after an object is deleted ("time");
+                      however, it may collide with IDs for other object `kinds`
+                      or objects of the same `kind` within a different
+                      scope/namespace ("space").
+                    type: string
+                    maxLength: 255
+                    readOnly: true
+                    example: dlz-f3a90de
+                  metadata:
+                    description: >-
+                      ObjectMeta is metadata that all persisted resources must
+                      have, which includes all objects users must create.
+                    required:
+                      - self
+                    properties:
+                      self:
+                        description: >-
+                          Self is a Uniform Resource Locator (URL) at which an
+                          object can be addressed. This URL encodes the service
+                          location, API version, and other particulars necessary
+                          to locate the resource at a point in time
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: >-
+                          https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                      resource_name:
+                        description: >-
+                          Resource Name is a Uniform Resource Identifier (URI)
+                          that is globally unique across space and time. It is
+                          represented as a Confluent Resource Name
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: crn://confluent.cloud/kafka=lkc-f3a90de
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was created. It
+                          is represented in RFC3339 format and is in UTC.
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was last
+                          updated. It is represented in RFC3339 format and is in
+                          UTC.
+                      deleted_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was (or will
+                          be) deleted. It is represented in RFC3339 format and
+                          is in UTC.
+                    readOnly: true
+                    type: object
+                  description:
+                    type: string
+                    description: the quota scope for listing quotas queries
+                    example: ORGANIZATION scope that quotas would be applied to
+                required:
+                  - api_version
+                  - kind
+                  - id
+                  - description
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+              description: The unique identifier for the API request.
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+              description: >-
+                The maximum number of requests you're permitted to make per time
+                period.
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: >-
+                The number of requests remaining in the current rate limit
+                window.
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: >-
+                The relative time in seconds until the current rate-limit window
+                resets.  
+                  
+                **Important:** This differs from Github and Twitter's same-named
+                header which uses UTC epoch seconds. We use relative time to
+                avoid client/server time synchronization issues.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthenticatedError'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/DefaultSystemError'
+    x-lifecycle-stage: General Availability
+    x-self-access: true
+  /kafka-quotas/v1/client-quotas:
+    get:
+      x-lifecycle-stage: General Availability
+      x-self-access: true
+      operationId: listKafkaQuotasV1ClientQuotas
+      summary: List of Client Quotas
+      description: >-
+        [![General
+        Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy)
+
+
+        Retrieve a sorted, filtered, paginated list of all client quotas.
+      parameters:
+        - name: spec.cluster
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          example: lkc-xxxxx
+          description: Filter the results by exact match for spec.cluster.
+        - name: environment
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/SearchFilter'
+          example: env-xxxxx
+          description: Filter the results by exact match for environment.
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+            maximum: 100
+            x-max-page-items: 500
+          description: A pagination size for collection requests.
+        - name: page_token
+          in: query
+          required: false
+          schema:
+            type: string
+            maxLength: 255
+          description: An opaque pagination token for collection requests.
+      tags:
+        - Client Quotas (kafka-quotas/v1)
+      security:
+        - cloud-api-key: []
+        - confluent-sts-access-token: []
+      responses:
+        '200':
+          description: Client Quota.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: >-
+                  `ClientQuota` objects represent Client Quotas you can set at
+                  the service account level.
+
+
+                  The API allows you to list, create, read, update, and delete
+                  your client quotas.
+
+
+
+                  Related guide: [Client Quotas in Confluent
+                  Cloud](https://docs.confluent.io/cloud/current/clusters/client-quotas.html).
+
+
+                  ## The Client Quotas Model
+
+                  <SchemaDefinition
+                  schemaRef="#/components/schemas/kafka-quotas.v1.ClientQuota"
+                  />
+                required:
+                  - api_version
+                  - kind
+                  - metadata
+                  - data
+                properties:
+                  api_version:
+                    type: string
+                    enum:
+                      - kafka-quotas/v1
+                    description: >-
+                      APIVersion defines the schema version of this
+                      representation of a resource.
+                    readOnly: true
+                  kind:
+                    type: string
+                    description: Kind defines the object this REST resource represents.
+                    readOnly: true
+                    enum:
+                      - ClientQuotaList
+                  metadata:
+                    type: object
+                    description: >-
+                      ListMeta describes metadata that resource collections may
+                      have
+                    properties:
+                      first:
+                        description: >-
+                          A link to the first page of results. If a response
+                          does not contain a first link, then direct navigation
+                          to the first page is not supported.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: https://api.confluent.cloud/v2/resourcekinds
+                      last:
+                        description: >-
+                          A link to the last page of results. If a response does
+                          not contain a last link, then direct navigation to the
+                          last page is not supported.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: >-
+                          https://api.confluent.cloud/v2/resourcekinds?page_token=bcAOehAY8F16YD84Z1wT
+                      prev:
+                        description: >-
+                          A link to the previous page of results. If a response
+                          does not contain a prev link, then either there is no
+                          previous data or backwards traversal through the
+                          result set is not supported.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: >-
+                          https://api.confluent.cloud/v2/resourcekinds?page_token=YIXRY97wWYmwzrax4dld
+                      next:
+                        description: >-
+                          A link to the next page of results. If a response does
+                          not contain a next link, then there is no more data
+                          available.
+                        type: string
+                        format: uri
+                        nullable: true
+                        example: >-
+                          https://api.confluent.cloud/v2/resourcekinds?page_token=UvmDWOB1iwfAIBPj6EYb
+                      total_size:
+                        description: >-
+                          Number of records in the full result set. This
+                          response may be paginated and have a smaller number of
+                          records.
+                        type: integer
+                        format: int32
+                        minimum: 0
+                        example: 123
+                  data:
+                    type: array
+                    description: >-
+                      A data property that contains an array of resource items.
+                      Each entry in the array is a separate resource.
+                    items:
+                      type: object
+                      description: >-
+                        `ClientQuota` objects represent Client Quotas you can
+                        set at the service account level.
+
+
+                        The API allows you to list, create, read, update, and
+                        delete your client quotas.
+
+
+
+                        Related guide: [Client Quotas in Confluent
+                        Cloud](https://docs.confluent.io/cloud/current/clusters/client-quotas.html).
+
+
+                        ## The Client Quotas Model
+
+                        <SchemaDefinition
+                        schemaRef="#/components/schemas/kafka-quotas.v1.ClientQuota"
+                        />
+                      properties:
+                        api_version:
+                          type: string
+                          enum:
+                            - kafka-quotas/v1
+                          description: >-
+                            APIVersion defines the schema version of this
+                            representation of a resource.
+                          readOnly: true
+                        kind:
+                          type: string
+                          description: >-
+                            Kind defines the object this REST resource
+                            represents.
+                          readOnly: true
+                          enum:
+                            - ClientQuota
+                        id:
+                          description: >-
+                            ID is the "natural identifier" for an object within
+                            its scope/namespace; it is normally unique across
+                            time but not space. That is, you can assume that the
+                            ID will not be reclaimed and reused after an object
+                            is deleted ("time"); however, it may collide with
+                            IDs for other object `kinds` or objects of the same
+                            `kind` within a different scope/namespace ("space").
+                          type: string
+                          maxLength: 255
+                          readOnly: true
+                          example: dlz-f3a90de
+                        metadata:
+                          description: >-
+                            ObjectMeta is metadata that all persisted resources
+                            must have, which includes all objects users must
+                            create.
+                          required:
+                            - self
+                          properties:
+                            self:
+                              description: >-
+                                Self is a Uniform Resource Locator (URL) at
+                                which an object can be addressed. This URL
+                                encodes the service location, API version, and
+                                other particulars necessary to locate the
+                                resource at a point in time
+                              type: string
+                              format: uri
+                              readOnly: true
+                              example: >-
+                                https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                            resource_name:
+                              description: >-
+                                Resource Name is a Uniform Resource Identifier
+                                (URI) that is globally unique across space and
+                                time. It is represented as a Confluent Resource
+                                Name
+                              type: string
+                              format: uri
+                              readOnly: true
+                              example: crn://confluent.cloud/kafka=lkc-f3a90de
+                            created_at:
+                              type: string
+                              format: date-time
+                              example: '2006-01-02T15:04:05-07:00'
+                              readOnly: true
+                              description: >-
+                                The date and time at which this object was
+                                created. It is represented in RFC3339 format and
+                                is in UTC.
+                            updated_at:
+                              type: string
+                              format: date-time
+                              example: '2006-01-02T15:04:05-07:00'
+                              readOnly: true
+                              description: >-
+                                The date and time at which this object was last
+                                updated. It is represented in RFC3339 format and
+                                is in UTC.
+                            deleted_at:
+                              type: string
+                              format: date-time
+                              example: '2006-01-02T15:04:05-07:00'
+                              readOnly: true
+                              description: >-
+                                The date and time at which this object was (or
+                                will be) deleted. It is represented in RFC3339
+                                format and is in UTC.
+                          readOnly: true
+                          type: object
+                        spec:
+                          $ref: '#/components/schemas/kafka-quotas.v1.ClientQuotaSpec'
+                      required:
+                        - id
+                        - metadata
+                        - spec
+                    uniqueItems: true
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+              description: The unique identifier for the API request.
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+              description: >-
+                The maximum number of requests you're permitted to make per time
+                period.
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: >-
+                The number of requests remaining in the current rate limit
+                window.
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: >-
+                The relative time in seconds until the current rate-limit window
+                resets.  
+                  
+                **Important:** This differs from Github and Twitter's same-named
+                header which uses UTC epoch seconds. We use relative time to
+                avoid client/server time synchronization issues.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthenticatedError'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/DefaultSystemError'
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                spec:
+                  display_name: QuotaForSA1
+                  description: >-
+                    This quota defines limits on how much the target principals
+                    can use cluster lkc-xxxxx
+                  throughput:
+                    ingress_byte_rate: '5'
+                    egress_byte_rate: '5'
+                  cluster:
+                    id: lkc-xxxxx
+                  principals:
+                    - id: sa-xxxxx
+                  environment:
+                    id: env-xxxxx
+      x-lifecycle-stage: General Availability
+      x-self-access: true
+      operationId: createKafkaQuotasV1ClientQuota
+      summary: Create a Client Quota
+      description: >-
+        [![General
+        Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy)
+
+
+        Make a request to create a client quota.
+      tags:
+        - Client Quotas (kafka-quotas/v1)
+      security:
+        - cloud-api-key: []
+        - confluent-sts-access-token: []
+      responses:
+        '202':
+          description: A Client Quota is being created.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+              description: The unique identifier for the API request.
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+              description: >-
+                The maximum number of requests you're permitted to make per time
+                period.
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: >-
+                The number of requests remaining in the current rate limit
+                window.
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: >-
+                The relative time in seconds until the current rate-limit window
+                resets.  
+                  
+                **Important:** This differs from Github and Twitter's same-named
+                header which uses UTC epoch seconds. We use relative time to
+                avoid client/server time synchronization issues.
+            Location:
+              schema:
+                type: string
+                format: uri
+                example: https://api.confluent.cloud/kafka-quotas/v1/client-quotas/{id}
+              description: ClientQuota resource uri
+          content:
+            application/json:
+              schema:
+                type: object
+                description: >-
+                  `ClientQuota` objects represent Client Quotas you can set at
+                  the service account level.
+
+
+                  The API allows you to list, create, read, update, and delete
+                  your client quotas.
+
+
+
+                  Related guide: [Client Quotas in Confluent
+                  Cloud](https://docs.confluent.io/cloud/current/clusters/client-quotas.html).
+
+
+                  ## The Client Quotas Model
+
+                  <SchemaDefinition
+                  schemaRef="#/components/schemas/kafka-quotas.v1.ClientQuota"
+                  />
+                properties:
+                  api_version:
+                    type: string
+                    enum:
+                      - kafka-quotas/v1
+                    description: >-
+                      APIVersion defines the schema version of this
+                      representation of a resource.
+                    readOnly: true
+                  kind:
+                    type: string
+                    description: Kind defines the object this REST resource represents.
+                    readOnly: true
+                    enum:
+                      - ClientQuota
+                  id:
+                    description: >-
+                      ID is the "natural identifier" for an object within its
+                      scope/namespace; it is normally unique across time but not
+                      space. That is, you can assume that the ID will not be
+                      reclaimed and reused after an object is deleted ("time");
+                      however, it may collide with IDs for other object `kinds`
+                      or objects of the same `kind` within a different
+                      scope/namespace ("space").
+                    type: string
+                    maxLength: 255
+                    readOnly: true
+                    example: dlz-f3a90de
+                  metadata:
+                    description: >-
+                      ObjectMeta is metadata that all persisted resources must
+                      have, which includes all objects users must create.
+                    required:
+                      - self
+                    properties:
+                      self:
+                        description: >-
+                          Self is a Uniform Resource Locator (URL) at which an
+                          object can be addressed. This URL encodes the service
+                          location, API version, and other particulars necessary
+                          to locate the resource at a point in time
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: >-
+                          https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                      resource_name:
+                        description: >-
+                          Resource Name is a Uniform Resource Identifier (URI)
+                          that is globally unique across space and time. It is
+                          represented as a Confluent Resource Name
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: crn://confluent.cloud/kafka=lkc-f3a90de
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was created. It
+                          is represented in RFC3339 format and is in UTC.
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was last
+                          updated. It is represented in RFC3339 format and is in
+                          UTC.
+                      deleted_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was (or will
+                          be) deleted. It is represented in RFC3339 format and
+                          is in UTC.
+                    readOnly: true
+                    type: object
+                  spec:
+                    $ref: '#/components/schemas/kafka-quotas.v1.ClientQuotaSpec'
+                required:
+                  - spec
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthenticatedError'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/DefaultSystemError'
+    x-lifecycle-stage: General Availability
+    x-self-access: true
+  /kafka-quotas/v1/client-quotas/{id}:
+    get:
+      x-lifecycle-stage: General Availability
+      x-self-access: true
+      operationId: getKafkaQuotasV1ClientQuota
+      summary: Read a Client Quota
+      description: >-
+        [![General
+        Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy)
+
+
+        Make a request to read a client quota.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique identifier for the client quota.
+      tags:
+        - Client Quotas (kafka-quotas/v1)
+      security:
+        - cloud-api-key: []
+        - confluent-sts-access-token: []
+      responses:
+        '200':
+          description: Client Quota.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: >-
+                  `ClientQuota` objects represent Client Quotas you can set at
+                  the service account level.
+
+
+                  The API allows you to list, create, read, update, and delete
+                  your client quotas.
+
+
+
+                  Related guide: [Client Quotas in Confluent
+                  Cloud](https://docs.confluent.io/cloud/current/clusters/client-quotas.html).
+
+
+                  ## The Client Quotas Model
+
+                  <SchemaDefinition
+                  schemaRef="#/components/schemas/kafka-quotas.v1.ClientQuota"
+                  />
+                properties:
+                  api_version:
+                    type: string
+                    enum:
+                      - kafka-quotas/v1
+                    description: >-
+                      APIVersion defines the schema version of this
+                      representation of a resource.
+                    readOnly: true
+                  kind:
+                    type: string
+                    description: Kind defines the object this REST resource represents.
+                    readOnly: true
+                    enum:
+                      - ClientQuota
+                  id:
+                    description: >-
+                      ID is the "natural identifier" for an object within its
+                      scope/namespace; it is normally unique across time but not
+                      space. That is, you can assume that the ID will not be
+                      reclaimed and reused after an object is deleted ("time");
+                      however, it may collide with IDs for other object `kinds`
+                      or objects of the same `kind` within a different
+                      scope/namespace ("space").
+                    type: string
+                    maxLength: 255
+                    readOnly: true
+                    example: dlz-f3a90de
+                  metadata:
+                    description: >-
+                      ObjectMeta is metadata that all persisted resources must
+                      have, which includes all objects users must create.
+                    required:
+                      - self
+                    properties:
+                      self:
+                        description: >-
+                          Self is a Uniform Resource Locator (URL) at which an
+                          object can be addressed. This URL encodes the service
+                          location, API version, and other particulars necessary
+                          to locate the resource at a point in time
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: >-
+                          https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                      resource_name:
+                        description: >-
+                          Resource Name is a Uniform Resource Identifier (URI)
+                          that is globally unique across space and time. It is
+                          represented as a Confluent Resource Name
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: crn://confluent.cloud/kafka=lkc-f3a90de
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was created. It
+                          is represented in RFC3339 format and is in UTC.
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was last
+                          updated. It is represented in RFC3339 format and is in
+                          UTC.
+                      deleted_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was (or will
+                          be) deleted. It is represented in RFC3339 format and
+                          is in UTC.
+                    readOnly: true
+                    type: object
+                  spec:
+                    $ref: '#/components/schemas/kafka-quotas.v1.ClientQuotaSpec'
+                required:
+                  - api_version
+                  - kind
+                  - id
+                  - spec
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+              description: The unique identifier for the API request.
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+              description: >-
+                The maximum number of requests you're permitted to make per time
+                period.
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: >-
+                The number of requests remaining in the current rate limit
+                window.
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: >-
+                The relative time in seconds until the current rate-limit window
+                resets.  
+                  
+                **Important:** This differs from Github and Twitter's same-named
+                header which uses UTC epoch seconds. We use relative time to
+                avoid client/server time synchronization issues.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthenticatedError'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/DefaultSystemError'
+    patch:
+      x-lifecycle-stage: General Availability
+      x-self-access: true
+      operationId: updateKafkaQuotasV1ClientQuota
+      summary: Update a Client Quota
+      description: >+
+        [![General
+        Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy)
+
+
+        Make a request to update a client quota.
+
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique identifier for the client quota.
+      tags:
+        - Client Quotas (kafka-quotas/v1)
+      security:
+        - cloud-api-key: []
+        - confluent-sts-access-token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: >-
+                `ClientQuota` objects represent Client Quotas you can set at the
+                service account level.
+
+
+                The API allows you to list, create, read, update, and delete
+                your client quotas.
+
+
+
+                Related guide: [Client Quotas in Confluent
+                Cloud](https://docs.confluent.io/cloud/current/clusters/client-quotas.html).
+
+
+                ## The Client Quotas Model
+
+                <SchemaDefinition
+                schemaRef="#/components/schemas/kafka-quotas.v1.ClientQuota" />
+              properties:
+                api_version:
+                  type: string
+                  enum:
+                    - kafka-quotas/v1
+                  description: >-
+                    APIVersion defines the schema version of this representation
+                    of a resource.
+                  readOnly: true
+                kind:
+                  type: string
+                  description: Kind defines the object this REST resource represents.
+                  readOnly: true
+                  enum:
+                    - ClientQuota
+                id:
+                  description: >-
+                    ID is the "natural identifier" for an object within its
+                    scope/namespace; it is normally unique across time but not
+                    space. That is, you can assume that the ID will not be
+                    reclaimed and reused after an object is deleted ("time");
+                    however, it may collide with IDs for other object `kinds` or
+                    objects of the same `kind` within a different
+                    scope/namespace ("space").
+                  type: string
+                  maxLength: 255
+                  readOnly: true
+                  example: dlz-f3a90de
+                metadata:
+                  description: >-
+                    ObjectMeta is metadata that all persisted resources must
+                    have, which includes all objects users must create.
+                  required:
+                    - self
+                  properties:
+                    self:
+                      description: >-
+                        Self is a Uniform Resource Locator (URL) at which an
+                        object can be addressed. This URL encodes the service
+                        location, API version, and other particulars necessary
+                        to locate the resource at a point in time
+                      type: string
+                      format: uri
+                      readOnly: true
+                      example: >-
+                        https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                    resource_name:
+                      description: >-
+                        Resource Name is a Uniform Resource Identifier (URI)
+                        that is globally unique across space and time. It is
+                        represented as a Confluent Resource Name
+                      type: string
+                      format: uri
+                      readOnly: true
+                      example: crn://confluent.cloud/kafka=lkc-f3a90de
+                    created_at:
+                      type: string
+                      format: date-time
+                      example: '2006-01-02T15:04:05-07:00'
+                      readOnly: true
+                      description: >-
+                        The date and time at which this object was created. It
+                        is represented in RFC3339 format and is in UTC.
+                    updated_at:
+                      type: string
+                      format: date-time
+                      example: '2006-01-02T15:04:05-07:00'
+                      readOnly: true
+                      description: >-
+                        The date and time at which this object was last updated.
+                        It is represented in RFC3339 format and is in UTC.
+                    deleted_at:
+                      type: string
+                      format: date-time
+                      example: '2006-01-02T15:04:05-07:00'
+                      readOnly: true
+                      description: >-
+                        The date and time at which this object was (or will be)
+                        deleted. It is represented in RFC3339 format and is in
+                        UTC.
+                  readOnly: true
+                  type: object
+                spec:
+                  $ref: '#/components/schemas/kafka-quotas.v1.ClientQuotaSpec'
+              required:
+                - spec
+      responses:
+        '200':
+          description: Client Quota.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: >-
+                  `ClientQuota` objects represent Client Quotas you can set at
+                  the service account level.
+
+
+                  The API allows you to list, create, read, update, and delete
+                  your client quotas.
+
+
+
+                  Related guide: [Client Quotas in Confluent
+                  Cloud](https://docs.confluent.io/cloud/current/clusters/client-quotas.html).
+
+
+                  ## The Client Quotas Model
+
+                  <SchemaDefinition
+                  schemaRef="#/components/schemas/kafka-quotas.v1.ClientQuota"
+                  />
+                properties:
+                  api_version:
+                    type: string
+                    enum:
+                      - kafka-quotas/v1
+                    description: >-
+                      APIVersion defines the schema version of this
+                      representation of a resource.
+                    readOnly: true
+                  kind:
+                    type: string
+                    description: Kind defines the object this REST resource represents.
+                    readOnly: true
+                    enum:
+                      - ClientQuota
+                  id:
+                    description: >-
+                      ID is the "natural identifier" for an object within its
+                      scope/namespace; it is normally unique across time but not
+                      space. That is, you can assume that the ID will not be
+                      reclaimed and reused after an object is deleted ("time");
+                      however, it may collide with IDs for other object `kinds`
+                      or objects of the same `kind` within a different
+                      scope/namespace ("space").
+                    type: string
+                    maxLength: 255
+                    readOnly: true
+                    example: dlz-f3a90de
+                  metadata:
+                    description: >-
+                      ObjectMeta is metadata that all persisted resources must
+                      have, which includes all objects users must create.
+                    required:
+                      - self
+                    properties:
+                      self:
+                        description: >-
+                          Self is a Uniform Resource Locator (URL) at which an
+                          object can be addressed. This URL encodes the service
+                          location, API version, and other particulars necessary
+                          to locate the resource at a point in time
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: >-
+                          https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                      resource_name:
+                        description: >-
+                          Resource Name is a Uniform Resource Identifier (URI)
+                          that is globally unique across space and time. It is
+                          represented as a Confluent Resource Name
+                        type: string
+                        format: uri
+                        readOnly: true
+                        example: crn://confluent.cloud/kafka=lkc-f3a90de
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was created. It
+                          is represented in RFC3339 format and is in UTC.
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was last
+                          updated. It is represented in RFC3339 format and is in
+                          UTC.
+                      deleted_at:
+                        type: string
+                        format: date-time
+                        example: '2006-01-02T15:04:05-07:00'
+                        readOnly: true
+                        description: >-
+                          The date and time at which this object was (or will
+                          be) deleted. It is represented in RFC3339 format and
+                          is in UTC.
+                    readOnly: true
+                    type: object
+                  spec:
+                    $ref: '#/components/schemas/kafka-quotas.v1.ClientQuotaSpec'
+                required:
+                  - api_version
+                  - kind
+                  - id
+                  - spec
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+              description: The unique identifier for the API request.
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+              description: >-
+                The maximum number of requests you're permitted to make per time
+                period.
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: >-
+                The number of requests remaining in the current rate limit
+                window.
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: >-
+                The relative time in seconds until the current rate-limit window
+                resets.  
+                  
+                **Important:** This differs from Github and Twitter's same-named
+                header which uses UTC epoch seconds. We use relative time to
+                avoid client/server time synchronization issues.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthenticatedError'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/DefaultSystemError'
+    delete:
+      x-lifecycle-stage: General Availability
+      x-self-access: true
+      operationId: deleteKafkaQuotasV1ClientQuota
+      summary: Delete a Client Quota
+      description: >-
+        [![General
+        Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy)
+
+
+        Make a request to delete a client quota.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique identifier for the client quota.
+      tags:
+        - Client Quotas (kafka-quotas/v1)
+      security:
+        - cloud-api-key: []
+        - confluent-sts-access-token: []
+      responses:
+        '204':
+          description: A Client Quota is being deleted.
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+              description: The unique identifier for the API request.
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+              description: >-
+                The maximum number of requests you're permitted to make per time
+                period.
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+              description: >-
+                The number of requests remaining in the current rate limit
+                window.
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: >-
+                The relative time in seconds until the current rate-limit window
+                resets.  
+                  
+                **Important:** This differs from Github and Twitter's same-named
+                header which uses UTC epoch seconds. We use relative time to
+                avoid client/server time synchronization issues.
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthenticatedError'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '429':
+          $ref: '#/components/responses/RateLimitError'
+        '500':
+          $ref: '#/components/responses/DefaultSystemError'
+    x-lifecycle-stage: General Availability
+    x-self-access: true
+components:
+  schemas:
+    SearchFilter:
+      description: Filter a collection by a string search
+      type: string
+    service-quota.v1.AppliedQuotaList:
+      type: object
+      description: >-
+        A `quota` object represents a quota configuration for a specific
+        Confluent Cloud resource.
+
+        Use this API to retrieve an individual quota or list of quotas for a
+        given scope.
+
+
+
+        Related guide: [Service Quotas for Confluent
+        Cloud](https://docs.confluent.io/cloud/current/quotas/index.html).
+
+
+        ## The Applied Quotas Model
+
+        <SchemaDefinition
+        schemaRef="#/components/schemas/service-quota.v1.AppliedQuota" />
+      required:
+        - api_version
+        - kind
+        - metadata
+        - data
+      properties:
+        api_version:
+          type: string
+          enum:
+            - service-quota/v1
+          description: >-
+            APIVersion defines the schema version of this representation of a
+            resource.
+          readOnly: true
+        kind:
+          type: string
+          description: Kind defines the object this REST resource represents.
+          readOnly: true
+          enum:
+            - AppliedQuotaList
+        metadata:
+          type: object
+          description: ListMeta describes metadata that resource collections may have
+          properties:
+            first:
+              description: >-
+                A link to the first page of results. If a response does not
+                contain a first link, then direct navigation to the first page
+                is not supported.
+              type: string
+              format: uri
+              nullable: true
+              example: https://api.confluent.cloud/v2/resourcekinds
+            last:
+              description: >-
+                A link to the last page of results. If a response does not
+                contain a last link, then direct navigation to the last page is
+                not supported.
+              type: string
+              format: uri
+              nullable: true
+              example: >-
+                https://api.confluent.cloud/v2/resourcekinds?page_token=bcAOehAY8F16YD84Z1wT
+            prev:
+              description: >-
+                A link to the previous page of results. If a response does not
+                contain a prev link, then either there is no previous data or
+                backwards traversal through the result set is not supported.
+              type: string
+              format: uri
+              nullable: true
+              example: >-
+                https://api.confluent.cloud/v2/resourcekinds?page_token=YIXRY97wWYmwzrax4dld
+            next:
+              description: >-
+                A link to the next page of results. If a response does not
+                contain a next link, then there is no more data available.
+              type: string
+              format: uri
+              nullable: true
+              example: >-
+                https://api.confluent.cloud/v2/resourcekinds?page_token=UvmDWOB1iwfAIBPj6EYb
+            total_size:
+              description: >-
+                Number of records in the full result set. This response may be
+                paginated and have a smaller number of records.
+              type: integer
+              format: int32
+              minimum: 0
+              example: 123
+        data:
+          type: array
+          description: >-
+            A data property that contains an array of resource items. Each entry
+            in the array is a separate resource.
+          items:
+            type: object
+            description: >-
+              A `quota` object represents a quota configuration for a specific
+              Confluent Cloud resource.
+
+              Use this API to retrieve an individual quota or list of quotas for
+              a given scope.
+
+
+
+              Related guide: [Service Quotas for Confluent
+              Cloud](https://docs.confluent.io/cloud/current/quotas/index.html).
+
+
+              ## The Applied Quotas Model
+
+              <SchemaDefinition
+              schemaRef="#/components/schemas/service-quota.v1.AppliedQuota" />
+            properties:
+              api_version:
+                type: string
+                enum:
+                  - service-quota/v1
+                description: >-
+                  APIVersion defines the schema version of this representation
+                  of a resource.
+                readOnly: true
+              kind:
+                type: string
+                description: Kind defines the object this REST resource represents.
+                readOnly: true
+                enum:
+                  - AppliedQuota
+              id:
+                description: >-
+                  ID is the "natural identifier" for an object within its
+                  scope/namespace; it is normally unique across time but not
+                  space. That is, you can assume that the ID will not be
+                  reclaimed and reused after an object is deleted ("time");
+                  however, it may collide with IDs for other object `kinds` or
+                  objects of the same `kind` within a different scope/namespace
+                  ("space").
+                type: string
+                maxLength: 255
+                readOnly: true
+                example: dlz-f3a90de
+              metadata:
+                description: >-
+                  ObjectMeta is metadata that all persisted resources must have,
+                  which includes all objects users must create.
+                required:
+                  - self
+                properties:
+                  self:
+                    description: >-
+                      Self is a Uniform Resource Locator (URL) at which an
+                      object can be addressed. This URL encodes the service
+                      location, API version, and other particulars necessary to
+                      locate the resource at a point in time
+                    type: string
+                    format: uri
+                    readOnly: true
+                    example: https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                  resource_name:
+                    description: >-
+                      Resource Name is a Uniform Resource Identifier (URI) that
+                      is globally unique across space and time. It is
+                      represented as a Confluent Resource Name
+                    type: string
+                    format: uri
+                    readOnly: true
+                    example: crn://confluent.cloud/kafka=lkc-f3a90de
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: '2006-01-02T15:04:05-07:00'
+                    readOnly: true
+                    description: >-
+                      The date and time at which this object was created. It is
+                      represented in RFC3339 format and is in UTC.
+                  updated_at:
+                    type: string
+                    format: date-time
+                    example: '2006-01-02T15:04:05-07:00'
+                    readOnly: true
+                    description: >-
+                      The date and time at which this object was last updated.
+                      It is represented in RFC3339 format and is in UTC.
+                  deleted_at:
+                    type: string
+                    format: date-time
+                    example: '2006-01-02T15:04:05-07:00'
+                    readOnly: true
+                    description: >-
+                      The date and time at which this object was (or will be)
+                      deleted. It is represented in RFC3339 format and is in
+                      UTC.
+                readOnly: true
+                type: object
+              scope:
+                type: string
+                description: The applied scope that this quota belongs to.
+                example: ORGANIZATION
+                x-extensible-enum:
+                  - ORGANIZATION
+                  - ENVIRONMENT
+                  - NETWORK
+                  - KAFKA_CLUSTER
+                  - SERVICE_ACCOUNT
+                  - USER_ACCOUNT
+              display_name:
+                type: string
+                example: Kafka Cluster Per Organization
+                description: A human-readable name for the quota type name.
+                x-immutable: true
+              default_limit:
+                type: integer
+                format: int32
+                description: |
+                  The default service quota value.
+              applied_limit:
+                type: integer
+                format: int32
+                description: >
+                  The latest applied service quota value, taking into account
+                  any limit adjustments.
+              usage:
+                type: integer
+                description: >
+                  Show the quota usage value if the quota usage is available for
+                  this quota.
+                format: int32
+              user:
+                description: The user associated with this object.
+                x-immutable: true
+                type: object
+                required:
+                  - id
+                  - related
+                  - resource_name
+                properties:
+                  id:
+                    type: string
+                    description: ID of the referred resource
+                    minLength: 1
+                    maxLength: 255
+                  related:
+                    type: string
+                    format: uri
+                    description: API URL for accessing or modifying the referred object
+                    minLength: 1
+                    readOnly: true
+                  resource_name:
+                    type: string
+                    format: uri
+                    description: CRN reference to the referred resource
+                    minLength: 1
+                    readOnly: true
+              organization:
+                nullable: true
+                description: >-
+                  A unique organization id to associate a specific organization
+                  to this quota.
+                type: object
+                required:
+                  - id
+                  - related
+                  - resource_name
+                properties:
+                  id:
+                    type: string
+                    description: ID of the referred resource
+                    minLength: 1
+                    maxLength: 255
+                  related:
+                    type: string
+                    format: uri
+                    description: API URL for accessing or modifying the referred object
+                    minLength: 1
+                    readOnly: true
+                  resource_name:
+                    type: string
+                    format: uri
+                    description: CRN reference to the referred resource
+                    minLength: 1
+                    readOnly: true
+              environment:
+                nullable: true
+                description: |
+                  The environment ID the quota is associated with.
+                x-immutable: true
+                type: object
+                required:
+                  - id
+                  - related
+                  - resource_name
+                properties:
+                  id:
+                    type: string
+                    description: ID of the referred resource
+                    minLength: 1
+                    maxLength: 255
+                  related:
+                    type: string
+                    format: uri
+                    description: API URL for accessing or modifying the referred object
+                    minLength: 1
+                    readOnly: true
+                  resource_name:
+                    type: string
+                    format: uri
+                    description: CRN reference to the referred resource
+                    minLength: 1
+                    readOnly: true
+              network:
+                nullable: true
+                description: |
+                  The network ID the quota is associated with.
+                x-immutable: true
+                type: object
+                required:
+                  - id
+                  - related
+                  - resource_name
+                properties:
+                  id:
+                    type: string
+                    description: ID of the referred resource
+                    minLength: 1
+                    maxLength: 255
+                  environment:
+                    type: string
+                    description: Environment of the referred resource, if env-scoped
+                    minLength: 1
+                    maxLength: 255
+                  related:
+                    type: string
+                    format: uri
+                    description: API URL for accessing or modifying the referred object
+                    minLength: 1
+                    readOnly: true
+                  resource_name:
+                    type: string
+                    format: uri
+                    description: CRN reference to the referred resource
+                    minLength: 1
+                    readOnly: true
+              kafka_cluster:
+                nullable: true
+                description: |
+                  The kafka cluster ID the quota is associated with.
+                x-immutable: true
+                type: object
+                required:
+                  - id
+                  - related
+                  - resource_name
+                properties:
+                  id:
+                    type: string
+                    description: ID of the referred resource
+                    minLength: 1
+                    maxLength: 255
+                  environment:
+                    type: string
+                    description: Environment of the referred resource, if env-scoped
+                    minLength: 1
+                    maxLength: 255
+                  related:
+                    type: string
+                    format: uri
+                    description: API URL for accessing or modifying the referred object
+                    minLength: 1
+                    readOnly: true
+                  resource_name:
+                    type: string
+                    format: uri
+                    description: CRN reference to the referred resource
+                    minLength: 1
+                    readOnly: true
+            required:
+              - id
+              - metadata
+              - scope
+              - display_name
+              - default_limit
+              - applied_limit
+          uniqueItems: true
+    service-quota.v1.AppliedQuota:
+      type: object
+      description: >-
+        A `quota` object represents a quota configuration for a specific
+        Confluent Cloud resource.
+
+        Use this API to retrieve an individual quota or list of quotas for a
+        given scope.
+
+
+
+        Related guide: [Service Quotas for Confluent
+        Cloud](https://docs.confluent.io/cloud/current/quotas/index.html).
+
+
+        ## The Applied Quotas Model
+
+        <SchemaDefinition
+        schemaRef="#/components/schemas/service-quota.v1.AppliedQuota" />
+      properties:
+        api_version:
+          type: string
+          enum:
+            - service-quota/v1
+          description: >-
+            APIVersion defines the schema version of this representation of a
+            resource.
+          readOnly: true
+        kind:
+          type: string
+          description: Kind defines the object this REST resource represents.
+          readOnly: true
+          enum:
+            - AppliedQuota
+        id:
+          description: >-
+            ID is the "natural identifier" for an object within its
+            scope/namespace; it is normally unique across time but not space.
+            That is, you can assume that the ID will not be reclaimed and reused
+            after an object is deleted ("time"); however, it may collide with
+            IDs for other object `kinds` or objects of the same `kind` within a
+            different scope/namespace ("space").
+          type: string
+          maxLength: 255
+          readOnly: true
+          example: dlz-f3a90de
+        metadata:
+          description: >-
+            ObjectMeta is metadata that all persisted resources must have, which
+            includes all objects users must create.
+          required:
+            - self
+          properties:
+            self:
+              description: >-
+                Self is a Uniform Resource Locator (URL) at which an object can
+                be addressed. This URL encodes the service location, API
+                version, and other particulars necessary to locate the resource
+                at a point in time
+              type: string
+              format: uri
+              readOnly: true
+              example: https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+            resource_name:
+              description: >-
+                Resource Name is a Uniform Resource Identifier (URI) that is
+                globally unique across space and time. It is represented as a
+                Confluent Resource Name
+              type: string
+              format: uri
+              readOnly: true
+              example: crn://confluent.cloud/kafka=lkc-f3a90de
+            created_at:
+              type: string
+              format: date-time
+              example: '2006-01-02T15:04:05-07:00'
+              readOnly: true
+              description: >-
+                The date and time at which this object was created. It is
+                represented in RFC3339 format and is in UTC.
+            updated_at:
+              type: string
+              format: date-time
+              example: '2006-01-02T15:04:05-07:00'
+              readOnly: true
+              description: >-
+                The date and time at which this object was last updated. It is
+                represented in RFC3339 format and is in UTC.
+            deleted_at:
+              type: string
+              format: date-time
+              example: '2006-01-02T15:04:05-07:00'
+              readOnly: true
+              description: >-
+                The date and time at which this object was (or will be) deleted.
+                It is represented in RFC3339 format and is in UTC.
+          readOnly: true
+          type: object
+        scope:
+          type: string
+          description: The applied scope that this quota belongs to.
+          example: ORGANIZATION
+          x-extensible-enum:
+            - ORGANIZATION
+            - ENVIRONMENT
+            - NETWORK
+            - KAFKA_CLUSTER
+            - SERVICE_ACCOUNT
+            - USER_ACCOUNT
+        display_name:
+          type: string
+          example: Kafka Cluster Per Organization
+          description: A human-readable name for the quota type name.
+          x-immutable: true
+        default_limit:
+          type: integer
+          format: int32
+          description: |
+            The default service quota value.
+        applied_limit:
+          type: integer
+          format: int32
+          description: >
+            The latest applied service quota value, taking into account any
+            limit adjustments.
+        usage:
+          type: integer
+          description: >
+            Show the quota usage value if the quota usage is available for this
+            quota.
+          format: int32
+        user:
+          description: The user associated with this object.
+          x-immutable: true
+          type: object
+          required:
+            - id
+            - related
+            - resource_name
+          properties:
+            id:
+              type: string
+              description: ID of the referred resource
+              minLength: 1
+              maxLength: 255
+            related:
+              type: string
+              format: uri
+              description: API URL for accessing or modifying the referred object
+              minLength: 1
+              readOnly: true
+            resource_name:
+              type: string
+              format: uri
+              description: CRN reference to the referred resource
+              minLength: 1
+              readOnly: true
+        organization:
+          nullable: true
+          description: >-
+            A unique organization id to associate a specific organization to
+            this quota.
+          type: object
+          required:
+            - id
+            - related
+            - resource_name
+          properties:
+            id:
+              type: string
+              description: ID of the referred resource
+              minLength: 1
+              maxLength: 255
+            related:
+              type: string
+              format: uri
+              description: API URL for accessing or modifying the referred object
+              minLength: 1
+              readOnly: true
+            resource_name:
+              type: string
+              format: uri
+              description: CRN reference to the referred resource
+              minLength: 1
+              readOnly: true
+        environment:
+          nullable: true
+          description: |
+            The environment ID the quota is associated with.
+          x-immutable: true
+          type: object
+          required:
+            - id
+            - related
+            - resource_name
+          properties:
+            id:
+              type: string
+              description: ID of the referred resource
+              minLength: 1
+              maxLength: 255
+            related:
+              type: string
+              format: uri
+              description: API URL for accessing or modifying the referred object
+              minLength: 1
+              readOnly: true
+            resource_name:
+              type: string
+              format: uri
+              description: CRN reference to the referred resource
+              minLength: 1
+              readOnly: true
+        network:
+          nullable: true
+          description: |
+            The network ID the quota is associated with.
+          x-immutable: true
+          type: object
+          required:
+            - id
+            - related
+            - resource_name
+          properties:
+            id:
+              type: string
+              description: ID of the referred resource
+              minLength: 1
+              maxLength: 255
+            environment:
+              type: string
+              description: Environment of the referred resource, if env-scoped
+              minLength: 1
+              maxLength: 255
+            related:
+              type: string
+              format: uri
+              description: API URL for accessing or modifying the referred object
+              minLength: 1
+              readOnly: true
+            resource_name:
+              type: string
+              format: uri
+              description: CRN reference to the referred resource
+              minLength: 1
+              readOnly: true
+        kafka_cluster:
+          nullable: true
+          description: |
+            The kafka cluster ID the quota is associated with.
+          x-immutable: true
+          type: object
+          required:
+            - id
+            - related
+            - resource_name
+          properties:
+            id:
+              type: string
+              description: ID of the referred resource
+              minLength: 1
+              maxLength: 255
+            environment:
+              type: string
+              description: Environment of the referred resource, if env-scoped
+              minLength: 1
+              maxLength: 255
+            related:
+              type: string
+              format: uri
+              description: API URL for accessing or modifying the referred object
+              minLength: 1
+              readOnly: true
+            resource_name:
+              type: string
+              format: uri
+              description: CRN reference to the referred resource
+              minLength: 1
+              readOnly: true
+    service-quota.v1.ScopeList:
+      type: object
+      description: >-
+        Gets a list of all available scopes for applied quotas.
+
+
+
+        Related guide: [Quota
+        Scopes](https://docs.confluent.io/cloud/current/quotas/quotas.html#query-for-scopes).
+
+
+        ## The Scopes Model
+
+        <SchemaDefinition
+        schemaRef="#/components/schemas/service-quota.v1.Scope" />
+      required:
+        - api_version
+        - kind
+        - metadata
+        - data
+      properties:
+        api_version:
+          type: string
+          enum:
+            - service-quota/v1
+          description: >-
+            APIVersion defines the schema version of this representation of a
+            resource.
+          readOnly: true
+        kind:
+          type: string
+          description: Kind defines the object this REST resource represents.
+          readOnly: true
+          enum:
+            - ScopeList
+        metadata:
+          type: object
+          description: ListMeta describes metadata that resource collections may have
+          properties:
+            first:
+              description: >-
+                A link to the first page of results. If a response does not
+                contain a first link, then direct navigation to the first page
+                is not supported.
+              type: string
+              format: uri
+              nullable: true
+              example: https://api.confluent.cloud/v2/resourcekinds
+            last:
+              description: >-
+                A link to the last page of results. If a response does not
+                contain a last link, then direct navigation to the last page is
+                not supported.
+              type: string
+              format: uri
+              nullable: true
+              example: >-
+                https://api.confluent.cloud/v2/resourcekinds?page_token=bcAOehAY8F16YD84Z1wT
+            prev:
+              description: >-
+                A link to the previous page of results. If a response does not
+                contain a prev link, then either there is no previous data or
+                backwards traversal through the result set is not supported.
+              type: string
+              format: uri
+              nullable: true
+              example: >-
+                https://api.confluent.cloud/v2/resourcekinds?page_token=YIXRY97wWYmwzrax4dld
+            next:
+              description: >-
+                A link to the next page of results. If a response does not
+                contain a next link, then there is no more data available.
+              type: string
+              format: uri
+              nullable: true
+              example: >-
+                https://api.confluent.cloud/v2/resourcekinds?page_token=UvmDWOB1iwfAIBPj6EYb
+            total_size:
+              description: >-
+                Number of records in the full result set. This response may be
+                paginated and have a smaller number of records.
+              type: integer
+              format: int32
+              minimum: 0
+              example: 123
+        data:
+          type: array
+          description: >-
+            A data property that contains an array of resource items. Each entry
+            in the array is a separate resource.
+          items:
+            type: object
+            description: >-
+              Gets a list of all available scopes for applied quotas.
+
+
+
+              Related guide: [Quota
+              Scopes](https://docs.confluent.io/cloud/current/quotas/quotas.html#query-for-scopes).
+
+
+              ## The Scopes Model
+
+              <SchemaDefinition
+              schemaRef="#/components/schemas/service-quota.v1.Scope" />
+            properties:
+              api_version:
+                type: string
+                enum:
+                  - service-quota/v1
+                description: >-
+                  APIVersion defines the schema version of this representation
+                  of a resource.
+                readOnly: true
+              kind:
+                type: string
+                description: Kind defines the object this REST resource represents.
+                readOnly: true
+                enum:
+                  - Scope
+              id:
+                description: >-
+                  ID is the "natural identifier" for an object within its
+                  scope/namespace; it is normally unique across time but not
+                  space. That is, you can assume that the ID will not be
+                  reclaimed and reused after an object is deleted ("time");
+                  however, it may collide with IDs for other object `kinds` or
+                  objects of the same `kind` within a different scope/namespace
+                  ("space").
+                type: string
+                maxLength: 255
+                readOnly: true
+                example: dlz-f3a90de
+              metadata:
+                description: >-
+                  ObjectMeta is metadata that all persisted resources must have,
+                  which includes all objects users must create.
+                required:
+                  - self
+                properties:
+                  self:
+                    description: >-
+                      Self is a Uniform Resource Locator (URL) at which an
+                      object can be addressed. This URL encodes the service
+                      location, API version, and other particulars necessary to
+                      locate the resource at a point in time
+                    type: string
+                    format: uri
+                    readOnly: true
+                    example: https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                  resource_name:
+                    description: >-
+                      Resource Name is a Uniform Resource Identifier (URI) that
+                      is globally unique across space and time. It is
+                      represented as a Confluent Resource Name
+                    type: string
+                    format: uri
+                    readOnly: true
+                    example: crn://confluent.cloud/kafka=lkc-f3a90de
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: '2006-01-02T15:04:05-07:00'
+                    readOnly: true
+                    description: >-
+                      The date and time at which this object was created. It is
+                      represented in RFC3339 format and is in UTC.
+                  updated_at:
+                    type: string
+                    format: date-time
+                    example: '2006-01-02T15:04:05-07:00'
+                    readOnly: true
+                    description: >-
+                      The date and time at which this object was last updated.
+                      It is represented in RFC3339 format and is in UTC.
+                  deleted_at:
+                    type: string
+                    format: date-time
+                    example: '2006-01-02T15:04:05-07:00'
+                    readOnly: true
+                    description: >-
+                      The date and time at which this object was (or will be)
+                      deleted. It is represented in RFC3339 format and is in
+                      UTC.
+                readOnly: true
+                type: object
+              description:
+                type: string
+                description: the quota scope for listing quotas queries
+                example: ORGANIZATION scope that quotas would be applied to
+            required:
+              - id
+              - metadata
+              - description
+          uniqueItems: true
+    service-quota.v1.Scope:
+      type: object
+      description: >-
+        Gets a list of all available scopes for applied quotas.
+
+
+
+        Related guide: [Quota
+        Scopes](https://docs.confluent.io/cloud/current/quotas/quotas.html#query-for-scopes).
+
+
+        ## The Scopes Model
+
+        <SchemaDefinition
+        schemaRef="#/components/schemas/service-quota.v1.Scope" />
+      properties:
+        api_version:
+          type: string
+          enum:
+            - service-quota/v1
+          description: >-
+            APIVersion defines the schema version of this representation of a
+            resource.
+          readOnly: true
+        kind:
+          type: string
+          description: Kind defines the object this REST resource represents.
+          readOnly: true
+          enum:
+            - Scope
+        id:
+          description: >-
+            ID is the "natural identifier" for an object within its
+            scope/namespace; it is normally unique across time but not space.
+            That is, you can assume that the ID will not be reclaimed and reused
+            after an object is deleted ("time"); however, it may collide with
+            IDs for other object `kinds` or objects of the same `kind` within a
+            different scope/namespace ("space").
+          type: string
+          maxLength: 255
+          readOnly: true
+          example: dlz-f3a90de
+        metadata:
+          description: >-
+            ObjectMeta is metadata that all persisted resources must have, which
+            includes all objects users must create.
+          required:
+            - self
+          properties:
+            self:
+              description: >-
+                Self is a Uniform Resource Locator (URL) at which an object can
+                be addressed. This URL encodes the service location, API
+                version, and other particulars necessary to locate the resource
+                at a point in time
+              type: string
+              format: uri
+              readOnly: true
+              example: https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+            resource_name:
+              description: >-
+                Resource Name is a Uniform Resource Identifier (URI) that is
+                globally unique across space and time. It is represented as a
+                Confluent Resource Name
+              type: string
+              format: uri
+              readOnly: true
+              example: crn://confluent.cloud/kafka=lkc-f3a90de
+            created_at:
+              type: string
+              format: date-time
+              example: '2006-01-02T15:04:05-07:00'
+              readOnly: true
+              description: >-
+                The date and time at which this object was created. It is
+                represented in RFC3339 format and is in UTC.
+            updated_at:
+              type: string
+              format: date-time
+              example: '2006-01-02T15:04:05-07:00'
+              readOnly: true
+              description: >-
+                The date and time at which this object was last updated. It is
+                represented in RFC3339 format and is in UTC.
+            deleted_at:
+              type: string
+              format: date-time
+              example: '2006-01-02T15:04:05-07:00'
+              readOnly: true
+              description: >-
+                The date and time at which this object was (or will be) deleted.
+                It is represented in RFC3339 format and is in UTC.
+          readOnly: true
+          type: object
+        description:
+          type: string
+          description: the quota scope for listing quotas queries
+          example: ORGANIZATION scope that quotas would be applied to
+    kafka-quotas.v1.ClientQuotaList:
+      type: object
+      description: >-
+        `ClientQuota` objects represent Client Quotas you can set at the service
+        account level.
+
+
+        The API allows you to list, create, read, update, and delete your client
+        quotas.
+
+
+
+        Related guide: [Client Quotas in Confluent
+        Cloud](https://docs.confluent.io/cloud/current/clusters/client-quotas.html).
+
+
+        ## The Client Quotas Model
+
+        <SchemaDefinition
+        schemaRef="#/components/schemas/kafka-quotas.v1.ClientQuota" />
+      required:
+        - api_version
+        - kind
+        - metadata
+        - data
+      properties:
+        api_version:
+          type: string
+          enum:
+            - kafka-quotas/v1
+          description: >-
+            APIVersion defines the schema version of this representation of a
+            resource.
+          readOnly: true
+        kind:
+          type: string
+          description: Kind defines the object this REST resource represents.
+          readOnly: true
+          enum:
+            - ClientQuotaList
+        metadata:
+          type: object
+          description: ListMeta describes metadata that resource collections may have
+          properties:
+            first:
+              description: >-
+                A link to the first page of results. If a response does not
+                contain a first link, then direct navigation to the first page
+                is not supported.
+              type: string
+              format: uri
+              nullable: true
+              example: https://api.confluent.cloud/v2/resourcekinds
+            last:
+              description: >-
+                A link to the last page of results. If a response does not
+                contain a last link, then direct navigation to the last page is
+                not supported.
+              type: string
+              format: uri
+              nullable: true
+              example: >-
+                https://api.confluent.cloud/v2/resourcekinds?page_token=bcAOehAY8F16YD84Z1wT
+            prev:
+              description: >-
+                A link to the previous page of results. If a response does not
+                contain a prev link, then either there is no previous data or
+                backwards traversal through the result set is not supported.
+              type: string
+              format: uri
+              nullable: true
+              example: >-
+                https://api.confluent.cloud/v2/resourcekinds?page_token=YIXRY97wWYmwzrax4dld
+            next:
+              description: >-
+                A link to the next page of results. If a response does not
+                contain a next link, then there is no more data available.
+              type: string
+              format: uri
+              nullable: true
+              example: >-
+                https://api.confluent.cloud/v2/resourcekinds?page_token=UvmDWOB1iwfAIBPj6EYb
+            total_size:
+              description: >-
+                Number of records in the full result set. This response may be
+                paginated and have a smaller number of records.
+              type: integer
+              format: int32
+              minimum: 0
+              example: 123
+        data:
+          type: array
+          description: >-
+            A data property that contains an array of resource items. Each entry
+            in the array is a separate resource.
+          items:
+            type: object
+            description: >-
+              `ClientQuota` objects represent Client Quotas you can set at the
+              service account level.
+
+
+              The API allows you to list, create, read, update, and delete your
+              client quotas.
+
+
+
+              Related guide: [Client Quotas in Confluent
+              Cloud](https://docs.confluent.io/cloud/current/clusters/client-quotas.html).
+
+
+              ## The Client Quotas Model
+
+              <SchemaDefinition
+              schemaRef="#/components/schemas/kafka-quotas.v1.ClientQuota" />
+            properties:
+              api_version:
+                type: string
+                enum:
+                  - kafka-quotas/v1
+                description: >-
+                  APIVersion defines the schema version of this representation
+                  of a resource.
+                readOnly: true
+              kind:
+                type: string
+                description: Kind defines the object this REST resource represents.
+                readOnly: true
+                enum:
+                  - ClientQuota
+              id:
+                description: >-
+                  ID is the "natural identifier" for an object within its
+                  scope/namespace; it is normally unique across time but not
+                  space. That is, you can assume that the ID will not be
+                  reclaimed and reused after an object is deleted ("time");
+                  however, it may collide with IDs for other object `kinds` or
+                  objects of the same `kind` within a different scope/namespace
+                  ("space").
+                type: string
+                maxLength: 255
+                readOnly: true
+                example: dlz-f3a90de
+              metadata:
+                description: >-
+                  ObjectMeta is metadata that all persisted resources must have,
+                  which includes all objects users must create.
+                required:
+                  - self
+                properties:
+                  self:
+                    description: >-
+                      Self is a Uniform Resource Locator (URL) at which an
+                      object can be addressed. This URL encodes the service
+                      location, API version, and other particulars necessary to
+                      locate the resource at a point in time
+                    type: string
+                    format: uri
+                    readOnly: true
+                    example: https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+                  resource_name:
+                    description: >-
+                      Resource Name is a Uniform Resource Identifier (URI) that
+                      is globally unique across space and time. It is
+                      represented as a Confluent Resource Name
+                    type: string
+                    format: uri
+                    readOnly: true
+                    example: crn://confluent.cloud/kafka=lkc-f3a90de
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: '2006-01-02T15:04:05-07:00'
+                    readOnly: true
+                    description: >-
+                      The date and time at which this object was created. It is
+                      represented in RFC3339 format and is in UTC.
+                  updated_at:
+                    type: string
+                    format: date-time
+                    example: '2006-01-02T15:04:05-07:00'
+                    readOnly: true
+                    description: >-
+                      The date and time at which this object was last updated.
+                      It is represented in RFC3339 format and is in UTC.
+                  deleted_at:
+                    type: string
+                    format: date-time
+                    example: '2006-01-02T15:04:05-07:00'
+                    readOnly: true
+                    description: >-
+                      The date and time at which this object was (or will be)
+                      deleted. It is represented in RFC3339 format and is in
+                      UTC.
+                readOnly: true
+                type: object
+              spec:
+                $ref: '#/components/schemas/kafka-quotas.v1.ClientQuotaSpec'
+            required:
+              - id
+              - metadata
+              - spec
+          uniqueItems: true
+    kafka-quotas.v1.ClientQuota:
+      type: object
+      description: >-
+        `ClientQuota` objects represent Client Quotas you can set at the service
+        account level.
+
+
+        The API allows you to list, create, read, update, and delete your client
+        quotas.
+
+
+
+        Related guide: [Client Quotas in Confluent
+        Cloud](https://docs.confluent.io/cloud/current/clusters/client-quotas.html).
+
+
+        ## The Client Quotas Model
+
+        <SchemaDefinition
+        schemaRef="#/components/schemas/kafka-quotas.v1.ClientQuota" />
+      properties:
+        api_version:
+          type: string
+          enum:
+            - kafka-quotas/v1
+          description: >-
+            APIVersion defines the schema version of this representation of a
+            resource.
+          readOnly: true
+        kind:
+          type: string
+          description: Kind defines the object this REST resource represents.
+          readOnly: true
+          enum:
+            - ClientQuota
+        id:
+          description: >-
+            ID is the "natural identifier" for an object within its
+            scope/namespace; it is normally unique across time but not space.
+            That is, you can assume that the ID will not be reclaimed and reused
+            after an object is deleted ("time"); however, it may collide with
+            IDs for other object `kinds` or objects of the same `kind` within a
+            different scope/namespace ("space").
+          type: string
+          maxLength: 255
+          readOnly: true
+          example: dlz-f3a90de
+        metadata:
+          description: >-
+            ObjectMeta is metadata that all persisted resources must have, which
+            includes all objects users must create.
+          required:
+            - self
+          properties:
+            self:
+              description: >-
+                Self is a Uniform Resource Locator (URL) at which an object can
+                be addressed. This URL encodes the service location, API
+                version, and other particulars necessary to locate the resource
+                at a point in time
+              type: string
+              format: uri
+              readOnly: true
+              example: https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+            resource_name:
+              description: >-
+                Resource Name is a Uniform Resource Identifier (URI) that is
+                globally unique across space and time. It is represented as a
+                Confluent Resource Name
+              type: string
+              format: uri
+              readOnly: true
+              example: crn://confluent.cloud/kafka=lkc-f3a90de
+            created_at:
+              type: string
+              format: date-time
+              example: '2006-01-02T15:04:05-07:00'
+              readOnly: true
+              description: >-
+                The date and time at which this object was created. It is
+                represented in RFC3339 format and is in UTC.
+            updated_at:
+              type: string
+              format: date-time
+              example: '2006-01-02T15:04:05-07:00'
+              readOnly: true
+              description: >-
+                The date and time at which this object was last updated. It is
+                represented in RFC3339 format and is in UTC.
+            deleted_at:
+              type: string
+              format: date-time
+              example: '2006-01-02T15:04:05-07:00'
+              readOnly: true
+              description: >-
+                The date and time at which this object was (or will be) deleted.
+                It is represented in RFC3339 format and is in UTC.
+          readOnly: true
+          type: object
+        spec:
+          $ref: '#/components/schemas/kafka-quotas.v1.ClientQuotaSpec'
+    ListMeta:
+      type: object
+      description: ListMeta describes metadata that resource collections may have
+      properties:
+        first:
+          description: >-
+            A link to the first page of results. If a response does not contain
+            a first link, then direct navigation to the first page is not
+            supported.
+          type: string
+          format: uri
+          nullable: true
+          example: https://api.confluent.cloud/v2/resourcekinds
+        last:
+          description: >-
+            A link to the last page of results. If a response does not contain a
+            last link, then direct navigation to the last page is not supported.
+          type: string
+          format: uri
+          nullable: true
+          example: >-
+            https://api.confluent.cloud/v2/resourcekinds?page_token=bcAOehAY8F16YD84Z1wT
+        prev:
+          description: >-
+            A link to the previous page of results. If a response does not
+            contain a prev link, then either there is no previous data or
+            backwards traversal through the result set is not supported.
+          type: string
+          format: uri
+          nullable: true
+          example: >-
+            https://api.confluent.cloud/v2/resourcekinds?page_token=YIXRY97wWYmwzrax4dld
+        next:
+          description: >-
+            A link to the next page of results. If a response does not contain a
+            next link, then there is no more data available.
+          type: string
+          format: uri
+          nullable: true
+          example: >-
+            https://api.confluent.cloud/v2/resourcekinds?page_token=UvmDWOB1iwfAIBPj6EYb
+        total_size:
+          description: >-
+            Number of records in the full result set. This response may be
+            paginated and have a smaller number of records.
+          type: integer
+          format: int32
+          minimum: 0
+          example: 123
+    Failure:
+      type: object
+      description: >-
+        Provides information about problems encountered while performing an
+        operation.
+      required:
+        - errors
+      properties:
+        errors:
+          description: List of errors which caused this operation to fail
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+          uniqueItems: true
+    ObjectMeta:
+      description: >-
+        ObjectMeta is metadata that all persisted resources must have, which
+        includes all objects users must create.
+      required:
+        - self
+      properties:
+        self:
+          description: >-
+            Self is a Uniform Resource Locator (URL) at which an object can be
+            addressed. This URL encodes the service location, API version, and
+            other particulars necessary to locate the resource at a point in
+            time
+          type: string
+          format: uri
+          readOnly: true
+          example: https://api.confluent.cloud/v2/kafka-clusters/lkc-f3a90de
+        resource_name:
+          description: >-
+            Resource Name is a Uniform Resource Identifier (URI) that is
+            globally unique across space and time. It is represented as a
+            Confluent Resource Name
+          type: string
+          format: uri
+          readOnly: true
+          example: crn://confluent.cloud/kafka=lkc-f3a90de
+        created_at:
+          type: string
+          format: date-time
+          example: '2006-01-02T15:04:05-07:00'
+          readOnly: true
+          description: >-
+            The date and time at which this object was created. It is
+            represented in RFC3339 format and is in UTC.
+        updated_at:
+          type: string
+          format: date-time
+          example: '2006-01-02T15:04:05-07:00'
+          readOnly: true
+          description: >-
+            The date and time at which this object was last updated. It is
+            represented in RFC3339 format and is in UTC.
+        deleted_at:
+          type: string
+          format: date-time
+          example: '2006-01-02T15:04:05-07:00'
+          readOnly: true
+          description: >-
+            The date and time at which this object was (or will be) deleted. It
+            is represented in RFC3339 format and is in UTC.
+      readOnly: true
+      type: object
+    GlobalObjectReference:
+      type: object
+      description: >-
+        ObjectReference provides information for you to locate the referred
+        object
+      required:
+        - id
+        - related
+        - resource_name
+      properties:
+        id:
+          type: string
+          description: ID of the referred resource
+          minLength: 1
+          maxLength: 255
+        related:
+          type: string
+          format: uri
+          description: API URL for accessing or modifying the referred object
+          minLength: 1
+          readOnly: true
+        resource_name:
+          type: string
+          format: uri
+          description: CRN reference to the referred resource
+          minLength: 1
+          readOnly: true
+    EnvScopedObjectReference:
+      type: object
+      description: >-
+        ObjectReference provides information for you to locate the referred
+        object
+      required:
+        - id
+        - related
+        - resource_name
+      properties:
+        id:
+          type: string
+          description: ID of the referred resource
+          minLength: 1
+          maxLength: 255
+        environment:
+          type: string
+          description: Environment of the referred resource, if env-scoped
+          minLength: 1
+          maxLength: 255
+        related:
+          type: string
+          format: uri
+          description: API URL for accessing or modifying the referred object
+          minLength: 1
+          readOnly: true
+        resource_name:
+          type: string
+          format: uri
+          description: CRN reference to the referred resource
+          minLength: 1
+          readOnly: true
+    kafka-quotas.v1.ClientQuotaSpec:
+      type: object
+      description: The desired state of the Client Quota
+      properties:
+        display_name:
+          type: string
+          description: The name of the client quota.
+          example: QuotaForSA1
+        description:
+          type: string
+          example: >-
+            This quota defines limits on how much the target principals can use
+            cluster lkc-xxxxx
+          description: A human readable description for the client quota.
+        throughput:
+          type: object
+          description: Throughput for the client quota.
+          required:
+            - ingress_byte_rate
+            - egress_byte_rate
+          properties:
+            ingress_byte_rate:
+              type: string
+              format: int64
+              example: '5'
+              description: >-
+                Ingress throughput limit for principals specified in bytes per
+                second.
+            egress_byte_rate:
+              type: string
+              format: int64
+              example: '5'
+              description: >-
+                Egress throughput limit for principals specified in bytes per
+                second.
+        cluster:
+          description: >
+            The ID of the Dedicated Kafka cluster where the client quota is
+            applied.
+          x-immutable: true
+          type: object
+          required:
+            - id
+            - related
+            - resource_name
+          properties:
+            id:
+              type: string
+              description: ID of the referred resource
+              minLength: 1
+              maxLength: 255
+            environment:
+              type: string
+              description: Environment of the referred resource, if env-scoped
+              minLength: 1
+              maxLength: 255
+            related:
+              type: string
+              format: uri
+              description: API URL for accessing or modifying the referred object
+              minLength: 1
+              readOnly: true
+            resource_name:
+              type: string
+              format: uri
+              description: CRN reference to the referred resource
+              minLength: 1
+              readOnly: true
+        principals:
+          type: array
+          items:
+            $ref: '#/components/schemas/GlobalObjectReference'
+          description: >
+            A list of principals to apply a client quota to.
+
+            Use `"<default>"` to apply a client quota to all service accounts
+
+            (see [Control application usage with Client
+            Quotas](https://docs.confluent.io/cloud/current/clusters/client-quotas.html#control-application-usage-with-client-quotas)
+            for more details).
+          minItems: 1
+        environment:
+          description: The environment to which this belongs.
+          x-immutable: true
+          type: object
+          required:
+            - id
+            - related
+            - resource_name
+          properties:
+            id:
+              type: string
+              description: ID of the referred resource
+              minLength: 1
+              maxLength: 255
+            related:
+              type: string
+              format: uri
+              description: API URL for accessing or modifying the referred object
+              minLength: 1
+              readOnly: true
+            resource_name:
+              type: string
+              format: uri
+              description: CRN reference to the referred resource
+              minLength: 1
+              readOnly: true
+      x-enable-id: true
+      x-enable-listmeta: true
+      x-enable-objectmeta: true
+    Error:
+      type: object
+      description: Describes a particular error encountered while performing an operation.
+      properties:
+        id:
+          description: A unique identifier for this particular occurrence of the problem.
+          type: string
+          maxLength: 255
+        status:
+          description: >-
+            The HTTP status code applicable to this problem, expressed as a
+            string value.
+          type: string
+        code:
+          description: An application-specific error code, expressed as a string value.
+          type: string
+        title:
+          description: >-
+            A short, human-readable summary of the problem. It **SHOULD NOT**
+            change from occurrence to occurrence of the problem, except for
+            purposes of localization.
+          type: string
+        detail:
+          description: >-
+            A human-readable explanation specific to this occurrence of the
+            problem.
+          type: string
+        source:
+          type: object
+          description: >-
+            If this error was caused by a particular part of the API request,
+            the source will point to the query string parameter or request body
+            property that caused it.
+          properties:
+            pointer:
+              description: >-
+                A JSON Pointer [RFC6901] to the associated entity in the request
+                document [e.g. "/spec" for a spec object, or "/spec/title" for a
+                specific field].
+              type: string
+            parameter:
+              description: A string indicating which query parameter caused the error.
+              type: string
+        error_code:
+          type: integer
+          format: int32
+        message:
+          type: string
+          nullable: true
+      additionalProperties: false
+    kafka-quotas.v1.Throughput:
+      description: Quotas on maximum throughput
+      required:
+        - ingress_byte_rate
+        - egress_byte_rate
+      properties:
+        ingress_byte_rate:
+          type: string
+          format: int64
+          example: '5'
+          description: >-
+            Ingress throughput limit for principals specified in bytes per
+            second.
+        egress_byte_rate:
+          type: string
+          format: int64
+          example: '5'
+          description: >-
+            Egress throughput limit for principals specified in bytes per
+            second.
+      type: object
+  responses:
+    BadRequestError:
+      description: Bad Request
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                status: '400'
+                code: invalid_filter
+                title: Invalid Filter
+                detail: The 'delorean' resource can't be filtered by 'num_doors'
+                source:
+                  parameter: num_doors
+    UnauthenticatedError:
+      x-summary: Unauthorized
+      description: The request lacks valid authentication credentials for this resource.
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+        WWW-Authenticate:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+          example: >-
+            Basic error="invalid_key", error_description="The API Key is
+            invalid"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                status: '401'
+                code: user_unauthenticated
+                title: Authentication Required
+                detail: Valid authentication credentials must be provided
+    UnauthorizedError:
+      x-summary: Forbidden
+      description: The access credentials were considered insufficient to grant access
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                status: '403'
+                code: user_unauthorized
+                title: User Access Unauthorized
+                detail: >-
+                  The user 'mcfly' is not allowed to access the 'delorean'
+                  resource without the 'plutonium' role.
+    RateLimitError:
+      description: Rate Limit Exceeded
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+        X-RateLimit-Limit:
+          schema:
+            type: integer
+          description: >-
+            The maximum number of requests you're permitted to make per time
+            period.
+        X-RateLimit-Remaining:
+          schema:
+            type: integer
+          description: The number of requests remaining in the current rate limit window.
+        X-RateLimit-Reset:
+          schema:
+            type: integer
+          description: >-
+            The relative time in seconds until the current rate-limit window
+            resets.  
+              
+            **Important:** This differs from Github and Twitter's same-named
+            header which uses UTC epoch seconds. We use relative time to avoid
+            client/server time synchronization issues.
+        Retry-After:
+          schema:
+            type: integer
+          description: >-
+            The number of seconds to wait until the rate limit window resets.
+            Only sent when the rate limit is reached.
+    DefaultSystemError:
+      description: Oops, something went wrong!
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                status: '500'
+                code: out_of_gas
+                title: DeLorean Out Of Gas
+                detail: >-
+                  The DeLorean has run out of gas, but Doc Brown will fill 'er
+                  up for you asap
+    NotFoundError:
+      description: Not Found
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                status: '404'
+                title: Not Found
+    ConflictError:
+      x-summary: Conflict
+      description: The request is in conflict with the current server state
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+        Location:
+          schema:
+            type: string
+            format: uri
+            example: https://api.confluent.cloud/{object}/{id}
+          description: Resource URI of conflicting resource
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                status: '409'
+                code: resource_already_exists
+                title: Resource Already exists
+                detail: >-
+                  The entitlement '91e3e86f-fca6-4f14-98f5-a48e64113ce2' already
+                  exists.
+    ValidationError:
+      description: Validation Failed
+      headers:
+        X-Request-Id:
+          schema:
+            type: string
+          description: The unique identifier for the API request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Failure'
+          example:
+            errors:
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+              - status: '422'
+                code: invalid_configuration
+                id: ed42afdc-f0d5-4c0d-b428-9fc6ed6e279d
+                title: Validation Failed
+                detail: >-
+                  The property '/cluster/storage_size' of type string did not
+                  match the following type: integer
+                source:
+                  pointer: /cluster/storage_size
+  x-stackQL-resources:
+    applied_quotas:
+      id: confluent.quotas.applied_quotas
+      name: applied_quotas
+      title: Applied Quotas
+      methods:
+        list_service_quota_v1_applied_quotas:
+          operation:
+            $ref: '#/paths/~1service-quota~1v1~1applied-quotas/get'
+          response:
+            mediaType: application/json
+            openAPIDocKey: '200'
+            objectKey: $.data
+        get_service_quota_v1_applied_quota:
+          operation:
+            $ref: '#/paths/~1service-quota~1v1~1applied-quotas~1{id}/get'
+          response:
+            mediaType: application/json
+            openAPIDocKey: '200'
+      sqlVerbs:
+        select:
+          - $ref: >-
+              #/components/x-stackQL-resources/applied_quotas/methods/get_service_quota_v1_applied_quota
+          - $ref: >-
+              #/components/x-stackQL-resources/applied_quotas/methods/list_service_quota_v1_applied_quotas
+        insert: []
+        update: []
+        delete: []
+        replace: []
+    scopes:
+      id: confluent.quotas.scopes
+      name: scopes
+      title: Scopes
+      methods:
+        list_service_quota_v1_scopes:
+          operation:
+            $ref: '#/paths/~1service-quota~1v1~1scopes/get'
+          response:
+            mediaType: application/json
+            openAPIDocKey: '200'
+            objectKey: $.data
+        get_service_quota_v1_scope:
+          operation:
+            $ref: '#/paths/~1service-quota~1v1~1scopes~1{id}/get'
+          response:
+            mediaType: application/json
+            openAPIDocKey: '200'
+      sqlVerbs:
+        select:
+          - $ref: >-
+              #/components/x-stackQL-resources/scopes/methods/get_service_quota_v1_scope
+          - $ref: >-
+              #/components/x-stackQL-resources/scopes/methods/list_service_quota_v1_scopes
+        insert: []
+        update: []
+        delete: []
+        replace: []
+    client_quotas:
+      id: confluent.quotas.client_quotas
+      name: client_quotas
+      title: Client Quotas
+      methods:
+        list_kafka_quotas_v1_client_quotas:
+          operation:
+            $ref: '#/paths/~1kafka-quotas~1v1~1client-quotas/get'
+          response:
+            mediaType: application/json
+            openAPIDocKey: '200'
+            objectKey: $.data
+        create_kafka_quotas_v1_client_quota:
+          config:
+            requestBodyTranslate:
+              algorithm: naive
+          operation:
+            $ref: '#/paths/~1kafka-quotas~1v1~1client-quotas/post'
+          response:
+            mediaType: application/json
+            openAPIDocKey: '202'
+        get_kafka_quotas_v1_client_quota:
+          operation:
+            $ref: '#/paths/~1kafka-quotas~1v1~1client-quotas~1{id}/get'
+          response:
+            mediaType: application/json
+            openAPIDocKey: '200'
+        update_kafka_quotas_v1_client_quota:
+          config:
+            requestBodyTranslate:
+              algorithm: naive
+          operation:
+            $ref: '#/paths/~1kafka-quotas~1v1~1client-quotas~1{id}/patch'
+          response:
+            mediaType: application/json
+            openAPIDocKey: '200'
+        delete_kafka_quotas_v1_client_quota:
+          operation:
+            $ref: '#/paths/~1kafka-quotas~1v1~1client-quotas~1{id}/delete'
+          response:
+            mediaType: application/json
+            openAPIDocKey: '204'
+      sqlVerbs:
+        select:
+          - $ref: >-
+              #/components/x-stackQL-resources/client_quotas/methods/get_kafka_quotas_v1_client_quota
+          - $ref: >-
+              #/components/x-stackQL-resources/client_quotas/methods/list_kafka_quotas_v1_client_quotas
+        insert:
+          - $ref: >-
+              #/components/x-stackQL-resources/client_quotas/methods/create_kafka_quotas_v1_client_quota
+        update:
+          - $ref: >-
+              #/components/x-stackQL-resources/client_quotas/methods/update_kafka_quotas_v1_client_quota
+        delete:
+          - $ref: >-
+              #/components/x-stackQL-resources/client_quotas/methods/delete_kafka_quotas_v1_client_quota
+        replace: []
+servers:
+  - url: https://api.confluent.cloud

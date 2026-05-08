@@ -112,7 +112,11 @@ const config = {
   projectName: `stackql-provider-${providerName}`, // Usually your repo name.
 
   onBrokenLinks: 'warn',
-  onBrokenMarkdownLinks: 'warn',
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
+  },
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -134,6 +138,9 @@ const config = {
           // editUrl: 'https://github.com/stackql/stackql-deploy/tree/main/website/',
           routeBasePath: '/', // Set the docs to be the root of the site
         },
+        // No blog in a provider doc microsite — navbar links to /blog point
+        // at the main stackql site, not this build.
+        blog: false,
         theme: {
           customCss: './src/css/custom.css',
         },

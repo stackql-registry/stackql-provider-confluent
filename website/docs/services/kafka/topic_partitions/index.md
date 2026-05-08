@@ -1,4 +1,4 @@
----
+--- 
 title: topic_partitions
 hide_title: false
 hide_table_of_contents: false
@@ -15,6 +15,7 @@ image: /img/stackql-confluent-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,45 +23,227 @@ Creates, updates, deletes, gets or lists a <code>topic_partitions</code> resourc
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>topic_partitions</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="topic_partitions" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="confluent.kafka.topic_partitions" /></td></tr>
 </tbody></table>
 
 ## Fields
-| Name | Datatype | Description |
-|:-----|:---------|:------------|
-| <CopyableCode code="cluster_id" /> | `string` |  |
-| <CopyableCode code="kind" /> | `string` |  |
-| <CopyableCode code="leader" /> | `object` |  |
-| <CopyableCode code="metadata" /> | `object` |  |
-| <CopyableCode code="partition_id" /> | `integer` |  |
-| <CopyableCode code="reassignment" /> | `object` |  |
-| <CopyableCode code="replicas" /> | `object` |  |
-| <CopyableCode code="topic_name" /> | `string` |  |
+
+The following fields are returned by `SELECT` queries:
+
+<Tabs
+    defaultValue="get_kafka_partition"
+    values={[
+        { label: 'get_kafka_partition', value: 'get_kafka_partition' },
+        { label: 'list_kafka_partitions', value: 'list_kafka_partitions' }
+    ]}
+>
+<TabItem value="get_kafka_partition">
+
+The partition
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="partition_id" /></td>
+    <td><code>integer</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="topic_name" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="kind" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="leader" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="metadata" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="reassignment" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="replicas" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+</tbody>
+</table>
+</TabItem>
+<TabItem value="list_kafka_partitions">
+
+The list of partitions.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="partition_id" /></td>
+    <td><code>integer</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="topic_name" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="kind" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="leader" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="metadata" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="reassignment" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="replicas" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+</tbody>
+</table>
+</TabItem>
+</Tabs>
 
 ## Methods
-| Name | Accessible by | Required Params | Description |
-|:-----|:--------------|:----------------|:------------|
-| <CopyableCode code="get_kafka_partition" /> | `SELECT` | <CopyableCode code="cluster_id, partition_id, topic_name" /> | [![Generally Available](https://img.shields.io/badge/Lifecycle%20Stage-Generally%20Available-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Return the partition with the given `partition_id`. |
-| <CopyableCode code="list_kafka_partitions" /> | `SELECT` | <CopyableCode code="cluster_id, topic_name" /> | [![Generally Available](https://img.shields.io/badge/Lifecycle%20Stage-Generally%20Available-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Return the list of partitions that belong to the specified topic. |
+
+The following methods are available for this resource:
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Accessible by</th>
+    <th>Required Params</th>
+    <th>Optional Params</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><a href="#get_kafka_partition"><CopyableCode code="get_kafka_partition" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td></td>
+    <td></td>
+    <td>Return the partition with the given `partition_id`.</td>
+</tr>
+<tr>
+    <td><a href="#list_kafka_partitions"><CopyableCode code="list_kafka_partitions" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td></td>
+    <td></td>
+    <td>Return the list of partitions that belong to the specified topic.</td>
+</tr>
+</tbody>
+</table>
+
+## Parameters
+
+Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#methods) section to see which parameters are required or optional for each operation.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+</tbody>
+</table>
 
 ## `SELECT` examples
 
-[![Generally Available](https://img.shields.io/badge/Lifecycle%20Stage-Generally%20Available-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Return the list of partitions that belong to the specified topic.
+<Tabs
+    defaultValue="get_kafka_partition"
+    values={[
+        { label: 'get_kafka_partition', value: 'get_kafka_partition' },
+        { label: 'list_kafka_partitions', value: 'list_kafka_partitions' }
+    ]}
+>
+<TabItem value="get_kafka_partition">
 
+Return the partition with the given `partition_id`.
 
 ```sql
 SELECT
 cluster_id,
+partition_id,
+topic_name,
 kind,
 leader,
 metadata,
-partition_id,
 reassignment,
-replicas,
-topic_name
+replicas
 FROM confluent.kafka.topic_partitions
-WHERE cluster_id = '{{ cluster_id }}'
-AND topic_name = '{{ topic_name }}';
+;
 ```
+</TabItem>
+<TabItem value="list_kafka_partitions">
+
+Return the list of partitions that belong to the specified topic.
+
+```sql
+SELECT
+cluster_id,
+partition_id,
+topic_name,
+kind,
+leader,
+metadata,
+reassignment,
+replicas
+FROM confluent.kafka.topic_partitions
+;
+```
+</TabItem>
+</Tabs>

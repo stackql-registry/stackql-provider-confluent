@@ -1,4 +1,4 @@
----
+--- 
 title: private_link_attachment_connections
 hide_title: false
 hide_table_of_contents: false
@@ -15,6 +15,7 @@ image: /img/stackql-confluent-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,109 +23,372 @@ Creates, updates, deletes, gets or lists a <code>private_link_attachment_connect
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>private_link_attachment_connections</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="private_link_attachment_connections" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="confluent.networking.private_link_attachment_connections" /></td></tr>
 </tbody></table>
 
 ## Fields
-| Name | Datatype | Description |
-|:-----|:---------|:------------|
-| <CopyableCode code="id" /> | `string` | ID is the "natural identifier" for an object within its scope/namespace; it is normally unique across time but not space. That is, you can assume that the ID will not be reclaimed and reused after an object is deleted ("time"); however, it may collide with IDs for other object `kinds` or objects of the same `kind` within a different scope/namespace ("space"). |
-| <CopyableCode code="_spec" /> | `object` |  |
-| <CopyableCode code="api_version" /> | `string` | APIVersion defines the schema version of this representation of a resource. |
-| <CopyableCode code="kind" /> | `string` | Kind defines the object this REST resource represents. |
-| <CopyableCode code="metadata" /> | `` | ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create. |
-| <CopyableCode code="spec" /> | `object` | The desired state of the Private Link Attachment Connection |
-| <CopyableCode code="status" /> | `object` | The status of the Private Link Attachment Connection |
+
+The following fields are returned by `SELECT` queries:
+
+<Tabs
+    defaultValue="get_networking_v1_private_link_attachment_connection"
+    values={[
+        { label: 'get_networking_v1_private_link_attachment_connection', value: 'get_networking_v1_private_link_attachment_connection' },
+        { label: 'list_networking_v1_private_link_attachment_connections', value: 'list_networking_v1_private_link_attachment_connections' }
+    ]}
+>
+<TabItem value="get_networking_v1_private_link_attachment_connection">
+
+Private Link Attachment Connection.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><CopyableCode code="id" /></td>
+    <td><code>string</code></td>
+    <td>ID is the "natural identifier" for an object within its scope/namespace; it is normally unique across time but not space. That is, you can assume that the ID will not be reclaimed and reused after an object is deleted ("time"); however, it may collide with IDs for other object `kinds` or objects of the same `kind` within a different scope/namespace ("space"). (example: dlz-f3a90de)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="api_version" /></td>
+    <td><code>string</code></td>
+    <td>APIVersion defines the schema version of this representation of a resource. (networking/v1)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="kind" /></td>
+    <td><code>string</code></td>
+    <td>Kind defines the object this REST resource represents. (PrivateLinkAttachmentConnection)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="metadata" /></td>
+    <td><code>object</code></td>
+    <td>ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="spec" /></td>
+    <td><code>object</code></td>
+    <td>The desired state of the Private Link Attachment Connection</td>
+</tr>
+<tr>
+    <td><CopyableCode code="status" /></td>
+    <td><code>object</code></td>
+    <td>The status of the Private Link Attachment Connection</td>
+</tr>
+</tbody>
+</table>
+</TabItem>
+<TabItem value="list_networking_v1_private_link_attachment_connections">
+
+Private Link Attachment Connection.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><CopyableCode code="id" /></td>
+    <td><code>string</code></td>
+    <td>ID is the "natural identifier" for an object within its scope/namespace; it is normally unique across time but not space. That is, you can assume that the ID will not be reclaimed and reused after an object is deleted ("time"); however, it may collide with IDs for other object `kinds` or objects of the same `kind` within a different scope/namespace ("space"). (example: dlz-f3a90de)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="api_version" /></td>
+    <td><code>string</code></td>
+    <td>APIVersion defines the schema version of this representation of a resource. (networking/v1)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="kind" /></td>
+    <td><code>string</code></td>
+    <td>Kind defines the object this REST resource represents. (PrivateLinkAttachmentConnection)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="metadata" /></td>
+    <td><code>object</code></td>
+    <td>ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="spec" /></td>
+    <td><code>object</code></td>
+    <td>The desired state of the Private Link Attachment Connection</td>
+</tr>
+<tr>
+    <td><CopyableCode code="status" /></td>
+    <td><code>object</code></td>
+    <td>The status of the Private Link Attachment Connection</td>
+</tr>
+</tbody>
+</table>
+</TabItem>
+</Tabs>
 
 ## Methods
-| Name | Accessible by | Required Params | Description |
-|:-----|:--------------|:----------------|:------------|
-| <CopyableCode code="get_networking_v1private_link_attachment_connection" /> | `SELECT` | <CopyableCode code="environment, id" /> | [![General Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Make a request to read a private link attachment connection. |
-| <CopyableCode code="list_networking_v1private_link_attachment_connections" /> | `SELECT` | <CopyableCode code="environment" /> | [![General Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Retrieve a sorted, filtered, paginated list of all private link attachment connections. |
-| <CopyableCode code="create_networking_v1private_link_attachment_connection" /> | `INSERT` | <CopyableCode code="" /> | [![General Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Make a request to create a private link attachment connection. |
-| <CopyableCode code="delete_networking_v1private_link_attachment_connection" /> | `DELETE` | <CopyableCode code="environment, id" /> | [![General Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Make a request to delete a private link attachment connection. |
-| <CopyableCode code="update_networking_v1private_link_attachment_connection" /> | `UPDATE` | <CopyableCode code="id" /> | [![General Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Make a request to update a private link attachment connection. |
+
+The following methods are available for this resource:
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Accessible by</th>
+    <th>Required Params</th>
+    <th>Optional Params</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><a href="#get_networking_v1_private_link_attachment_connection"><CopyableCode code="get_networking_v1_private_link_attachment_connection" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td><a href="#parameter-environment"><code>environment</code></a>, <a href="#parameter-id"><code>id</code></a></td>
+    <td></td>
+    <td>Make a request to read a private link attachment connection.</td>
+</tr>
+<tr>
+    <td><a href="#list_networking_v1_private_link_attachment_connections"><CopyableCode code="list_networking_v1_private_link_attachment_connections" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td><a href="#parameter-environment"><code>environment</code></a></td>
+    <td><a href="#parameter-spec.private_link_attachment"><code>spec.private_link_attachment</code></a>, <a href="#parameter-page_size"><code>page_size</code></a>, <a href="#parameter-page_token"><code>page_token</code></a></td>
+    <td>Retrieve a sorted, filtered, paginated list of all private link attachment connections.</td>
+</tr>
+<tr>
+    <td><a href="#create_networking_v1_private_link_attachment_connection"><CopyableCode code="create_networking_v1_private_link_attachment_connection" /></a></td>
+    <td><CopyableCode code="insert" /></td>
+    <td><a href="#parameter-spec"><code>spec</code></a></td>
+    <td></td>
+    <td>Make a request to create a private link attachment connection.</td>
+</tr>
+<tr>
+    <td><a href="#update_networking_v1_private_link_attachment_connection"><CopyableCode code="update_networking_v1_private_link_attachment_connection" /></a></td>
+    <td><CopyableCode code="update" /></td>
+    <td><a href="#parameter-id"><code>id</code></a>, <a href="#parameter-spec"><code>spec</code></a></td>
+    <td></td>
+    <td>Make a request to update a private link attachment connection.<br /><br /></td>
+</tr>
+<tr>
+    <td><a href="#delete_networking_v1_private_link_attachment_connection"><CopyableCode code="delete_networking_v1_private_link_attachment_connection" /></a></td>
+    <td><CopyableCode code="delete" /></td>
+    <td><a href="#parameter-environment"><code>environment</code></a>, <a href="#parameter-id"><code>id</code></a></td>
+    <td></td>
+    <td>Make a request to delete a private link attachment connection.</td>
+</tr>
+</tbody>
+</table>
+
+## Parameters
+
+Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#methods) section to see which parameters are required or optional for each operation.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr id="parameter-environment">
+    <td><CopyableCode code="environment" /></td>
+    <td><code>string</code></td>
+    <td>Scope the operation to the given environment. (example: env-00000)</td>
+</tr>
+<tr id="parameter-id">
+    <td><CopyableCode code="id" /></td>
+    <td><code>string</code></td>
+    <td>The unique identifier for the private link attachment connection.</td>
+</tr>
+<tr id="parameter-page_size">
+    <td><CopyableCode code="page_size" /></td>
+    <td><code>integer</code></td>
+    <td>A pagination size for collection requests.</td>
+</tr>
+<tr id="parameter-page_token">
+    <td><CopyableCode code="page_token" /></td>
+    <td><code>string</code></td>
+    <td>An opaque pagination token for collection requests.</td>
+</tr>
+<tr id="parameter-spec.private_link_attachment">
+    <td><CopyableCode code="spec.private_link_attachment" /></td>
+    <td><code>string</code></td>
+    <td>Filter the results by exact match for spec.private_link_attachment. (example: platt-00000)</td>
+</tr>
+</tbody>
+</table>
 
 ## `SELECT` examples
 
-[![General Availability](https://img.shields.io/badge/Lifecycle%20Stage-General%20Availability-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Retrieve a sorted, filtered, paginated list of all private link attachment connections.
+<Tabs
+    defaultValue="get_networking_v1_private_link_attachment_connection"
+    values={[
+        { label: 'get_networking_v1_private_link_attachment_connection', value: 'get_networking_v1_private_link_attachment_connection' },
+        { label: 'list_networking_v1_private_link_attachment_connections', value: 'list_networking_v1_private_link_attachment_connections' }
+    ]}
+>
+<TabItem value="get_networking_v1_private_link_attachment_connection">
 
+Make a request to read a private link attachment connection.
 
 ```sql
 SELECT
 id,
-_spec,
 api_version,
 kind,
 metadata,
 spec,
 status
 FROM confluent.networking.private_link_attachment_connections
-WHERE environment = '{{ environment }}';
-```
-## `INSERT` example
-
-Use the following StackQL query and manifest file to create a new <code>private_link_attachment_connections</code> resource.
-
-<Tabs
-    defaultValue="all"
-    values={[
-        
-        { label: 'All Properties', value: 'all', },
-        { label: 'Manifest', value: 'manifest', },
-    ]
-}>
-<TabItem value="all">
-
-```sql
-/*+ create */
-INSERT INTO confluent.networking.private_link_attachment_connections (
-data__spec
-)
-SELECT 
-'{{ spec }}'
+WHERE environment = '{{ environment }}' -- required
+AND id = '{{ id }}' -- required
 ;
 ```
 </TabItem>
+<TabItem value="list_networking_v1_private_link_attachment_connections">
 
-<TabItem value="manifest">
+Retrieve a sorted, filtered, paginated list of all private link attachment connections.
 
-```yaml
-- name: private_link_attachment_connections
-  props:
-    - name: spec
-      props:
-        - name: environment
-          value: string
-        - name: private_link_attachment
-          value: string
-
+```sql
+SELECT
+id,
+api_version,
+kind,
+metadata,
+spec,
+status
+FROM confluent.networking.private_link_attachment_connections
+WHERE environment = '{{ environment }}' -- required
+AND spec.private_link_attachment = '{{ spec.private_link_attachment }}'
+AND page_size = '{{ page_size }}'
+AND page_token = '{{ page_token }}'
+;
 ```
 </TabItem>
 </Tabs>
 
-## `UPDATE` example
 
-Updates a <code>private_link_attachment_connections</code> resource.
+## `INSERT` examples
+
+<Tabs
+    defaultValue="create_networking_v1_private_link_attachment_connection"
+    values={[
+        { label: 'create_networking_v1_private_link_attachment_connection', value: 'create_networking_v1_private_link_attachment_connection' },
+        { label: 'Manifest', value: 'manifest' }
+    ]}
+>
+<TabItem value="create_networking_v1_private_link_attachment_connection">
+
+Make a request to create a private link attachment connection.
 
 ```sql
-/*+ update */
+INSERT INTO confluent.networking.private_link_attachment_connections (
+spec
+)
+SELECT 
+'{{ spec }}' /* required */
+RETURNING
+id,
+api_version,
+kind,
+metadata,
+spec,
+status
+;
+```
+</TabItem>
+<TabItem value="manifest">
+
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
+- name: private_link_attachment_connections
+  props:
+    - name: spec
+      description: |
+        The desired state of the Private Link Attachment Connection
+      value:
+        display_name: "{{ display_name }}"
+        cloud:
+          kind: "{{ kind }}"
+          vpc_endpoint_id: "{{ vpc_endpoint_id }}"
+          private_endpoint_resource_id: "{{ private_endpoint_resource_id }}"
+          private_service_connect_connection_id: "{{ private_service_connect_connection_id }}"
+        environment:
+          id: "{{ id }}"
+          environment: "{{ environment }}"
+          related: "{{ related }}"
+          resource_name: "{{ resource_name }}"
+          api_version: "{{ api_version }}"
+          kind: "{{ kind }}"
+        private_link_attachment:
+          id: "{{ id }}"
+          environment: "{{ environment }}"
+          related: "{{ related }}"
+          resource_name: "{{ resource_name }}"
+          api_version: "{{ api_version }}"
+          kind: "{{ kind }}"
+`}</CodeBlock>
+
+</TabItem>
+</Tabs>
+
+
+## `UPDATE` examples
+
+<Tabs
+    defaultValue="update_networking_v1_private_link_attachment_connection"
+    values={[
+        { label: 'update_networking_v1_private_link_attachment_connection', value: 'update_networking_v1_private_link_attachment_connection' }
+    ]}
+>
+<TabItem value="update_networking_v1_private_link_attachment_connection">
+
+Make a request to update a private link attachment connection.<br /><br />
+
+```sql
 UPDATE confluent.networking.private_link_attachment_connections
 SET 
 spec = '{{ spec }}'
 WHERE 
-id = '{{ id }}';
+id = '{{ id }}' --required
+AND spec = '{{ spec }}' --required
+RETURNING
+id,
+api_version,
+kind,
+metadata,
+spec,
+status;
 ```
+</TabItem>
+</Tabs>
 
-## `DELETE` example
 
-Deletes the specified <code>private_link_attachment_connections</code> resource.
+## `DELETE` examples
+
+<Tabs
+    defaultValue="delete_networking_v1_private_link_attachment_connection"
+    values={[
+        { label: 'delete_networking_v1_private_link_attachment_connection', value: 'delete_networking_v1_private_link_attachment_connection' }
+    ]}
+>
+<TabItem value="delete_networking_v1_private_link_attachment_connection">
+
+Make a request to delete a private link attachment connection.
 
 ```sql
-/*+ delete */
 DELETE FROM confluent.networking.private_link_attachment_connections
-WHERE environment = '{{ environment }}'
-AND id = '{{ id }}';
+WHERE environment = '{{ environment }}' --required
+AND id = '{{ id }}' --required
+;
 ```
+</TabItem>
+</Tabs>

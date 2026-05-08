@@ -16,13 +16,9 @@ image: /img/stackql-confluent-provider-featured-image.png
 
 iam service documentation.
 
-:::info Service Summary
+:::info[Service Summary]
 
-<div class="row">
-<div class="providerDocColumn">
-<span>total resources:&nbsp;<b>13</b></span><br />
-</div>
-</div>
+total resources: __13__  
 
 :::
 
@@ -38,9 +34,9 @@ iam service documentation.
 <a href="/services/iam/invitations/">invitations</a>
 </div>
 <div class="providerDocColumn">
+<a href="/services/iam/ip_filter_summaries/">ip_filter_summaries</a><br />
 <a href="/services/iam/ip_filters/">ip_filters</a><br />
 <a href="/services/iam/ip_groups/">ip_groups</a><br />
-<a href="/services/iam/jwks/">jwks</a><br />
 <a href="/services/iam/role_bindings/">role_bindings</a><br />
 <a href="/services/iam/service_accounts/">service_accounts</a><br />
 <a href="/services/iam/users/">users</a>

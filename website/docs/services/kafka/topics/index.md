@@ -1,4 +1,4 @@
----
+--- 
 title: topics
 hide_title: false
 hide_table_of_contents: false
@@ -15,6 +15,7 @@ image: /img/stackql-confluent-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,44 +23,258 @@ Creates, updates, deletes, gets or lists a <code>topics</code> resource.
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>topics</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="topics" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="confluent.kafka.topics" /></td></tr>
 </tbody></table>
 
 ## Fields
-| Name | Datatype | Description |
-|:-----|:---------|:------------|
-| <CopyableCode code="authorized_operations" /> | `array` |  |
-| <CopyableCode code="cluster_id" /> | `string` |  |
-| <CopyableCode code="configs" /> | `object` |  |
-| <CopyableCode code="is_internal" /> | `boolean` |  |
-| <CopyableCode code="kind" /> | `string` |  |
-| <CopyableCode code="metadata" /> | `object` |  |
-| <CopyableCode code="partition_reassignments" /> | `object` |  |
-| <CopyableCode code="partitions" /> | `object` |  |
-| <CopyableCode code="partitions_count" /> | `integer` |  |
-| <CopyableCode code="replication_factor" /> | `integer` |  |
-| <CopyableCode code="topic_name" /> | `string` |  |
+
+The following fields are returned by `SELECT` queries:
+
+<Tabs
+    defaultValue="get_kafka_topic"
+    values={[
+        { label: 'get_kafka_topic', value: 'get_kafka_topic' },
+        { label: 'list_kafka_topics', value: 'list_kafka_topics' }
+    ]}
+>
+<TabItem value="get_kafka_topic">
+
+The topic.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="topic_name" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="authorized_operations" /></td>
+    <td><code>array</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="configs" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="is_internal" /></td>
+    <td><code>boolean</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="kind" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="metadata" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="partition_reassignments" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="partitions" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="partitions_count" /></td>
+    <td><code>integer</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="replication_factor" /></td>
+    <td><code>integer</code></td>
+    <td></td>
+</tr>
+</tbody>
+</table>
+</TabItem>
+<TabItem value="list_kafka_topics">
+
+The list of topics.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="topic_name" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="authorized_operations" /></td>
+    <td><code>array</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="configs" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="is_internal" /></td>
+    <td><code>boolean</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="kind" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="metadata" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="partition_reassignments" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="partitions" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="partitions_count" /></td>
+    <td><code>integer</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="replication_factor" /></td>
+    <td><code>integer</code></td>
+    <td></td>
+</tr>
+</tbody>
+</table>
+</TabItem>
+</Tabs>
 
 ## Methods
-| Name | Accessible by | Required Params | Description |
-|:-----|:--------------|:----------------|:------------|
-| <CopyableCode code="get_kafka_topic" /> | `SELECT` | <CopyableCode code="cluster_id, topic_name" /> | [![Generally Available](https://img.shields.io/badge/Lifecycle%20Stage-Generally%20Available-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Return the topic with the given `topic_name`. |
-| <CopyableCode code="list_kafka_topics" /> | `SELECT` | <CopyableCode code="cluster_id" /> | [![Generally Available](https://img.shields.io/badge/Lifecycle%20Stage-Generally%20Available-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Return the list of topics that belong to the specified Kafka cluster. |
-| <CopyableCode code="create_kafka_topic" /> | `INSERT` | <CopyableCode code="cluster_id, data__topic_name" /> | [![Generally Available](https://img.shields.io/badge/Lifecycle%20Stage-Generally%20Available-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Create a topic. Also supports a dry-run mode that only validates whether the topic creation would succeed if the ``validate_only`` request property is explicitly specified and set to true. Note that when dry-run mode is being used the response status would be 200 OK instead of 201 Created. |
-| <CopyableCode code="delete_kafka_topic" /> | `DELETE` | <CopyableCode code="cluster_id, topic_name" /> | [![Generally Available](https://img.shields.io/badge/Lifecycle%20Stage-Generally%20Available-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Delete the topic with the given `topic_name`. |
-| <CopyableCode code="update_partition_count_kafka_topic" /> | `UPDATE` | <CopyableCode code="cluster_id, topic_name, data__partitions_count" /> | [![Generally Available](https://img.shields.io/badge/Lifecycle%20Stage-Generally%20Available-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Increase the number of partitions for a topic. |
+
+The following methods are available for this resource:
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Accessible by</th>
+    <th>Required Params</th>
+    <th>Optional Params</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><a href="#get_kafka_topic"><CopyableCode code="get_kafka_topic" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td></td>
+    <td><a href="#parameter-include_authorized_operations"><code>include_authorized_operations</code></a></td>
+    <td>Return the topic with the given `topic_name`.</td>
+</tr>
+<tr>
+    <td><a href="#list_kafka_topics"><CopyableCode code="list_kafka_topics" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td></td>
+    <td></td>
+    <td>Return the list of topics that belong to the specified Kafka cluster.</td>
+</tr>
+<tr>
+    <td><a href="#create_kafka_topic"><CopyableCode code="create_kafka_topic" /></a></td>
+    <td><CopyableCode code="insert" /></td>
+    <td><a href="#parameter-topic_name"><code>topic_name</code></a></td>
+    <td></td>
+    <td>Create a topic.<br />Also supports a dry-run mode that only validates whether the topic creation would succeed<br />if the ``validate_only`` request property is explicitly specified and set to true. Note that<br />when dry-run mode is being used the response status would be 200 OK instead of 201 Created.</td>
+</tr>
+<tr>
+    <td><a href="#update_partition_count_kafka_topic"><CopyableCode code="update_partition_count_kafka_topic" /></a></td>
+    <td><CopyableCode code="update" /></td>
+    <td><a href="#parameter-partitions_count"><code>partitions_count</code></a></td>
+    <td></td>
+    <td>Increase the number of partitions for a topic. To update other topic<br />configurations, see https://docs.confluent.io/cloud/current/api.html#tag/Configs-(v3)/operation/updateKafkaTopicConfig.</td>
+</tr>
+<tr>
+    <td><a href="#delete_kafka_topic"><CopyableCode code="delete_kafka_topic" /></a></td>
+    <td><CopyableCode code="delete" /></td>
+    <td></td>
+    <td></td>
+    <td>Delete the topic with the given `topic_name`.</td>
+</tr>
+</tbody>
+</table>
+
+## Parameters
+
+Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#methods) section to see which parameters are required or optional for each operation.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr id="parameter-include_authorized_operations">
+    <td><CopyableCode code="include_authorized_operations" /></td>
+    <td><code>boolean</code></td>
+    <td>Specify if authorized operations should be included in the response.</td>
+</tr>
+</tbody>
+</table>
 
 ## `SELECT` examples
 
-[![Generally Available](https://img.shields.io/badge/Lifecycle%20Stage-Generally%20Available-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) Return the list of topics that belong to the specified Kafka cluster.
+<Tabs
+    defaultValue="get_kafka_topic"
+    values={[
+        { label: 'get_kafka_topic', value: 'get_kafka_topic' },
+        { label: 'list_kafka_topics', value: 'list_kafka_topics' }
+    ]}
+>
+<TabItem value="get_kafka_topic">
 
+Return the topic with the given `topic_name`.
 
 ```sql
 SELECT
-authorized_operations,
 cluster_id,
+topic_name,
+authorized_operations,
 configs,
 is_internal,
 kind,
@@ -67,112 +282,151 @@ metadata,
 partition_reassignments,
 partitions,
 partitions_count,
-replication_factor,
-topic_name
+replication_factor
 FROM confluent.kafka.topics
-WHERE cluster_id = '{{ cluster_id }}';
-```
-## `INSERT` example
-
-Use the following StackQL query and manifest file to create a new <code>topics</code> resource.
-
-<Tabs
-    defaultValue="all"
-    values={[
-        { label: 'Required Properties', value: 'required' },
-        { label: 'All Properties', value: 'all', },
-        { label: 'Manifest', value: 'manifest', },
-    ]
-}>
-<TabItem value="all">
-
-```sql
-/*+ create */
-INSERT INTO confluent.kafka.topics (
-data__topic_name,
-data__partitions_count,
-data__replication_factor,
-data__configs,
-data__validate_only,
-cluster_id
-)
-SELECT 
-'{{ topic_name }}',
-'{{ partitions_count }}',
-'{{ replication_factor }}',
-'{{ configs }}',
-'{{ validate_only }}',
-'{{ cluster_id }}'
+WHERE include_authorized_operations = '{{ include_authorized_operations }}'
 ;
 ```
 </TabItem>
+<TabItem value="list_kafka_topics">
 
-<TabItem value="required">
+Return the list of topics that belong to the specified Kafka cluster.
 
 ```sql
-/*+ create */
-INSERT INTO confluent.kafka.topics (
-data__topic_name,
-cluster_id
-)
-SELECT 
-'{{ topic_name }}',
-'{{ cluster_id }}'
+SELECT
+cluster_id,
+topic_name,
+authorized_operations,
+configs,
+is_internal,
+kind,
+metadata,
+partition_reassignments,
+partitions,
+partitions_count,
+replication_factor
+FROM confluent.kafka.topics
 ;
-```
-</TabItem>
-
-<TabItem value="manifest">
-
-```yaml
-- name: topics
-  props:
-    - name: cluster_id
-      value: string
-    - name: data__topic_name
-      value: string
-    - name: topic_name
-      value: string
-    - name: partitions_count
-      value: integer
-    - name: replication_factor
-      value: integer
-    - name: configs
-      value: array
-      props:
-        - name: name
-          value: string
-        - name: value
-          value: string
-    - name: validate_only
-      value: boolean
-
 ```
 </TabItem>
 </Tabs>
 
-## `UPDATE` example
 
-Updates a <code>topics</code> resource.
+## `INSERT` examples
+
+<Tabs
+    defaultValue="create_kafka_topic"
+    values={[
+        { label: 'create_kafka_topic', value: 'create_kafka_topic' },
+        { label: 'Manifest', value: 'manifest' }
+    ]}
+>
+<TabItem value="create_kafka_topic">
+
+Create a topic.<br />Also supports a dry-run mode that only validates whether the topic creation would succeed<br />if the ``validate_only`` request property is explicitly specified and set to true. Note that<br />when dry-run mode is being used the response status would be 200 OK instead of 201 Created.
 
 ```sql
-/*+ update */
+INSERT INTO confluent.kafka.topics (
+topic_name,
+partitions_count,
+replication_factor,
+configs,
+validate_only
+)
+SELECT 
+'{{ topic_name }}' /* required */,
+{{ partitions_count }},
+{{ replication_factor }},
+'{{ configs }}',
+{{ validate_only }}
+RETURNING
+cluster_id,
+topic_name,
+authorized_operations,
+configs,
+is_internal,
+kind,
+metadata,
+partition_reassignments,
+partitions,
+partitions_count,
+replication_factor
+;
+```
+</TabItem>
+<TabItem value="manifest">
+
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
+- name: topics
+  props:
+    - name: topic_name
+      value: "{{ topic_name }}"
+    - name: partitions_count
+      value: {{ partitions_count }}
+    - name: replication_factor
+      value: {{ replication_factor }}
+    - name: configs
+      value:
+        - name: "{{ name }}"
+          value: "{{ value }}"
+    - name: validate_only
+      value: {{ validate_only }}
+`}</CodeBlock>
+
+</TabItem>
+</Tabs>
+
+
+## `UPDATE` examples
+
+<Tabs
+    defaultValue="update_partition_count_kafka_topic"
+    values={[
+        { label: 'update_partition_count_kafka_topic', value: 'update_partition_count_kafka_topic' }
+    ]}
+>
+<TabItem value="update_partition_count_kafka_topic">
+
+Increase the number of partitions for a topic. To update other topic<br />configurations, see https://docs.confluent.io/cloud/current/api.html#tag/Configs-(v3)/operation/updateKafkaTopicConfig.
+
+```sql
 UPDATE confluent.kafka.topics
 SET 
-partitions_count = '{{ partitions_count }}'
+partitions_count = {{ partitions_count }}
 WHERE 
-cluster_id = '{{ cluster_id }}'
-AND topic_name = '{{ topic_name }}'
-AND data__partitions_count = '{{ data__partitions_count }}';
+partitions_count = '{{ partitions_count }}' --required
+RETURNING
+cluster_id,
+topic_name,
+authorized_operations,
+configs,
+is_internal,
+kind,
+metadata,
+partition_reassignments,
+partitions,
+partitions_count,
+replication_factor;
 ```
+</TabItem>
+</Tabs>
 
-## `DELETE` example
 
-Deletes the specified <code>topics</code> resource.
+## `DELETE` examples
+
+<Tabs
+    defaultValue="delete_kafka_topic"
+    values={[
+        { label: 'delete_kafka_topic', value: 'delete_kafka_topic' }
+    ]}
+>
+<TabItem value="delete_kafka_topic">
+
+Delete the topic with the given `topic_name`.
 
 ```sql
-/*+ delete */
 DELETE FROM confluent.kafka.topics
-WHERE cluster_id = '{{ cluster_id }}'
-AND topic_name = '{{ topic_name }}';
+;
 ```
+</TabItem>
+</Tabs>

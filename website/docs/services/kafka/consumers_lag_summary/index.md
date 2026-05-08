@@ -1,4 +1,4 @@
----
+--- 
 title: consumers_lag_summary
 hide_title: false
 hide_table_of_contents: false
@@ -15,6 +15,7 @@ image: /img/stackql-confluent-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,54 +23,174 @@ Creates, updates, deletes, gets or lists a <code>consumers_lag_summary</code> re
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>consumers_lag_summary</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="consumers_lag_summary" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="confluent.kafka.consumers_lag_summary" /></td></tr>
 </tbody></table>
 
 ## Fields
-| Name | Datatype | Description |
-|:-----|:---------|:------------|
-| <CopyableCode code="cluster_id" /> | `string` |  |
-| <CopyableCode code="consumer_group_id" /> | `string` |  |
-| <CopyableCode code="kind" /> | `string` |  |
-| <CopyableCode code="max_lag" /> | `integer` |  |
-| <CopyableCode code="max_lag_client_id" /> | `string` |  |
-| <CopyableCode code="max_lag_consumer" /> | `object` |  |
-| <CopyableCode code="max_lag_consumer_id" /> | `string` |  |
-| <CopyableCode code="max_lag_instance_id" /> | `string` |  |
-| <CopyableCode code="max_lag_partition" /> | `object` |  |
-| <CopyableCode code="max_lag_partition_id" /> | `integer` |  |
-| <CopyableCode code="max_lag_topic_name" /> | `string` |  |
-| <CopyableCode code="metadata" /> | `object` |  |
-| <CopyableCode code="total_lag" /> | `integer` |  |
+
+The following fields are returned by `SELECT` queries:
+
+<Tabs
+    defaultValue="get_kafka_consumer_group_lag_summary"
+    values={[
+        { label: 'get_kafka_consumer_group_lag_summary', value: 'get_kafka_consumer_group_lag_summary' }
+    ]}
+>
+<TabItem value="get_kafka_consumer_group_lag_summary">
+
+The max and total consumer lag in a consumer group.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="consumer_group_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="max_lag_client_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="max_lag_consumer_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="max_lag_instance_id" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="max_lag_partition_id" /></td>
+    <td><code>integer</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="max_lag_topic_name" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="kind" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="max_lag" /></td>
+    <td><code>integer (int64)</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="max_lag_consumer" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="max_lag_partition" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="metadata" /></td>
+    <td><code>object</code></td>
+    <td></td>
+</tr>
+<tr>
+    <td><CopyableCode code="total_lag" /></td>
+    <td><code>integer (int64)</code></td>
+    <td></td>
+</tr>
+</tbody>
+</table>
+</TabItem>
+</Tabs>
 
 ## Methods
-| Name | Accessible by | Required Params | Description |
-|:-----|:--------------|:----------------|:------------|
-| <CopyableCode code="get_kafka_consumer_group_lag_summary" /> | `SELECT` | <CopyableCode code="cluster_id, consumer_group_id" /> | [![Generally Available](https://img.shields.io/badge/Lifecycle%20Stage-Generally%20Available-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) [![Available in dedicated clusters only](https://img.shields.io/badge/-Available%20in%20dedicated%20clusters%20only-%23bc8540)](https://docs.confluent.io/cloud/current/clusters/cluster-types.html#dedicated-cluster) Return the maximum and total lag of the consumers belonging to the specified consumer group. |
+
+The following methods are available for this resource:
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Accessible by</th>
+    <th>Required Params</th>
+    <th>Optional Params</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><a href="#get_kafka_consumer_group_lag_summary"><CopyableCode code="get_kafka_consumer_group_lag_summary" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td></td>
+    <td></td>
+    <td> Return the maximum and total lag of the consumers belonging to the<br />specified consumer group.</td>
+</tr>
+</tbody>
+</table>
+
+## Parameters
+
+Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#methods) section to see which parameters are required or optional for each operation.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+</tbody>
+</table>
 
 ## `SELECT` examples
 
-[![Generally Available](https://img.shields.io/badge/Lifecycle%20Stage-Generally%20Available-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) [![Available in dedicated clusters only](https://img.shields.io/badge/-Available%20in%20dedicated%20clusters%20only-%23bc8540)](https://docs.confluent.io/cloud/current/clusters/cluster-types.html#dedicated-cluster) Return the maximum and total lag of the consumers belonging to the specified consumer group.
+<Tabs
+    defaultValue="get_kafka_consumer_group_lag_summary"
+    values={[
+        { label: 'get_kafka_consumer_group_lag_summary', value: 'get_kafka_consumer_group_lag_summary' }
+    ]}
+>
+<TabItem value="get_kafka_consumer_group_lag_summary">
 
+ Return the maximum and total lag of the consumers belonging to the<br />specified consumer group.
 
 ```sql
 SELECT
 cluster_id,
 consumer_group_id,
-kind,
-max_lag,
 max_lag_client_id,
-max_lag_consumer,
 max_lag_consumer_id,
 max_lag_instance_id,
-max_lag_partition,
 max_lag_partition_id,
 max_lag_topic_name,
+kind,
+max_lag,
+max_lag_consumer,
+max_lag_partition,
 metadata,
 total_lag
 FROM confluent.kafka.consumers_lag_summary
-WHERE cluster_id = '{{ cluster_id }}'
-AND consumer_group_id = '{{ consumer_group_id }}';
+;
 ```
+</TabItem>
+</Tabs>

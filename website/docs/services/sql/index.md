@@ -16,24 +16,24 @@ image: /img/stackql-confluent-provider-featured-image.png
 
 sql service documentation.
 
-:::info Service Summary
+:::info[Service Summary]
 
-<div class="row">
-<div class="providerDocColumn">
-<span>total resources:&nbsp;<b>4</b></span><br />
-</div>
-</div>
+total resources: __8__  
 
 :::
 
 ## Resources
 <div class="row">
 <div class="providerDocColumn">
+<a href="/services/sql/agents/">agents</a><br />
 <a href="/services/sql/connections/">connections</a><br />
-<a href="/services/sql/statement_exceptions/">statement_exceptions</a>
+<a href="/services/sql/materialized_table_versions/">materialized_table_versions</a><br />
+<a href="/services/sql/materialized_tables/">materialized_tables</a>
 </div>
 <div class="providerDocColumn">
+<a href="/services/sql/statement_exceptions/">statement_exceptions</a><br />
 <a href="/services/sql/statement_results/">statement_results</a><br />
-<a href="/services/sql/statements/">statements</a>
+<a href="/services/sql/statements/">statements</a><br />
+<a href="/services/sql/tools/">tools</a>
 </div>
 </div>

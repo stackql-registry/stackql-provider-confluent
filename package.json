@@ -1,13 +1,14 @@
 {
-  "name": "stackql-provider-digitalocean",
+  "name": "stackql-provider-confluent",
   "version": "0.1.0",
-  "description": "StackQL Provider for Digital Ocean",
+  "description": "StackQL Provider for Confluent Cloud",
   "type": "module",
   "scripts": {
-    "generate-docs": "./bin/generate-docs.sh",
-    "split": "./bin/split.sh",
-    "generate-mappings": "./bin/generate-mappings.sh",
-    "generate-provider": "./bin/generate-provider.sh",
+    "generate-docs": "node node_modules/@stackql/provider-utils/bin/docgen-utils.mjs generate-docs",
+    "split": "node node_modules/@stackql/provider-utils/bin/provider-dev-utils.mjs split",
+    "normalize": "node node_modules/@stackql/provider-utils/bin/provider-dev-utils.mjs normalize",
+    "generate-mappings": "node node_modules/@stackql/provider-utils/bin/provider-dev-utils.mjs analyze",
+    "generate-provider": "node node_modules/@stackql/provider-utils/bin/provider-dev-utils.mjs generate",
     "start-server": "bash ./bin/start-server.sh",
     "stop-server": "bash ./bin/stop-server.sh",
     "server-status": "bash ./bin/server-status.sh",
@@ -15,11 +16,12 @@
   },
   "dependencies": {
     "@stackql/pgwire-lite": "^1.0.1",
-    "@stackql/provider-utils": "^0.5.0"
+    "@stackql/provider-utils": "^0.6.5"
   },
   "keywords": [
     "stackql",
-    "digitalocean",
+    "confluent",
+    "kafka",
     "provider"
   ],
   "engines": {

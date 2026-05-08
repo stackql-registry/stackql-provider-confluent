@@ -1,4 +1,5 @@
 main.zip
+/tmp
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -46,9 +47,7 @@ output/
 .stackql/
 stackql
 stackql-zip
-stackql-aws-cloud-shell.sh
-stackql-azure-cloud-shell.sh
-stackql-google-cloud-shell.sh
+stackql-*.sh
 .env
 nohup.out
 

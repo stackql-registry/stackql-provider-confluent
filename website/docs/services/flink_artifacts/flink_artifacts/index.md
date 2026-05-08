@@ -1,4 +1,4 @@
----
+--- 
 title: flink_artifacts
 hide_title: false
 hide_table_of_contents: false
@@ -15,6 +15,7 @@ image: /img/stackql-confluent-provider-featured-image.png
 ---
 
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -22,52 +23,317 @@ Creates, updates, deletes, gets or lists a <code>flink_artifacts</code> resource
 
 ## Overview
 <table><tbody>
-<tr><td><b>Name</b></td><td><code>flink_artifacts</code></td></tr>
+<tr><td><b>Name</b></td><td><CopyableCode code="flink_artifacts" /></td></tr>
 <tr><td><b>Type</b></td><td>Resource</td></tr>
 <tr><td><b>Id</b></td><td><CopyableCode code="confluent.flink_artifacts.flink_artifacts" /></td></tr>
 </tbody></table>
 
 ## Fields
-| Name | Datatype | Description |
-|:-----|:---------|:------------|
-| <CopyableCode code="id" /> | `string` | ID is the "natural identifier" for an object within its scope/namespace; it is normally unique across time but not space. That is, you can assume that the ID will not be reclaimed and reused after an object is deleted ("time"); however, it may collide with IDs for other object `kinds` or objects of the same `kind` within a different scope/namespace ("space"). |
-| <CopyableCode code="description" /> | `string` | Description of the Flink Artifact. |
-| <CopyableCode code="api_version" /> | `string` | APIVersion defines the schema version of this representation of a resource. |
-| <CopyableCode code="class" /> | `string` | Java class or alias for the artifact as provided by developer. |
-| <CopyableCode code="cloud" /> | `string` | Cloud provider where the Flink Artifact archive is uploaded. |
-| <CopyableCode code="content_format" /> | `string` | Archive format of the Flink Artifact. |
-| <CopyableCode code="display_name" /> | `string` | Display name of the Flink Artifact. |
-| <CopyableCode code="documentation_link" /> | `string` | Document link of the Flink Artifact. |
-| <CopyableCode code="environment" /> | `string` | Environment the Flink Artifact belongs to. |
-| <CopyableCode code="kind" /> | `string` | Kind defines the object this REST resource represents. |
-| <CopyableCode code="metadata" /> | `` | ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create. |
-| <CopyableCode code="region" /> | `string` | The Cloud provider region the Flink Artifact archive is uploaded. |
-| <CopyableCode code="runtime_language" /> | `string` | Runtime language of the Flink Artifact. |
-| <CopyableCode code="versions" /> | `array` | Versions associated with this Flink Artifact. |
+
+The following fields are returned by `SELECT` queries:
+
+<Tabs
+    defaultValue="get_artifact_v1_flink_artifact"
+    values={[
+        { label: 'get_artifact_v1_flink_artifact', value: 'get_artifact_v1_flink_artifact' },
+        { label: 'list_artifact_v1_flink_artifacts', value: 'list_artifact_v1_flink_artifacts' }
+    ]}
+>
+<TabItem value="get_artifact_v1_flink_artifact">
+
+Flink Artifact.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><CopyableCode code="id" /></td>
+    <td><code>string</code></td>
+    <td>ID is the "natural identifier" for an object within its scope/namespace; it is normally unique across time but not space. That is, you can assume that the ID will not be reclaimed and reused after an object is deleted ("time"); however, it may collide with IDs for other object `kinds` or objects of the same `kind` within a different scope/namespace ("space"). (example: dlz-f3a90de)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="display_name" /></td>
+    <td><code>string</code></td>
+    <td>Unique name of the Flink Artifact per cloud, region, environment scope.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="api_version" /></td>
+    <td><code>string</code></td>
+    <td>APIVersion defines the schema version of this representation of a resource. (artifact/v1)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="class" /></td>
+    <td><code>string</code></td>
+    <td>Java class or alias for the artifact as provided by developer. Deprecated (pattern: <code>^(([a-zA-Z][a-zA-Z_$0-9]*(\.[a-zA-Z][a-zA-Z_$0-9]*)*)\.)?([a-zA-Z][a-zA-Z_$0-9]*)$</code>, example: io.confluent.example.SumScalarFunction)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="cloud" /></td>
+    <td><code>string</code></td>
+    <td>Cloud provider where the Flink Artifact archive is uploaded. (example: AWS)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="content_format" /></td>
+    <td><code>string</code></td>
+    <td>Archive format of the Flink Artifact. (example: JAR)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="description" /></td>
+    <td><code>string</code></td>
+    <td>Description of the Flink Artifact.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="documentation_link" /></td>
+    <td><code>string</code></td>
+    <td>Documentation link of the Flink Artifact. (pattern: <code>^$|^(http://|https://).+</code>)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="environment" /></td>
+    <td><code>string</code></td>
+    <td>Environment the Flink Artifact belongs to. (example: env-00000)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="kind" /></td>
+    <td><code>string</code></td>
+    <td>Kind defines the object this REST resource represents. (FlinkArtifact)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="metadata" /></td>
+    <td><code>object</code></td>
+    <td>ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="region" /></td>
+    <td><code>string</code></td>
+    <td>The Cloud provider region the Flink Artifact archive is uploaded. (example: us-east-1)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="runtime_language" /></td>
+    <td><code>string</code></td>
+    <td>Runtime language of the Flink Artifact. (example: JAVA, default: JAVA)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="versions" /></td>
+    <td><code>array</code></td>
+    <td>Versions associated with this Flink Artifact.</td>
+</tr>
+</tbody>
+</table>
+</TabItem>
+<TabItem value="list_artifact_v1_flink_artifacts">
+
+Flink Artifact.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><CopyableCode code="id" /></td>
+    <td><code>string</code></td>
+    <td>ID is the "natural identifier" for an object within its scope/namespace; it is normally unique across time but not space. That is, you can assume that the ID will not be reclaimed and reused after an object is deleted ("time"); however, it may collide with IDs for other object `kinds` or objects of the same `kind` within a different scope/namespace ("space"). (example: dlz-f3a90de)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="display_name" /></td>
+    <td><code>string</code></td>
+    <td>Unique name of the Flink Artifact per cloud, region, environment scope.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="api_version" /></td>
+    <td><code>string</code></td>
+    <td>APIVersion defines the schema version of this representation of a resource. (artifact/v1)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="class" /></td>
+    <td><code>string</code></td>
+    <td>Java class or alias for the artifact as provided by developer. Deprecated (pattern: <code>^(([a-zA-Z][a-zA-Z_$0-9]*(\.[a-zA-Z][a-zA-Z_$0-9]*)*)\.)?([a-zA-Z][a-zA-Z_$0-9]*)$</code>, example: io.confluent.example.SumScalarFunction)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="cloud" /></td>
+    <td><code>string</code></td>
+    <td>Cloud provider where the Flink Artifact archive is uploaded. (example: AWS)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="content_format" /></td>
+    <td><code>string</code></td>
+    <td>Archive format of the Flink Artifact. (example: JAR)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="description" /></td>
+    <td><code>string</code></td>
+    <td>Description of the Flink Artifact.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="documentation_link" /></td>
+    <td><code>string</code></td>
+    <td>Documentation link of the Flink Artifact. (pattern: <code>^$|^(http://|https://).+</code>)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="environment" /></td>
+    <td><code>string</code></td>
+    <td>Environment the Flink Artifact belongs to. (example: env-00000)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="kind" /></td>
+    <td><code>string</code></td>
+    <td>Kind defines the object this REST resource represents. (FlinkArtifact)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="metadata" /></td>
+    <td><code>object</code></td>
+    <td>ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create.</td>
+</tr>
+<tr>
+    <td><CopyableCode code="region" /></td>
+    <td><code>string</code></td>
+    <td>The Cloud provider region the Flink Artifact archive is uploaded. (example: us-east-1)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="runtime_language" /></td>
+    <td><code>string</code></td>
+    <td>Runtime language of the Flink Artifact. (example: JAVA, default: JAVA)</td>
+</tr>
+<tr>
+    <td><CopyableCode code="versions" /></td>
+    <td><code>array</code></td>
+    <td>Versions associated with this Flink Artifact.</td>
+</tr>
+</tbody>
+</table>
+</TabItem>
+</Tabs>
 
 ## Methods
-| Name | Accessible by | Required Params | Description |
-|:-----|:--------------|:----------------|:------------|
-| <CopyableCode code="get_artifact_v1flink_artifact" /> | `SELECT` | <CopyableCode code="cloud, id, region" /> | [![Early Access](https://img.shields.io/badge/Lifecycle%20Stage-Early%20Access-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) [![Request Access To Flink Artifact API EA](https://img.shields.io/badge/-Request%20Access%20To%20Flink%20Artifact%20API%20EA-%23bc8540)](mailto:ccloud-api-access+artifact-v1-early-access@confluent.io?subject=Request%20to%20join%20artifact/v1%20API%20Early%20Access&body=I%E2%80%99d%20like%20to%20join%20the%20Confluent%20Cloud%20API%20Early%20Access%20for%20artifact/v1%20to%20provide%20early%20feedback%21%20My%20Cloud%20Organization%20ID%20is%20%3Cretrieve%20from%20https%3A//confluent.cloud/settings/billing/payment%3E.) Make a request to read a flink artifact. |
-| <CopyableCode code="list_artifact_v1flink_artifacts" /> | `SELECT` | <CopyableCode code="cloud, region" /> | [![Early Access](https://img.shields.io/badge/Lifecycle%20Stage-Early%20Access-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) [![Request Access To Flink Artifact API EA](https://img.shields.io/badge/-Request%20Access%20To%20Flink%20Artifact%20API%20EA-%23bc8540)](mailto:ccloud-api-access+artifact-v1-early-access@confluent.io?subject=Request%20to%20join%20artifact/v1%20API%20Early%20Access&body=I%E2%80%99d%20like%20to%20join%20the%20Confluent%20Cloud%20API%20Early%20Access%20for%20artifact/v1%20to%20provide%20early%20feedback%21%20My%20Cloud%20Organization%20ID%20is%20%3Cretrieve%20from%20https%3A//confluent.cloud/settings/billing/payment%3E.) Retrieve a sorted, filtered, paginated list of all flink artifacts. If no `environment` filter is specified, returns Artifacts across envs for cloud & region. |
-| <CopyableCode code="create_artifact_v1flink_artifact" /> | `INSERT` | <CopyableCode code="cloud, region, data__class, data__cloud, data__display_name, data__environment, data__region, data__upload_source" /> | [![Early Access](https://img.shields.io/badge/Lifecycle%20Stage-Early%20Access-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) [![Request Access To Flink Artifact API EA](https://img.shields.io/badge/-Request%20Access%20To%20Flink%20Artifact%20API%20EA-%23bc8540)](mailto:ccloud-api-access+artifact-v1-early-access@confluent.io?subject=Request%20to%20join%20artifact/v1%20API%20Early%20Access&body=I%E2%80%99d%20like%20to%20join%20the%20Confluent%20Cloud%20API%20Early%20Access%20for%20artifact/v1%20to%20provide%20early%20feedback%21%20My%20Cloud%20Organization%20ID%20is%20%3Cretrieve%20from%20https%3A//confluent.cloud/settings/billing/payment%3E.) Make a request to create a flink artifact. |
-| <CopyableCode code="delete_artifact_v1flink_artifact" /> | `DELETE` | <CopyableCode code="cloud, id, region" /> | [![Early Access](https://img.shields.io/badge/Lifecycle%20Stage-Early%20Access-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) [![Request Access To Flink Artifact API EA](https://img.shields.io/badge/-Request%20Access%20To%20Flink%20Artifact%20API%20EA-%23bc8540)](mailto:ccloud-api-access+artifact-v1-early-access@confluent.io?subject=Request%20to%20join%20artifact/v1%20API%20Early%20Access&body=I%E2%80%99d%20like%20to%20join%20the%20Confluent%20Cloud%20API%20Early%20Access%20for%20artifact/v1%20to%20provide%20early%20feedback%21%20My%20Cloud%20Organization%20ID%20is%20%3Cretrieve%20from%20https%3A//confluent.cloud/settings/billing/payment%3E.) Make a request to delete a flink artifact. |
-| <CopyableCode code="update_artifact_v1flink_artifact" /> | `UPDATE` | <CopyableCode code="cloud, id, region" /> | [![Early Access](https://img.shields.io/badge/Lifecycle%20Stage-Early%20Access-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) [![Request Access To Flink Artifact API EA](https://img.shields.io/badge/-Request%20Access%20To%20Flink%20Artifact%20API%20EA-%23bc8540)](mailto:ccloud-api-access+artifact-v1-early-access@confluent.io?subject=Request%20to%20join%20artifact/v1%20API%20Early%20Access&body=I%E2%80%99d%20like%20to%20join%20the%20Confluent%20Cloud%20API%20Early%20Access%20for%20artifact/v1%20to%20provide%20early%20feedback%21%20My%20Cloud%20Organization%20ID%20is%20%3Cretrieve%20from%20https%3A//confluent.cloud/settings/billing/payment%3E.) Make a request to update a flink artifact. |
+
+The following methods are available for this resource:
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Accessible by</th>
+    <th>Required Params</th>
+    <th>Optional Params</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+    <td><a href="#get_artifact_v1_flink_artifact"><CopyableCode code="get_artifact_v1_flink_artifact" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td><a href="#parameter-cloud"><code>cloud</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-environment"><code>environment</code></a>, <a href="#parameter-id"><code>id</code></a></td>
+    <td></td>
+    <td>Make a request to read a flink artifact.</td>
+</tr>
+<tr>
+    <td><a href="#list_artifact_v1_flink_artifacts"><CopyableCode code="list_artifact_v1_flink_artifacts" /></a></td>
+    <td><CopyableCode code="select" /></td>
+    <td><a href="#parameter-cloud"><code>cloud</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-environment"><code>environment</code></a></td>
+    <td><a href="#parameter-page_size"><code>page_size</code></a>, <a href="#parameter-page_token"><code>page_token</code></a></td>
+    <td>Retrieve a sorted, filtered, paginated list of all flink artifacts.</td>
+</tr>
+<tr>
+    <td><a href="#create_artifact_v1_flink_artifact"><CopyableCode code="create_artifact_v1_flink_artifact" /></a></td>
+    <td><CopyableCode code="insert" /></td>
+    <td><a href="#parameter-cloud"><code>cloud</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud"><code>cloud</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-environment"><code>environment</code></a>, <a href="#parameter-display_name"><code>display_name</code></a>, <a href="#parameter-upload_source"><code>upload_source</code></a></td>
+    <td></td>
+    <td>Make a request to create a flink artifact.</td>
+</tr>
+<tr>
+    <td><a href="#update_artifact_v1_flink_artifact"><CopyableCode code="update_artifact_v1_flink_artifact" /></a></td>
+    <td><CopyableCode code="update" /></td>
+    <td><a href="#parameter-cloud"><code>cloud</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-environment"><code>environment</code></a>, <a href="#parameter-id"><code>id</code></a></td>
+    <td></td>
+    <td>Make a request to update a flink artifact.<br /><br /></td>
+</tr>
+<tr>
+    <td><a href="#delete_artifact_v1_flink_artifact"><CopyableCode code="delete_artifact_v1_flink_artifact" /></a></td>
+    <td><CopyableCode code="delete" /></td>
+    <td><a href="#parameter-cloud"><code>cloud</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-environment"><code>environment</code></a>, <a href="#parameter-id"><code>id</code></a></td>
+    <td></td>
+    <td>Make a request to delete a flink artifact.</td>
+</tr>
+</tbody>
+</table>
+
+## Parameters
+
+Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#methods) section to see which parameters are required or optional for each operation.
+
+<table>
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Datatype</th>
+    <th>Description</th>
+    </tr>
+</thead>
+<tbody>
+<tr id="parameter-cloud">
+    <td><CopyableCode code="cloud" /></td>
+    <td><code>string</code></td>
+    <td>Scope the operation to the given cloud. (example: AWS)</td>
+</tr>
+<tr id="parameter-environment">
+    <td><CopyableCode code="environment" /></td>
+    <td><code>string</code></td>
+    <td>Scope the operation to the given environment. (example: env-00000)</td>
+</tr>
+<tr id="parameter-id">
+    <td><CopyableCode code="id" /></td>
+    <td><code>string</code></td>
+    <td>The unique identifier for the flink artifact.</td>
+</tr>
+<tr id="parameter-region">
+    <td><CopyableCode code="region" /></td>
+    <td><code>string</code></td>
+    <td>Scope the operation to the given region. (example: us-east-1)</td>
+</tr>
+<tr id="parameter-page_size">
+    <td><CopyableCode code="page_size" /></td>
+    <td><code>integer</code></td>
+    <td>A pagination size for collection requests.</td>
+</tr>
+<tr id="parameter-page_token">
+    <td><CopyableCode code="page_token" /></td>
+    <td><code>string</code></td>
+    <td>An opaque pagination token for collection requests.</td>
+</tr>
+</tbody>
+</table>
 
 ## `SELECT` examples
 
-[![Early Access](https://img.shields.io/badge/Lifecycle%20Stage-Early%20Access-%2345c6e8)](#section/Versioning/API-Lifecycle-Policy) [![Request Access To Flink Artifact API EA](https://img.shields.io/badge/-Request%20Access%20To%20Flink%20Artifact%20API%20EA-%23bc8540)](mailto:ccloud-api-access+artifact-v1-early-access@confluent.io?subject=Request%20to%20join%20artifact/v1%20API%20Early%20Access&body=I%E2%80%99d%20like%20to%20join%20the%20Confluent%20Cloud%20API%20Early%20Access%20for%20artifact/v1%20to%20provide%20early%20feedback%21%20My%20Cloud%20Organization%20ID%20is%20%3Cretrieve%20from%20https%3A//confluent.cloud/settings/billing/payment%3E.) Retrieve a sorted, filtered, paginated list of all flink artifacts. If no `environment` filter is specified, returns Artifacts across envs for cloud & region.
+<Tabs
+    defaultValue="get_artifact_v1_flink_artifact"
+    values={[
+        { label: 'get_artifact_v1_flink_artifact', value: 'get_artifact_v1_flink_artifact' },
+        { label: 'list_artifact_v1_flink_artifacts', value: 'list_artifact_v1_flink_artifacts' }
+    ]}
+>
+<TabItem value="get_artifact_v1_flink_artifact">
 
+Make a request to read a flink artifact.
 
 ```sql
 SELECT
 id,
-description,
+display_name,
 api_version,
 class,
 cloud,
 content_format,
-display_name,
+description,
 documentation_link,
 environment,
 kind,
@@ -76,160 +342,242 @@ region,
 runtime_language,
 versions
 FROM confluent.flink_artifacts.flink_artifacts
-WHERE cloud = '{{ cloud }}'
-AND region = '{{ region }}';
+WHERE cloud = '{{ cloud }}' -- required
+AND region = '{{ region }}' -- required
+AND environment = '{{ environment }}' -- required
+AND id = '{{ id }}' -- required
+;
 ```
-## `INSERT` example
+</TabItem>
+<TabItem value="list_artifact_v1_flink_artifacts">
 
-Use the following StackQL query and manifest file to create a new <code>flink_artifacts</code> resource.
-
-<Tabs
-    defaultValue="all"
-    values={[
-        { label: 'Required Properties', value: 'required' },
-        { label: 'All Properties', value: 'all', },
-        { label: 'Manifest', value: 'manifest', },
-    ]
-}>
-<TabItem value="all">
+Retrieve a sorted, filtered, paginated list of all flink artifacts.
 
 ```sql
-/*+ create */
+SELECT
+id,
+display_name,
+api_version,
+class,
+cloud,
+content_format,
+description,
+documentation_link,
+environment,
+kind,
+metadata,
+region,
+runtime_language,
+versions
+FROM confluent.flink_artifacts.flink_artifacts
+WHERE cloud = '{{ cloud }}' -- required
+AND region = '{{ region }}' -- required
+AND environment = '{{ environment }}' -- required
+AND page_size = '{{ page_size }}'
+AND page_token = '{{ page_token }}'
+;
+```
+</TabItem>
+</Tabs>
+
+
+## `INSERT` examples
+
+<Tabs
+    defaultValue="create_artifact_v1_flink_artifact"
+    values={[
+        { label: 'create_artifact_v1_flink_artifact', value: 'create_artifact_v1_flink_artifact' },
+        { label: 'Manifest', value: 'manifest' }
+    ]}
+>
+<TabItem value="create_artifact_v1_flink_artifact">
+
+Make a request to create a flink artifact.
+
+```sql
 INSERT INTO confluent.flink_artifacts.flink_artifacts (
-data__cloud,
-data__region,
-data__environment,
-data__display_name,
-data__class,
-data__content_format,
-data__description,
-data__documentation_link,
-data__runtime_language,
-data__upload_source,
+cloud,
+region,
+environment,
+display_name,
+class,
+content_format,
+description,
+documentation_link,
+runtime_language,
+upload_source,
 cloud,
 region
 )
 SELECT 
-'{{ cloud }}',
-'{{ region }}',
-'{{ environment }}',
-'{{ display_name }}',
+'{{ cloud }}' /* required */,
+'{{ region }}' /* required */,
+'{{ environment }}' /* required */,
+'{{ display_name }}' /* required */,
 '{{ class }}',
 '{{ content_format }}',
 '{{ description }}',
 '{{ documentation_link }}',
 '{{ runtime_language }}',
-'{{ upload_source }}'
-;
-```
-</TabItem>
-
-<TabItem value="required">
-
-```sql
-/*+ create */
-INSERT INTO confluent.flink_artifacts.flink_artifacts (
-data__cloud,
-data__region,
-data__environment,
-data__display_name,
-data__class,
-data__upload_source,
+'{{ upload_source }}' /* required */,
+'{{ cloud }}' /* required */,
+'{{ region }}' /* required */
+RETURNING
+id,
+display_name,
+api_version,
+class,
 cloud,
-region
-)
-SELECT 
-'{{ cloud }}',
-'{{ region }}',
-'{{ environment }}',
-'{{ display_name }}',
-'{{ class }}',
-'{{ upload_source }}'
+content_format,
+description,
+documentation_link,
+environment,
+kind,
+metadata,
+region,
+runtime_language,
+versions
 ;
 ```
 </TabItem>
-
 <TabItem value="manifest">
 
-```yaml
+<CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: flink_artifacts
   props:
     - name: cloud
-      value: string
+      value: "{{ cloud }}"
+      description: Required parameter for the flink_artifacts resource.
     - name: region
-      value: string
-    - name: data__class
-      value: string
-    - name: data__cloud
-      value: string
-    - name: data__display_name
-      value: string
-    - name: data__environment
-      value: string
-    - name: data__region
-      value: string
-    - name: data__upload_source
-      value: string
+      value: "{{ region }}"
+      description: Required parameter for the flink_artifacts resource.
     - name: cloud
-      value: string
+      value: "{{ cloud }}"
+      description: |
+        Cloud provider where the Flink Artifact archive is uploaded.
     - name: region
-      value: string
+      value: "{{ region }}"
+      description: |
+        The Cloud provider region the Flink Artifact archive is uploaded.
     - name: environment
-      value: string
+      value: "{{ environment }}"
+      description: |
+        Environment the Flink Artifact belongs to.
     - name: display_name
-      value: string
+      value: "{{ display_name }}"
+      description: |
+        Unique name of the Flink Artifact per cloud, region, environment scope.
     - name: class
-      value: string
+      value: "{{ class }}"
+      description: |
+        Java class or alias for the artifact as provided by developer. Deprecated
     - name: content_format
-      value: string
+      value: "{{ content_format }}"
+      description: |
+        Archive format of the Flink Artifact.
     - name: description
-      value: string
+      value: "{{ description }}"
+      description: |
+        Description of the Flink Artifact.
     - name: documentation_link
-      value: string
+      value: "{{ documentation_link }}"
+      description: |
+        Documentation link of the Flink Artifact.
     - name: runtime_language
-      value: string
+      value: "{{ runtime_language }}"
+      description: |
+        Runtime language of the Flink Artifact.
+      default: JAVA
     - name: upload_source
-      props:
-        - name: location
-          value: string
-        - name: upload_id
-          value: string
+      description: |
+        Upload source of the Flink Artifact source.
+      value:
+        api_version: "{{ api_version }}"
+        kind: "{{ kind }}"
+        id: "{{ id }}"
+        metadata:
+          self: "{{ self }}"
+          resource_name: "{{ resource_name }}"
+          created_at: "{{ created_at }}"
+          updated_at: "{{ updated_at }}"
+          deleted_at: "{{ deleted_at }}"
+        location: "{{ location }}"
+        upload_id: "{{ upload_id }}"
+`}</CodeBlock>
 
-```
 </TabItem>
 </Tabs>
 
-## `UPDATE` example
 
-Updates a <code>flink_artifacts</code> resource.
+## `UPDATE` examples
+
+<Tabs
+    defaultValue="update_artifact_v1_flink_artifact"
+    values={[
+        { label: 'update_artifact_v1_flink_artifact', value: 'update_artifact_v1_flink_artifact' }
+    ]}
+>
+<TabItem value="update_artifact_v1_flink_artifact">
+
+Make a request to update a flink artifact.<br /><br />
 
 ```sql
-/*+ update */
 UPDATE confluent.flink_artifacts.flink_artifacts
 SET 
 cloud = '{{ cloud }}',
 region = '{{ region }}',
 environment = '{{ environment }}',
 display_name = '{{ display_name }}',
+class = '{{ class }}',
 content_format = '{{ content_format }}',
 description = '{{ description }}',
 documentation_link = '{{ documentation_link }}',
 runtime_language = '{{ runtime_language }}',
 versions = '{{ versions }}'
 WHERE 
-cloud = '{{ cloud }}'
-AND id = '{{ id }}'
-AND region = '{{ region }}';
+cloud = '{{ cloud }}' --required
+AND region = '{{ region }}' --required
+AND environment = '{{ environment }}' --required
+AND id = '{{ id }}' --required
+RETURNING
+id,
+display_name,
+api_version,
+class,
+cloud,
+content_format,
+description,
+documentation_link,
+environment,
+kind,
+metadata,
+region,
+runtime_language,
+versions;
 ```
+</TabItem>
+</Tabs>
 
-## `DELETE` example
 
-Deletes the specified <code>flink_artifacts</code> resource.
+## `DELETE` examples
+
+<Tabs
+    defaultValue="delete_artifact_v1_flink_artifact"
+    values={[
+        { label: 'delete_artifact_v1_flink_artifact', value: 'delete_artifact_v1_flink_artifact' }
+    ]}
+>
+<TabItem value="delete_artifact_v1_flink_artifact">
+
+Make a request to delete a flink artifact.
 
 ```sql
-/*+ delete */
 DELETE FROM confluent.flink_artifacts.flink_artifacts
-WHERE cloud = '{{ cloud }}'
-AND id = '{{ id }}'
-AND region = '{{ region }}';
+WHERE cloud = '{{ cloud }}' --required
+AND region = '{{ region }}' --required
+AND environment = '{{ environment }}' --required
+AND id = '{{ id }}' --required
+;
 ```
+</TabItem>
+</Tabs>
