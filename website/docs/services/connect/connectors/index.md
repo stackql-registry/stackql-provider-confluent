@@ -88,6 +88,11 @@ Connector.
     </tr>
 </thead>
 <tbody>
+<tr>
+    <td><CopyableCode code="connectv1_connector" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
 </tbody>
 </table>
 </TabItem>
@@ -235,7 +240,7 @@ Retrieve a list of "names" of the active connectors. You can then make a read re
 
 ```sql
 SELECT
-*
+connectv1_connector
 FROM confluent.connect.connectors
 WHERE environment_id = '{{ environment_id }}' -- required
 AND kafka_cluster_id = '{{ kafka_cluster_id }}' -- required

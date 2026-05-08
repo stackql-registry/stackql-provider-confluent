@@ -231,28 +231,28 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#get_kafka_link"><CopyableCode code="get_kafka_link" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a></td>
     <td><a href="#parameter-include_tasks"><code>include_tasks</code></a></td>
     <td>``link_id`` in ``ListLinksResponseData`` is deprecated and may be removed in a future release. Use the new ``cluster_link_id`` instead.</td>
 </tr>
 <tr>
     <td><a href="#list_kafka_links"><CopyableCode code="list_kafka_links" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a></td>
     <td></td>
     <td>``link_id`` in ``ListLinksResponseData`` is deprecated and may be removed in a future release. Use the new ``cluster_link_id`` instead.</td>
 </tr>
 <tr>
     <td><a href="#create_kafka_link"><CopyableCode code="create_kafka_link" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-link_name"><code>link_name</code></a>, <a href="#parameter-cluster_id"><code>cluster_id</code></a></td>
+    <td><a href="#parameter-link_name"><code>link_name</code></a>, <a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a></td>
     <td><a href="#parameter-validate_only"><code>validate_only</code></a>, <a href="#parameter-validate_link"><code>validate_link</code></a></td>
     <td>Cluster link creation requires source cluster security configurations in<br />the configs JSON section of the data request payload.</td>
 </tr>
 <tr>
     <td><a href="#delete_kafka_link"><CopyableCode code="delete_kafka_link" /></a></td>
     <td><CopyableCode code="delete" /></td>
-    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a>, <a href="#parameter-kafka_endpoint_id"><code>kafka_endpoint_id</code></a>, <a href="#parameter-region"><code>region</code></a>, <a href="#parameter-cloud_provider"><code>cloud_provider</code></a></td>
     <td><a href="#parameter-force"><code>force</code></a>, <a href="#parameter-validate_only"><code>validate_only</code></a></td>
     <td></td>
 </tr>
@@ -272,15 +272,30 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cloud_provider">
+    <td><CopyableCode code="cloud_provider" /></td>
+    <td><code>string</code></td>
+    <td>Cloud provider, lowercase: aws, gcp, or azure (from the cluster spec.cloud). (default: cloud)</td>
+</tr>
 <tr id="parameter-cluster_id">
     <td><CopyableCode code="cluster_id" /></td>
     <td><code>string</code></td>
     <td>The Kafka cluster ID. (example: cluster-1)</td>
 </tr>
+<tr id="parameter-kafka_endpoint_id">
+    <td><CopyableCode code="kafka_endpoint_id" /></td>
+    <td><code>string</code></td>
+    <td>Per-cluster Kafka REST endpoint ID (the pkc-* host prefix from the Confluent UI Cluster -&gt; Overview -&gt; REST endpoint, or extract from confluent.managed_kafka_clusters.clusters spec.http_endpoint). (default: pkc-00000)</td>
+</tr>
 <tr id="parameter-link_name">
     <td><CopyableCode code="link_name" /></td>
     <td><code>string</code></td>
     <td>The link name (example: link-sb1)</td>
+</tr>
+<tr id="parameter-region">
+    <td><CopyableCode code="region" /></td>
+    <td><code>string</code></td>
+    <td>Cloud region the cluster runs in, e.g. ap-southeast-2 (from the cluster spec.region). (default: region)</td>
 </tr>
 <tr id="parameter-force">
     <td><CopyableCode code="force" /></td>
@@ -337,6 +352,9 @@ topic_names
 FROM confluent.kafka.cluster_links
 WHERE cluster_id = '{{ cluster_id }}' -- required
 AND link_name = '{{ link_name }}' -- required
+AND kafka_endpoint_id = '{{ kafka_endpoint_id }}' -- required
+AND region = '{{ region }}' -- required
+AND cloud_provider = '{{ cloud_provider }}' -- required
 AND include_tasks = '{{ include_tasks }}'
 ;
 ```
@@ -363,6 +381,9 @@ tasks,
 topic_names
 FROM confluent.kafka.cluster_links
 WHERE cluster_id = '{{ cluster_id }}' -- required
+AND kafka_endpoint_id = '{{ kafka_endpoint_id }}' -- required
+AND region = '{{ region }}' -- required
+AND cloud_provider = '{{ cloud_provider }}' -- required
 ;
 ```
 </TabItem>
@@ -391,6 +412,9 @@ cluster_link_id,
 configs,
 link_name,
 cluster_id,
+kafka_endpoint_id,
+region,
+cloud_provider,
 validate_only,
 validate_link
 )
@@ -402,6 +426,9 @@ SELECT
 '{{ configs }}',
 '{{ link_name }}',
 '{{ cluster_id }}',
+'{{ kafka_endpoint_id }}',
+'{{ region }}',
+'{{ cloud_provider }}',
 '{{ validate_only }}',
 '{{ validate_link }}'
 ;
@@ -417,6 +444,15 @@ SELECT
       description: Required parameter for the cluster_links resource.
     - name: cluster_id
       value: "{{ cluster_id }}"
+      description: Required parameter for the cluster_links resource.
+    - name: kafka_endpoint_id
+      value: "{{ kafka_endpoint_id }}"
+      description: Required parameter for the cluster_links resource.
+    - name: region
+      value: "{{ region }}"
+      description: Required parameter for the cluster_links resource.
+    - name: cloud_provider
+      value: "{{ cloud_provider }}"
       description: Required parameter for the cluster_links resource.
     - name: source_cluster_id
       value: "{{ source_cluster_id }}"
@@ -464,6 +500,9 @@ SELECT
 DELETE FROM confluent.kafka.cluster_links
 WHERE cluster_id = '{{ cluster_id }}' --required
 AND link_name = '{{ link_name }}' --required
+AND kafka_endpoint_id = '{{ kafka_endpoint_id }}' --required
+AND region = '{{ region }}' --required
+AND cloud_provider = '{{ cloud_provider }}' --required
 AND force = '{{ force }}'
 AND validate_only = '{{ validate_only }}'
 ;

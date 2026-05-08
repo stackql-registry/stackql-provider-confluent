@@ -324,10 +324,6 @@ d. Fix broken links in the generated pages.
 The Confluent OpenAPI spec embeds anchors (e.g. `#section/Versioning/API-Lifecycle-Policy`, `#operation/readConnectv1Connector`) and a few regex fragments inside `<code>` blocks (e.g. `[-a-z0-9]*[a-z0-9]`) that Docusaurus flags as broken links / mis-parses as link references. The post-doc-gen script `provider-dev/scripts/fix_doc_links.mjs` rewrites the affected pages from a curated map.
 
 ```bash
-# preview without writing
-node provider-dev/scripts/fix_doc_links.mjs --dry-run
-
-# apply
 node provider-dev/scripts/fix_doc_links.mjs
 ```
 

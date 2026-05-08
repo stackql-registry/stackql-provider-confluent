@@ -108,6 +108,11 @@ List of kek names
     </tr>
 </thead>
 <tbody>
+<tr>
+    <td><CopyableCode code="kek_name" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
 </tbody>
 </table>
 </TabItem>
@@ -251,7 +256,7 @@ List of kek names
 
 ```sql
 SELECT
-*
+kek_name
 FROM confluent.encryption_keys.key_encryption_keys
 WHERE deleted = '{{ deleted }}'
 ;

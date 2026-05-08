@@ -52,6 +52,11 @@ List of subjects matching the specified parameters.
     </tr>
 </thead>
 <tbody>
+<tr>
+    <td><CopyableCode code="subject" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
 </tbody>
 </table>
 </TabItem>
@@ -68,6 +73,11 @@ List of subjects matching the specified parameters.
     </tr>
 </thead>
 <tbody>
+<tr>
+    <td><CopyableCode code="item" /></td>
+    <td><code>string</code></td>
+    <td></td>
+</tr>
 </tbody>
 </table>
 </TabItem>
@@ -205,7 +215,7 @@ Retrieves all the subjects associated with a particular schema ID.
 
 ```sql
 SELECT
-*
+subject
 FROM confluent.schema_registry.subjects
 WHERE id = '{{ id }}' -- required
 AND subject = '{{ subject }}'
@@ -222,7 +232,7 @@ Retrieves a list of registered subjects matching specified parameters.
 
 ```sql
 SELECT
-*
+item
 FROM confluent.schema_registry.subjects
 WHERE subjectPrefix = '{{ subjectPrefix }}'
 AND deleted = '{{ deleted }}'
