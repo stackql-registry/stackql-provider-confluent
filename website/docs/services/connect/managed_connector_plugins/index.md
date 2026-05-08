@@ -89,22 +89,22 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#list_connectv1_connector_plugins"><CopyableCode code="list_connectv1_connector_plugins" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-environment_id"><code>environment_id</code></a>, <a href="#parameter-kafka_cluster_id"><code>kafka_cluster_id</code></a></td>
     <td></td>
     <td>Return a list of Managed Connector plugins installed in the Kafka Connect cluster.</td>
 </tr>
 <tr>
     <td><a href="#validate_connectv1_connector_plugin"><CopyableCode code="validate_connectv1_connector_plugin" /></a></td>
     <td><CopyableCode code="exec" /></td>
-    <td></td>
+    <td><a href="#parameter-plugin_name"><code>plugin_name</code></a>, <a href="#parameter-environment_id"><code>environment_id</code></a>, <a href="#parameter-kafka_cluster_id"><code>kafka_cluster_id</code></a></td>
     <td></td>
     <td>Validate the provided configuration values against the configuration definition. This API performs per config validation and returns suggested values and validation error messages.</td>
 </tr>
 <tr>
     <td><a href="#translate_connectv1_connector_plugin"><CopyableCode code="translate_connectv1_connector_plugin" /></a></td>
     <td><CopyableCode code="exec" /></td>
-    <td></td>
-    <td></td>
+    <td><a href="#parameter-plugin_name"><code>plugin_name</code></a>, <a href="#parameter-environment_id"><code>environment_id</code></a>, <a href="#parameter-kafka_cluster_id"><code>kafka_cluster_id</code></a></td>
+    <td><a href="#parameter-mask_sensitive"><code>mask_sensitive</code></a></td>
     <td>Translate the provided Self Managed configuration values. This API performs configuration translation<br />and returns the translated fully managed configuration along with any errors or warnings. <br />Query Parameter `mask_sensitive=true` redacts sensitive config values in response.</td>
 </tr>
 </tbody>
@@ -123,6 +123,26 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-environment_id">
+    <td><CopyableCode code="environment_id" /></td>
+    <td><code>string</code></td>
+    <td>The unique identifier of the environment this resource belongs to.</td>
+</tr>
+<tr id="parameter-kafka_cluster_id">
+    <td><CopyableCode code="kafka_cluster_id" /></td>
+    <td><code>string</code></td>
+    <td>The unique identifier for the Kafka cluster.</td>
+</tr>
+<tr id="parameter-plugin_name">
+    <td><CopyableCode code="plugin_name" /></td>
+    <td><code>string</code></td>
+    <td>The unique name of the connector plugin.</td>
+</tr>
+<tr id="parameter-mask_sensitive">
+    <td><CopyableCode code="mask_sensitive" /></td>
+    <td><code>string</code></td>
+    <td>Indicates whether to redact sensitive config values in response.</td>
+</tr>
 </tbody>
 </table>
 
@@ -144,6 +164,8 @@ class,
 type,
 version
 FROM confluent.connect.managed_connector_plugins
+WHERE environment_id = '{{ environment_id }}' -- required
+AND kafka_cluster_id = '{{ kafka_cluster_id }}' -- required
 ;
 ```
 </TabItem>
@@ -165,7 +187,9 @@ Validate the provided configuration values against the configuration definition.
 
 ```sql
 EXEC confluent.connect.managed_connector_plugins.validate_connectv1_connector_plugin 
-
+@plugin_name='{{ plugin_name }}' --required, 
+@environment_id='{{ environment_id }}' --required, 
+@kafka_cluster_id='{{ kafka_cluster_id }}' --required
 ;
 ```
 </TabItem>
@@ -175,7 +199,10 @@ Translate the provided Self Managed configuration values. This API performs conf
 
 ```sql
 EXEC confluent.connect.managed_connector_plugins.translate_connectv1_connector_plugin 
-
+@plugin_name='{{ plugin_name }}' --required, 
+@environment_id='{{ environment_id }}' --required, 
+@kafka_cluster_id='{{ kafka_cluster_id }}' --required, 
+@mask_sensitive='{{ mask_sensitive }}'
 ;
 ```
 </TabItem>

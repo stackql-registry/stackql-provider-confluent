@@ -211,14 +211,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#get_kafka_consumer_lag"><CopyableCode code="get_kafka_consumer_lag" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-consumer_group_id"><code>consumer_group_id</code></a>, <a href="#parameter-topic_name"><code>topic_name</code></a>, <a href="#parameter-partition_id"><code>partition_id</code></a></td>
     <td></td>
     <td> Return the consumer lag on a partition with the given `partition_id`.</td>
 </tr>
 <tr>
     <td><a href="#list_kafka_consumer_lags"><CopyableCode code="list_kafka_consumer_lags" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-consumer_group_id"><code>consumer_group_id</code></a></td>
     <td></td>
     <td> Return a list of consumer lags of the consumers belonging to the<br />specified consumer group.</td>
 </tr>
@@ -238,6 +238,26 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cluster_id">
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td>The Kafka cluster ID. (example: cluster-1)</td>
+</tr>
+<tr id="parameter-consumer_group_id">
+    <td><CopyableCode code="consumer_group_id" /></td>
+    <td><code>string</code></td>
+    <td>The consumer group ID. (example: consumer-group-1)</td>
+</tr>
+<tr id="parameter-partition_id">
+    <td><CopyableCode code="partition_id" /></td>
+    <td><code>integer</code></td>
+    <td>The partition ID. (example: 0)</td>
+</tr>
+<tr id="parameter-topic_name">
+    <td><CopyableCode code="topic_name" /></td>
+    <td><code>string</code></td>
+    <td>The topic name. (example: topic-1)</td>
+</tr>
 </tbody>
 </table>
 
@@ -269,6 +289,10 @@ lag,
 log_end_offset,
 metadata
 FROM confluent.kafka.consumers_lags
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND consumer_group_id = '{{ consumer_group_id }}' -- required
+AND topic_name = '{{ topic_name }}' -- required
+AND partition_id = '{{ partition_id }}' -- required
 ;
 ```
 </TabItem>
@@ -291,6 +315,8 @@ lag,
 log_end_offset,
 metadata
 FROM confluent.kafka.consumers_lags
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND consumer_group_id = '{{ consumer_group_id }}' -- required
 ;
 ```
 </TabItem>

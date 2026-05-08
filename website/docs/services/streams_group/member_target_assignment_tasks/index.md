@@ -94,7 +94,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#list_kafka_streams_group_member_target_assignment_tasks"><CopyableCode code="list_kafka_streams_group_member_target_assignment_tasks" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-group_id"><code>group_id</code></a>, <a href="#parameter-member_id"><code>member_id</code></a>, <a href="#parameter-assignments_type"><code>assignments_type</code></a></td>
     <td></td>
     <td>Return the target tasks of the member specified by the ``member_id``, and the type ``assignments_type``.</td>
 </tr>
@@ -114,6 +114,26 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-assignments_type">
+    <td><CopyableCode code="assignments_type" /></td>
+    <td><code>string</code></td>
+    <td>The streams member Assignment type. (example: active)</td>
+</tr>
+<tr id="parameter-cluster_id">
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td>The Kafka cluster ID. (example: cluster-1)</td>
+</tr>
+<tr id="parameter-group_id">
+    <td><CopyableCode code="group_id" /></td>
+    <td><code>string</code></td>
+    <td>The group ID. (example: group-1)</td>
+</tr>
+<tr id="parameter-member_id">
+    <td><CopyableCode code="member_id" /></td>
+    <td><code>string</code></td>
+    <td>The streams member ID. (example: member-1)</td>
+</tr>
 </tbody>
 </table>
 
@@ -136,6 +156,10 @@ kind,
 metadata,
 partition_ids
 FROM confluent.streams_group.member_target_assignment_tasks
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND group_id = '{{ group_id }}' -- required
+AND member_id = '{{ member_id }}' -- required
+AND assignments_type = '{{ assignments_type }}' -- required
 ;
 ```
 </TabItem>

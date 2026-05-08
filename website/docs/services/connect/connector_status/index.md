@@ -94,7 +94,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#read_connectv1_connector_status"><CopyableCode code="read_connectv1_connector_status" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-connector_name"><code>connector_name</code></a>, <a href="#parameter-environment_id"><code>environment_id</code></a>, <a href="#parameter-kafka_cluster_id"><code>kafka_cluster_id</code></a></td>
     <td></td>
     <td>Get current status of the connector. This includes whether it is running, failed, or paused. Also includes which worker it is assigned to, error information if it has failed, and the state of all its tasks.</td>
 </tr>
@@ -114,6 +114,21 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-connector_name">
+    <td><CopyableCode code="connector_name" /></td>
+    <td><code>string</code></td>
+    <td>The unique name of the connector.</td>
+</tr>
+<tr id="parameter-environment_id">
+    <td><CopyableCode code="environment_id" /></td>
+    <td><code>string</code></td>
+    <td>The unique identifier of the environment this resource belongs to.</td>
+</tr>
+<tr id="parameter-kafka_cluster_id">
+    <td><CopyableCode code="kafka_cluster_id" /></td>
+    <td><code>string</code></td>
+    <td>The unique identifier for the Kafka cluster.</td>
+</tr>
 </tbody>
 </table>
 
@@ -136,6 +151,9 @@ connector,
 tasks,
 type
 FROM confluent.connect.connector_status
+WHERE connector_name = '{{ connector_name }}' -- required
+AND environment_id = '{{ environment_id }}' -- required
+AND kafka_cluster_id = '{{ kafka_cluster_id }}' -- required
 ;
 ```
 </TabItem>

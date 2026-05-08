@@ -23,7 +23,7 @@ Confluent Cloud for managing Kafka clusters, topics, and streaming services in a
 :::info[Provider Summary] 
 
 total services: __28__  
-total resources: __170__  
+total resources: __171__  
 
 :::
 

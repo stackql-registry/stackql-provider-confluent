@@ -211,14 +211,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#get_kafka_consumer_group"><CopyableCode code="get_kafka_consumer_group" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-consumer_group_id"><code>consumer_group_id</code></a></td>
     <td></td>
     <td>Return the consumer group specified by the ``consumer_group_id``.</td>
 </tr>
 <tr>
     <td><a href="#list_kafka_consumer_groups"><CopyableCode code="list_kafka_consumer_groups" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a></td>
     <td></td>
     <td>Return the list of consumer groups that belong to the specified<br />Kafka cluster.</td>
 </tr>
@@ -238,6 +238,16 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cluster_id">
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td>The Kafka cluster ID. (example: cluster-1)</td>
+</tr>
+<tr id="parameter-consumer_group_id">
+    <td><CopyableCode code="consumer_group_id" /></td>
+    <td><code>string</code></td>
+    <td>The consumer group ID. (example: consumer-group-1)</td>
+</tr>
 </tbody>
 </table>
 
@@ -269,6 +279,8 @@ partition_assignor,
 state,
 type
 FROM confluent.kafka.consumer_groups
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND consumer_group_id = '{{ consumer_group_id }}' -- required
 ;
 ```
 </TabItem>
@@ -291,6 +303,7 @@ partition_assignor,
 state,
 type
 FROM confluent.kafka.consumer_groups
+WHERE cluster_id = '{{ cluster_id }}' -- required
 ;
 ```
 </TabItem>

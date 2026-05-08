@@ -171,14 +171,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#get_kafka_partition"><CopyableCode code="get_kafka_partition" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-topic_name"><code>topic_name</code></a>, <a href="#parameter-partition_id"><code>partition_id</code></a></td>
     <td></td>
     <td>Return the partition with the given `partition_id`.</td>
 </tr>
 <tr>
     <td><a href="#list_kafka_partitions"><CopyableCode code="list_kafka_partitions" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-topic_name"><code>topic_name</code></a></td>
     <td></td>
     <td>Return the list of partitions that belong to the specified topic.</td>
 </tr>
@@ -198,6 +198,21 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cluster_id">
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td>The Kafka cluster ID. (example: cluster-1)</td>
+</tr>
+<tr id="parameter-partition_id">
+    <td><CopyableCode code="partition_id" /></td>
+    <td><code>integer</code></td>
+    <td>The partition ID. (example: 0)</td>
+</tr>
+<tr id="parameter-topic_name">
+    <td><CopyableCode code="topic_name" /></td>
+    <td><code>string</code></td>
+    <td>The topic name. (example: topic-1)</td>
+</tr>
 </tbody>
 </table>
 
@@ -225,6 +240,9 @@ metadata,
 reassignment,
 replicas
 FROM confluent.kafka.topic_partitions
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND topic_name = '{{ topic_name }}' -- required
+AND partition_id = '{{ partition_id }}' -- required
 ;
 ```
 </TabItem>
@@ -243,6 +261,8 @@ metadata,
 reassignment,
 replicas
 FROM confluent.kafka.topic_partitions
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND topic_name = '{{ topic_name }}' -- required
 ;
 ```
 </TabItem>

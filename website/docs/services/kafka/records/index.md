@@ -53,7 +53,7 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#produce_record"><CopyableCode code="produce_record" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-topic_name"><code>topic_name</code></a></td>
     <td></td>
     <td>Produce records to the given topic, returning delivery reports for each<br />record produced. This API can be used in streaming mode by setting<br />"Transfer-Encoding: chunked" header. For as long as the connection is<br />kept open, the server will keep accepting records. Records are streamed<br />to and from the server as Concatenated JSON. For each record sent to the<br />server, the server will asynchronously send back a delivery report, in<br />the same order, each with its own error_code. An error_code of 200<br />indicates success. The HTTP status code will be HTTP 200 OK as long as<br />the connection is successfully established. To identify records that<br />have encountered an error, check the error_code of each delivery report.<br /><br />Note that the cluster_id is validated only when running in Confluent Cloud.<br /><br />This API currently does not support Schema Registry integration. Sending<br />schemas is not supported. Only BINARY, JSON, and STRING formats are<br />supported.</td>
 </tr>
@@ -73,6 +73,16 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cluster_id">
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td>The Kafka cluster ID. (example: cluster-1)</td>
+</tr>
+<tr id="parameter-topic_name">
+    <td><CopyableCode code="topic_name" /></td>
+    <td><code>string</code></td>
+    <td>The topic name. (example: topic-1)</td>
+</tr>
 </tbody>
 </table>
 
@@ -95,14 +105,18 @@ partition_id,
 headers,
 key,
 value,
-timestamp
+timestamp,
+cluster_id,
+topic_name
 )
 SELECT 
 {{ partition_id }},
 '{{ headers }}',
 '{{ key }}',
 '{{ value }}',
-'{{ timestamp }}'
+'{{ timestamp }}',
+'{{ cluster_id }}',
+'{{ topic_name }}'
 RETURNING
 cluster_id,
 partition_id,
@@ -121,6 +135,12 @@ value
 <CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: records
   props:
+    - name: cluster_id
+      value: "{{ cluster_id }}"
+      description: Required parameter for the records resource.
+    - name: topic_name
+      value: "{{ topic_name }}"
+      description: Required parameter for the records resource.
     - name: partition_id
       value: {{ partition_id }}
     - name: headers

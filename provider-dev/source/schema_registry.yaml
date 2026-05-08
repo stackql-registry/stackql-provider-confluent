@@ -37,9 +37,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /compatibility/subjects/{subject}/versions/{version}:
     post:
       tags:
@@ -146,9 +143,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /compatibility/subjects/{subject}/versions:
     post:
       tags:
@@ -232,9 +226,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /config/{subject}:
     get:
       tags:
@@ -472,9 +463,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /config:
     get:
       tags:
@@ -662,9 +650,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /exporters:
     get:
       tags:
@@ -678,10 +663,7 @@ paths:
           content:
             application/vnd.schemaregistry.v1+json:
               schema:
-                type: array
-                items:
-                  type: string
-                  example: '["exporter1", "exporter2"]'
+                $ref: '#/components/schemas/ListExportersResponse'
         '400':
           $ref: '#/components/responses/schemaregistry.v1.BadRequestError'
         '401':
@@ -695,6 +677,12 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
+      x-stackql-bare-array-wrap:
+        wrapperKey: exporters
+        wrapperName: ListExportersResponse
+        mediaType: application/vnd.schemaregistry.v1+json
+        scalar: true
+        columnName: exporter
     post:
       tags:
         - Exporters (v1)
@@ -746,9 +734,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /exporters/{name}:
     get:
       tags:
@@ -878,9 +863,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /exporters/{name}/status:
     get:
       tags:
@@ -921,9 +903,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /exporters/{name}/config:
     get:
       tags:
@@ -1022,9 +1001,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /exporters/{name}/pause:
     put:
       tags:
@@ -1071,9 +1047,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /exporters/{name}/reset:
     put:
       tags:
@@ -1120,9 +1093,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /exporters/{name}/resume:
     put:
       tags:
@@ -1169,9 +1139,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /contexts:
     get:
       tags:
@@ -1200,10 +1167,7 @@ paths:
           content:
             application/vnd.schemaregistry.v1+json:
               schema:
-                type: array
-                items:
-                  type: string
-                  example: .
+                $ref: '#/components/schemas/ListContextsResponse'
             application/vnd.schemaregistry+json; qs=0.9:
               schema:
                 type: array
@@ -1239,9 +1203,12 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
+      x-stackql-bare-array-wrap:
+        wrapperKey: contexts
+        wrapperName: ListContextsResponse
+        mediaType: application/vnd.schemaregistry.v1+json
+        scalar: true
+        columnName: context
   /mode/{subject}:
     get:
       tags:
@@ -1452,9 +1419,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /mode:
     get:
       tags:
@@ -1564,9 +1528,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /schemas/ids/{id}:
     get:
       tags:
@@ -1641,9 +1602,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /schemas/ids/{id}/schema:
     get:
       tags:
@@ -1721,9 +1679,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /schemas/types:
     get:
       tags:
@@ -1737,10 +1692,7 @@ paths:
           content:
             application/vnd.schemaregistry.v1+json:
               schema:
-                type: array
-                items:
-                  type: string
-                  example: AVRO
+                $ref: '#/components/schemas/GetSchemaTypesResponse'
             application/vnd.schemaregistry+json; qs=0.9:
               schema:
                 type: array
@@ -1776,9 +1728,12 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
+      x-stackql-bare-array-wrap:
+        wrapperKey: schema_types
+        wrapperName: GetSchemaTypesResponse
+        mediaType: application/vnd.schemaregistry.v1+json
+        scalar: true
+        columnName: schema_type
   /schemas:
     get:
       tags:
@@ -1837,9 +1792,7 @@ paths:
           content:
             application/vnd.schemaregistry.v1+json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Schema'
+                $ref: '#/components/schemas/GetSchemasResponse'
             application/vnd.schemaregistry+json; qs=0.9:
               schema:
                 type: array
@@ -1873,9 +1826,11 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
+      x-stackql-bare-array-wrap:
+        wrapperKey: schemas
+        wrapperName: GetSchemasResponse
+        mediaType: application/vnd.schemaregistry.v1+json
+        scalar: false
   /schemas/ids/{id}/subjects:
     get:
       tags:
@@ -1927,10 +1882,7 @@ paths:
           content:
             application/vnd.schemaregistry.v1+json:
               schema:
-                type: array
-                items:
-                  type: string
-                  example: User
+                $ref: '#/components/schemas/GetSubjectsResponse'
             application/vnd.schemaregistry+json; qs=0.9:
               schema:
                 type: array
@@ -1978,9 +1930,12 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
+      x-stackql-bare-array-wrap:
+        wrapperKey: subjects
+        wrapperName: GetSubjectsResponse
+        mediaType: application/vnd.schemaregistry.v1+json
+        scalar: true
+        columnName: subject
   /schemas/ids/{id}/versions:
     get:
       tags:
@@ -2026,9 +1981,7 @@ paths:
           content:
             application/vnd.schemaregistry.v1+json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/SubjectVersion'
+                $ref: '#/components/schemas/GetVersionsResponse'
             application/vnd.schemaregistry+json; qs=0.9:
               schema:
                 type: array
@@ -2074,9 +2027,11 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
+      x-stackql-bare-array-wrap:
+        wrapperKey: versions
+        wrapperName: GetVersionsResponse
+        mediaType: application/vnd.schemaregistry.v1+json
+        scalar: false
   /subjects/{subject}/versions/{version}:
     get:
       tags:
@@ -2258,9 +2213,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /subjects/{subject}/versions/{version}/referencedby:
     get:
       tags:
@@ -2301,11 +2253,7 @@ paths:
           content:
             application/vnd.schemaregistry.v1+json:
               schema:
-                type: array
-                items:
-                  type: integer
-                  format: int32
-                  example: 100001
+                $ref: '#/components/schemas/GetReferencedByResponse'
             application/vnd.schemaregistry+json; qs=0.9:
               schema:
                 type: array
@@ -2367,9 +2315,12 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
+      x-stackql-bare-array-wrap:
+        wrapperKey: referenced_by
+        wrapperName: GetReferencedByResponse
+        mediaType: application/vnd.schemaregistry.v1+json
+        scalar: true
+        columnName: referenced_by
   /subjects/{subject}/versions/{version}/schema:
     get:
       tags:
@@ -2458,9 +2409,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /subjects/{subject}/versions:
     get:
       tags:
@@ -2505,11 +2453,7 @@ paths:
           content:
             application/vnd.schemaregistry.v1+json:
               schema:
-                type: array
-                items:
-                  type: integer
-                  format: int32
-                  example: 1
+                $ref: '#/components/schemas/ListVersionsResponse'
             application/vnd.schemaregistry+json; qs=0.9:
               schema:
                 type: array
@@ -2559,6 +2503,12 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
+      x-stackql-bare-array-wrap:
+        wrapperKey: versions
+        wrapperName: ListVersionsResponse
+        mediaType: application/vnd.schemaregistry.v1+json
+        scalar: true
+        columnName: version
     post:
       tags:
         - Subjects (v1)
@@ -2662,9 +2612,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /subjects/{subject}:
     post:
       tags:
@@ -2783,11 +2730,7 @@ paths:
           content:
             application/vnd.schemaregistry.v1+json:
               schema:
-                type: array
-                items:
-                  type: integer
-                  format: int32
-                  example: 1
+                $ref: '#/components/schemas/DeleteSubjectResponse'
             application/vnd.schemaregistry+json; qs=0.9:
               schema:
                 type: array
@@ -2837,9 +2780,12 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
+      x-stackql-bare-array-wrap:
+        wrapperKey: delete_subject
+        wrapperName: DeleteSubjectResponse
+        mediaType: application/vnd.schemaregistry.v1+json
+        scalar: true
+        columnName: delete_subject
   /subjects:
     get:
       tags:
@@ -2884,10 +2830,7 @@ paths:
           content:
             application/vnd.schemaregistry.v1+json:
               schema:
-                type: array
-                items:
-                  type: string
-                  example: User
+                $ref: '#/components/schemas/ListResponse'
             application/vnd.schemaregistry+json; qs=0.9:
               schema:
                 type: array
@@ -2923,9 +2866,12 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
+      x-stackql-bare-array-wrap:
+        wrapperKey: items
+        wrapperName: ListResponse
+        mediaType: application/vnd.schemaregistry.v1+json
+        scalar: true
+        columnName: item
   /subjects/{subject}/metadata:
     get:
       tags:
@@ -2983,9 +2929,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
 components:
   schemas:
     ClusterConfig:
@@ -3559,6 +3502,100 @@ components:
           enum:
             - sr_record
             - sr_field
+    ListExportersResponse:
+      type: object
+      properties:
+        exporters:
+          type: array
+          items:
+            type: object
+            properties:
+              exporter:
+                type: string
+    ListContextsResponse:
+      type: object
+      properties:
+        contexts:
+          type: array
+          items:
+            type: object
+            properties:
+              context:
+                type: string
+    GetSchemaTypesResponse:
+      type: object
+      properties:
+        schema_types:
+          type: array
+          items:
+            type: object
+            properties:
+              schema_type:
+                type: string
+    GetSchemasResponse:
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            $ref: '#/components/schemas/Schema'
+    GetSubjectsResponse:
+      type: object
+      properties:
+        subjects:
+          type: array
+          items:
+            type: object
+            properties:
+              subject:
+                type: string
+    GetVersionsResponse:
+      type: object
+      properties:
+        versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubjectVersion'
+    GetReferencedByResponse:
+      type: object
+      properties:
+        referenced_by:
+          type: array
+          items:
+            type: object
+            properties:
+              referenced_by:
+                type: integer
+    ListVersionsResponse:
+      type: object
+      properties:
+        versions:
+          type: array
+          items:
+            type: object
+            properties:
+              version:
+                type: integer
+    DeleteSubjectResponse:
+      type: object
+      properties:
+        delete_subject:
+          type: array
+          items:
+            type: object
+            properties:
+              delete_subject:
+                type: integer
+    ListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              item:
+                type: string
   responses:
     schemaregistry.v1.BadRequestError:
       description: Bad Request

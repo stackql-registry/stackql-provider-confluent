@@ -23,10 +23,7 @@ paths:
           content:
             application/vnd.schemaregistry.v1+json:
               schema:
-                items:
-                  example: mykek
-                  type: string
-                type: array
+                $ref: '#/components/schemas/GetKekNamesResponse'
             application/vnd.schemaregistry+json; qs=0.9:
               schema:
                 items:
@@ -44,6 +41,12 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
+      x-stackql-bare-array-wrap:
+        wrapperKey: kek_names
+        wrapperName: GetKekNamesResponse
+        mediaType: application/vnd.schemaregistry.v1+json
+        scalar: true
+        columnName: kek_name
     post:
       tags:
         - Key Encryption Keys (v1)
@@ -95,9 +98,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /dek-registry/v1/keks/{name}:
     delete:
       tags:
@@ -234,9 +234,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /dek-registry/v1/keks/{name}/undelete:
     post:
       tags:
@@ -262,9 +259,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /dek-registry/v1/keks/{name}/test:
     post:
       tags:
@@ -300,9 +294,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /dek-registry/v1/keks/{name}/deks:
     get:
       tags:
@@ -348,10 +339,7 @@ paths:
           content:
             application/vnd.schemaregistry.v1+json:
               schema:
-                items:
-                  example: User
-                  type: string
-                type: array
+                $ref: '#/components/schemas/GetDekSubjectsResponse'
             application/vnd.schemaregistry+json; qs=0.9:
               schema:
                 items:
@@ -373,6 +361,12 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
+      x-stackql-bare-array-wrap:
+        wrapperKey: dek_subjects
+        wrapperName: GetDekSubjectsResponse
+        mediaType: application/vnd.schemaregistry.v1+json
+        scalar: true
+        columnName: dek_subject
     post:
       tags:
         - Data Encryption Keys (v1)
@@ -425,9 +419,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /dek-registry/v1/keks/{name}/deks/{subject}:
     delete:
       tags:
@@ -545,9 +536,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /dek-registry/v1/keks/{name}/deks/{subject}/versions/{version}:
     delete:
       tags:
@@ -681,9 +669,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /dek-registry/v1/keks/{name}/deks/{subject}/versions:
     get:
       tags:
@@ -749,11 +734,7 @@ paths:
           content:
             application/vnd.schemaregistry.v1+json:
               schema:
-                items:
-                  example: 1
-                  format: int32
-                  type: integer
-                type: array
+                $ref: '#/components/schemas/GetDekVersionsResponse'
             application/vnd.schemaregistry+json; qs=0.9:
               schema:
                 items:
@@ -777,9 +758,12 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
+      x-stackql-bare-array-wrap:
+        wrapperKey: dek_versions
+        wrapperName: GetDekVersionsResponse
+        mediaType: application/vnd.schemaregistry.v1+json
+        scalar: true
+        columnName: dek_version
   /dek-registry/v1/keks/{name}/deks/{subject}/versions/{version}/undelete:
     post:
       tags:
@@ -833,9 +817,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /dek-registry/v1/keks/{name}/deks/{subject}/undelete:
     post:
       tags:
@@ -881,9 +862,6 @@ paths:
       security:
         - resource-api-key: []
         - external-access-token: []
-    servers:
-      - url: https://psrc-00000.region.provider.confluent.cloud
-        description: Confluent Cloud Schema Registry Endpoint.
   /byok/v1/keys:
     get:
       x-lifecycle-stage: General Availability
@@ -3422,6 +3400,36 @@ components:
           type: string
           nullable: true
       additionalProperties: false
+    GetKekNamesResponse:
+      type: object
+      properties:
+        kek_names:
+          type: array
+          items:
+            type: object
+            properties:
+              kek_name:
+                type: string
+    GetDekSubjectsResponse:
+      type: object
+      properties:
+        dek_subjects:
+          type: array
+          items:
+            type: object
+            properties:
+              dek_subject:
+                type: string
+    GetDekVersionsResponse:
+      type: object
+      properties:
+        dek_versions:
+          type: array
+          items:
+            type: object
+            properties:
+              dek_version:
+                type: integer
   responses:
     BadRequestError:
       description: Bad Request

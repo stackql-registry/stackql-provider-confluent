@@ -211,14 +211,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#get_kafka_streams_group"><CopyableCode code="get_kafka_streams_group" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-group_id"><code>group_id</code></a></td>
     <td></td>
     <td>Return the streams group specified by the ``group_id``.</td>
 </tr>
 <tr>
     <td><a href="#list_kafka_streams_groups"><CopyableCode code="list_kafka_streams_groups" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a></td>
     <td></td>
     <td>Return the list of streams groups that belong to the specified Kafka cluster</td>
 </tr>
@@ -238,6 +238,16 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cluster_id">
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td>The Kafka cluster ID. (example: cluster-1)</td>
+</tr>
+<tr id="parameter-group_id">
+    <td><CopyableCode code="group_id" /></td>
+    <td><code>string</code></td>
+    <td>The group ID. (example: group-1)</td>
+</tr>
 </tbody>
 </table>
 
@@ -269,6 +279,8 @@ subtopology_count,
 target_assignment_epoch,
 topology_epoch
 FROM confluent.streams_group.streams_groups
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND group_id = '{{ group_id }}' -- required
 ;
 ```
 </TabItem>
@@ -291,6 +303,7 @@ subtopology_count,
 target_assignment_epoch,
 topology_epoch
 FROM confluent.streams_group.streams_groups
+WHERE cluster_id = '{{ cluster_id }}' -- required
 ;
 ```
 </TabItem>

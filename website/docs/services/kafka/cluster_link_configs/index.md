@@ -201,35 +201,35 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#get_kafka_link_configs"><CopyableCode code="get_kafka_link_configs" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a>, <a href="#parameter-config_name"><code>config_name</code></a></td>
     <td></td>
     <td></td>
 </tr>
 <tr>
     <td><a href="#list_kafka_link_configs"><CopyableCode code="list_kafka_link_configs" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a></td>
     <td></td>
     <td></td>
 </tr>
 <tr>
     <td><a href="#update_kafka_link_config"><CopyableCode code="update_kafka_link_config" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-value"><code>value</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a>, <a href="#parameter-config_name"><code>config_name</code></a>, <a href="#parameter-value"><code>value</code></a></td>
     <td></td>
     <td></td>
 </tr>
 <tr>
     <td><a href="#update_kafka_link_config_batch"><CopyableCode code="update_kafka_link_config_batch" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-data"><code>data</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a>, <a href="#parameter-data"><code>data</code></a></td>
     <td><a href="#parameter-validate_only"><code>validate_only</code></a></td>
     <td>Batch Alter Cluster Link Configs</td>
 </tr>
 <tr>
     <td><a href="#delete_kafka_link_config"><CopyableCode code="delete_kafka_link_config" /></a></td>
     <td><CopyableCode code="delete" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a>, <a href="#parameter-config_name"><code>config_name</code></a></td>
     <td></td>
     <td></td>
 </tr>
@@ -249,6 +249,21 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cluster_id">
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td>The Kafka cluster ID. (example: cluster-1)</td>
+</tr>
+<tr id="parameter-config_name">
+    <td><CopyableCode code="config_name" /></td>
+    <td><code>string</code></td>
+    <td>The link config name (example: consumer.offset.sync.enable)</td>
+</tr>
+<tr id="parameter-link_name">
+    <td><CopyableCode code="link_name" /></td>
+    <td><code>string</code></td>
+    <td>The link name (example: link-sb1)</td>
+</tr>
 <tr id="parameter-validate_only">
     <td><CopyableCode code="validate_only" /></td>
     <td><code>boolean</code></td>
@@ -284,6 +299,9 @@ source,
 synonyms,
 value
 FROM confluent.kafka.cluster_link_configs
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND link_name = '{{ link_name }}' -- required
+AND config_name = '{{ config_name }}' -- required
 ;
 ```
 </TabItem>
@@ -305,6 +323,8 @@ source,
 synonyms,
 value
 FROM confluent.kafka.cluster_link_configs
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND link_name = '{{ link_name }}' -- required
 ;
 ```
 </TabItem>
@@ -329,7 +349,10 @@ REPLACE confluent.kafka.cluster_link_configs
 SET 
 value = '{{ value }}'
 WHERE 
-value = '{{ value }}' --required;
+cluster_id = '{{ cluster_id }}' --required
+AND link_name = '{{ link_name }}' --required
+AND config_name = '{{ config_name }}' --required
+AND value = '{{ value }}' --required;
 ```
 </TabItem>
 <TabItem value="update_kafka_link_config_batch">
@@ -342,7 +365,9 @@ SET
 data = '{{ data }}',
 validate_only = {{ validate_only }}
 WHERE 
-data = '{{ data }}' --required
+cluster_id = '{{ cluster_id }}' --required
+AND link_name = '{{ link_name }}' --required
+AND data = '{{ data }}' --required
 AND validate_only = {{ validate_only}};
 ```
 </TabItem>
@@ -363,6 +388,9 @@ AND validate_only = {{ validate_only}};
 
 ```sql
 DELETE FROM confluent.kafka.cluster_link_configs
+WHERE cluster_id = '{{ cluster_id }}' --required
+AND link_name = '{{ link_name }}' --required
+AND config_name = '{{ config_name }}' --required
 ;
 ```
 </TabItem>

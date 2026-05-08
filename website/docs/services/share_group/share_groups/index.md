@@ -191,21 +191,21 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#get_kafka_share_group"><CopyableCode code="get_kafka_share_group" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-group_id"><code>group_id</code></a></td>
     <td></td>
     <td>Return the share group specified by the ``group_id``.</td>
 </tr>
 <tr>
     <td><a href="#list_kafka_share_groups"><CopyableCode code="list_kafka_share_groups" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a></td>
     <td></td>
     <td>Return the list of share groups that belong to the specified<br />Kafka cluster.</td>
 </tr>
 <tr>
     <td><a href="#delete_kafka_share_group"><CopyableCode code="delete_kafka_share_group" /></a></td>
     <td><CopyableCode code="delete" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-group_id"><code>group_id</code></a></td>
     <td></td>
     <td>Delete the share group specified by the ``group_id``.</td>
 </tr>
@@ -225,6 +225,16 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cluster_id">
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td>The Kafka cluster ID. (example: cluster-1)</td>
+</tr>
+<tr id="parameter-group_id">
+    <td><CopyableCode code="group_id" /></td>
+    <td><code>string</code></td>
+    <td>The group ID. (example: group-1)</td>
+</tr>
 </tbody>
 </table>
 
@@ -254,6 +264,8 @@ metadata,
 partition_count,
 state
 FROM confluent.share_group.share_groups
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND group_id = '{{ group_id }}' -- required
 ;
 ```
 </TabItem>
@@ -274,6 +286,7 @@ metadata,
 partition_count,
 state
 FROM confluent.share_group.share_groups
+WHERE cluster_id = '{{ cluster_id }}' -- required
 ;
 ```
 </TabItem>
@@ -294,6 +307,8 @@ Delete the share group specified by the ``group_id``.
 
 ```sql
 DELETE FROM confluent.share_group.share_groups
+WHERE cluster_id = '{{ cluster_id }}' --required
+AND group_id = '{{ group_id }}' --required
 ;
 ```
 </TabItem>

@@ -201,35 +201,35 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#get_kafka_cluster_config"><CopyableCode code="get_kafka_cluster_config" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-name"><code>name</code></a></td>
     <td></td>
     <td>Return the dynamic cluster-wide broker configuration parameter specified by ``name``.</td>
 </tr>
 <tr>
     <td><a href="#list_kafka_cluster_configs"><CopyableCode code="list_kafka_cluster_configs" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a></td>
     <td></td>
     <td>Return a list of dynamic cluster-wide broker configuration parameters for the specified Kafka<br />cluster. Returns an empty list if there are no dynamic cluster-wide broker configuration parameters.</td>
 </tr>
 <tr>
     <td><a href="#update_kafka_cluster_config"><CopyableCode code="update_kafka_cluster_config" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-name"><code>name</code></a></td>
     <td></td>
     <td>Update the dynamic cluster-wide broker configuration parameter specified by ``name``.</td>
 </tr>
 <tr>
     <td><a href="#update_kafka_cluster_configs"><CopyableCode code="update_kafka_cluster_configs" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-data"><code>data</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-data"><code>data</code></a></td>
     <td></td>
     <td>Update or delete a set of dynamic cluster-wide broker configuration parameters.</td>
 </tr>
 <tr>
     <td><a href="#delete_kafka_cluster_config"><CopyableCode code="delete_kafka_cluster_config" /></a></td>
     <td><CopyableCode code="delete" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-name"><code>name</code></a></td>
     <td></td>
     <td>Reset the configuration parameter specified by ``name`` to its<br />default value by deleting a dynamic cluster-wide configuration.</td>
 </tr>
@@ -249,6 +249,16 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cluster_id">
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td>The Kafka cluster ID. (example: cluster-1)</td>
+</tr>
+<tr id="parameter-name">
+    <td><CopyableCode code="name" /></td>
+    <td><code>string</code></td>
+    <td>The configuration parameter name. (example: compression.type)</td>
+</tr>
 </tbody>
 </table>
 
@@ -279,6 +289,8 @@ source,
 synonyms,
 value
 FROM confluent.kafka.cluster_configs
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND name = '{{ name }}' -- required
 ;
 ```
 </TabItem>
@@ -300,6 +312,7 @@ source,
 synonyms,
 value
 FROM confluent.kafka.cluster_configs
+WHERE cluster_id = '{{ cluster_id }}' -- required
 ;
 ```
 </TabItem>
@@ -322,7 +335,10 @@ Update the dynamic cluster-wide broker configuration parameter specified by ``na
 ```sql
 REPLACE confluent.kafka.cluster_configs
 SET 
-value = '{{ value }}';
+value = '{{ value }}'
+WHERE 
+cluster_id = '{{ cluster_id }}' --required
+AND name = '{{ name }}' --required;
 ```
 </TabItem>
 <TabItem value="update_kafka_cluster_configs">
@@ -335,7 +351,8 @@ SET
 data = '{{ data }}',
 validate_only = {{ validate_only }}
 WHERE 
-data = '{{ data }}' --required;
+cluster_id = '{{ cluster_id }}' --required
+AND data = '{{ data }}' --required;
 ```
 </TabItem>
 </Tabs>
@@ -355,6 +372,8 @@ Reset the configuration parameter specified by ``name`` to its<br />default valu
 
 ```sql
 DELETE FROM confluent.kafka.cluster_configs
+WHERE cluster_id = '{{ cluster_id }}' --required
+AND name = '{{ name }}' --required
 ;
 ```
 </TabItem>

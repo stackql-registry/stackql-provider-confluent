@@ -273,78 +273,78 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#read_kafka_mirror_topic"><CopyableCode code="read_kafka_mirror_topic" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a>, <a href="#parameter-mirror_topic_name"><code>mirror_topic_name</code></a></td>
     <td><a href="#parameter-include_state_transition_errors"><code>include_state_transition_errors</code></a></td>
     <td></td>
 </tr>
 <tr>
     <td><a href="#list_kafka_mirror_topics_under_link"><CopyableCode code="list_kafka_mirror_topics_under_link" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a></td>
     <td><a href="#parameter-mirror_status"><code>mirror_status</code></a></td>
     <td>List all mirror topics under the link</td>
 </tr>
 <tr>
     <td><a href="#list_kafka_mirror_topics"><CopyableCode code="list_kafka_mirror_topics" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a></td>
     <td><a href="#parameter-mirror_status"><code>mirror_status</code></a></td>
     <td>List all mirror topics in the cluster</td>
 </tr>
 <tr>
     <td><a href="#create_kafka_mirror_topic"><CopyableCode code="create_kafka_mirror_topic" /></a></td>
     <td><CopyableCode code="insert" /></td>
-    <td><a href="#parameter-source_topic_name"><code>source_topic_name</code></a></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a>, <a href="#parameter-source_topic_name"><code>source_topic_name</code></a></td>
     <td></td>
     <td>Create a topic in the destination cluster mirroring a topic in<br />the source cluster</td>
 </tr>
 <tr>
     <td><a href="#update_kafka_mirror_topics_promote"><CopyableCode code="update_kafka_mirror_topics_promote" /></a></td>
     <td><CopyableCode code="exec" /></td>
-    <td></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a></td>
+    <td><a href="#parameter-validate_only"><code>validate_only</code></a></td>
     <td></td>
 </tr>
 <tr>
     <td><a href="#update_kafka_mirror_topics_failover"><CopyableCode code="update_kafka_mirror_topics_failover" /></a></td>
     <td><CopyableCode code="exec" /></td>
-    <td></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a></td>
+    <td><a href="#parameter-validate_only"><code>validate_only</code></a></td>
     <td></td>
 </tr>
 <tr>
     <td><a href="#update_kafka_mirror_topics_pause"><CopyableCode code="update_kafka_mirror_topics_pause" /></a></td>
     <td><CopyableCode code="exec" /></td>
-    <td></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a></td>
+    <td><a href="#parameter-validate_only"><code>validate_only</code></a></td>
     <td></td>
 </tr>
 <tr>
     <td><a href="#update_kafka_mirror_topics_resume"><CopyableCode code="update_kafka_mirror_topics_resume" /></a></td>
     <td><CopyableCode code="exec" /></td>
-    <td></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a></td>
+    <td><a href="#parameter-validate_only"><code>validate_only</code></a></td>
     <td></td>
 </tr>
 <tr>
     <td><a href="#update_kafka_mirror_topics_reverse_and_start_mirror"><CopyableCode code="update_kafka_mirror_topics_reverse_and_start_mirror" /></a></td>
     <td><CopyableCode code="exec" /></td>
-    <td></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a></td>
+    <td><a href="#parameter-validate_only"><code>validate_only</code></a></td>
     <td></td>
 </tr>
 <tr>
     <td><a href="#update_kafka_mirror_topics_reverse_and_pause_mirror"><CopyableCode code="update_kafka_mirror_topics_reverse_and_pause_mirror" /></a></td>
     <td><CopyableCode code="exec" /></td>
-    <td></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a></td>
+    <td><a href="#parameter-validate_only"><code>validate_only</code></a></td>
     <td></td>
 </tr>
 <tr>
     <td><a href="#update_kafka_mirror_topics_truncate_and_restore_mirror"><CopyableCode code="update_kafka_mirror_topics_truncate_and_restore_mirror" /></a></td>
     <td><CopyableCode code="exec" /></td>
-    <td></td>
-    <td></td>
+    <td><a href="#parameter-cluster_id"><code>cluster_id</code></a>, <a href="#parameter-link_name"><code>link_name</code></a></td>
+    <td><a href="#parameter-include_partition_level_truncation_data"><code>include_partition_level_truncation_data</code></a>, <a href="#parameter-validate_only"><code>validate_only</code></a></td>
     <td></td>
 </tr>
 </tbody>
@@ -363,6 +363,26 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-cluster_id">
+    <td><CopyableCode code="cluster_id" /></td>
+    <td><code>string</code></td>
+    <td>The Kafka cluster ID. (example: cluster-1)</td>
+</tr>
+<tr id="parameter-link_name">
+    <td><CopyableCode code="link_name" /></td>
+    <td><code>string</code></td>
+    <td>The link name (example: link-sb1)</td>
+</tr>
+<tr id="parameter-mirror_topic_name">
+    <td><CopyableCode code="mirror_topic_name" /></td>
+    <td><code>string</code></td>
+    <td>Cluster Linking mirror topic name (example: topic-1)</td>
+</tr>
+<tr id="parameter-include_partition_level_truncation_data">
+    <td><CopyableCode code="include_partition_level_truncation_data" /></td>
+    <td><code>boolean</code></td>
+    <td>Whether to include partition level truncation information when truncating and restoring a topic in the response. Default: false (example: false)</td>
+</tr>
 <tr id="parameter-include_state_transition_errors">
     <td><CopyableCode code="include_state_transition_errors" /></td>
     <td><code>boolean</code></td>
@@ -372,6 +392,11 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     <td><CopyableCode code="mirror_status" /></td>
     <td><code>string</code></td>
     <td>The status of the mirror topic. If not specified, all mirror topics will be returned. (example: ACTIVE)</td>
+</tr>
+<tr id="parameter-validate_only">
+    <td><CopyableCode code="validate_only" /></td>
+    <td><code>boolean</code></td>
+    <td>To validate the action can be performed successfully or not. Default: false (example: false)</td>
 </tr>
 </tbody>
 </table>
@@ -404,7 +429,10 @@ mirror_topic_error,
 num_partitions,
 state_time_ms
 FROM confluent.kafka.mirror_topics
-WHERE include_state_transition_errors = '{{ include_state_transition_errors }}'
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND link_name = '{{ link_name }}' -- required
+AND mirror_topic_name = '{{ mirror_topic_name }}' -- required
+AND include_state_transition_errors = '{{ include_state_transition_errors }}'
 ;
 ```
 </TabItem>
@@ -426,7 +454,9 @@ mirror_topic_error,
 num_partitions,
 state_time_ms
 FROM confluent.kafka.mirror_topics
-WHERE mirror_status = '{{ mirror_status }}'
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND link_name = '{{ link_name }}' -- required
+AND mirror_status = '{{ mirror_status }}'
 ;
 ```
 </TabItem>
@@ -448,7 +478,8 @@ mirror_topic_error,
 num_partitions,
 state_time_ms
 FROM confluent.kafka.mirror_topics
-WHERE mirror_status = '{{ mirror_status }}'
+WHERE cluster_id = '{{ cluster_id }}' -- required
+AND mirror_status = '{{ mirror_status }}'
 ;
 ```
 </TabItem>
@@ -473,13 +504,17 @@ INSERT INTO confluent.kafka.mirror_topics (
 source_topic_name,
 mirror_topic_name,
 replication_factor,
-configs
+configs,
+cluster_id,
+link_name
 )
 SELECT 
 '{{ source_topic_name }}' /* required */,
 '{{ mirror_topic_name }}',
 {{ replication_factor }},
-'{{ configs }}'
+'{{ configs }}',
+'{{ cluster_id }}',
+'{{ link_name }}'
 ;
 ```
 </TabItem>
@@ -488,6 +523,12 @@ SELECT
 <CodeBlock language="yaml">{`# Description fields are for documentation purposes
 - name: mirror_topics
   props:
+    - name: cluster_id
+      value: "{{ cluster_id }}"
+      description: Required parameter for the mirror_topics resource.
+    - name: link_name
+      value: "{{ link_name }}"
+      description: Required parameter for the mirror_topics resource.
     - name: source_topic_name
       value: "{{ source_topic_name }}"
     - name: mirror_topic_name
@@ -524,6 +565,9 @@ SELECT
 
 ```sql
 EXEC confluent.kafka.mirror_topics.update_kafka_mirror_topics_promote 
+@cluster_id='{{ cluster_id }}' --required, 
+@link_name='{{ link_name }}' --required, 
+@validate_only={{ validate_only }} 
 @@json=
 '{
 "mirror_topic_names": "{{ mirror_topic_names }}", 
@@ -538,6 +582,9 @@ EXEC confluent.kafka.mirror_topics.update_kafka_mirror_topics_promote
 
 ```sql
 EXEC confluent.kafka.mirror_topics.update_kafka_mirror_topics_failover 
+@cluster_id='{{ cluster_id }}' --required, 
+@link_name='{{ link_name }}' --required, 
+@validate_only={{ validate_only }} 
 @@json=
 '{
 "mirror_topic_names": "{{ mirror_topic_names }}", 
@@ -552,6 +599,9 @@ EXEC confluent.kafka.mirror_topics.update_kafka_mirror_topics_failover
 
 ```sql
 EXEC confluent.kafka.mirror_topics.update_kafka_mirror_topics_pause 
+@cluster_id='{{ cluster_id }}' --required, 
+@link_name='{{ link_name }}' --required, 
+@validate_only={{ validate_only }} 
 @@json=
 '{
 "mirror_topic_names": "{{ mirror_topic_names }}", 
@@ -566,6 +616,9 @@ EXEC confluent.kafka.mirror_topics.update_kafka_mirror_topics_pause
 
 ```sql
 EXEC confluent.kafka.mirror_topics.update_kafka_mirror_topics_resume 
+@cluster_id='{{ cluster_id }}' --required, 
+@link_name='{{ link_name }}' --required, 
+@validate_only={{ validate_only }} 
 @@json=
 '{
 "mirror_topic_names": "{{ mirror_topic_names }}", 
@@ -580,6 +633,9 @@ EXEC confluent.kafka.mirror_topics.update_kafka_mirror_topics_resume
 
 ```sql
 EXEC confluent.kafka.mirror_topics.update_kafka_mirror_topics_reverse_and_start_mirror 
+@cluster_id='{{ cluster_id }}' --required, 
+@link_name='{{ link_name }}' --required, 
+@validate_only={{ validate_only }} 
 @@json=
 '{
 "mirror_topic_names": "{{ mirror_topic_names }}", 
@@ -594,6 +650,9 @@ EXEC confluent.kafka.mirror_topics.update_kafka_mirror_topics_reverse_and_start_
 
 ```sql
 EXEC confluent.kafka.mirror_topics.update_kafka_mirror_topics_reverse_and_pause_mirror 
+@cluster_id='{{ cluster_id }}' --required, 
+@link_name='{{ link_name }}' --required, 
+@validate_only={{ validate_only }} 
 @@json=
 '{
 "mirror_topic_names": "{{ mirror_topic_names }}", 
@@ -608,6 +667,10 @@ EXEC confluent.kafka.mirror_topics.update_kafka_mirror_topics_reverse_and_pause_
 
 ```sql
 EXEC confluent.kafka.mirror_topics.update_kafka_mirror_topics_truncate_and_restore_mirror 
+@cluster_id='{{ cluster_id }}' --required, 
+@link_name='{{ link_name }}' --required, 
+@include_partition_level_truncation_data={{ include_partition_level_truncation_data }}, 
+@validate_only={{ validate_only }} 
 @@json=
 '{
 "mirror_topic_names": "{{ mirror_topic_names }}", 

@@ -114,14 +114,14 @@ The following methods are available for this resource:
 <tr>
     <td><a href="#get_connectv1_connector_config"><CopyableCode code="get_connectv1_connector_config" /></a></td>
     <td><CopyableCode code="select" /></td>
-    <td></td>
+    <td><a href="#parameter-connector_name"><code>connector_name</code></a>, <a href="#parameter-environment_id"><code>environment_id</code></a>, <a href="#parameter-kafka_cluster_id"><code>kafka_cluster_id</code></a></td>
     <td></td>
     <td>Get the configuration for the connector.</td>
 </tr>
 <tr>
     <td><a href="#create_or_update_connectv1_connector_config"><CopyableCode code="create_or_update_connectv1_connector_config" /></a></td>
     <td><CopyableCode code="replace" /></td>
-    <td><a href="#parameter-connector.class"><code>connector.class</code></a>, <a href="#parameter-name"><code>name</code></a>, <a href="#parameter-kafka.api.key"><code>kafka.api.key</code></a>, <a href="#parameter-kafka.api.secret"><code>kafka.api.secret</code></a></td>
+    <td><a href="#parameter-connector_name"><code>connector_name</code></a>, <a href="#parameter-environment_id"><code>environment_id</code></a>, <a href="#parameter-kafka_cluster_id"><code>kafka_cluster_id</code></a>, <a href="#parameter-connector.class"><code>connector.class</code></a>, <a href="#parameter-name"><code>name</code></a>, <a href="#parameter-kafka.api.key"><code>kafka.api.key</code></a>, <a href="#parameter-kafka.api.secret"><code>kafka.api.secret</code></a></td>
     <td></td>
     <td>Create a new connector using the given configuration, or update the configuration for an existing connector. Returns information about the connector after the change has been made.</td>
 </tr>
@@ -141,6 +141,21 @@ Parameters can be passed in the `WHERE` clause of a query. Check the [Methods](#
     </tr>
 </thead>
 <tbody>
+<tr id="parameter-connector_name">
+    <td><CopyableCode code="connector_name" /></td>
+    <td><code>string</code></td>
+    <td>The unique name of the connector.</td>
+</tr>
+<tr id="parameter-environment_id">
+    <td><CopyableCode code="environment_id" /></td>
+    <td><code>string</code></td>
+    <td>The unique identifier of the environment this resource belongs to.</td>
+</tr>
+<tr id="parameter-kafka_cluster_id">
+    <td><CopyableCode code="kafka_cluster_id" /></td>
+    <td><code>string</code></td>
+    <td>The unique identifier for the Kafka cluster.</td>
+</tr>
 </tbody>
 </table>
 
@@ -167,6 +182,9 @@ kafka.api.secret,
 kafka.endpoint,
 kafka.region
 FROM confluent.connect.connector_config
+WHERE connector_name = '{{ connector_name }}' -- required
+AND environment_id = '{{ environment_id }}' -- required
+AND kafka_cluster_id = '{{ kafka_cluster_id }}' -- required
 ;
 ```
 </TabItem>
@@ -199,7 +217,10 @@ confluent.custom.schema.registry.auto = '{{ confluent.custom.schema.registry.aut
 confluent.custom.connect.plugin.runtime = '{{ confluent.custom.connect.plugin.runtime }}',
 confluent.custom.connect.java.version = '{{ confluent.custom.connect.java.version }}'
 WHERE 
-connector.class = '{{ connector.class }}' --required
+connector_name = '{{ connector_name }}' --required
+AND environment_id = '{{ environment_id }}' --required
+AND kafka_cluster_id = '{{ kafka_cluster_id }}' --required
+AND connector.class = '{{ connector.class }}' --required
 AND name = '{{ name }}' --required
 AND kafka.api.key = '{{ kafka.api.key }}' --required
 AND kafka.api.secret = '{{ kafka.api.secret }}' --required

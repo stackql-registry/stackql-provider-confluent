@@ -29,12 +29,8 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
   /kafka/v3/clusters/{cluster_id}/streams-groups/{group_id}:
     get:
       summary: Get Streams Group
@@ -60,13 +56,9 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/GroupId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/GroupId'
   /kafka/v3/clusters/{cluster_id}/streams-groups/{group_id}/subtopologies:
     get:
       summary: List Streams Group Subtopologies
@@ -92,13 +84,9 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/GroupId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/GroupId'
   /kafka/v3/clusters/{cluster_id}/streams-groups/{group_id}/subtopologies/{subtopology_id}:
     get:
       summary: Get Streams Group Subtopology
@@ -124,14 +112,10 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/GroupId'
-      - $ref: '#/components/parameters/SubtopologyId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/GroupId'
+        - $ref: '#/components/parameters/SubtopologyId'
   /kafka/v3/clusters/{cluster_id}/streams-groups/{group_id}/members:
     get:
       summary: List Streams Group Members
@@ -157,13 +141,9 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/GroupId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/GroupId'
   /kafka/v3/clusters/{cluster_id}/streams-groups/{group_id}/members/{member_id}:
     get:
       summary: Get Streams Group Member
@@ -189,14 +169,10 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/GroupId'
-      - $ref: '#/components/parameters/MemberId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/GroupId'
+        - $ref: '#/components/parameters/MemberId'
   /kafka/v3/clusters/{cluster_id}/streams-groups/{group_id}/members/{member_id}/assignments:
     get:
       summary: Get Streams Group Member Assignments
@@ -222,14 +198,10 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/GroupId'
-      - $ref: '#/components/parameters/MemberId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/GroupId'
+        - $ref: '#/components/parameters/MemberId'
   /kafka/v3/clusters/{cluster_id}/streams-groups/{group_id}/members/{member_id}/target-assignments:
     get:
       summary: Get Streams Group Member Target Assignments
@@ -255,14 +227,10 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/GroupId'
-      - $ref: '#/components/parameters/MemberId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/GroupId'
+        - $ref: '#/components/parameters/MemberId'
   /kafka/v3/clusters/{cluster_id}/streams-groups/{group_id}/members/{member_id}/assignments/{assignments_type}:
     get:
       summary: List Streams Group Assignments of a Specific Type
@@ -288,15 +256,11 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/GroupId'
-      - $ref: '#/components/parameters/MemberId'
-      - $ref: '#/components/parameters/AssignmentsType'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/GroupId'
+        - $ref: '#/components/parameters/MemberId'
+        - $ref: '#/components/parameters/AssignmentsType'
   /kafka/v3/clusters/{cluster_id}/streams-groups/{group_id}/members/{member_id}/target-assignments/{assignments_type}:
     get:
       summary: List Streams Group Target Assignments of a Specific Type
@@ -322,15 +286,11 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/GroupId'
-      - $ref: '#/components/parameters/MemberId'
-      - $ref: '#/components/parameters/AssignmentsType'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/GroupId'
+        - $ref: '#/components/parameters/MemberId'
+        - $ref: '#/components/parameters/AssignmentsType'
   /kafka/v3/clusters/{cluster_id}/streams-groups/{group_id}/members/{member_id}/assignments/{assignments_type}/subtopologies/{subtopology_id}:
     get:
       summary: List Streams Group Assignments Task Partitions of a Specific Type and Subtopology
@@ -356,16 +316,12 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/GroupId'
-      - $ref: '#/components/parameters/MemberId'
-      - $ref: '#/components/parameters/AssignmentsType'
-      - $ref: '#/components/parameters/SubtopologyId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/GroupId'
+        - $ref: '#/components/parameters/MemberId'
+        - $ref: '#/components/parameters/AssignmentsType'
+        - $ref: '#/components/parameters/SubtopologyId'
   /kafka/v3/clusters/{cluster_id}/streams-groups/{group_id}/members/{member_id}/target-assignments/{assignments_type}/subtopologies/{subtopology_id}:
     get:
       summary: List Streams Group Target Assignments Task Partitions of a Specific Type and Subtopology
@@ -391,16 +347,12 @@ paths:
           $ref: '#/components/responses/TooManyRequestsErrorResponse'
         5XX:
           $ref: '#/components/responses/ServerErrorResponse'
-    servers:
-      - url: https://pkc-00000.region.provider.confluent.cloud
-        x-audience: business-unit-internal
-        description: Confluent Cloud REST Endpoint. For example https://pkc-00000.region.provider.confluent.cloud
-    parameters:
-      - $ref: '#/components/parameters/ClusterId'
-      - $ref: '#/components/parameters/GroupId'
-      - $ref: '#/components/parameters/MemberId'
-      - $ref: '#/components/parameters/AssignmentsType'
-      - $ref: '#/components/parameters/SubtopologyId'
+      parameters:
+        - $ref: '#/components/parameters/ClusterId'
+        - $ref: '#/components/parameters/GroupId'
+        - $ref: '#/components/parameters/MemberId'
+        - $ref: '#/components/parameters/AssignmentsType'
+        - $ref: '#/components/parameters/SubtopologyId'
 components:
   schemas:
     StreamsGroupDataList:
