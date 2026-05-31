@@ -1,0 +1,7 @@
+{
+  "auth": {
+    "type": "basic",
+    "username_var": "CONFLUENT_CLOUD_API_KEY",
+    "password_var": "CONFLUENT_CLOUD_API_SECRET"
+  }
+}

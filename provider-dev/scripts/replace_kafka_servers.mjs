@@ -1,13 +1,22 @@
 #!/usr/bin/env node
-// Replace the root `servers:` block in the generated kafka service spec with a
-// templated URL that resolves per-cluster from values supplied in WHERE clauses.
+// Replace the root `servers:` block in the generated kafka dataplane service
+// specs with a templated URL that resolves per-cluster from values supplied in
+// WHERE clauses.
 //
 // Why this exists: Confluent's Kafka REST v3 surface (`/kafka/v3/...`) is a
 // per-cluster dataplane. Each Kafka cluster lives at its own host
 // (`https://<kafka-endpoint-id>.<region>.<cloud>.confluent.cloud`) — there's
-// no single static base URL. The OpenAPI spec ships a placeholder
-// `pkc-00000.region.provider.confluent.cloud` that is not a real host, so
-// requests fail DNS as soon as the user runs a query.
+// no single static base URL. The upstream OpenAPI spec inherits
+// `https://api.confluent.cloud` from the root for every service, which is
+// wrong for the cluster-scoped dataplane buckets — requests fail (DNS for the
+// templated placeholder, 404 for the wrong host on share/streams groups).
+//
+// Targets:
+//   - kafka.yaml          (topics, consumer groups, ACLs, configs, partitions,
+//                          records, cluster linking, mirrors, broker configs,
+//                          KIP-848 group configs)
+//   - share_group.yaml    (KIP-932 share groups)
+//   - streams_group.yaml  (KIP-1071 streams groups)
 //
 // StackQL supports OpenAPI 3 server variables and binds them from the WHERE
 // clause when:
@@ -23,23 +32,25 @@
 //   region             (cluster spec.region, e.g. ap-southeast-2)
 //   cloud_provider     (cluster spec.cloud lower-cased: aws|gcp|azure)
 //
-// Run AFTER `npm run generate-provider`, BEFORE the test step. Idempotent —
-// re-runs are no-ops once the templated servers are in place.
+// Run AFTER `npm run generate-provider:kafka`, BEFORE the test step.
+// Idempotent — re-runs are no-ops once the templated servers are in place.
 //
-// Note: this is a Confluent-specific exception. Do NOT generalise into
-// stackql-provider-utils — Confluent's per-cluster dataplane shape is
-// unusual; most providers have a single base URL.
+// Note: this is a Confluent-Cloud-specific exception. Do NOT generalise into
+// stackql-provider-utils — most providers have a single base URL.
 //
 // Usage:
 //   node provider-dev/scripts/replace_kafka_servers.mjs
 //   node provider-dev/scripts/replace_kafka_servers.mjs --dry-run
 
 import fs from 'node:fs';
+import path from 'node:path';
 import yaml from 'js-yaml';
 
 const args = process.argv.slice(2);
 const DRY = args.includes('--dry-run');
-const TARGET = (() => { const i = args.indexOf('--target'); return i !== -1 ? args[i + 1] : 'provider-dev/openapi/src/confluent/v00.00.00000/services/kafka.yaml'; })();
+const ROOT = (() => { const i = args.indexOf('--root'); return i !== -1 ? args[i + 1] : 'provider-dev/openapi/src/kafka/v00.00.00000/services'; })();
+
+const TARGET_FILES = ['kafka.yaml', 'share_group.yaml', 'streams_group.yaml'];
 
 const TEMPLATED_SERVERS = [
   {
@@ -61,32 +72,36 @@ const TEMPLATED_SERVERS = [
   },
 ];
 
-if (!fs.existsSync(TARGET)) {
-  console.error(`[replace-kafka-servers] target not found: ${TARGET}`);
-  console.error('Run `npm run generate-provider` first.');
-  process.exit(1);
-}
-
-const before = fs.readFileSync(TARGET, 'utf8');
-const doc = yaml.load(before);
-
-// Idempotency: if doc.servers already matches the templated shape (deep-equal
-// after canonical YAML serialisation), exit clean.
 const expected = yaml.dump(TEMPLATED_SERVERS, { sortKeys: true });
-const actual = yaml.dump(doc.servers, { sortKeys: true });
-if (actual === expected) {
-  console.log(`[replace-kafka-servers] already in sync: ${TARGET}`);
-  process.exit(0);
+
+let hadError = false;
+for (const file of TARGET_FILES) {
+  const target = path.join(ROOT, file);
+  if (!fs.existsSync(target)) {
+    console.error(`[replace-kafka-servers] target not found: ${target}`);
+    console.error('Run `npm run generate-provider:kafka` first.');
+    hadError = true;
+    continue;
+  }
+
+  const before = fs.readFileSync(target, 'utf8');
+  const doc = yaml.load(before);
+
+  const actual = yaml.dump(doc.servers, { sortKeys: true });
+  if (actual === expected) {
+    console.log(`[replace-kafka-servers] already in sync: ${target}`);
+    continue;
+  }
+
+  doc.servers = TEMPLATED_SERVERS;
+  const after = yaml.dump(doc, { noRefs: true, sortKeys: false, lineWidth: -1 });
+
+  if (DRY) {
+    console.log(`[dry] would replace servers in ${target}`);
+  } else {
+    fs.writeFileSync(target, after);
+    console.log(`replaced servers in ${target}`);
+  }
 }
 
-doc.servers = TEMPLATED_SERVERS;
-const after = yaml.dump(doc, { noRefs: true, sortKeys: false, lineWidth: -1 });
-
-if (DRY) {
-  console.log(`[dry] would replace servers in ${TARGET}`);
-  console.log('new servers:');
-  console.log(yaml.dump(TEMPLATED_SERVERS));
-} else {
-  fs.writeFileSync(TARGET, after);
-  console.log(`replaced servers in ${TARGET}`);
-}
+if (hadError) process.exit(1);

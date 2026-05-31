@@ -1,0 +1,26 @@
+---
+title: kafka
+hide_title: false
+hide_table_of_contents: false
+keywords:
+  - kafka
+  - confluent
+  - stackql
+  - infrastructure-as-code
+  - configuration-as-data
+  - cloud inventory
+description: Query, deploy and manage Kafka dataplane resources (topics, ACLs, consumer groups, configs, cluster linking) using SQL
+custom_edit_url: null
+image: /img/stackql-kafka-provider-featured-image.png
+id: 'provider-intro'
+---
+
+import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
+
+Kafka REST v3 dataplane for managing topics, partitions, consumer groups, ACLs, configs, records, cluster linking, share groups, and streams groups against a specific Kafka cluster. Targets the Confluent Kafka REST v3 surface as implemented by Confluent Cloud; the same surface is also implemented by Confluent Platform, Karapace, and (partially) Redpanda's HTTP Proxy.
+
+:::tip[Related provider]
+
+This provider covers Kafka **dataplane** operations against a specific Kafka cluster. For Confluent Cloud **control-plane** operations (org, environments, IAM, managed cluster lifecycle, schema registry control, connectors, Flink, networking, billing), see the [`confluent`](https://confluent-provider.stackql.io) provider.
+
+:::

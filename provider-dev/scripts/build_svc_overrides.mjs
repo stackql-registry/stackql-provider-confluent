@@ -24,7 +24,16 @@ const getArg = (flag, dflt = null) => {
   return i !== -1 ? args[i + 1] : dflt;
 };
 
-const EXISTING_DIR = getArg('--existing-dir', 'provider-dev/openapi/src/confluent/v00.00.00000/services');
+// Comma-separated list of existing per-provider services dirs. Each dir is
+// walked independently and its files contribute votes for which existing
+// service a newly-split bucket should fold into. Service names are local to
+// each dir, so e.g. `kafka.yaml` under the kafka provider tree votes for
+// `kafka`, and the splitter writes that bucket as kafka.yaml under whichever
+// provider's tree the sort step routes it into.
+const EXISTING_DIRS = getArg(
+  '--existing-dirs',
+  'provider-dev/openapi/src/confluent/v00.00.00000/services,provider-dev/openapi/src/kafka/v00.00.00000/services'
+);
 const NEW_SPEC = getArg('--new-spec', 'provider-dev/downloaded/openapi.yaml');
 const DISCRIMINATOR_FN = getArg('--discriminator-fn', 'provider-dev/scripts/confluent-svc.mjs');
 const OUT = getArg('--out', 'provider-dev/config/svc_name_overrides.json');
@@ -36,19 +45,26 @@ function loadDoc(filePath) {
   return yaml.load(text);
 }
 
-// Build (operationId -> existing service name) and (path+verb -> existing service name) from the current provider.
-function indexExisting(dir) {
+// Build (operationId -> existing service name) and (path+verb -> existing service name)
+// across one or more existing per-provider services dirs.
+function indexExisting(dirs) {
   const byOpId = new Map();
   const byPathVerb = new Map();
-  const files = fs.readdirSync(dir).filter(f => f.endsWith('.yaml'));
-  for (const f of files) {
-    const svc = f.replace(/\.yaml$/, '');
-    const doc = loadDoc(path.join(dir, f));
-    for (const [p, methods] of Object.entries(doc?.paths || {})) {
-      for (const [v, op] of Object.entries(methods || {})) {
-        if (!OPS.includes(v) || !op) continue;
-        if (op.operationId) byOpId.set(op.operationId, svc);
-        byPathVerb.set(`${p}\t${v}`, svc);
+  for (const dir of dirs) {
+    if (!fs.existsSync(dir)) {
+      console.log(`[build-overrides] existing dir not found, skipping: ${dir}`);
+      continue;
+    }
+    const files = fs.readdirSync(dir).filter(f => f.endsWith('.yaml'));
+    for (const f of files) {
+      const svc = f.replace(/\.yaml$/, '');
+      const doc = loadDoc(path.join(dir, f));
+      for (const [p, methods] of Object.entries(doc?.paths || {})) {
+        for (const [v, op] of Object.entries(methods || {})) {
+          if (!OPS.includes(v) || !op) continue;
+          if (op.operationId) byOpId.set(op.operationId, svc);
+          byPathVerb.set(`${p}\t${v}`, svc);
+        }
       }
     }
   }
@@ -86,9 +102,10 @@ function walkNewSpec(spec, discriminator) {
 }
 
 async function main() {
-  // 1. Index current provider
-  const { byOpId, byPathVerb } = indexExisting(EXISTING_DIR);
-  console.log(`[build-overrides] indexed ${byOpId.size} operationIds across existing provider in ${EXISTING_DIR}`);
+  // 1. Index current providers
+  const existingDirs = EXISTING_DIRS.split(',').map(s => s.trim()).filter(Boolean);
+  const { byOpId, byPathVerb } = indexExisting(existingDirs);
+  console.log(`[build-overrides] indexed ${byOpId.size} operationIds across existing dirs: ${existingDirs.join(', ')}`);
 
   // 2. Load new spec (yaml or json — js-yaml handles both)
   const newSpec = loadDoc(NEW_SPEC);
