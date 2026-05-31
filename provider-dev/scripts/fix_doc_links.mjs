@@ -8,6 +8,10 @@
  * doesn't exist in our docs), but we can swap to action: 'replace' once we
  * have a destination URL.
  *
+ * Per-provider scoping: each provider has its own FIXES map (CONFLUENT_FIXES,
+ * KAFKA_FIXES). Pass `--provider <name>` to pick one. The default `--root` is
+ * `website/<provider>` so the script targets that provider's microsite only.
+ *
  * Map shape:
  *   {
  *     '<doc_path_relative_to_website>': [
@@ -30,12 +34,19 @@
  *   - For action 'replace': every occurrence of `link` in the file is
  *     replaced with `replaceWith` (string-literal, not regex).
  *
- * Run after `npm run generate-docs`, before `yarn build`.
+ * The badge-strip pass (img.shields.io badges and their wrapping links) runs
+ * unconditionally on every `*.md` under `--root/docs/` and applies equally
+ * to both providers.
  *
- * Usage:
- *   node provider-dev/scripts/fix_doc_links.mjs
- *   node provider-dev/scripts/fix_doc_links.mjs --dry-run
- *   node provider-dev/scripts/fix_doc_links.mjs --root website
+ * Run after `generate-docs`. Wired into the per-provider generate-docs:*
+ * scripts in package.json, so a one-shot regen is:
+ *   npm run generate-docs:confluent
+ *   npm run generate-docs:kafka
+ *
+ * Usage (manual):
+ *   node provider-dev/scripts/fix_doc_links.mjs --provider confluent
+ *   node provider-dev/scripts/fix_doc_links.mjs --provider kafka --dry-run
+ *   node provider-dev/scripts/fix_doc_links.mjs --provider confluent --root website/confluent
  */
 
 import fs from 'node:fs';
@@ -43,9 +54,13 @@ import path from 'node:path';
 
 const args = process.argv.slice(2);
 const DRY = args.includes('--dry-run');
+const PROVIDER = (() => {
+  const i = args.indexOf('--provider');
+  return i !== -1 ? args[i + 1] : 'confluent';
+})();
 const ROOT = (() => {
   const i = args.indexOf('--root');
-  return i !== -1 ? args[i + 1] : 'website';
+  return i !== -1 ? args[i + 1] : `website/${PROVIDER}`;
 })();
 
 // ---------- FIX MAP ----------
@@ -57,8 +72,8 @@ const LIFECYCLE = {
   action: 'remove',
 };
 
-// Pages where ONLY the lifecycle anchor is broken.
-const LIFECYCLE_ONLY_PAGES = [
+// Pages on the confluent microsite where ONLY the lifecycle anchor is broken.
+const CONFLUENT_LIFECYCLE_ONLY_PAGES = [
   'docs/services/billing/costs/index.md',
   'docs/services/catalog/business_metadata_defs/index.md',
   'docs/services/catalog/business_metadata/index.md',
@@ -96,22 +111,6 @@ const LIFECYCLE_ONLY_PAGES = [
   'docs/services/iam/role_bindings/index.md',
   'docs/services/iam/service_accounts/index.md',
   'docs/services/iam/users/index.md',
-  'docs/services/kafka/acls/index.md',
-  'docs/services/kafka/cluster_configs/index.md',
-  'docs/services/kafka/cluster_link_configs/index.md',
-  'docs/services/kafka/cluster_links/index.md',
-  'docs/services/kafka/clusters/index.md',
-  'docs/services/kafka/consumer_groups/index.md',
-  'docs/services/kafka/consumers_lag_summary/index.md',
-  'docs/services/kafka/consumers_lags/index.md',
-  'docs/services/kafka/consumers/index.md',
-  'docs/services/kafka/default_topic_configs/index.md',
-  'docs/services/kafka/group_configs/index.md',
-  'docs/services/kafka/mirror_topics/index.md',
-  'docs/services/kafka/records/index.md',
-  'docs/services/kafka/topic_configs/index.md',
-  'docs/services/kafka/topic_partitions/index.md',
-  'docs/services/kafka/topics/index.md',
   'docs/services/ksqldb_clusters/clusters/index.md',
   'docs/services/managed_kafka_clusters/clusters/index.md',
   'docs/services/networking/access_points/index.md',
@@ -147,9 +146,6 @@ const LIFECYCLE_ONLY_PAGES = [
   'docs/services/schema_registry_clusters/regions/index.md',
   'docs/services/schema_registry_clusters/v2_clusters/index.md',
   'docs/services/schema_registry_clusters/v3_clusters/index.md',
-  'docs/services/share_group/consumer_assignments/index.md',
-  'docs/services/share_group/consumers/index.md',
-  'docs/services/share_group/share_groups/index.md',
   'docs/services/sql/agents/index.md',
   'docs/services/sql/connections/index.md',
   'docs/services/sql/materialized_table_versions/index.md',
@@ -165,6 +161,37 @@ const LIFECYCLE_ONLY_PAGES = [
   'docs/services/stream_sharing/provider_shares/index.md',
   'docs/services/stream_sharing/shared_resources_network_config/index.md',
   'docs/services/stream_sharing/shared_tokens/index.md',
+  'docs/services/sts/oauth_tokens/index.md',
+  'docs/services/tableflow/catalog_integrations/index.md',
+  'docs/services/tableflow/regions/index.md',
+  'docs/services/tableflow/topics/index.md',
+  'docs/services/usm/connect_clusters/index.md',
+  'docs/services/usm/kafka_clusters/index.md',
+];
+
+// Pages on the kafka microsite where ONLY the lifecycle anchor is broken.
+// These are the per-resource pages emitted by generate-docs:kafka under
+// website/kafka/docs/services/{kafka,share_group,streams_group}/.
+const KAFKA_LIFECYCLE_ONLY_PAGES = [
+  'docs/services/kafka/acls/index.md',
+  'docs/services/kafka/cluster_configs/index.md',
+  'docs/services/kafka/cluster_link_configs/index.md',
+  'docs/services/kafka/cluster_links/index.md',
+  'docs/services/kafka/clusters/index.md',
+  'docs/services/kafka/consumer_groups/index.md',
+  'docs/services/kafka/consumers_lag_summary/index.md',
+  'docs/services/kafka/consumers_lags/index.md',
+  'docs/services/kafka/consumers/index.md',
+  'docs/services/kafka/default_topic_configs/index.md',
+  'docs/services/kafka/group_configs/index.md',
+  'docs/services/kafka/mirror_topics/index.md',
+  'docs/services/kafka/records/index.md',
+  'docs/services/kafka/topic_configs/index.md',
+  'docs/services/kafka/topic_partitions/index.md',
+  'docs/services/kafka/topics/index.md',
+  'docs/services/share_group/consumer_assignments/index.md',
+  'docs/services/share_group/consumers/index.md',
+  'docs/services/share_group/share_groups/index.md',
   'docs/services/streams_group/member_assignment_task_partitions/index.md',
   'docs/services/streams_group/member_assignment_tasks/index.md',
   'docs/services/streams_group/member_assignments/index.md',
@@ -174,20 +201,15 @@ const LIFECYCLE_ONLY_PAGES = [
   'docs/services/streams_group/members/index.md',
   'docs/services/streams_group/streams_groups/index.md',
   'docs/services/streams_group/subtopologies/index.md',
-  'docs/services/sts/oauth_tokens/index.md',
-  'docs/services/tableflow/catalog_integrations/index.md',
-  'docs/services/tableflow/regions/index.md',
-  'docs/services/tableflow/topics/index.md',
-  'docs/services/usm/connect_clusters/index.md',
-  'docs/services/usm/kafka_clusters/index.md',
 ];
 
-const FIXES = {};
-for (const p of LIFECYCLE_ONLY_PAGES) FIXES[p] = [LIFECYCLE];
+// Build the confluent FIXES map.
+const CONFLUENT_FIXES = {};
+for (const p of CONFLUENT_LIFECYCLE_ONLY_PAGES) CONFLUENT_FIXES[p] = [LIFECYCLE];
 
 // connectors page has the lifecycle anchor PLUS two cross-resource anchors that
 // don't resolve. Unwrap all three; the prose still reads sensibly.
-FIXES['docs/services/connect/connectors/index.md'] = [
+CONFLUENT_FIXES['docs/services/connect/connectors/index.md'] = [
   LIFECYCLE,
   { link: '#operation/readConnectv1Connector', action: 'remove' },
   { link: '#operation/listConnectv1Connectors', action: 'remove' },
@@ -199,14 +221,13 @@ FIXES['docs/services/connect/connectors/index.md'] = [
 // doesn't exist on this page) instead of treating the whole `(https://...)`
 // as the link target. Closing the space turns it into a well-formed external
 // link to Confluent's real lifecycle-policy docs.
-FIXES['docs/services/iam/identity_providers/index.md'] = [
+CONFLUENT_FIXES['docs/services/iam/identity_providers/index.md'] = [
   {
     action: 'replace',
     link: '[Early Access lifecycle stage] (https://docs.confluent.io/cloud/current/api.html#section/Versioning/API-Lifecycle-Policy)',
     replaceWith: '[Early Access lifecycle stage](https://docs.confluent.io/cloud/current/api.html#section/Versioning/API-Lifecycle-Policy)',
   },
 ];
-
 
 // SQL pages where MDX is mis-parsing regex char-classes inside <code> blocks
 // as bracketed link refs. The structure `[a-z0-9](...)` looks identical to
@@ -266,8 +287,24 @@ const SQL_REGEX_FIXES = {
   ],
 };
 for (const [p, fixes] of Object.entries(SQL_REGEX_FIXES)) {
-  FIXES[p] = (FIXES[p] || []).concat(fixes);
+  CONFLUENT_FIXES[p] = (CONFLUENT_FIXES[p] || []).concat(fixes);
 }
+
+// Build the kafka FIXES map. Today just lifecycle unwraps. Extend here if the
+// kafka microsite starts surfacing its own broken-link patterns post-regen.
+const KAFKA_FIXES = {};
+for (const p of KAFKA_LIFECYCLE_ONLY_PAGES) KAFKA_FIXES[p] = [LIFECYCLE];
+
+const FIXES = (() => {
+  switch (PROVIDER) {
+    case 'confluent': return CONFLUENT_FIXES;
+    case 'kafka':     return KAFKA_FIXES;
+    default:
+      console.error(`[fix] unknown provider: ${PROVIDER} (expected one of: confluent, kafka)`);
+      process.exit(1);
+  }
+})();
+console.log(`[fix] provider=${PROVIDER}, root=${ROOT}, ${Object.keys(FIXES).length} files in FIX map`);
 
 // ---------- ENGINE ----------
 

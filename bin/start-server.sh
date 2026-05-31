@@ -59,7 +59,7 @@ fi
 
 # If registry path not specified, use current directory
 if [ -z "$REG_PATH" ]; then
-  REG_PATH="$BASE_DIR/provider-dev/openapi/src"
+  REG_PATH="$BASE_DIR/provider-dev/openapi"
 fi
 
 echo "Using provider: $PROVIDER"

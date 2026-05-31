@@ -1,0 +1,19 @@
+[
+  {
+    "url": "https://{kafka_endpoint_id}.{region}.{cloud_provider}.confluent.cloud",
+    "variables": {
+      "kafka_endpoint_id": {
+        "default": "pkc-00000",
+        "description": "Per-cluster Kafka REST endpoint ID (the pkc-* host prefix from the Confluent UI Cluster -> Overview -> REST endpoint, or extract from confluent.managed_kafka_clusters.clusters spec.http_endpoint)."
+      },
+      "region": {
+        "default": "region",
+        "description": "Cloud region the cluster runs in, e.g. ap-southeast-2 (from the cluster spec.region)."
+      },
+      "cloud_provider": {
+        "default": "cloud",
+        "description": "Cloud provider, lowercase: aws, gcp, or azure (from the cluster spec.cloud)."
+      }
+    }
+  }
+]

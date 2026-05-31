@@ -1,0 +1,7 @@
+{
+  "auth": {
+    "type": "basic",
+    "username_var": "KAFKA_API_KEY",
+    "password_var": "KAFKA_API_SECRET"
+  }
+}
