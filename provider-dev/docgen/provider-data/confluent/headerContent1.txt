@@ -18,3 +18,9 @@ id: 'provider-intro'
 import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
 
 Confluent Cloud for managing Kafka clusters, topics, and streaming services in a scalable cloud environment.
+
+:::tip[Related provider]
+
+This provider covers Confluent Cloud **control-plane** operations (org, environments, IAM, managed cluster lifecycle, schema registry control, connectors, Flink, networking, billing). For Kafka **dataplane** operations against a specific cluster (topics, ACLs, consumer groups, configs, records, cluster linking, share groups, streams groups), see the [`kafka`](https://kafka-provider.stackql.io) provider.
+
+:::

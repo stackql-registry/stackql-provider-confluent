@@ -327,7 +327,7 @@ Each microsite has its own install + build + serve cycle:
 
 ```bash
 cd website/confluent
-yarn install
+yarn
 yarn build      # production build
 yarn serve      # local dev server
 cd ../..
@@ -335,9 +335,10 @@ cd ../..
 
 ```bash
 cd website/kafka
-yarn install
+yarn
 yarn build
 yarn serve
+cd ../..
 ```
 
 ## 11. Publish web docs

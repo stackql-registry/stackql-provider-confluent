@@ -19,4 +19,8 @@ import CopyableCode from '@site/src/components/CopyableCode/CopyableCode';
 
 Kafka REST v3 dataplane for managing topics, partitions, consumer groups, ACLs, configs, records, cluster linking, share groups, and streams groups against a specific Kafka cluster. Targets the Confluent Kafka REST v3 surface as implemented by Confluent Cloud; the same surface is also implemented by Confluent Platform, Karapace, and (partially) Redpanda's HTTP Proxy.
 
-For control-plane operations (org, environments, IAM, managed cluster lifecycle, schema registry control, connectors, Flink, networking, billing), see the [`confluent`](/providers/confluent) provider.
+:::tip[Related provider]
+
+This provider covers Kafka **dataplane** operations against a specific Kafka cluster. For Confluent Cloud **control-plane** operations (org, environments, IAM, managed cluster lifecycle, schema registry control, connectors, Flink, networking, billing), see the [`confluent`](https://confluent-provider.stackql.io) provider.
+
+:::
