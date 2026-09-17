@@ -102,6 +102,139 @@ stackql.exe shell --auth=$Auth
 ```
 </details>
 
+## Example Queries
+
+Try the following queries using `stackql shell`, or run them from a script or CI pipeline with `stackql exec`.
+
+### Topics in a cluster
+
+Every topic in the cluster with its partition count and replication factor:
+
+```sql
+SELECT topic_name, partitions_count, replication_factor, is_internal
+FROM kafka.kafka.topics
+WHERE cluster_id = 'lkc-xxxxx'
+  AND kafka_endpoint_id = 'pkc-xxxxx'
+  AND region = 'ap-southeast-2'
+  AND cloud_provider = 'aws'
+ORDER BY topic_name;
+```
+
+### Topic configuration overrides
+
+Configuration values set explicitly on a topic rather than inherited from the cluster defaults, across every topic in the cluster:
+
+```sql
+SELECT topic_name, name, value
+FROM kafka.kafka.topic_configs
+WHERE cluster_id = 'lkc-xxxxx'
+  AND kafka_endpoint_id = 'pkc-xxxxx'
+  AND region = 'ap-southeast-2'
+  AND cloud_provider = 'aws'
+  AND source = 'DYNAMIC_TOPIC_CONFIG'
+ORDER BY topic_name, name;
+```
+
+### Partitions
+
+Partitions of a topic, with the REST links to each partition's leader and replica set:
+
+```sql
+SELECT topic_name, partition_id,
+       json_extract(leader, '$.related') AS leader,
+       json_extract(replicas, '$.related') AS replicas
+FROM kafka.kafka.topic_partitions
+WHERE cluster_id = 'lkc-xxxxx'
+  AND topic_name = 'orders'
+  AND kafka_endpoint_id = 'pkc-xxxxx'
+  AND region = 'ap-southeast-2'
+  AND cloud_provider = 'aws'
+ORDER BY partition_id;
+```
+
+### Consumer groups
+
+Consumer groups on the cluster with their state, group type and assignment strategy:
+
+```sql
+SELECT consumer_group_id, state, type, partition_assignor, is_simple
+FROM kafka.kafka.consumer_groups
+WHERE cluster_id = 'lkc-xxxxx'
+  AND kafka_endpoint_id = 'pkc-xxxxx'
+  AND region = 'ap-southeast-2'
+  AND cloud_provider = 'aws'
+ORDER BY consumer_group_id;
+```
+
+### Consumer lag
+
+Total and maximum lag for a consumer group, with the partition and consumer that are furthest behind:
+
+```sql
+SELECT consumer_group_id, total_lag, max_lag,
+       max_lag_topic_name, max_lag_partition_id, max_lag_consumer_id
+FROM kafka.kafka.consumers_lag_summary
+WHERE cluster_id = 'lkc-xxxxx'
+  AND consumer_group_id = 'orders-processor'
+  AND kafka_endpoint_id = 'pkc-xxxxx'
+  AND region = 'ap-southeast-2'
+  AND cloud_provider = 'aws';
+```
+
+Per-partition lag for the same group, largest first:
+
+```sql
+SELECT topic_name, partition_id, consumer_id, current_offset, log_end_offset, lag
+FROM kafka.kafka.consumers_lags
+WHERE cluster_id = 'lkc-xxxxx'
+  AND consumer_group_id = 'orders-processor'
+  AND kafka_endpoint_id = 'pkc-xxxxx'
+  AND region = 'ap-southeast-2'
+  AND cloud_provider = 'aws'
+ORDER BY lag DESC;
+```
+
+### ACLs
+
+ACL bindings on the cluster, one row per binding, expanding the `data` array with `json_each` (the `UserV2:*` principal filter returns service accounts in `sa-xxxxx` form rather than numeric IDs):
+
+```sql
+SELECT json_extract(a.value, '$.principal') AS principal,
+       json_extract(a.value, '$.resource_type') AS resource_type,
+       json_extract(a.value, '$.resource_name') AS resource_name,
+       json_extract(a.value, '$.pattern_type') AS pattern_type,
+       json_extract(a.value, '$.operation') AS operation,
+       json_extract(a.value, '$.permission') AS permission
+FROM kafka.kafka.acls l, json_each(l.data) a
+WHERE l.cluster_id = 'lkc-xxxxx'
+  AND l.kafka_endpoint_id = 'pkc-xxxxx'
+  AND l.region = 'ap-southeast-2'
+  AND l.cloud_provider = 'aws'
+  AND l.principal = 'UserV2:*'
+ORDER BY principal, resource_type, resource_name;
+```
+
+### Topic lifecycle
+
+Create a topic with a retention override (Confluent Cloud requires a replication factor of 3), then delete it:
+
+```sql
+INSERT INTO kafka.kafka.topics (
+  topic_name, partitions_count, replication_factor, configs,
+  cluster_id, kafka_endpoint_id, region, cloud_provider
+)
+SELECT 'orders', 6, 3,
+       '[{"name": "retention.ms", "value": "604800000"}]',
+       'lkc-xxxxx', 'pkc-xxxxx', 'ap-southeast-2', 'aws';
+
+DELETE FROM kafka.kafka.topics
+WHERE cluster_id = 'lkc-xxxxx'
+  AND topic_name = 'orders'
+  AND kafka_endpoint_id = 'pkc-xxxxx'
+  AND region = 'ap-southeast-2'
+  AND cloud_provider = 'aws';
+```
+
 
 ## Services
 <div class="row">
