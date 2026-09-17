@@ -42,3 +42,174 @@ stackql.exe shell --auth=$Auth
 
 ```
 </details>
+
+## Example Queries
+
+Try the following queries using `stackql shell`, or run them from a script or CI pipeline with `stackql exec`.
+
+### Environments
+
+Every environment in the organization, with its Stream Governance package and creation time:
+
+```sql
+SELECT id, display_name,
+       json_extract(stream_governance_config, '$.package') AS governance_package,
+       json_extract(metadata, '$.created_at') AS created_at
+FROM confluent.org.environments
+ORDER BY display_name;
+```
+
+### Kafka clusters in an environment
+
+Cluster name, cloud, region, cluster type, availability and lifecycle phase, read out of the nested `spec` and `status` columns:
+
+```sql
+SELECT id,
+       json_extract(spec, '$.display_name') AS display_name,
+       json_extract(spec, '$.cloud') AS cloud,
+       json_extract(spec, '$.region') AS region,
+       json_extract(spec, '$.config.kind') AS cluster_type,
+       json_extract(spec, '$.availability') AS availability,
+       json_extract(status, '$.phase') AS phase
+FROM confluent.managed_kafka_clusters.clusters
+WHERE environment = 'env-xxxxx'
+ORDER BY display_name;
+```
+
+The `vw_clusters` view returns the same fields already flattened, including the endpoints a client or the `kafka` provider needs:
+
+```sql
+SELECT id, display_name, cloud, region, config_kind, phase,
+       http_endpoint, kafka_bootstrap_endpoint
+FROM confluent.managed_kafka_clusters.vw_clusters
+WHERE environment = 'env-xxxxx';
+```
+
+### Service accounts and API keys
+
+Service accounts in the organization:
+
+```sql
+SELECT id, display_name, description,
+       json_extract(metadata, '$.created_at') AS created_at
+FROM confluent.iam.service_accounts
+ORDER BY display_name;
+```
+
+API keys owned by one service account, with the resource each key is scoped to (`CLOUD` for a Cloud API key, otherwise a cluster ID):
+
+```sql
+SELECT id,
+       json_extract(spec, '$.display_name') AS key_name,
+       json_extract(spec, '$.resource.id') AS resource_id,
+       json_extract(metadata, '$.created_at') AS created_at
+FROM confluent.iam.api_keys
+WHERE json_extract(spec, '$.owner.id') = 'sa-xxxxx'
+ORDER BY created_at;
+```
+
+### Connectors
+
+Names of the connectors running against a Kafka cluster:
+
+```sql
+SELECT connectv1_connector AS connector_name
+FROM confluent.connect.connectors
+WHERE environment_id = 'env-xxxxx'
+  AND kafka_cluster_id = 'lkc-xxxxx';
+```
+
+Status of one connector with one row per task, expanding the `tasks` array with `json_each`:
+
+```sql
+SELECT s.name, s.type,
+       json_extract(s.connector, '$.state') AS connector_state,
+       json_extract(t.value, '$.id') AS task_id,
+       json_extract(t.value, '$.state') AS task_state
+FROM confluent.connect.connector_status s, json_each(s.tasks) t
+WHERE s.connector_name = 'my-s3-sink'
+  AND s.environment_id = 'env-xxxxx'
+  AND s.kafka_cluster_id = 'lkc-xxxxx'
+ORDER BY task_id;
+```
+
+### Schema Registry clusters
+
+The Schema Registry cluster in an environment, with its package, location, endpoint and phase:
+
+```sql
+SELECT id,
+       json_extract(spec, '$.display_name') AS display_name,
+       json_extract(spec, '$.package') AS package,
+       json_extract(spec, '$.cloud') AS cloud,
+       json_extract(spec, '$.region') AS region,
+       json_extract(spec, '$.http_endpoint') AS http_endpoint,
+       json_extract(status, '$.phase') AS phase
+FROM confluent.schema_registry_clusters.v3_clusters
+WHERE environment = 'env-xxxxx';
+```
+
+### ksqlDB clusters
+
+ksqlDB clusters in an environment, with CSU sizing, the Kafka cluster each one is attached to and whether it is paused:
+
+```sql
+SELECT id,
+       json_extract(spec, '$.display_name') AS display_name,
+       json_extract(spec, '$.csu') AS csu,
+       json_extract(spec, '$.kafka_cluster.id') AS kafka_cluster_id,
+       json_extract(status, '$.phase') AS phase,
+       json_extract(status, '$.is_paused') AS is_paused,
+       json_extract(status, '$.http_endpoint') AS http_endpoint
+FROM confluent.ksqldb_clusters.clusters
+WHERE environment = 'env-xxxxx';
+```
+
+### Flink compute pools
+
+Compute pools in an environment, with the CFU limit against current CFU usage:
+
+```sql
+SELECT id,
+       json_extract(spec, '$.display_name') AS display_name,
+       json_extract(spec, '$.cloud') AS cloud,
+       json_extract(spec, '$.region') AS region,
+       json_extract(spec, '$.max_cfu') AS max_cfu,
+       json_extract(status, '$.current_cfu') AS current_cfu,
+       json_extract(status, '$.phase') AS phase
+FROM confluent.flink_compute_pools.compute_pools
+WHERE environment = 'env-xxxxx'
+ORDER BY current_cfu DESC;
+```
+
+### Clusters by cloud provider across environments
+
+Joining environments to clusters gives an organization-wide count of Kafka clusters per cloud provider and cluster type:
+
+```sql
+SELECT json_extract(c.spec, '$.cloud') AS cloud,
+       json_extract(c.spec, '$.config.kind') AS cluster_type,
+       COUNT(*) AS clusters
+FROM confluent.org.environments e
+JOIN confluent.managed_kafka_clusters.clusters c
+  ON c.environment = e.id
+GROUP BY cloud, cluster_type
+ORDER BY clusters DESC;
+```
+
+### Service account lifecycle
+
+Create a service account, update its description, then delete it (deleting a service account also deletes the API keys it owns):
+
+```sql
+INSERT INTO confluent.iam.service_accounts (display_name, description)
+SELECT 'ci-runner', 'CI pipeline access'
+RETURNING id, display_name;
+
+UPDATE confluent.iam.service_accounts
+SET description = 'CI pipeline access, rotated 2026-09'
+WHERE id = 'sa-xxxxx';
+
+DELETE FROM confluent.iam.service_accounts
+WHERE id = 'sa-xxxxx';
+```
