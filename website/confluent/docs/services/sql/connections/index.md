@@ -55,7 +55,7 @@ Connection.
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>The user provided name of the resource, unique within this environment. (example: my-openai-connection, pattern: <code>&lsqb;a-z0-9&rsqb;(&lsqb;-a-z0-9&rsqb;*&lsqb;a-z0-9&rsqb;)?(\.&lsqb;a-z0-9&rsqb;(&lsqb;-a-z0-9&rsqb;*&lsqb;a-z0-9&rsqb;)?)*</code>)</td>
+    <td>The user provided name of the resource, unique within this environment. (example: my-openai-connection, pattern: <code>&#91;a-z0-9&#93;(&#91;-a-z0-9&#93;*&#91;a-z0-9&#93;)?(\.&#91;a-z0-9&#93;(&#91;-a-z0-9&#93;*&#91;a-z0-9&#93;)?)*</code>)</td>
 </tr>
 <tr>
     <td><CopyableCode code="api_version" /></td>
@@ -101,7 +101,7 @@ Connections.
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>The user provided name of the resource, unique within this environment. (example: my-openai-connection, pattern: <code>&lsqb;a-z0-9&rsqb;(&lsqb;-a-z0-9&rsqb;*&lsqb;a-z0-9&rsqb;)?(\.&lsqb;a-z0-9&rsqb;(&lsqb;-a-z0-9&rsqb;*&lsqb;a-z0-9&rsqb;)?)*</code>)</td>
+    <td>The user provided name of the resource, unique within this environment. (example: my-openai-connection, pattern: <code>&#91;a-z0-9&#93;(&#91;-a-z0-9&#93;*&#91;a-z0-9&#93;)?(\.&#91;a-z0-9&#93;(&#91;-a-z0-9&#93;*&#91;a-z0-9&#93;)?)*</code>)</td>
 </tr>
 <tr>
     <td><CopyableCode code="api_version" /></td>

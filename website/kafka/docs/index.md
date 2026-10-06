@@ -30,6 +30,7 @@ This provider covers Kafka **dataplane** operations against a specific Kafka clu
 
 total services: __3__  
 total resources: __31__  
+source project: __[stackql-provider-confluent](https://github.com/stackql-registry/stackql-provider-confluent)__  
 
 :::
 
@@ -48,7 +49,7 @@ REGISTRY PULL kafka;
 
 ## Authentication
 
-The `kafka` provider talks to a per-cluster Kafka REST v3 endpoint, not the Confluent Cloud control plane. It requires a **cluster-scoped Resource API key** (created in the Confluent UI under `Cluster -> API Keys`), which is distinct from the org-level Cloud API key used by the [`confluent`](/providers/confluent) provider.
+The `kafka` provider talks to a per-cluster Kafka REST v3 endpoint, not the Confluent Cloud control plane. It requires a **cluster-scoped Resource API key** (created in the Confluent UI under `Cluster -> API Keys`), which is distinct from the org-level Cloud API key used by the [`confluent`](https://confluent-provider.stackql.io) provider.
 
 The following system environment variables are used for authentication by default:
 

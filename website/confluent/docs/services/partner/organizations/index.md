@@ -60,7 +60,7 @@ Organization.
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>The name of the organization (example: Acme Organization, pattern: <code>^[^&lt;&gt;#%'*^`&#123;|&#125;~\"]&#123;1,31&#125;$</code>)</td>
+    <td>The name of the organization (example: Acme Organization, pattern: <code>^&#91;^&lt;&gt;#%'*^`&#123;|&#125;~\"&#93;&#123;1,31&#125;$</code>)</td>
 </tr>
 <tr>
     <td><CopyableCode code="api_version" /></td>
@@ -111,7 +111,7 @@ Organization.
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>The name of the organization (example: Acme Organization, pattern: <code>^[^&lt;&gt;#%'*^`&#123;|&#125;~\"]&#123;1,31&#125;$</code>)</td>
+    <td>The name of the organization (example: Acme Organization, pattern: <code>^&#91;^&lt;&gt;#%'*^`&#123;|&#125;~\"&#93;&#123;1,31&#125;$</code>)</td>
 </tr>
 <tr>
     <td><CopyableCode code="api_version" /></td>

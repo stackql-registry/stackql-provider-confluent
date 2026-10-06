@@ -60,7 +60,7 @@ Organization.
 <tr>
     <td><CopyableCode code="display_name" /></td>
     <td><code>string</code></td>
-    <td>A human-readable name for the Organization (example: Finance Org, pattern: <code>^[^&lt;&gt;#%'*^`&#123;|&#125;~\"]&#123;1,31&#125;$</code>)</td>
+    <td>A human-readable name for the Organization (example: Finance Org, pattern: <code>^&#91;^&lt;&gt;#%'*^`&#123;|&#125;~\"&#93;&#123;1,31&#125;$</code>)</td>
 </tr>
 <tr>
     <td><CopyableCode code="api_version" /></td>
@@ -106,7 +106,7 @@ Organization.
 <tr>
     <td><CopyableCode code="display_name" /></td>
     <td><code>string</code></td>
-    <td>A human-readable name for the Organization (example: Finance Org, pattern: <code>^[^&lt;&gt;#%'*^`&#123;|&#125;~\"]&#123;1,31&#125;$</code>)</td>
+    <td>A human-readable name for the Organization (example: Finance Org, pattern: <code>^&#91;^&lt;&gt;#%'*^`&#123;|&#125;~\"&#93;&#123;1,31&#125;$</code>)</td>
 </tr>
 <tr>
     <td><CopyableCode code="api_version" /></td>

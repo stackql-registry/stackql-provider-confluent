@@ -97,8 +97,6 @@ The dek info
 </TabItem>
 <TabItem value="get_dek_subjects">
 
-List of dek subjects
-
 <table>
 <thead>
     <tr>
@@ -255,7 +253,7 @@ AND deleted = '{{ deleted }}'
 </TabItem>
 <TabItem value="get_dek_subjects">
 
-List of dek subjects
+No description available.
 
 ```sql
 SELECT

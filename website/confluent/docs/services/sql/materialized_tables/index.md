@@ -55,7 +55,7 @@ The requested Materialized Table.
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>The user-provided name of the resource, unique within this environment. (pattern: <code>^&lsqb;a-zA-Z0-9&rsqb;(&lsqb;a-zA-Z0-9_-&rsqb;*&lsqb;a-zA-Z0-9&rsqb;)?$</code>, example: high-value-orders)</td>
+    <td>The user-provided name of the resource, unique within this environment. (pattern: <code>^&#91;a-zA-Z0-9&#93;(&#91;a-zA-Z0-9_-&#93;*&#91;a-zA-Z0-9&#93;)?$</code>, example: high-value-orders)</td>
 </tr>
 <tr>
     <td><CopyableCode code="environment_id" /></td>
@@ -111,7 +111,7 @@ A list of Materialized Tables.
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>The user-provided name of the resource, unique within this environment. (pattern: <code>^&lsqb;a-zA-Z0-9&rsqb;(&lsqb;a-zA-Z0-9_-&rsqb;*&lsqb;a-zA-Z0-9&rsqb;)?$</code>, example: high-value-orders)</td>
+    <td>The user-provided name of the resource, unique within this environment. (pattern: <code>^&#91;a-zA-Z0-9&#93;(&#91;a-zA-Z0-9_-&#93;*&#91;a-zA-Z0-9&#93;)?$</code>, example: high-value-orders)</td>
 </tr>
 <tr>
     <td><CopyableCode code="environment_id" /></td>

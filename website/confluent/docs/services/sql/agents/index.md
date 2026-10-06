@@ -55,7 +55,7 @@ The requested Agent.
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>The user-provided name of the agent, unique within this environment. (pattern: <code>&lsqb;a-z0-9&rsqb;(&lsqb;-a-z0-9&rsqb;*&lsqb;a-z0-9&rsqb;)?(\.&lsqb;a-z0-9&rsqb;(&lsqb;-a-z0-9&rsqb;*&lsqb;a-z0-9&rsqb;)?)*</code>, example: chat-listener-agent)</td>
+    <td>The user-provided name of the agent, unique within this environment. (pattern: <code>&#91;a-z0-9&#93;(&#91;-a-z0-9&#93;*&#91;a-z0-9&#93;)?(\.&#91;a-z0-9&#93;(&#91;-a-z0-9&#93;*&#91;a-z0-9&#93;)?)*</code>, example: chat-listener-agent)</td>
 </tr>
 <tr>
     <td><CopyableCode code="environment_id" /></td>
@@ -111,7 +111,7 @@ A list of Agents.
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>The user-provided name of the agent, unique within this environment. (pattern: <code>&lsqb;a-z0-9&rsqb;(&lsqb;-a-z0-9&rsqb;*&lsqb;a-z0-9&rsqb;)?(\.&lsqb;a-z0-9&rsqb;(&lsqb;-a-z0-9&rsqb;*&lsqb;a-z0-9&rsqb;)?)*</code>, example: chat-listener-agent)</td>
+    <td>The user-provided name of the agent, unique within this environment. (pattern: <code>&#91;a-z0-9&#93;(&#91;-a-z0-9&#93;*&#91;a-z0-9&#93;)?(\.&#91;a-z0-9&#93;(&#91;-a-z0-9&#93;*&#91;a-z0-9&#93;)?)*</code>, example: chat-listener-agent)</td>
 </tr>
 <tr>
     <td><CopyableCode code="environment_id" /></td>

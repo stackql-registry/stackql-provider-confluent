@@ -122,8 +122,6 @@ The business metadata definition
 </TabItem>
 <TabItem value="get_all_business_metadata_defs">
 
-The business metadata definitions
-
 <table>
 <thead>
     <tr>

@@ -55,7 +55,7 @@ The requested Materialized Table Version.
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>The resource version name, unique within the Kafka cluster. Name conforms to DNS Subdomain (RFC 1123).  (pattern: <code>&lsqb;a-z0-9&rsqb;(&lsqb;-a-z0-9&rsqb;*&lsqb;a-z0-9&rsqb;)?(\.&lsqb;a-z0-9&rsqb;(&lsqb;-a-z0-9&rsqb;*&lsqb;a-z0-9&rsqb;)?)*</code>, example: mt-123-v4)</td>
+    <td>The resource version name, unique within the Kafka cluster. Name conforms to DNS Subdomain (RFC 1123).  (pattern: <code>&#91;a-z0-9&#93;(&#91;-a-z0-9&#93;*&#91;a-z0-9&#93;)?(\.&#91;a-z0-9&#93;(&#91;-a-z0-9&#93;*&#91;a-z0-9&#93;)?)*</code>, example: mt-123-v4)</td>
 </tr>
 <tr>
     <td><CopyableCode code="environment_id" /></td>
@@ -106,7 +106,7 @@ A list of Materialized Table Versions.
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>The resource version name, unique within the Kafka cluster. Name conforms to DNS Subdomain (RFC 1123).  (pattern: <code>&lsqb;a-z0-9&rsqb;(&lsqb;-a-z0-9&rsqb;*&lsqb;a-z0-9&rsqb;)?(\.&lsqb;a-z0-9&rsqb;(&lsqb;-a-z0-9&rsqb;*&lsqb;a-z0-9&rsqb;)?)*</code>, example: mt-123-v4)</td>
+    <td>The resource version name, unique within the Kafka cluster. Name conforms to DNS Subdomain (RFC 1123).  (pattern: <code>&#91;a-z0-9&#93;(&#91;-a-z0-9&#93;*&#91;a-z0-9&#93;)?(\.&#91;a-z0-9&#93;(&#91;-a-z0-9&#93;*&#91;a-z0-9&#93;)?)*</code>, example: mt-123-v4)</td>
 </tr>
 <tr>
     <td><CopyableCode code="environment_id" /></td>

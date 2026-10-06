@@ -75,7 +75,7 @@ Custom Connector Plugin.
 <tr>
     <td><CopyableCode code="connector_class" /></td>
     <td><code>string</code></td>
-    <td>Java class or alias for connector. You can get connector class from connector documentation provided by developer. (pattern: <code>^(([a-zA-Z][a-zA-Z_$0-9]*(\.[a-zA-Z][a-zA-Z_$0-9]*)*)\.)?([a-zA-Z][a-zA-Z_$0-9]*)$</code>, example: io.confluent.kafka.connect.datagen.DatagenConnector)</td>
+    <td>Java class or alias for connector. You can get connector class from connector documentation provided by developer. (pattern: <code>^((&#91;a-zA-Z&#93;&#91;a-zA-Z_$0-9&#93;*(\.&#91;a-zA-Z&#93;&#91;a-zA-Z_$0-9&#93;*)*)\.)?(&#91;a-zA-Z&#93;&#91;a-zA-Z_$0-9&#93;*)$</code>, example: io.confluent.kafka.connect.datagen.DatagenConnector)</td>
 </tr>
 <tr>
     <td><CopyableCode code="connector_type" /></td>
@@ -161,7 +161,7 @@ Custom Connector Plugin.
 <tr>
     <td><CopyableCode code="connector_class" /></td>
     <td><code>string</code></td>
-    <td>Java class or alias for connector. You can get connector class from connector documentation provided by developer. (pattern: <code>^(([a-zA-Z][a-zA-Z_$0-9]*(\.[a-zA-Z][a-zA-Z_$0-9]*)*)\.)?([a-zA-Z][a-zA-Z_$0-9]*)$</code>, example: io.confluent.kafka.connect.datagen.DatagenConnector)</td>
+    <td>Java class or alias for connector. You can get connector class from connector documentation provided by developer. (pattern: <code>^((&#91;a-zA-Z&#93;&#91;a-zA-Z_$0-9&#93;*(\.&#91;a-zA-Z&#93;&#91;a-zA-Z_$0-9&#93;*)*)\.)?(&#91;a-zA-Z&#93;&#91;a-zA-Z_$0-9&#93;*)$</code>, example: io.confluent.kafka.connect.datagen.DatagenConnector)</td>
 </tr>
 <tr>
     <td><CopyableCode code="connector_type" /></td>

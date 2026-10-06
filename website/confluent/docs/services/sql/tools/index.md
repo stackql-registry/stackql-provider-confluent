@@ -55,7 +55,7 @@ Tool.
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>The user provided name of the tool, unique within this environment. (example: linear-mcp-tool, pattern: <code>&lsqb;a-z0-9_&rsqb;(&lsqb;-a-z0-9_&rsqb;*&lsqb;a-z0-9_&rsqb;)?</code>)</td>
+    <td>The user provided name of the tool, unique within this environment. (example: linear-mcp-tool, pattern: <code>&#91;a-z0-9_&#93;(&#91;-a-z0-9_&#93;*&#91;a-z0-9_&#93;)?</code>)</td>
 </tr>
 <tr>
     <td><CopyableCode code="api_version" /></td>
@@ -101,7 +101,7 @@ Tools.
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>The user provided name of the tool, unique within this environment. (example: linear-mcp-tool, pattern: <code>&lsqb;a-z0-9_&rsqb;(&lsqb;-a-z0-9_&rsqb;*&lsqb;a-z0-9_&rsqb;)?</code>)</td>
+    <td>The user provided name of the tool, unique within this environment. (example: linear-mcp-tool, pattern: <code>&#91;a-z0-9_&#93;(&#91;-a-z0-9_&#93;*&#91;a-z0-9_&#93;)?</code>)</td>
 </tr>
 <tr>
     <td><CopyableCode code="api_version" /></td>

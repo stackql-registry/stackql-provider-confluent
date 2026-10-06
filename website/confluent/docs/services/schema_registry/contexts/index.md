@@ -40,8 +40,6 @@ The following fields are returned by `SELECT` queries:
 >
 <TabItem value="list_contexts">
 
-The contexts.
-
 <table>
 <thead>
     <tr>

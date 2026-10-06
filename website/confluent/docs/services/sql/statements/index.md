@@ -55,7 +55,7 @@ Statement.
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>The user provided name of the resource, unique within this environment. (example: sql123, pattern: <code>&lsqb;a-z0-9&rsqb;(&lsqb;-a-z0-9&rsqb;*&lsqb;a-z0-9&rsqb;)?(\.&lsqb;a-z0-9&rsqb;(&lsqb;-a-z0-9&rsqb;*&lsqb;a-z0-9&rsqb;)?)*</code>)</td>
+    <td>The user provided name of the resource, unique within this environment. (example: sql123, pattern: <code>&#91;a-z0-9&#93;(&#91;-a-z0-9&#93;*&#91;a-z0-9&#93;)?(\.&#91;a-z0-9&#93;(&#91;-a-z0-9&#93;*&#91;a-z0-9&#93;)?)*</code>)</td>
 </tr>
 <tr>
     <td><CopyableCode code="environment_id" /></td>
@@ -116,7 +116,7 @@ Statements.
 <tr>
     <td><CopyableCode code="name" /></td>
     <td><code>string</code></td>
-    <td>The user provided name of the resource, unique within this environment. (example: sql123, pattern: <code>&lsqb;a-z0-9&rsqb;(&lsqb;-a-z0-9&rsqb;*&lsqb;a-z0-9&rsqb;)?(\.&lsqb;a-z0-9&rsqb;(&lsqb;-a-z0-9&rsqb;*&lsqb;a-z0-9&rsqb;)?)*</code>)</td>
+    <td>The user provided name of the resource, unique within this environment. (example: sql123, pattern: <code>&#91;a-z0-9&#93;(&#91;-a-z0-9&#93;*&#91;a-z0-9&#93;)?(\.&#91;a-z0-9&#93;(&#91;-a-z0-9&#93;*&#91;a-z0-9&#93;)?)*</code>)</td>
 </tr>
 <tr>
     <td><CopyableCode code="environment_id" /></td>

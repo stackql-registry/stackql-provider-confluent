@@ -1,0 +1,9 @@
+# Netlify site: confluent-provider.stackql.io
+# Base directory (set in Netlify UI): website/confluent
+
+[build]
+  command = "yarn build"
+  publish = "build"
+
+[build.environment]
+  NODE_VERSION = "22"

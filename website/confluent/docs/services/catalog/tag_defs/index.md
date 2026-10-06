@@ -137,8 +137,6 @@ The tag definition
 </TabItem>
 <TabItem value="get_all_tag_defs">
 
-The tag definitions
-
 <table>
 <thead>
     <tr>

@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "generate-docs": "node node_modules/@stackql/provider-utils/bin/docgen-utils.mjs generate-docs",
-    "generate-docs:confluent": "node node_modules/@stackql/provider-utils/bin/docgen-utils.mjs generate-docs --provider-name confluent --provider-dir ./provider-dev/openapi/src/confluent/v00.00.00000 --output-dir ./website/confluent --provider-data-dir ./provider-dev/docgen/provider-data/confluent && node provider-dev/scripts/fix_doc_links.mjs --provider confluent",
-    "generate-docs:kafka": "node node_modules/@stackql/provider-utils/bin/docgen-utils.mjs generate-docs --provider-name kafka --provider-dir ./provider-dev/openapi/src/kafka/v00.00.00000 --output-dir ./website/kafka --provider-data-dir ./provider-dev/docgen/provider-data/kafka && node provider-dev/scripts/fix_doc_links.mjs --provider kafka",
+    "generate-docs:confluent": "node node_modules/@stackql/provider-utils/bin/docgen-utils.mjs generate-docs --provider-name confluent --provider-dir ./provider-dev/openapi/src/confluent/v00.00.00000 --output-dir ./website/confluent --provider-data-dir ./provider-dev/docgen/provider-data/confluent --source-project https://github.com/stackql-registry/stackql-provider-confluent && node provider-dev/scripts/fix_doc_links.mjs --provider confluent",
+    "generate-docs:kafka": "node node_modules/@stackql/provider-utils/bin/docgen-utils.mjs generate-docs --provider-name kafka --provider-dir ./provider-dev/openapi/src/kafka/v00.00.00000 --output-dir ./website/kafka --provider-data-dir ./provider-dev/docgen/provider-data/kafka --source-project https://github.com/stackql-registry/stackql-provider-confluent && node provider-dev/scripts/fix_doc_links.mjs --provider kafka",
     "split": "node node_modules/@stackql/provider-utils/bin/provider-dev-utils.mjs split",
     "sort-split-output": "node provider-dev/scripts/sort_split_output.mjs",
     "normalize": "node node_modules/@stackql/provider-utils/bin/provider-dev-utils.mjs normalize",
@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@stackql/pgwire-lite": "^1.0.1",
-    "@stackql/provider-utils": "^0.7.4"
+    "@stackql/provider-utils": "^0.7.12"
   },
   "keywords": [
     "stackql",

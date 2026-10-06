@@ -92,7 +92,7 @@ The schema string.
 </TabItem>
 <TabItem value="get_schemas">
 
-List of schemas matching the specified parameters.
+Schema
 
 <table>
 <thead>
