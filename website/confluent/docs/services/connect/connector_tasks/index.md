@@ -40,8 +40,6 @@ The following fields are returned by `SELECT` queries:
 >
 <TabItem value="list_connectv1_connector_tasks">
 
-Connector Task.
-
 <table>
 <thead>
     <tr>

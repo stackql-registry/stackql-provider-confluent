@@ -92,8 +92,6 @@ The original request.
 </TabItem>
 <TabItem value="list_exporters">
 
-Name of the exporter
-
 <table>
 <thead>
     <tr>

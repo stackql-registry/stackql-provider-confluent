@@ -77,8 +77,6 @@ Connector.
 </TabItem>
 <TabItem value="list_connectv1_connectors">
 
-Connector.
-
 <table>
 <thead>
     <tr>

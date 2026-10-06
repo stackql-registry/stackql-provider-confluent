@@ -30,6 +30,7 @@ This provider covers Kafka **dataplane** operations against a specific Kafka clu
 
 total services: __3__  
 total resources: __31__  
+source project: __[stackql-provider-confluent](https://github.com/stackql-registry/stackql-provider-confluent)__  
 
 :::
 

@@ -40,8 +40,6 @@ The following fields are returned by `SELECT` queries:
 >
 <TabItem value="get_business_metadata">
 
-The business metadata
-
 <table>
 <thead>
     <tr>

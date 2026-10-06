@@ -103,7 +103,7 @@ The schema.
 </TabItem>
 <TabItem value="get_versions">
 
-List of subject versions matching the specified parameters.
+Subject version pair
 
 <table>
 <thead>
@@ -128,8 +128,6 @@ List of subject versions matching the specified parameters.
 </table>
 </TabItem>
 <TabItem value="list_versions">
-
-List of version numbers matching the specified parameters.
 
 <table>
 <thead>

@@ -40,8 +40,6 @@ The following fields are returned by `SELECT` queries:
 >
 <TabItem value="get_tags">
 
-The tags
-
 <table>
 <thead>
     <tr>

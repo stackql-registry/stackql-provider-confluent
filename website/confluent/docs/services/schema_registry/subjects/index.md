@@ -41,8 +41,6 @@ The following fields are returned by `SELECT` queries:
 >
 <TabItem value="get_subjects">
 
-List of subjects matching the specified parameters.
-
 <table>
 <thead>
     <tr>
@@ -61,8 +59,6 @@ List of subjects matching the specified parameters.
 </table>
 </TabItem>
 <TabItem value="list">
-
-List of subjects matching the specified parameters.
 
 <table>
 <thead>

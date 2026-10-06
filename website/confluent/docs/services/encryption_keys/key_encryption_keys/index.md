@@ -97,8 +97,6 @@ The kek info
 </TabItem>
 <TabItem value="get_kek_names">
 
-List of kek names
-
 <table>
 <thead>
     <tr>
@@ -252,7 +250,7 @@ AND deleted = '{{ deleted }}'
 </TabItem>
 <TabItem value="get_kek_names">
 
-List of kek names
+No description available.
 
 ```sql
 SELECT

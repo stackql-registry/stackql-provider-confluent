@@ -30,6 +30,7 @@ This provider covers Confluent Cloud **control-plane** operations (org, environm
 
 total services: __25__  
 total resources: __140__  
+source project: __[stackql-provider-confluent](https://github.com/stackql-registry/stackql-provider-confluent)__  
 
 :::
 

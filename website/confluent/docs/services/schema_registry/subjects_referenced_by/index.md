@@ -40,8 +40,6 @@ The following fields are returned by `SELECT` queries:
 >
 <TabItem value="get_referenced_by">
 
-List of IDs for schemas that reference the specified schema.
-
 <table>
 <thead>
     <tr>

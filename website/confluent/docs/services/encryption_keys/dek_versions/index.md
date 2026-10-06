@@ -97,8 +97,6 @@ The dek info
 </TabItem>
 <TabItem value="get_dek_versions">
 
-List of version numbers for dek
-
 <table>
 <thead>
     <tr>
@@ -254,7 +252,7 @@ AND deleted = '{{ deleted }}'
 </TabItem>
 <TabItem value="get_dek_versions">
 
-List of version numbers for dek
+No description available.
 
 ```sql
 SELECT

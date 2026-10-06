@@ -40,8 +40,6 @@ The following fields are returned by `SELECT` queries:
 >
 <TabItem value="get_schema_types">
 
-List of supported schema types.
-
 <table>
 <thead>
     <tr>

@@ -70,7 +70,7 @@ Flink Artifact.
 <tr>
     <td><CopyableCode code="class" /></td>
     <td><code>string</code></td>
-    <td>Java class or alias for the artifact as provided by developer. Deprecated (pattern: <code>^(([a-zA-Z][a-zA-Z_$0-9]*(\.[a-zA-Z][a-zA-Z_$0-9]*)*)\.)?([a-zA-Z][a-zA-Z_$0-9]*)$</code>, example: io.confluent.example.SumScalarFunction)</td>
+    <td>Java class or alias for the artifact as provided by developer. Deprecated (pattern: <code>^((&#91;a-zA-Z&#93;&#91;a-zA-Z_$0-9&#93;*(\.&#91;a-zA-Z&#93;&#91;a-zA-Z_$0-9&#93;*)*)\.)?(&#91;a-zA-Z&#93;&#91;a-zA-Z_$0-9&#93;*)$</code>, example: io.confluent.example.SumScalarFunction)</td>
 </tr>
 <tr>
     <td><CopyableCode code="cloud" /></td>
@@ -156,7 +156,7 @@ Flink Artifact.
 <tr>
     <td><CopyableCode code="class" /></td>
     <td><code>string</code></td>
-    <td>Java class or alias for the artifact as provided by developer. Deprecated (pattern: <code>^(([a-zA-Z][a-zA-Z_$0-9]*(\.[a-zA-Z][a-zA-Z_$0-9]*)*)\.)?([a-zA-Z][a-zA-Z_$0-9]*)$</code>, example: io.confluent.example.SumScalarFunction)</td>
+    <td>Java class or alias for the artifact as provided by developer. Deprecated (pattern: <code>^((&#91;a-zA-Z&#93;&#91;a-zA-Z_$0-9&#93;*(\.&#91;a-zA-Z&#93;&#91;a-zA-Z_$0-9&#93;*)*)\.)?(&#91;a-zA-Z&#93;&#91;a-zA-Z_$0-9&#93;*)$</code>, example: io.confluent.example.SumScalarFunction)</td>
 </tr>
 <tr>
     <td><CopyableCode code="cloud" /></td>
